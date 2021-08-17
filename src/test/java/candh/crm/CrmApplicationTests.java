@@ -1,10 +1,10 @@
-package com.example.It_Project;
+package candh.crm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ItProjectApplicationTests {
+class CrmApplicationTests {
 
 	@Test
 	void contextLoads() {

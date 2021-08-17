@@ -1,13 +1,12 @@
-package com.example.It_Project;
+package candh.crm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ItProjectApplication {
-
+public class CrmApplication
+{
 	public static void main(String[] args) {
-		SpringApplication.run(ItProjectApplication.class, args);
+		SpringApplication.run(CrmApplication.class, args);
 	}
-
 }
