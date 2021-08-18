@@ -23,7 +23,7 @@ public class AuthService implements UserDetailsService
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
-    private User findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -39,7 +39,8 @@ public class AuthService implements UserDetailsService
             List<GrantedAuthority> listAuthorities = new ArrayList<GrantedAuthority>();
             listAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             // use email as username
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), listAuthorities);
+            return new org.springframework.security.core.userdetails.User(user.getEmail(),
+                    user.getPassword(), listAuthorities);
         } else {
             throw new UsernameNotFoundException("email not found");
         }

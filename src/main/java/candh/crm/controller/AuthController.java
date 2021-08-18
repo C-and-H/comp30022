@@ -20,12 +20,12 @@ public class AuthController
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
-        String email = user.getEmail();
-        String password = user.getPassword();
-        String first_name = user.getFirst_name();
-        String last_name = user.getLast_name();
+        if (authService.findUserByEmail(user.getEmail()) != null) {
+            return ResponseEntity.ok("Email is already taken.");
+        }
         try {
-            authService.signupUser(new User(email, password, first_name, last_name));
+            authService.signupUser(new User(user.getEmail(), user.getPassword(), user.getFirst_name(),
+                    user.getLast_name()));
         } catch (Exception e) {
             return ResponseEntity.ok("Something went wrong.");
         }
