@@ -35,11 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/signup", "/login")
-                .permitAll().anyRequest().authenticated()
-                .and().csrf().disable().formLogin().successHandler(customizeAuthenticationSuccessHandler)
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/");
+        // TODO: add .loginPage("/login").usernameParameter("email") after formLogin() to customise /login page
+        http
+                .csrf().disable()
+                .authorizeRequests().antMatchers("/signup", "/login").permitAll().anyRequest().authenticated()
+                .and().formLogin()
+                .successHandler(customizeAuthenticationSuccessHandler).permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
     }
 
     @Override
