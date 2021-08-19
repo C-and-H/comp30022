@@ -1,7 +1,6 @@
 package candh.crm.service;
 
 import candh.crm.model.User;
-import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,27 +12,23 @@ import org.springframework.stereotype.Service;
 public class AuthService implements UserDetailsService
 {
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private EmailService EmailService;
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+    @Autowired
+    private UserDataService userDataService;
 
     public void signupUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         EmailService.sendConfirmMail(user.getEmail(), user.getName());
-        userRepository.save(user);
+        userDataService.saveUser(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        User user = userDataService.findUserByEmail(email);
         if (user != null) {
             return user;
         } else {

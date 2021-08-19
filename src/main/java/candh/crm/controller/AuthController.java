@@ -2,6 +2,7 @@ package candh.crm.controller;
 
 import candh.crm.model.User;
 import candh.crm.service.AuthService;
+import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthController
 {
+    @Autowired
+    private UserDataService userDataService;
+
     @Autowired
     private AuthService authService;
 
@@ -30,14 +34,14 @@ public class AuthController
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
-        if (authService.findUserByEmail(user.getEmail()) != null) {
+        if (userDataService.findUserByEmail(user.getEmail()) != null) {
             return ResponseEntity.ok("Email is already taken.");
         }
         try {
             authService.signupUser(new User(user.getEmail(), user.getPassword(), user.getFirst_name(),
                     user.getLast_name()));
         } catch (Exception e) {
-            return ResponseEntity.ok("Something went wrong.");
+            return ResponseEntity.ok("Error during user signup.");
         }
         return ResponseEntity.ok("You just successfully signed up.");
     }
@@ -48,7 +52,7 @@ public class AuthController
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         } catch (BadCredentialsException e) {
-            return ResponseEntity.ok("Error during client authentication.");
+            return ResponseEntity.ok("Error during user authentication.");
         }
         return ResponseEntity.ok("You just successfully logged in.");
     }
