@@ -1,0 +1,1 @@
+Configure JVM options: `-Djasypt.encryptor.password=<secret>` to run backend server.
