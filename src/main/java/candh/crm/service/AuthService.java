@@ -1,6 +1,5 @@
 package candh.crm.service;
 
-import candh.crm.config.AuthUserDetails;
 import candh.crm.model.User;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class AuthService implements UserDetailsService
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if (user != null) {
-            return new AuthUserDetails(user);
+            return user;
         } else {
             throw new UsernameNotFoundException("email not found");
         }
