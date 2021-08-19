@@ -1,1 +1,1 @@
-To connect with our MongoDB, an admin should add environment variables: `MONGO_USERNAME=<name>;MONGO_PASSWORD=<pwd>;MONGO_DATABASE=<db>`.
+To connect with our MongoDB, an admin should add environment variables: `MONGO_USERNAME=<name>;MONGO_PASSWORD=<pwd1>;MONGO_DATABASE=<db>;MAIL_PASSWORD=<pwd2>`.
