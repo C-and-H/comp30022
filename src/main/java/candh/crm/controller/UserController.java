@@ -1,43 +1,26 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
-import candh.crm.repository.UserRepository;
+import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController
 {
     @Autowired
-    private UserRepository userRepository;
+    private UserDataService userDataService;
 
-    @PostMapping("/addUser")
-    public String saveUser(@RequestBody User user) {
-        userRepository.save(user);
-        return "Add user with name " + user.getName();
-    }
-
-    @GetMapping("/findAllUsers")
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-    // find all the user
-    @GetMapping("/findAllUsers/{id}")
-    public User getOneUser(@PathVariable String id) {
-        return userRepository.findById(id).orElseGet(User::new);
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable String id) {
-        Optional<User> user = userRepository.findById(id);
+    @GetMapping("/user/findUserByEmail/{email}")
+    public ResponseEntity<?> findUserByEmail(@PathVariable() String email) {
+        User user = userDataService.findUserByEmail(email);
         if (user != null) {
-            return user.get().getName();
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.ok("Email not found.");
         }
-        userRepository.deleteById(id);
-        return "uer is deleted with name " + id;
     }
 }
