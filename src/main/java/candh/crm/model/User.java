@@ -42,7 +42,7 @@ public class User implements UserDetails
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> listAuthorities = new ArrayList<>() {{
+        List<GrantedAuthority> listAuthorities = new ArrayList<GrantedAuthority>() {{
             add(new SimpleGrantedAuthority("ROLE_USER"));
         }};
         return listAuthorities;

@@ -18,12 +18,16 @@ public class AuthService implements UserDetailsService
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private EmailService EmailService;
+
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     public void signupUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        EmailService.sendConfirmMail(user.getEmail(), user.getName());
         userRepository.save(user);
     }
 

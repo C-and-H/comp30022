@@ -2,6 +2,7 @@ package candh.crm.controller;
 
 import candh.crm.model.User;
 import candh.crm.repository.UserRepository;
+import candh.crm.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,14 @@ public class UserController
     @Autowired
     private UserRepository userRepository;
 
+    //just to test the email can be sent
+    @Autowired
+    private candh.crm.service.EmailService EmailService;
+
     @PostMapping("/addUser")
     public String saveUser(@RequestBody User user) {
+        //just to test the email can be sent
+        EmailService.sendConfirmMail(user.getEmail(), user.getName());
         userRepository.save(user);
         return "Add user with name " + user.getName();
     }
