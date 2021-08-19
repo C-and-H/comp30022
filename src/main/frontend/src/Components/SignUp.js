@@ -45,14 +45,18 @@ class SignUp extends Component{
             first_name: this.state.userFirstName,
             last_nameL: this.state.userLastName
         }
-        axios.post("http://localhost:8080/addUser", user).
+        axios.post("http://localhost:8080/signup", user).
             then(response => {
                 if (response.data != null){
-                    console.log("bruh");
+                    //console.log(response.data);
                     alert("Sign up was successful.");
+                }else{
+                    alert("caibi");
                 }
             });
-        //console.log("bruh");
+        //console.log("bruh")
+        //alert("caibi");
+        event.preventDefault();
     }
 
     render(){
