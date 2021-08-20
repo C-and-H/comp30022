@@ -47,9 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         // TODO: add .loginPage("/login").usernameParameter("email") after formLogin() to customize /login page
         http
                 .csrf().disable()
-                // just for test no need sign in
-                .authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated()
-                //.authorizeRequests().antMatchers("/", "/signup", "/login").permitAll().anyRequest().authenticated()
+                .authorizeRequests().antMatchers("/", "/signup/*/*", "/login").permitAll().anyRequest().authenticated()
                 .and().formLogin()
                 .successHandler(customizeAuthenticationSuccessHandler).permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");

@@ -34,8 +34,13 @@ public class AuthController
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
-        if (userDataService.findUserByEmail(user.getEmail()) != null) {
-            return ResponseEntity.ok("Email is already taken.");
+        User _user = userDataService.findUserByEmail(user.getEmail());
+        if (_user != null) {
+            if (_user.isEnabled()) {
+                return ResponseEntity.ok("Email is already taken.");
+            } else {   // email taken but not confirmed
+                userDataService.deleteUserByEmail(_user.getEmail());
+            }
         }
         try {
             authService.signupUser(new User(user.getEmail(), user.getPassword(), user.getFirst_name(),
@@ -44,6 +49,18 @@ public class AuthController
             return ResponseEntity.ok("Error during user signup.");
         }
         return ResponseEntity.ok("You just successfully signed up.");
+    }
+
+    @GetMapping("/signup/{email}/{signupConfirmPath}")
+    public ResponseEntity<?> confirmUser(@PathVariable() String email, @PathVariable() String signupConfirmPath) {
+        User user = userDataService.findUserByEmail(email);
+        if (user != null) {
+            user.setEnabled(true);   // confirm
+            userDataService.saveUser(user);
+            return ResponseEntity.ok("Signup confirm success.");
+        } else {
+            return ResponseEntity.ok("Signup confirm invalid.");
+        }
     }
 
     @PostMapping("/login")

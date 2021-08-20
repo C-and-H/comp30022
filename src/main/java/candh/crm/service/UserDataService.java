@@ -21,6 +21,13 @@ public class UserDataService
         return userRepository.findByEmail(email);
     }
 
+    public void deleteUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            userRepository.deleteById(user.getId());
+        }
+    }
+
     public List<User> findUsersAll() {
         return userRepository.findAll();
     }

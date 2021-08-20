@@ -22,8 +22,8 @@ public class AuthService implements UserDetailsService
 
     public void signupUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        EmailService.sendConfirmMail(user.getEmail(), user.getName());
         userDataService.saveUser(user);
+        EmailService.sendConfirmMail(user.getEmail(), user.getName(), user.getSignupConfirmPath());
     }
 
     @Override
