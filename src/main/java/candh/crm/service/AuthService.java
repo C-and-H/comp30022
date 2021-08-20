@@ -53,7 +53,6 @@ public class AuthService implements UserDetailsService
      */
     public boolean vaildEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
@@ -68,10 +67,8 @@ public class AuthService implements UserDetailsService
      */
     public boolean vaildPassword(String password) {
         String regex = "[A-Za-z0-9]{5,10}";
-
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-
 }
