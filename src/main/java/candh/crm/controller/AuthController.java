@@ -34,6 +34,15 @@ public class AuthController
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
+        
+        if (!authService.vaildEmail(user.getEmail())) {
+            return ResponseEntity.ok("Email is not valid.");
+        }
+
+        if (!authService.vaildPassword(user.getPassword())) {
+            return ResponseEntity.ok("Password is not valid.");
+        }
+        
         User _user = userDataService.findUserByEmail(user.getEmail());
         if (_user != null) {
             if (_user.isEnabled()) {
@@ -42,6 +51,7 @@ public class AuthController
                 userDataService.deleteUserByEmail(_user.getEmail());
             }
         }
+        
         try {
             authService.signupUser(new User(user.getEmail(), user.getPassword(), user.getFirst_name(),
                     user.getLast_name()));
