@@ -34,6 +34,14 @@ public class AuthController
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
+        if (!authService.vaildEmail(user.getEmail())) {
+            return ResponseEntity.ok("Email is not valid.");
+        }
+
+        if (!authService.vaildPassword(user.getPassword())) {
+            return ResponseEntity.ok("Password is not valid.");
+        }
+        
         if (userDataService.findUserByEmail(user.getEmail()) != null) {
             return ResponseEntity.ok("Email is already taken.");
         }
