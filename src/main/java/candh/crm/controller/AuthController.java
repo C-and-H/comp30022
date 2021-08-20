@@ -48,18 +48,18 @@ public class AuthController
         } catch (Exception e) {
             return ResponseEntity.ok("Error during user signup.");
         }
-        return ResponseEntity.ok("You just successfully signed up.");
+        return ResponseEntity.ok("You just successfully submit a signup request.");
     }
 
     @GetMapping("/signup/{email}/{signupConfirmPath}")
     public ResponseEntity<?> confirmUser(@PathVariable() String email, @PathVariable() String signupConfirmPath) {
         User user = userDataService.findUserByEmail(email);
-        if (user != null) {
+        if (user != null && !user.isEnabled()) {
             user.setEnabled(true);   // confirm
             userDataService.saveUser(user);
             return ResponseEntity.ok("Signup confirm success.");
         } else {
-            return ResponseEntity.ok("Signup confirm invalid.");
+            return ResponseEntity.ok("Signup confirm invalid or deprecated.");
         }
     }
 

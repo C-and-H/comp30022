@@ -24,10 +24,9 @@ public class EmailService
     public void sendConfirmMail(String to, String receiver, String signupConfirmPath) {
         SimpleMailMessage message = new SimpleMailMessage();
         String subject = "Confirm your signup for CandH CRM";
-        // TODO: Change link URL
         String text = "Welcome " + receiver + " to our CRM system.\n\n" +
                 "Click the link below, confirm your signup, and you get started.\n" +
-                "localhost:8080/signup/" + to + "/" + signupConfirmPath;
+                System.getenv("HOST_NAME") + "/signup/" + to + "/" + signupConfirmPath;
         message.setFrom(from);
         message.setTo(to);
         message.setSubject(subject);
