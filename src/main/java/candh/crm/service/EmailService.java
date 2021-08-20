@@ -2,9 +2,16 @@ package candh.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 @Service
 public class EmailService
@@ -18,19 +25,29 @@ public class EmailService
     /**
      * Send signup confirmation email.
      *
-     * @param to      target email address
-     * @param receiver username of receiver
+     * @param to        target email address
+     * @param receiver  first name of the receiver
      */
-    public void sendConfirmMail(String to, String receiver, String signupConfirmPath) {
-        SimpleMailMessage message = new SimpleMailMessage();
+    public void sendConfirmMail(String to, String receiver, String signupConfirmPath) throws MessagingException
+    {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         String subject = "Confirm your signup for CandH CRM";
-        String text = "Welcome " + receiver + " to our CRM system.\n\n" +
-                "Click the link below, confirm your signup, and you get started.\n" +
-                System.getenv("HOST_NAME") + "/signup/" + to + "/" + signupConfirmPath;
-        message.setFrom(from);
-        message.setTo(to);
         message.setSubject(subject);
-        message.setText(text);
+
+        // message body
+        String confirmLink = System.getenv("HOST_NAME") + "/signup/" + to + "/" + signupConfirmPath;
+        String messageBody = "<pre>Hi " + receiver + ", welcome to candhCRM.\nYou are nearly there!\n" +
+                "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:\n" +
+                confirmLink + "</pre>";
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText(messageBody,"UTF-8","html");
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);
+
         javaMailSender.send(message);
     }
 }

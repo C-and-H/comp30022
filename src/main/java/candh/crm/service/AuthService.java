@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+
 @Service
 public class AuthService implements UserDetailsService
 {
@@ -20,10 +22,10 @@ public class AuthService implements UserDetailsService
     @Autowired
     private UserDataService userDataService;
 
-    public void signupUser(User user) {
+    public void signupUser(User user) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDataService.saveUser(user);
-        EmailService.sendConfirmMail(user.getEmail(), user.getName(), user.getSignupConfirmPath());
+        EmailService.sendConfirmMail(user.getEmail(), user.getFirst_name(), user.getSignupConfirmPath());
     }
 
     @Override
