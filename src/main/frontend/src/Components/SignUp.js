@@ -2,6 +2,7 @@ import React, {Component, useState, useEffect} from 'react';
 import axios from "axios";
 import "../App.css"
 
+
 class SignUp extends Component{
 
 
@@ -45,7 +46,7 @@ class SignUp extends Component{
             first_name: this.state.userFirstName,
             last_nameL: this.state.userLastName
         }
-        axios.post("http://localhost:8080/signup", user).
+        axios.post("/signup", user).
             then(response => {
                 if (response.data != null){
                     //console.log(response.data);
@@ -53,6 +54,9 @@ class SignUp extends Component{
                 }else{
                     alert("caibi");
                 }
+            })
+            .catch(err => {
+                alert("caibi");
             });
         //console.log("bruh")
         //alert("caibi");

@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
+
 public class AuthController
 {
     @Autowired
@@ -25,6 +25,7 @@ public class AuthController
         String password = user.getPassword();
         String first_name = user.getFirst_name();
         String last_name = user.getLast_name();
+        //System.out.println("bruh");
         try {
             authService.signupUser(new User(email, password, first_name, last_name));
         } catch (Exception e) {
