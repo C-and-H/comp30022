@@ -18,7 +18,7 @@ const UserProfiles = () =>{
     const [userProfiles, setUserProfiles] = useState([]);
   
     const fetchUserProfiles = () =>{
-      axios.get("https://michael-frontend-1.herokuapp.com").then (res => {
+      axios.get("/findAllUsers").then (res => {
         console.log(res)
         // data comes from res.data can be found from 'inspect'
         const data = res.data;
