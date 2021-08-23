@@ -9,11 +9,12 @@ import NavigationBar from './Components/NavigationBar';
 import HomePage from './Components/HomePage';
 //const users = axios.get("/findAllUsers");
 
+const API_URL = process.env.REACT_APP_URL || "http://localhost:8080"
 const UserProfiles = () =>{
     const [userProfiles, setUserProfiles] = useState([]);
   
     const fetchUserProfiles = () =>{
-      axios.get("/findAllUsers").then (res => {
+      axios.get(API_URL + "/findAllUsers").then (res => {
         console.log(res)
         // data comes from res.data can be found from 'inspect'
         const data = res.data;
@@ -44,6 +45,7 @@ function App() {
         <Switch>
             <Route path="/signup">
                 <SignUp />
+                <UserProfiles/>
             </Route>
             <Route path="/">
                 <HomePage />

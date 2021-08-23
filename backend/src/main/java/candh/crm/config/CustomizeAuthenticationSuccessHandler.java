@@ -17,6 +17,6 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
             HttpServletResponse httpServletResponse, Authentication authentication)
             throws IOException, ServletException {
         httpServletResponse.setStatus(httpServletResponse.SC_OK);
-        httpServletResponse.sendRedirect("/api/dashboard");
+        httpServletResponse.sendRedirect("/dashboard");
     }
 }

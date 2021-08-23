@@ -11,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-
+@CrossOrigin("*")
 public class AuthController
 {
     @Autowired
@@ -23,17 +23,17 @@ public class AuthController
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/api/signup")
+    @GetMapping("/signup")
     public ResponseEntity<?> signup() {
         return ResponseEntity.ok("This is the signup page.");
     }
 
-    @GetMapping("/api/login")
+    @GetMapping("/login")
     public ResponseEntity<?> login() {
         return ResponseEntity.ok("This is the login page.");
     }
 
-    @PostMapping("/api/signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
         
         if (!authService.vaildEmail(user.getEmail())) {
@@ -62,7 +62,7 @@ public class AuthController
         return ResponseEntity.ok("You just successfully submit a signup request.");
     }
 
-    @GetMapping("/api/signup/{email}/{signupConfirmPath}")
+    @GetMapping("/signup/{email}/{signupConfirmPath}")
     public ResponseEntity<?> confirmUser(@PathVariable() String email, @PathVariable() String signupConfirmPath) {
         User user = userDataService.findUserByEmail(email);
         if (user != null && !user.isEnabled()) {
@@ -74,7 +74,7 @@ public class AuthController
         }
     }
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
             authenticationManager.authenticate(

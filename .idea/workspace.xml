@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d4fb7745-320c-4ade-885f-4ee0e50bd009" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/.mvn/MavenWrapperDownloader$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/.mvn/MavenWrapperDownloader.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/.mvn/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/.mvn/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/crm-icon-3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/Header.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/HomePage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/NavigationBar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/SignUp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/pageFooter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/setupTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/frontend/yarn.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/CrmApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/config/CustomizeAuthenticationSuccessHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/config/WebSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/DashboardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/HomeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/service/AuthService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/service/EmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/service/UserDataService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/candh/crm/CrmApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1wu6f57jZF2MrqUHSDFnarFysdc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="candh.crm" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="CrmApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <envs>
+        <env name="MONGO_USERNAME" value="Michael" />
+        <env name="MONGO_PASSWORD" value="1234" />
+        <env name="MONGO_DATABASE" value="crm" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="candh.crm.CrmApplication" />
+      <module name="comp30022" />
+      <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=crm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="candh.crm.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d4fb7745-320c-4ade-885f-4ee0e50bd009" name="Changes" comment="" />
+      <created>1629296229152</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1629296229152</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="sprint1-backend-1" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

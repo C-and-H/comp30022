@@ -1,20 +1,33 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
+import candh.crm.repository.UserRepository;
 import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
+@CrossOrigin("*")
 public class UserController
 {
     @Autowired
     private UserDataService userDataService;
 
-    @GetMapping("/api/user/findUserByEmail/{email}")
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/findAllUsers")
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/user/findUserByEmail/{email}")
     public ResponseEntity<?> findUserByEmail(@PathVariable() String email) {
         User user = userDataService.findUserByEmail(email);
         if (user != null) {
