@@ -37,7 +37,7 @@ public class EmailService
         message.setSubject(subject);
 
         // message body
-        String confirmLink = System.getenv("HOST_NAME") + "/api/signup/" + to + "/" + signupConfirmPath;
+        String confirmLink = System.getenv("HOST_NAME") + "/signup/" + to + "/" + signupConfirmPath;
         String messageBody = "Hi " + receiver + ", welcome to candhCRM.<br>You are nearly there!<br>" +
                 "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:<br>" +
                 "<a target='_blank' style='color:#0041D3;text-decoration:underline' href='" +
