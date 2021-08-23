@@ -9,8 +9,8 @@ import NavigationBar from './Components/NavigationBar';
 import HomePage from './Components/HomePage';
 //const users = axios.get("/findAllUsers");
 
-// const API_URL = "https://backend-23-aug.herokuapp.com"
-const API_URL = "http://localhost:8080"
+const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
+// const API_URL = "http://localhost:8080"
 
 const UserProfiles = () =>{
     const [userProfiles, setUserProfiles] = useState([]);

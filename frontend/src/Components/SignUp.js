@@ -2,8 +2,8 @@ import React, {Component, useState, useEffect} from 'react';
 import axios from "axios";
 import "../App.css"
 
-// const API_URL = "https://backend-23-aug.herokuapp.com"
-const API_URL = "http://localhost:8080"
+const API_URL = "https://crm-c-and-h-backend.herokuapp.com/"
+// const API_URL = "http://localhost:8080"
 
 class SignUp extends Component{
 
