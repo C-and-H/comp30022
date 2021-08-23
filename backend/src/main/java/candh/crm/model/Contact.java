@@ -13,6 +13,9 @@ import org.springframework.data.annotation.Id;
 @Document(collection = "contactRelation")
 public class Contact {
 
+    @Id
+    private String id;
+
     private String user;
     private String friend;
     private boolean accepted;
@@ -21,10 +24,9 @@ public class Contact {
     public Contact(String user, String friend) {
         this.user = user;
         this.friend = friend;
+        // TODO: friend confirmation
         this.accepted = true;
         this.notes = "";
     }
-
-
 
 }
