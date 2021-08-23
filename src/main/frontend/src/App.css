@@ -1,3 +1,22 @@
+.navbar-dark .navbar-nav .nav-link{
+  color: white;
+}
+body .bg-dark{
+  color: rgb(43, 47, 49);
+  margin-bottom: 100px;
+  box-shadow: 10px 10px 5px 5px rgba(43, 47, 49, 1);
+}
+footer{
+  height: 30px;
+  position:absolute;
+  color: aliceblue;
+  left:0;
+  bottom:0;
+  right:0;
+  text-align: center;
+  background-color: rgb(31, 30, 30);
+}
+/* 
 .App {
   text-align: center;
 }
@@ -35,4 +54,5 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
+
