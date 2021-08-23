@@ -2,6 +2,8 @@ import React, {Component, useState, useEffect} from 'react';
 import axios from "axios";
 import "../App.css"
 
+// const API_URL = "https://backend-23-aug.herokuapp.com"
+const API_URL = "http://localhost:8080"
 
 class SignUp extends Component{
 
@@ -46,7 +48,7 @@ class SignUp extends Component{
             first_name: this.state.userFirstName,
             last_nameL: this.state.userLastName
         }
-        axios.post("/api/signup", user).
+        axios.post(API_URL + "/signup", user).
             then(response => {
                 if (response.data != null){
                     //console.log(response.data);
