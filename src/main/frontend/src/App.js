@@ -1,17 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import SignUp from "./Components/SignUp";
 import { HashRouter } from "react-router-dom";
-
-
+import Footer from './Components/pageFooter';
+import NavigationBar from './Components/NavigationBar';
+import HomePage from './Components/HomePage';
 //const users = axios.get("/findAllUsers");
 
 const UserProfiles = () =>{
@@ -41,35 +36,57 @@ const UserProfiles = () =>{
     })
     // <center><h1>  </h1></center>
 }
-
-
 function App() {
   return (
-    <Router>
-        <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Homo</Link>
-                    </li>
-                    <li>
-                        <Link to="/signup">Register</Link>
-                    </li>
-                
-                </ul>
-            </nav>
-            <Switch>
-            
+    <div className = "App">
+      <Router>
+      <NavigationBar/>
+        <Switch>
             <Route path="/signup">
                 <SignUp />
-            </Route>    
-            <Route path="/">
-                <Home />
-                
             </Route>
-            </Switch>
-        </div>
-    </Router>
+            <Route path="/">
+                <HomePage />
+            </Route>     
+        </Switch>
+      </Router>
+      {/* <HomePage/> */}
+      <Footer/>
+    </div>
+    
+    // <div>
+    //   <Header/>
+    //     <h1>
+    //       CRM Application
+    //     </h1>
+    //   <Footer/>
+
+    // </div>
+    // <Router>
+    //     <div>
+    //         <nav>
+    //             <ul>
+    //                 <li>
+    //                     <Link to="/">Homo</Link>
+    //                 </li>
+    //                 <li>
+    //                     <Link to="/signup">Register</Link>
+    //                 </li>
+                
+    //             </ul>
+    //         </nav>
+    //         <Switch>
+            
+    //         <Route path="/signup">
+    //             <SignUp />
+    //         </Route>    
+    //         <Route path="/">
+    //             <Home />
+                
+    //         </Route>
+    //         </Switch>
+    //     </div>
+    // </Router>
 );
 
 }

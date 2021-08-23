@@ -58,8 +58,6 @@ class SignUp extends Component{
             .catch(err => {
                 alert("caibi");
             });
-        //console.log("bruh")
-        //alert("caibi");
         event.preventDefault();
     }
 

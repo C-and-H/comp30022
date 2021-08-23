@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-//import Home from "./Components/Home";
-import SignUp from "./Components/SignUp";
-
 
 ReactDOM.render(
   <React.StrictMode>
