@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DashboardController
 {
-    @GetMapping("/dashboard")
+    @GetMapping("/api/dashboard")
     public ResponseEntity<?> dashboard() {
         return ResponseEntity.ok("This is the dashboard.");
     }

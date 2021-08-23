@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController
 {
-    @GetMapping("/")
+    @GetMapping("/api")
     public ResponseEntity<?> home() {
         return ResponseEntity.ok("This is the home page.");
     }

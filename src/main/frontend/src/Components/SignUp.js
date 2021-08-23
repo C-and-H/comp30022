@@ -46,7 +46,7 @@ class SignUp extends Component{
             first_name: this.state.userFirstName,
             last_nameL: this.state.userLastName
         }
-        axios.post("/signup", user).
+        axios.post("/api/signup", user).
             then(response => {
                 if (response.data != null){
                     //console.log(response.data);

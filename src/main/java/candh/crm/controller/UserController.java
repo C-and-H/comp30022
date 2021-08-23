@@ -14,7 +14,7 @@ public class UserController
     @Autowired
     private UserDataService userDataService;
 
-    @GetMapping("/user/findUserByEmail/{email}")
+    @GetMapping("/api/user/findUserByEmail/{email}")
     public ResponseEntity<?> findUserByEmail(@PathVariable() String email) {
         User user = userDataService.findUserByEmail(email);
         if (user != null) {

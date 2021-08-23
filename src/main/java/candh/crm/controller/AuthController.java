@@ -23,17 +23,17 @@ public class AuthController
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/signup")
+    @GetMapping("/api/signup")
     public ResponseEntity<?> signup() {
         return ResponseEntity.ok("This is the signup page.");
     }
 
-    @GetMapping("/login")
+    @GetMapping("/api/login")
     public ResponseEntity<?> login() {
         return ResponseEntity.ok("This is the login page.");
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/api/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
         
         if (!authService.vaildEmail(user.getEmail())) {
@@ -62,7 +62,7 @@ public class AuthController
         return ResponseEntity.ok("You just successfully submit a signup request.");
     }
 
-    @GetMapping("/signup/{email}/{signupConfirmPath}")
+    @GetMapping("/api/signup/{email}/{signupConfirmPath}")
     public ResponseEntity<?> confirmUser(@PathVariable() String email, @PathVariable() String signupConfirmPath) {
         User user = userDataService.findUserByEmail(email);
         if (user != null && !user.isEnabled()) {
@@ -74,7 +74,7 @@ public class AuthController
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
             authenticationManager.authenticate(

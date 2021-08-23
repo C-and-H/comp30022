@@ -46,11 +46,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         // TODO: add .loginPage("/login").usernameParameter("email") after formLogin() to customize /login page
         http
-                .csrf().disable()
-                .authorizeRequests().antMatchers("/", "/signup", "/signup/*/*", "/login").permitAll().anyRequest().authenticated()
-                .and().formLogin()
-                .successHandler(customizeAuthenticationSuccessHandler).permitAll()
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+                .csrf().disable();
+//                .authorizeRequests().antMatchers("/api", "/api/signup", "/api/signup/*/*", "/api/login").permitAll().anyRequest().authenticated()
+//                .and().formLogin().loginPage("/api/login").usernameParameter("email")
+//                .successHandler(customizeAuthenticationSuccessHandler).permitAll()
+//                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/logout")).logoutSuccessUrl("/");
     }
 
     @Override
