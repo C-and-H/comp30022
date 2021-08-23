@@ -46,7 +46,7 @@ class SignUp extends Component{
             email: this.state.userEmail,
             password: this.state.userPassword,
             first_name: this.state.userFirstName,
-            last_nameL: this.state.userLastName
+            last_name: this.state.userLastName
         }
         axios.post(API_URL + "/signup", user).
             then(response => {

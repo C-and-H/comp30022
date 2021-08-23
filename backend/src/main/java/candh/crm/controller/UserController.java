@@ -1,7 +1,6 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
-import candh.crm.repository.UserRepository;
 import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +18,10 @@ public class UserController
     @Autowired
     private UserDataService userDataService;
 
-    @Autowired
-    private UserRepository userRepository;
-
+    // TODO: provided for frontend test
     @GetMapping("/findAllUsers")
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<User> findAllUsers() {
+        return userDataService.findUsersAll();
     }
 
     @GetMapping("/user/findUserByEmail/{email}")

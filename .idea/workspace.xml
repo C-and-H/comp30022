@@ -5,56 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4fb7745-320c-4ade-885f-4ee0e50bd009" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/.mvn/MavenWrapperDownloader$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/.mvn/MavenWrapperDownloader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/.mvn/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/.mvn/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/crm-icon-3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/logo192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/logo512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/public/robots.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/App.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/Header.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/HomePage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/NavigationBar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/SignUp.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/Components/pageFooter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/reportWebVitals.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/src/setupTests.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/frontend/yarn.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/CrmApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/config/CustomizeAuthenticationSuccessHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/config/WebSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/AuthController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/DashboardController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/HomeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/controller/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/model/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/service/AuthService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/service/EmailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/candh/crm/service/UserDataService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/candh/crm/CrmApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/candh/crm/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/candh/crm/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/candh/crm/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/candh/crm/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/SignUp.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,13 +20,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
-      </MavenGeneralSettings>
-    </option>
   </component>
   <component name="ProjectId" id="1wu6f57jZF2MrqUHSDFnarFysdc" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -81,6 +31,9 @@
     <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
@@ -93,10 +46,11 @@
       <envs>
         <env name="MONGO_USERNAME" value="Michael" />
         <env name="MONGO_PASSWORD" value="1234" />
-        <env name="MONGO_DATABASE" value="crm" />
+        <env name="MAIL_PASSWORD" value="ch123321" />
+        <env name="HOST_NAME" value="localhost:8080" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="candh.crm.CrmApplication" />
-      <module name="comp30022" />
+      <module name="crm" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=crm" />
       <extension name="coverage">
         <pattern>
@@ -106,6 +60,19 @@
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="com.soywiz.korge.intellij.UpdateResourceBeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="com.soywiz.korge.intellij.UpdateResourceBeforeRunTask" enabled="false" />
       </method>
     </configuration>
   </component>
