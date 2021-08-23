@@ -44,10 +44,13 @@ function App() {
         <Switch>
             <Route path="/signup">
                 <SignUp />
-            </Route>    
+            </Route>
+            <Route path="/">
+                <HomePage />
+            </Route>     
         </Switch>
       </Router>
-      <HomePage/>
+      {/* <HomePage/> */}
       <Footer/>
     </div>
     

@@ -16,6 +16,12 @@ footer{
   text-align: center;
   background-color: rgb(31, 30, 30);
 }
+.col-sm{
+  text-align: center;
+}
+#column-left{
+  text-align: left;
+}
 /* 
 .App {
   text-align: center;
