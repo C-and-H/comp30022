@@ -46,9 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                // TODO: some path for test
-                .authorizeRequests().antMatchers("/findAllUsers", "/", "/signup", "/signup/*/*", "/login", "/*", "/*/*").permitAll().anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").usernameParameter("email")
+                // TODO: some path for test, add .loginPage("/login").usernameParameter("email") after .formLogin()
+                .authorizeRequests().antMatchers("/findAllUsers", "/", "/signup", "/signup/*/*", "/login").permitAll().anyRequest().authenticated()
+                .and().formLogin()
                 .successHandler(customizeAuthenticationSuccessHandler).permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
     }

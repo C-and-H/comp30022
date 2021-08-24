@@ -8,12 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
 public class AuthController
 {
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     private UserDataService userDataService;
 
@@ -25,15 +29,14 @@ public class AuthController
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
-        
+        // validate email and password format
         if (!authService.validEmail(user.getEmail())) {
             return ResponseEntity.ok("Email is not valid.");
         }
-
         if (!authService.validPassword(user.getPassword())) {
             return ResponseEntity.ok("Password is not valid.");
         }
-        
+
         User _user = userDataService.findUserByEmail(user.getEmail());
         if (_user != null) {
             if (_user.isEnabled()) {
@@ -42,10 +45,10 @@ public class AuthController
                 userDataService.deleteUserByEmail(_user.getEmail());
             }
         }
-        
+
+        // save to database
         try {
-            authService.signupUser(new User(user.getEmail(), user.getPassword(), user.getFirst_name(),
-                    user.getLast_name()));
+            authService.signupUser(user);
         } catch (Exception e) {
             return ResponseEntity.ok("Error during user signup.");
         }
@@ -53,7 +56,8 @@ public class AuthController
     }
 
     @GetMapping("/signup/{email}/{signupConfirmPath}")
-    public ResponseEntity<?> confirmUser(@PathVariable() String email, @PathVariable() String signupConfirmPath) {
+    public ResponseEntity<?> confirmUser(@PathVariable() String email,
+                                         @PathVariable() String signupConfirmPath) {
         User user = userDataService.findUserByEmail(email);
         if (user != null && !user.isEnabled()) {
             user.setEnabled(true);   // confirm
@@ -65,10 +69,11 @@ public class AuthController
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user) {
+    public ResponseEntity<?> loginUser(@RequestParam("email") String email,
+                                       @RequestParam("password") String password) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+                    new UsernamePasswordAuthenticationToken(email, password));
         } catch (BadCredentialsException e) {
             return ResponseEntity.ok("Error during user authentication.");
         }
@@ -76,25 +81,32 @@ public class AuthController
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<?> changePassword(
-            @RequestParam String email, @RequestParam String new_password) {
-        if (!authService.validPassword(new_password)) {
-            return ResponseEntity.ok("New password not valid.");
-        }
-
+    public ResponseEntity<?> changePassword(@RequestParam("email") String email,
+                                            @RequestParam("oldPassword") String oldPassword,
+                                            @RequestParam("newPassword") String newPassword) {
+        // email should be enabled, then authenticate old password
         User user = userDataService.findUserByEmail(email);
         if (user == null || !user.isEnabled()) {
-            return ResponseEntity.ok("Account not exist.");
+            return ResponseEntity.ok("Account not found or not enabled.");
         }
-        if (user.getPassword().equals(new_password)) {
-            return ResponseEntity.ok("New password same as old one.");
+        if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+            return ResponseEntity.ok("Wrong old password.");
         }
 
-        user.setPassword(new_password);
+        // validate new password format
+        if (!authService.validPassword(newPassword)) {
+            return ResponseEntity.ok("New password is not valid.");
+        }
+        if (oldPassword.equals(newPassword)) {
+            return ResponseEntity.ok("New password is same as the old one.");
+        }
+
+        // save to database
         try {
-            authService.signupUser(user);
+            user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+            userDataService.saveUser(user);
         } catch (Exception e) {
-            return ResponseEntity.ok("Error during change password.");
+            return ResponseEntity.ok("Error during changing password.");
         }
         return ResponseEntity.ok("You just successfully changed password.");
     }
