@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin("*")
@@ -42,5 +44,10 @@ public class ContactController {
         contactRelationService.deleteContact(friendship.getFriend(), friendship.getUser());
 
         return ResponseEntity.ok("Friend delete.");
+    }
+
+    @GetMapping("/friendList/{email}")
+    public List<Contact> friendList(@PathVariable() String email) {
+        return contactRelationService.findAllFriends(email);
     }
 }
