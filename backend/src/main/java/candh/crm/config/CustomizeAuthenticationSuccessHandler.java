@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class CustomizeAuthenticationSuccessHandler implements AuthenticationSuccessHandler
+public class CustomizeAuthenticationSuccessHandler
+        implements AuthenticationSuccessHandler
 {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse, Authentication authentication)
+                                        HttpServletResponse httpServletResponse,
+                                        Authentication authentication)
             throws IOException, ServletException {
         httpServletResponse.setStatus(httpServletResponse.SC_OK);
         httpServletResponse.sendRedirect("/dashboard");

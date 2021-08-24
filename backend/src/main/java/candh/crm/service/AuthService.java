@@ -27,11 +27,13 @@ public class AuthService implements UserDetailsService
     public void signupUser(User user) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDataService.saveUser(user);
-        EmailService.sendConfirmMail(user.getEmail(), user.getFirst_name(), user.getSignupConfirmPath());
+        EmailService.sendConfirmMail(user.getEmail(),
+                user.getFirst_name(), user.getSignupConfirmPath());
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
         User user = userDataService.findUserByEmail(email);
         if (user != null) {
             return user;

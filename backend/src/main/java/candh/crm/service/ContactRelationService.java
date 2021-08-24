@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ContactRelationService {
-
+public class ContactRelationService
+{
     @Autowired
     private ContactRepository contactRepository;
 
@@ -35,7 +35,7 @@ public class ContactRelationService {
      * find contactRelation by user's and friend's emails
      * @param user email of user
      * @param friend email of friend
-     * @return contact found or Optional.empty() is not found
+     * @return contact found or null if not found
      */
     public Contact findByUserAndFriend(String user, String friend) {
         List<Contact> contacts = contactRepository.findByUser(user);
@@ -46,7 +46,6 @@ public class ContactRelationService {
                 }
             }
         }
-
         return null;
     }
 

@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
-public interface ContactRepository extends MongoRepository<Contact, String> {
+public interface ContactRepository extends MongoRepository<Contact, String>
+{
     List<Contact> findByUser(String user);
 
     List<Contact> findByFriend(String friend);

@@ -11,8 +11,8 @@ import org.springframework.data.annotation.Id;
 @ToString
 
 @Document(collection = "contactRelation")
-public class Contact {
-
+public class Contact
+{
     @Id
     private String id;
 
@@ -28,5 +28,4 @@ public class Contact {
         this.accepted = true;
         this.notes = "";
     }
-
 }
