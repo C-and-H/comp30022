@@ -23,16 +23,6 @@ public class AuthController
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/signup")
-    public ResponseEntity<?> signup() {
-        return ResponseEntity.ok("This is the signup page.");
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<?> login() {
-        return ResponseEntity.ok("This is the login page.");
-    }
-
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
         

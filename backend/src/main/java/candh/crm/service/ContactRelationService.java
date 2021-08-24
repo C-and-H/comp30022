@@ -12,7 +12,12 @@ public class ContactRelationService {
     @Autowired
     private ContactRepository contactRepository;
 
-    public Contact saveContact(Contact contact) {
+    /**
+     * Save contact to database
+     * @param contact the contact to save
+     * @return the saved contact; will never be null
+     */
+    public Contact saveContact(Contact contact){
         return contactRepository.save(contact);
     }
 
