@@ -7,6 +7,7 @@ import { HashRouter } from "react-router-dom";
 import Footer from './Components/pageFooter';
 import NavigationBar from './Components/NavigationBar';
 import HomePage from './Components/HomePage';
+import LogIn from './Components/LogIn';
 
 // const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
 const API_URL = "http://localhost:8080"
@@ -47,12 +48,12 @@ function App() {
                 <SignUp />
                 {/* <UserProfiles/> */}
             </Route>
+            <Route path = "/login">
+                <LogIn />
+            </Route>
             <Route path = "/">
                 <HomePage />
-            </Route>
-            {/* <Route path = "/login">
-              
-              </Route>      */}
+            </Route>            
         </Switch>
       </Router>
       {/* <HomePage/> */}
