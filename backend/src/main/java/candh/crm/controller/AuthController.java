@@ -26,11 +26,11 @@ public class AuthController
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
         
-        if (!authService.vaildEmail(user.getEmail())) {
+        if (!authService.validEmail(user.getEmail())) {
             return ResponseEntity.ok("Email is not valid.");
         }
 
-        if (!authService.vaildPassword(user.getPassword())) {
+        if (!authService.validPassword(user.getPassword())) {
             return ResponseEntity.ok("Password is not valid.");
         }
         
@@ -73,5 +73,29 @@ public class AuthController
             return ResponseEntity.ok("Error during user authentication.");
         }
         return ResponseEntity.ok("You just successfully logged in.");
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(
+            @RequestParam String email, @RequestParam String new_password) {
+        if (!authService.validPassword(new_password)) {
+            return ResponseEntity.ok("New password not valid.");
+        }
+
+        User user = userDataService.findUserByEmail(email);
+        if (user == null || !user.isEnabled()) {
+            return ResponseEntity.ok("Account not exist.");
+        }
+        if (user.getPassword().equals(new_password)) {
+            return ResponseEntity.ok("New password same as old one.");
+        }
+
+        user.setPassword(new_password);
+        try {
+            authService.signupUser(user);
+        } catch (Exception e) {
+            return ResponseEntity.ok("Error during change password.");
+        }
+        return ResponseEntity.ok("You just successfully changed password.");
     }
 }
