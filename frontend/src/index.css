@@ -1,13 +1,20 @@
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  /* font-family: 'Roboto', sans-serif; */
+  font-family: 'Montserrat', sans-serif;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:rgb(170, 190, 189);
-  background:linear-gradient(to bottom right,rgb(170, 190, 189),rgb(161, 219, 216));
+  background-color:#738183;
+  /* background:linear-gradient(to bottom right,#ffffff,#8DE8F2); */
+  /* background:linear-gradient(to bottom right,#00B8C9,#00D0A4); */
+  background-image: linear-gradient(to right bottom, #1fc6b2, #46cebd, #61d6c8, #78ddd2, #8de5dc, #8ee6df, #8fe8e3, #90e9e6, #7ce5e4, #65e1e3, #47dce3, #07d8e3);
+  /* background-image: linear-gradient(to right bottom, #3a15d4, #bb00a7, #ef0075, #ff0847, #fb6920, #e78e00, #ceac0d, #b3c53c, #91d363, #6cdf8e, #42e8b8, #13eee0); */
+  /* background-image: linear-gradient(to right bottom, #1fc6b2, #4cceb0, #6ad6af, #84deaf, #9be6b0, #a1eab6, #a7edbd, #adf1c3, #a7f1ce, #a5f1d9, #a5f0e2, #a8efe9); */
+  /* background-image: linear-gradient(to right bottom, #d7d2b4, #d6cea8, #d5c99c, #d5c490, #d5bf84, #d8be84, #dabe84, #ddbd84, #e2c190, #e7c59c, #eacaa7, #edcfb3); */
+  /* background-image: linear-gradient(to right top, #6bd1c5, #1ec1cf, #00afd9, #009ae0, #0082dc, #0084e0, #0085e5, #0087e9, #00a5f7, #00c0f8, #00d8ee, #13eee0); */
   background-attachment: fixed;
 }
 :root{

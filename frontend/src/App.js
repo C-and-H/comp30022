@@ -7,10 +7,9 @@ import { HashRouter } from "react-router-dom";
 import Footer from './Components/pageFooter';
 import NavigationBar from './Components/NavigationBar';
 import HomePage from './Components/HomePage';
-//const users = axios.get("/findAllUsers");
 
-const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
-// const API_URL = "http://localhost:8080"
+// const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
+const API_URL = "http://localhost:8080"
 
 const UserProfiles = () =>{
     const [userProfiles, setUserProfiles] = useState([]);
@@ -37,7 +36,6 @@ const UserProfiles = () =>{
         </div>
       ) 
     })
-    // <center><h1>  </h1></center>
 }
 function App() {
   return (
@@ -45,52 +43,21 @@ function App() {
       <Router>
       <NavigationBar/>
         <Switch>
-            <Route path="/signup">
+            <Route path = "/signup">
                 <SignUp />
-                <UserProfiles/>
+                {/* <UserProfiles/> */}
             </Route>
-            <Route path="/">
+            <Route path = "/">
                 <HomePage />
-            </Route>     
+            </Route>
+            {/* <Route path = "/login">
+              
+              </Route>      */}
         </Switch>
       </Router>
       {/* <HomePage/> */}
-      <Footer/>
+      {/* <Footer/> */}
     </div>
-    
-    // <div>
-    //   <Header/>
-    //     <h1>
-    //       CRM Application
-    //     </h1>
-    //   <Footer/>
-
-    // </div>
-    // <Router>
-    //     <div>
-    //         <nav>
-    //             <ul>
-    //                 <li>
-    //                     <Link to="/">Homo</Link>
-    //                 </li>
-    //                 <li>
-    //                     <Link to="/signup">Register</Link>
-    //                 </li>
-                
-    //             </ul>
-    //         </nav>
-    //         <Switch>
-            
-    //         <Route path="/signup">
-    //             <SignUp />
-    //         </Route>    
-    //         <Route path="/">
-    //             <Home />
-                
-    //         </Route>
-    //         </Switch>
-    //     </div>
-    // </Router>
 );
 
 }
