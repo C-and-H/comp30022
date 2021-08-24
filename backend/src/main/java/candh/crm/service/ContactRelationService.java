@@ -3,10 +3,11 @@ package candh.crm.service;
 import candh.crm.model.Contact;
 import candh.crm.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class ContactRelationService {
 
     @Autowired
@@ -36,8 +37,17 @@ public class ContactRelationService {
      * @param friend email of friend
      * @return contact found or Optional.empty() is not found
      */
-    public Optional<Contact> findByUserAndFriend(String user, String friend) {
-        return contactRepository.findByUserAndFriend(user, friend);
+    public Contact findByUserAndFriend(String user, String friend) {
+        List<Contact> contacts = contactRepository.findByUser(user);
+        if (!contacts.isEmpty()) {
+            for (int i = 0; i < contacts.size(); i++) {
+                if (contacts.get(i).getFriend().equals(friend)) {
+                    return contacts.get(i);
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -46,7 +56,9 @@ public class ContactRelationService {
      * @param friend email of friend
      */
     public void deleteContact(String user, String friend) {
-        Optional<Contact> contact = contactRepository.findByUserAndFriend(user, friend);
-        contact.ifPresent(c -> contactRepository.deleteById(c.getId()));
+        Contact contact = this.findByUserAndFriend(user, friend);
+        if (contact != null) {
+            contactRepository.deleteById(contact.getId());
+        }
     }
 }

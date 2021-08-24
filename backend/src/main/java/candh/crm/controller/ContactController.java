@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -16,31 +15,31 @@ public class ContactController {
     private ContactRelationService contactRelationService;
 
     @PostMapping("/sendRequest")
-    public ResponseEntity<?> sendRequest(String email, String friend) {
-        Optional<Contact> contact = contactRelationService.findByUserAndFriend(email, friend);
-        if (contact.isPresent()) {
-            if (contact.get().isAccepted()) {
+    public ResponseEntity<?> sendRequest(@RequestBody Contact friendship) {
+        Contact contact = contactRelationService.findByUserAndFriend(friendship.getUser(), friendship.getFriend());
+        if (contact != null) {
+            if (contact.isAccepted()) {
                 return ResponseEntity.ok("Already friends.");
             } else {
                 return ResponseEntity.ok("Request already sent but not yet confirmed.");
             }
         }
 
-        contactRelationService.saveContact(new Contact(email, friend));
-        contactRelationService.saveContact(new Contact(friend, email));
+        contactRelationService.saveContact(new Contact(friendship.getUser(), friendship.getFriend()));
+        contactRelationService.saveContact(new Contact(friendship.getFriend(), friendship.getUser()));
 
         return ResponseEntity.ok("Friend request sent.");
     }
 
     @PostMapping("/deleteFriend")
-    public ResponseEntity<?> deleteFriend(String email, String friend) {
-        Optional<Contact> contact = contactRelationService.findByUserAndFriend(email, friend);
-        if (!contact.isPresent() || contact.get().isAccepted()) {
+    public ResponseEntity<?> deleteFriend(@RequestBody Contact friendship) {
+        Contact contact = contactRelationService.findByUserAndFriend(friendship.getUser(), friendship.getFriend());
+        if (contact == null || !contact.isAccepted()) {
             return ResponseEntity.ok("Not friends yet.");
         }
 
-        contactRelationService.deleteContact(email, friend);
-        contactRelationService.deleteContact(friend, email);
+        contactRelationService.deleteContact(friendship.getUser(), friendship.getFriend());
+        contactRelationService.deleteContact(friendship.getFriend(), friendship.getUser());
 
         return ResponseEntity.ok("Friend delete.");
     }
