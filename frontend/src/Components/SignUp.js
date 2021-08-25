@@ -2,6 +2,7 @@ import React, {Component, useState, useEffect} from 'react';
 import axios from "axios";
 import "../App.css"
 import { Form, Input, Button, FormGroup, Label } from 'reactstrap';
+import {withRouter} from 'react-router-dom';
 // import { Button,FormGroup,FormLabel,InputGroup,Form } from 'react-bootstrap';
 // const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
 const API_URL = "http://localhost:8080"
@@ -14,6 +15,7 @@ class SignUp extends Component{
       input:{},
       msg:{}
     };
+    this.isWaiting = false;
     this.handleEmail = this.handleEmail.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,6 +58,7 @@ class SignUp extends Component{
     })
   }
   async handleSubmit(event){
+    this.isWaiting = true;
     event.preventDefault(); // what is this?
     this.validation();
     // password is the same
@@ -85,12 +88,19 @@ class SignUp extends Component{
             alert (response.data)
           }
           if (response.data === "You just successfully submit a signup request."){
-            alert("Sign up was successful.");
+            alert("Sign up was successful. Check email for verification link!");
+            
           }
         }).catch(err => {
           console.log(err)
           alert("an error occurs...");
+        }).finally(() =>{
+          this.iswaiting = false;
+          //this.props.history.push("/signup");
+          //console.log("bruh");
+          window.location = "/signup";
         });
+        
       }
     
 
@@ -154,7 +164,7 @@ class SignUp extends Component{
         <div className = "text-danger">{this.state.msg.user_exist}</div>
         <div className = "text-danger">{this.state.msg.email_invalid}</div>
 
-        <Button type="submit" className="submit-btn btn-med btn-block btn-dark col-12">Register</Button>
+        <Button type="submit" disabled={this.isWaiting} className="submit-btn btn-med btn-block btn-dark col-12">Register</Button>
       </Form>
       </div>
     );
@@ -162,7 +172,7 @@ class SignUp extends Component{
     }
 }
 
-export default SignUp;
+export default withRouter(SignUp);
 /* <form onSubmit= {this.handleSubmit}>
           <label> email: </label>
           <input type = "text" value = {this.state.userEmail} onChange = {this.handleEmail} />
