@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 import "../App.css";
 import { Form, Input, Button, FormGroup, Label } from 'reactstrap';
 
@@ -11,7 +12,8 @@ class LogIn extends Component {
         super();
         this.state = {
           input:{},
-          msg:{}
+          msg:{},
+          redirect: null
         };
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
@@ -44,17 +46,20 @@ class LogIn extends Component {
                 }
                 if (response.data === "You just successfully logged in.") {
                     this.setState({msg : {"success":"You just successfully logged in."}});
+                    this.setState({ redirect: "/homepage" });
                 }
 
             }).catch(err => {
                 console.log(err)
                 alert("an error occurs...");
             });
-
-
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
+
         return (
             <div>
                 <Form className="signup-form" onSubmit= {this.handleSubmit}>
