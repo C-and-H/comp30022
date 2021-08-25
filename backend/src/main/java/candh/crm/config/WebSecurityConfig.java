@@ -21,9 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     AuthService authService;
 
-    @Autowired
-    CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -47,8 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         http
                 .csrf().disable()
                 .authorizeRequests().antMatchers("/findAllUsers", "/", "/signup", "/signup/*/*", "/login").permitAll().anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").usernameParameter("email")
-                .successHandler(customizeAuthenticationSuccessHandler).permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
     }
 
