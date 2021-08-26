@@ -27,11 +27,13 @@ public class AuthService implements UserDetailsService
     public void signupUser(User user) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDataService.saveUser(user);
-        EmailService.sendConfirmMail(user.getEmail(), user.getFirst_name(), user.getSignupConfirmPath());
+        EmailService.sendConfirmMail(user.getEmail(),
+                user.getFirst_name(), user.getSignupConfirmPath());
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
         User user = userDataService.findUserByEmail(email);
         if (user != null) {
             return user;
@@ -51,7 +53,7 @@ public class AuthService implements UserDetailsService
      * first and last characters in the local part and in the domain name must not be dots
      * The top-level domain (.com in these examples) must consist of two to six letters only
      */
-    public boolean vaildEmail(String email) {
+    public boolean validEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
@@ -65,7 +67,7 @@ public class AuthService implements UserDetailsService
      * length 5 to 10
      * only contain upper and lower case letter or numbers
      */
-    public boolean vaildPassword(String password) {
+    public boolean validPassword(String password) {
         String regex = "[A-Za-z0-9]{5,10}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);

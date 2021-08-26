@@ -13,9 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
+@CrossOrigin("*")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
     @Autowired
@@ -42,9 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests().antMatchers("/findAllUsers", "/", "/signup", "/signup/*/*", "/login").permitAll().anyRequest().authenticated()
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
+                .csrf().disable().cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and().authorizeRequests().antMatchers("/", "/signup", "/signup/*/*", "/login").permitAll().anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password").permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
+                .and().httpBasic();
     }
 
     @Override

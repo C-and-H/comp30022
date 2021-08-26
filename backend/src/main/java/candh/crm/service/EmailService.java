@@ -28,12 +28,13 @@ public class EmailService
      * @param to        target email address
      * @param receiver  first name of the receiver
      */
-    public void sendConfirmMail(String to, String receiver, String signupConfirmPath) throws MessagingException
+    public void sendConfirmMail(String to, String receiver,
+                                String signupConfirmPath) throws MessagingException
     {
         MimeMessage message = javaMailSender.createMimeMessage();
         message.setFrom(new InternetAddress(from));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        String subject = "Confirm your signup for CandH CRM";
+        String subject = "Confirm your signup for candhCRM";
         message.setSubject(subject);
 
         // message body
