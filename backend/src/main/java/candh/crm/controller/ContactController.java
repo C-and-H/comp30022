@@ -62,4 +62,9 @@ public class ContactController
 
         return ResponseEntity.ok("Friend delete.");
     }
+
+    @GetMapping("/friendList/{email}")
+    public List<Contact> friendList(@PathVariable() String email) {
+        return contactRelationService.findAllFriends(email);
+    }
 }
