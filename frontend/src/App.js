@@ -84,10 +84,9 @@ class App extends Component {
             onLogOut={this.handleLogOut}
           />
           <Switch>
-            <Route path="/signup">
-              <SignUp />
-              {/* <UserProfiles/> */}
-            </Route>
+            <Route path="/signup" component={SignUp} />
+            {/* <SignUp /> */}
+            {/* <UserProfiles/> */}
             <Route path="/login" component={LogIn} />
 
             <Route exact path="/profile" component={Profile} />

@@ -40,25 +40,22 @@ class LogIn extends Component {
       loading: true,
     });
 
-    AuthService.login(this.state.userEmail, this.state.userPassword).then(
-      () => {
-        this.props.history.push("/");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        this.setState({
-          loading: false,
-          message: resMessage,
-        });
-      }
-    );
+    await AuthService.login(this.state.userEmail, this.state.userPassword)
+      .then((response) => {
+        if (
+          response === "Email not found." ||
+          response === "Account not enabled."
+        ) {
+          alert(response);
+        } else {
+          this.props.history.push("/");
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("an error occurs...");
+      });
   }
 
   render() {
