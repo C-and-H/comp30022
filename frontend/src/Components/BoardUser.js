@@ -41,6 +41,7 @@ export default class BoardUser extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
+          <h1> HHHHHH</h1>
           <h3>{this.state.content}</h3>
         </header>
       </div>

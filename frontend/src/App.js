@@ -150,9 +150,7 @@ class App extends Component {
               <SignUp />
               {/* <UserProfiles/> */}
             </Route>
-            <Route path="/login">
-              <LogIn />
-            </Route>
+            <Route path="/login" component={LogIn} />
 
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
