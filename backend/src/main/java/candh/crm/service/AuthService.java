@@ -24,6 +24,12 @@ public class AuthService implements UserDetailsService
     @Autowired
     private UserDataService userDataService;
 
+    /**
+     * Add a new user to database, with password encoded.
+     * Then send a confirmation email for account activation.
+     *
+     * @param user
+     */
     public void signupUser(User user) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDataService.saveUser(user);
@@ -43,15 +49,16 @@ public class AuthService implements UserDetailsService
     }
 
     /**
-     * check email entered follows the following rules
-     * @param email    email address user entered
+     * Check email entered follows the following rules.
      *
-     * domain name must include at least one dot
-     * the part of the domain name after the last dot can only consist of letters
-     * contain ‘@’ symbol
-     * two dots can appear right next to each other in domain name
-     * first and last characters in the local part and in the domain name must not be dots
-     * The top-level domain (.com in these examples) must consist of two to six letters only
+     * Domain name must include at least one dot.
+     * The part of the domain name after the last dot can only consist of letters
+     * Contain ‘@’ symbol.
+     * Two dots can appear right next to each other in domain name.
+     * First and last characters in the local part and in the domain name must not be dots.
+     * The top-level domain (.com in these examples) must consist of two to six letters only.
+     *
+     * @param email  email address user entered
      */
     public boolean validEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -61,11 +68,11 @@ public class AuthService implements UserDetailsService
     }
 
     /**
-     * check password entered follows the following rules
-     * @param password    password address user entered
+     * Check password entered follows the following rules:
+     * Length 5 to 10.
+     * Only contain upper and lower case letter or numbers.
      *
-     * length 5 to 10
-     * only contain upper and lower case letter or numbers
+     * @param password  password address user entered
      */
     public boolean validPassword(String password) {
         String regex = "[A-Za-z0-9]{5,10}";

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Database CRUD.
+ */
 @Service
 public class UserDataService
 {
