@@ -38,6 +38,9 @@ public class AuthController
     @Autowired
     JwtUtils jwtUtils;
 
+    /**
+     * Handles Http Post for login authentication, with JSON Web Token.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -59,6 +62,10 @@ public class AuthController
                 roles));
     }
 
+    /**
+     * Handles Http Post for account signup.
+     * Requires a form body specifying email, password, first_name, and last_name.
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
         // validate email and password format
@@ -88,6 +95,10 @@ public class AuthController
         return ResponseEntity.ok("You just successfully submit a signup request.");
     }
 
+    /**
+     * Handles Http Get for account activation.
+     * By requesting this page, set a non-enabled user to enabled state.
+     */
     @GetMapping("/signup/{email}/{signupConfirmPath}")
     public ResponseEntity<?> confirmUser(@PathVariable() String email,
                                          @PathVariable() String signupConfirmPath) {
@@ -101,6 +112,10 @@ public class AuthController
         }
     }
 
+    /**
+     * Handles a Http Post for user password change.
+     * Requires a form body specifying email, oldPassword, and newPassword.
+     */
     @PostMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestParam("email") String email,
                                             @RequestParam("oldPassword") String oldPassword,

@@ -31,9 +31,12 @@ public class User implements UserDetails
     private String password;
     private String first_name;
     private String last_name;
+    /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
+    /** random path of random length for the confirmation link */
     private String signupConfirmPath;
 
+    // for random string generator
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
     private static final String NUMBER = "0123456789";
@@ -59,6 +62,9 @@ public class User implements UserDetails
         return sb.toString();
     }
 
+    /**
+     * Get a user's full name.
+     */
     public String getName() {
         return this.first_name + " " + this.last_name;
     }
