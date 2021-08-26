@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+// TODO: only provided for frontend test
+
 @RestController
 @CrossOrigin("*")
-public class UserController
+public class TestController
 {
     @Autowired
     private UserDataService userDataService;
 
-    // TODO: provided for frontend test
     @GetMapping("/findAllUsers")
     public List<User> findAllUsers() {
         return userDataService.findUsersAll();
