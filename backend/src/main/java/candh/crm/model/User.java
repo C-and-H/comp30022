@@ -14,6 +14,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -58,6 +59,10 @@ public class User implements UserDetails
         return sb.toString();
     }
 
+    public String getName() {
+        return this.first_name + " " + this.last_name;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> listAuthorities = new ArrayList<GrantedAuthority>() {{
@@ -91,7 +96,13 @@ public class User implements UserDetails
         return this.enabled;
     }
 
-    public String getName() {
-        return this.first_name + " " + this.last_name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 }

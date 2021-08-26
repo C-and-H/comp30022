@@ -1,15 +1,23 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
+import candh.crm.payload.request.LoginRequest;
+import candh.crm.payload.response.JwtResponse;
+import candh.crm.security.JwtUtils;
 import candh.crm.service.AuthService;
 import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -27,6 +35,30 @@ public class AuthController
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(), loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        User userDetails = (User) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@RequestBody User user) {
         // validate email and password format
@@ -37,6 +69,7 @@ public class AuthController
             return ResponseEntity.ok("Password is not valid.");
         }
 
+        // exist by user email
         User _user = userDataService.findUserByEmail(user.getEmail());
         if (_user != null) {
             if (_user.isEnabled()) {
