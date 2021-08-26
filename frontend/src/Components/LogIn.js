@@ -16,8 +16,6 @@ class LogIn extends Component {
       loading: false,
       message: "",
       input: {},
-      msg: {},
-      redirect: null,
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -40,7 +38,7 @@ class LogIn extends Component {
       loading: true,
     });
 
-    AuthService.login(this.state.userEmail, this.state.Password).then(
+    AuthService.login(this.state.userEmail, this.state.userPassword).then(
       () => {
         this.props.history.push("/profile");
         window.location.reload();
@@ -59,36 +57,9 @@ class LogIn extends Component {
         });
       }
     );
-
-    /*const user = {
-      email: this.state.userEmail,
-      password: this.state.userPassword,
-    };
-    await axios
-      .post(API_URL + "/login", user)
-      .then((response) => {
-        console.log(response);
-        if (response.data === "Error during user authentication.") {
-          this.setState({ msg: { fail: "Error during user authentication." } });
-        }
-        if (response.data === "You just successfully logged in.") {
-          this.setState({
-            msg: { success: "You just successfully logged in." },
-          });
-          this.setState({ redirect: "/homepage" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("an error occurs...");
-      });*/
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />;
-    }
-
     return (
       <div>
         <Form className="signup-form" onSubmit={this.handleSubmit}>
@@ -114,8 +85,6 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
-          <div className="text-danger">{this.state.msg.fail}</div>
-          <div className="text-danger">{this.state.msg.success}</div>
 
           <Button
             type="submit"
