@@ -68,18 +68,6 @@ public class AuthController
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam("email") String email,
-                                       @RequestParam("password") String password) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, password));
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.ok("Error during user authentication.");
-        }
-        return ResponseEntity.ok("You just successfully logged in.");
-    }
-
     @PostMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestParam("email") String email,
                                             @RequestParam("oldPassword") String oldPassword,
