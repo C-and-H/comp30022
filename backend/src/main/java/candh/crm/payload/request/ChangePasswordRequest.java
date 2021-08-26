@@ -8,10 +8,12 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 
-public class LoginRequest
+public class ChangePasswordRequest
 {
     @NotBlank
-    private String username;
+    private String email;
     @NotBlank
-    private String password;
+    private String oldPassword;
+    @NotBlank
+    private String newPassword;
 }

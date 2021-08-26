@@ -1,6 +1,7 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
+import candh.crm.payload.request.ChangePasswordRequest;
 import candh.crm.payload.request.LoginRequest;
 import candh.crm.payload.response.JwtResponse;
 import candh.crm.security.JwtUtils;
@@ -42,7 +43,8 @@ public class AuthController
      * Handles Http Post for login authentication, with JSON Web Token.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(
+            @Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(), loginRequest.getPassword()));
@@ -117,9 +119,12 @@ public class AuthController
      * Requires a form body specifying email, oldPassword, and newPassword.
      */
     @PostMapping("/changePassword")
-    public ResponseEntity<?> changePassword(@RequestParam("email") String email,
-                                            @RequestParam("oldPassword") String oldPassword,
-                                            @RequestParam("newPassword") String newPassword) {
+    public ResponseEntity<?> changePassword(
+            @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        String email = changePasswordRequest.getEmail();
+        String oldPassword = changePasswordRequest.getOldPassword();
+        String newPassword = changePasswordRequest.getNewPassword();
+
         // email should be enabled, then authenticate old password
         User user = userDataService.findUserByEmail(email);
         if (user == null || !user.isEnabled()) {
