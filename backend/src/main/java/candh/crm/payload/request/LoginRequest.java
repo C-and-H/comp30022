@@ -8,6 +8,9 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 
+/**
+ * Request form body parameters for /login.
+ */
 public class LoginRequest
 {
     @NotBlank

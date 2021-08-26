@@ -46,6 +46,12 @@ public class AuthController
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @Valid @RequestBody LoginRequest loginRequest) {
+        // account not found or not enabled
+        User user = userDataService.findUserByEmail(loginRequest.getUsername());
+        if (user == null) return ResponseEntity.ok("Email not found.");
+        if (!user.isEnabled()) return ResponseEntity.ok("Account not enabled.");
+
+        // verify password
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(), loginRequest.getPassword()));
