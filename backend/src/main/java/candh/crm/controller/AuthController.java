@@ -9,6 +9,7 @@ import candh.crm.service.AuthService;
 import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -119,6 +120,7 @@ public class AuthController
      * Requires a form body specifying email, oldPassword, and newPassword.
      */
     @PostMapping("/changePassword")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(
             @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
         String email = changePasswordRequest.getEmail();

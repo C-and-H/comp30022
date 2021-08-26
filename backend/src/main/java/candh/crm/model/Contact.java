@@ -16,16 +16,16 @@ public class Contact
     @Id
     private String id;
 
-    private String user;
-    private String friend;
+    private String userEmail;
+    private String friendEmail;
     private boolean accepted;
     private String notes;
 
-    public Contact(String user, String friend) {
-        this.user = user;
-        this.friend = friend;
+    public Contact(String userEmail, String friendEmail) {
+        this.userEmail = userEmail;
+        this.friendEmail = friendEmail;
         // TODO: friend confirmation
-        this.accepted = true;
+        this.accepted = false;
         this.notes = "";
     }
 }
