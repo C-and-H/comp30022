@@ -16,6 +16,8 @@ class LogIn extends Component {
       loading: false,
       message: "",
       input: {},
+      msg: {},
+      redirect: null,
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -40,7 +42,7 @@ class LogIn extends Component {
 
     AuthService.login(this.state.userEmail, this.state.userPassword).then(
       () => {
-        this.props.history.push("/profile");
+        this.props.history.push("/");
         window.location.reload();
       },
       (error) => {

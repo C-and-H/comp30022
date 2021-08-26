@@ -60,6 +60,7 @@ class App extends Component {
     const user = AuthService.getCurrentUser();
 
     if (user) {
+      console.log("App", user);
       this.setState({
         currentUser: user,
         showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
@@ -68,7 +69,7 @@ class App extends Component {
     }
   }
 
-  logOut() {
+  handleLogOut() {
     AuthService.logout();
   }
 
@@ -122,7 +123,11 @@ class App extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a href="/login" className="nav-link" onClick={this.logOut}>
+                  <a
+                    href="/login"
+                    className="nav-link"
+                    onClick={this.handleLogOut}
+                  >
                     LogOut
                   </a>
                 </li>
@@ -144,7 +149,10 @@ class App extends Component {
             )}
           </nav>
 
-          <NavigationBar />
+          <NavigationBar
+            user={this.state.currentUser}
+            onLogOut={this.handleLogOut}
+          />
           <Switch>
             <Route path="/signup">
               <SignUp />
