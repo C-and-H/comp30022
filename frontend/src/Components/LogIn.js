@@ -3,13 +3,18 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import "../App.css";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
+import AuthService from "../Services/AuthService";
 
 const API_URL = "http://localhost:8080";
 
 class LogIn extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      userEmail: "",
+      userPassword: "",
+      loading: false,
+      message: "",
       input: {},
       msg: {},
       redirect: null,
@@ -19,11 +24,6 @@ class LogIn extends Component {
     this.handlePassword = this.handlePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  state = {
-    userEmail: "",
-    userPassword: "",
-  };
 
   handleEmail(event) {
     this.setState({ userEmail: event.target.value });
@@ -36,7 +36,31 @@ class LogIn extends Component {
   async handleSubmit(event) {
     event.preventDefault();
 
-    const user = {
+    this.setState({
+      loading: true,
+    });
+
+    AuthService.login(this.state.userEmail, this.state.Password).then(
+      () => {
+        this.props.history.push("/profile");
+        window.location.reload();
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        this.setState({
+          loading: false,
+          message: resMessage,
+        });
+      }
+    );
+
+    /*const user = {
       email: this.state.userEmail,
       password: this.state.userPassword,
     };
@@ -57,7 +81,7 @@ class LogIn extends Component {
       .catch((err) => {
         console.log(err);
         alert("an error occurs...");
-      });
+      });*/
   }
 
   render() {
