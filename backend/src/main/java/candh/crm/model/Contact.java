@@ -15,15 +15,14 @@ public class Contact
 {
     @Id
     private String id;
-
-    private String userEmail;
-    private String friendEmail;
+    private String userId;
+    private String friendId;
     private boolean accepted;
     private String notes;
 
-    public Contact(String userEmail, String friendEmail) {
-        this.userEmail = userEmail;
-        this.friendEmail = friendEmail;
+    public Contact(String userId, String friendId) {
+        this.userId = userId;
+        this.friendId = friendId;
         // TODO: friend confirmation
         this.accepted = false;
         this.notes = "";

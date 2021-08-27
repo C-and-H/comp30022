@@ -1,7 +1,9 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
+import candh.crm.payload.request.AddMobileRequest;
 import candh.crm.payload.request.ChangeRealNameRequest;
+import candh.crm.payload.request.DeleteMobileRequest;
 import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,48 @@ public class UserController
             user.get().setLast_name(changeRealNameRequest.getLast_name());
             userDataService.saveUser(user.get());
             return ResponseEntity.ok("You just successfully changed your name.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user to add a new mobile.
+     */
+    @PostMapping("/user/addMobile")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> addMobile(
+            @Valid @RequestBody AddMobileRequest addMobileRequest) {
+        Optional<User> user = userDataService.findUserById(addMobileRequest.getId());
+        if (user.isPresent()) {
+            user.get().addMobile(addMobileRequest.getMobileCountryCode(),
+                    addMobileRequest.getMobileNumber());
+            userDataService.saveUser(user.get());
+            return ResponseEntity.ok("You just successfully added a new mobile.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user to delete an existing mobile.
+     */
+    @PostMapping("/user/deleteMobile")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteMobile(
+            @Valid @RequestBody DeleteMobileRequest deleteMobileRequest) {
+        String mobileCountryCode = deleteMobileRequest.getMobileCountryCode();
+        String mobileNumber = deleteMobileRequest.getMobileNumber();
+
+        Optional<User> user = userDataService.findUserById(deleteMobileRequest.getId());
+        if (user.isPresent()) {
+            if (user.get().hasMobile(mobileCountryCode, mobileNumber)) {
+                user.get().deleteMobile(mobileCountryCode, mobileNumber);
+                userDataService.saveUser(user.get());
+                return ResponseEntity.ok("You just successfully deleted an existing mobile.");
+            } else {
+                return ResponseEntity.ok("Mobile not found.");
+            }
         } else {
             return ResponseEntity.ok("Id not found.");
         }
