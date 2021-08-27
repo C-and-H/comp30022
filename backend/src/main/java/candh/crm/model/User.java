@@ -22,13 +22,18 @@ public class User implements UserDetails
 {
     @Id
     private String id;
+
     @Indexed(unique = true)
     private String email;
     private String password;
     private String first_name;
     private String last_name;
-    /** empty list by default, consist of (mobileCountryCode, mobileNumber) */
+
+    /** consist of (mobileCountryCode, mobileNumber) */
     private List<Pair<String,String>> mobiles;
+    private String areaOrRegion;
+    private String industry;
+
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
     /** random path of random length for the confirmation link */
@@ -47,6 +52,8 @@ public class User implements UserDetails
         this.first_name = first_name;
         this.last_name = last_name;
         this.mobiles = new ArrayList<>();
+        this.areaOrRegion = "";
+        this.industry = "";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
     }
@@ -148,6 +155,14 @@ public class User implements UserDetails
         return mobiles;
     }
 
+    public String getAreaOrRegion() {
+        return areaOrRegion;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
     public String getSignupConfirmPath() {
         return signupConfirmPath;
     }
@@ -162,6 +177,14 @@ public class User implements UserDetails
 
     public void setLast_name(String last_name) {
         this.last_name = last_name;
+    }
+
+    public void setAreaOrRegion(String areaOrRegion) {
+        this.areaOrRegion = areaOrRegion;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
     }
 
     public void setEnabled(boolean enabled) {

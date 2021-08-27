@@ -1,9 +1,7 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
-import candh.crm.payload.request.AddMobileRequest;
-import candh.crm.payload.request.ChangeRealNameRequest;
-import candh.crm.payload.request.DeleteMobileRequest;
+import candh.crm.payload.request.*;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -93,4 +91,48 @@ public class UserController
             return ResponseEntity.ok("Id not found.");
         }
     }
+
+    /**
+     * Handles Http Post for area/region change.
+     */
+    @PostMapping("/user/changeAreaOrRegion")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeAreaOrRegion(
+            @Valid @RequestBody ChangeAreaOrRegionRequest changeAreaOrRegionRequest) {
+        Optional<User> user = userRepository.findById(changeAreaOrRegionRequest.getId());
+        if (user.isPresent()) {
+            user.get().setAreaOrRegion(changeAreaOrRegionRequest.getAreaOrRegion());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your area/region.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user's working industry change.
+     */
+    @PostMapping("/user/changeIndustry")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeIndustry(
+            @Valid @RequestBody ChangeIndustryRequest changeIndustryRequest) {
+        Optional<User> user = userRepository.findById(changeIndustryRequest.getId());
+        if (user.isPresent()) {
+            user.get().setIndustry(changeIndustryRequest.getIndustry());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your industry.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for searching users.
+     * Returns 50 search results.
+     */
+//    @PostMapping("/user/search")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<?> search() {
+//
+//    }
 }
