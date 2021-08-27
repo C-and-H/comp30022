@@ -28,20 +28,20 @@ public class ContactRelationService
      * @return all Contacts of the user
      */
     public List<Contact> findAllFriends(String user) {
-        return contactRepository.findByUserEmail(user);
+        return contactRepository.findByUserId(user);
     }
 
     /**
      * find contactRelation by user's and friend's emails
-     * @param user email of user
-     * @param friend email of friend
+     * @param user  email of user
+     * @param friend  email of friend
      * @return contact found or null if not found
      */
     public Contact findByUserAndFriend(String user, String friend) {
-        List<Contact> contacts = contactRepository.findByUserEmail(user);
+        List<Contact> contacts = contactRepository.findByUserId(user);
         if (!contacts.isEmpty()) {
             for (int i = 0; i < contacts.size(); i++) {
-                if (contacts.get(i).getFriendEmail().equals(friend)) {
+                if (contacts.get(i).getFriendId().equals(friend)) {
                     return contacts.get(i);
                 }
             }
@@ -51,8 +51,8 @@ public class ContactRelationService
 
     /**
      * Delete contactRelation by user's and friend's emails
-     * @param user email of user
-     * @param friend email of friend
+     * @param user  email of user
+     * @param friend  email of friend
      */
     public void deleteContact(String user, String friend) {
         Contact contact = this.findByUserAndFriend(user, friend);

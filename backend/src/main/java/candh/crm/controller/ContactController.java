@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -18,16 +17,16 @@ public class ContactController
     private ContactRelationService contactRelationService;
 
 /*
-    @PostMapping("/confirmFriendRequest")
-    @PostMapping("/listSentFriendRequest")
-    @PostMapping("/listReceivedFriendRequest")
+    @PostMapping("/friend/confirmRequest")
+    @PostMapping("/friend/listSentRequests")
+    @PostMapping("/friend/listReceivedRequests")
 */
 
-    @PostMapping("/sendFriendRequest")
+    @PostMapping("/friend/sendRequest")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sendRequest(@RequestBody Contact friendship) {
         Contact contact = contactRelationService
-                .findByUserAndFriend(friendship.getUserEmail(), friendship.getFriendEmail());
+                .findByUserAndFriend(friendship.getUserId(), friendship.getFriendId());
         if (contact != null)
         {
             if (contact.isAccepted()) {
@@ -37,32 +36,32 @@ public class ContactController
             }
         }
         contactRelationService.saveContact(
-                new Contact(friendship.getUserEmail(), friendship.getFriendEmail()));
+                new Contact(friendship.getUserId(), friendship.getFriendId()));
         contactRelationService.saveContact(
-                new Contact(friendship.getFriendEmail(), friendship.getUserEmail()));
+                new Contact(friendship.getFriendId(), friendship.getUserId()));
 
         return ResponseEntity.ok("Friend request sent.");
     }
 
-    @PostMapping("/deleteFriend")
+    @PostMapping("/friend/delete")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteFriend(@RequestBody Contact friendship) {
         Contact contact = contactRelationService
-                .findByUserAndFriend(friendship.getUserEmail(), friendship.getFriendEmail());
+                .findByUserAndFriend(friendship.getUserId(), friendship.getFriendId());
         if (contact == null || !contact.isAccepted()) {
             return ResponseEntity.ok("Not friends yet.");
         }
         contactRelationService.deleteContact(
-                friendship.getUserEmail(), friendship.getFriendEmail());
+                friendship.getUserId(), friendship.getFriendId());
         contactRelationService.deleteContact(
-                friendship.getFriendEmail(), friendship.getUserEmail());
+                friendship.getFriendId(), friendship.getUserId());
 
         return ResponseEntity.ok("Friend delete.");
     }
 
-    @PostMapping("/listFriend")
+    @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
-    public List<Contact> friendList(@PathParam("email") String email) {
-        return contactRelationService.findAllFriends(email);
+    public List<Contact> friendList(@RequestParam("id") String id) {
+        return contactRelationService.findAllFriends(id);
     }
 }

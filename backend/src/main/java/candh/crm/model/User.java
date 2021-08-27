@@ -1,11 +1,10 @@
 package candh.crm.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +15,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
 @ToString
 
 @Document(collection = "user")
@@ -25,12 +22,13 @@ public class User implements UserDetails
 {
     @Id
     private String id;
-
     @Indexed(unique = true)
     private String email;
     private String password;
     private String first_name;
     private String last_name;
+    /** empty list by default, consist of (mobileCountryCode, mobileNumber) */
+    private List<Pair<String,String>> mobiles;
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
     /** random path of random length for the confirmation link */
@@ -48,61 +46,14 @@ public class User implements UserDetails
         this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.mobiles = new ArrayList<>();
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getSignupConfirmPath() {
-        return signupConfirmPath;
-    }
-
-    public void setSignupConfirmPath(String signupConfirmPath) {
-        this.signupConfirmPath = signupConfirmPath;
     }
 
     private static String generateRandomString(int length) {
@@ -120,6 +71,18 @@ public class User implements UserDetails
      */
     public String getName() {
         return this.first_name + " " + this.last_name;
+    }
+
+    public void addMobile(String mobileCountryCode, String mobileNumber) {
+        mobiles.add(Pair.of(mobileCountryCode, mobileNumber));
+    }
+
+    public boolean hasMobile(String mobileCountryCode, String mobileNumber) {
+        return mobiles.contains(Pair.of(mobileCountryCode, mobileNumber));
+    }
+
+    public void deleteMobile(String mobileCountryCode, String mobileNumber) {
+        mobiles.remove(Pair.of(mobileCountryCode, mobileNumber));
     }
 
     @Override
@@ -163,5 +126,45 @@ public class User implements UserDetails
             return false;
         User user = (User) o;
         return Objects.equals(id, user.id);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public List<Pair<String,String>> getMobiles() {
+        return mobiles;
+    }
+
+    public String getSignupConfirmPath() {
+        return signupConfirmPath;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

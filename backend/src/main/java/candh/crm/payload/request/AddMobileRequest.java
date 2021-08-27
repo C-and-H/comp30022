@@ -9,14 +9,14 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /user/changePassword.
+ * Request body parameters for /user/addMobile.
  */
-public class ChangePasswordRequest
+public class AddMobileRequest
 {
     @NotBlank
-    private String email;
+    private String id;
     @NotBlank
-    private String oldPassword;
+    private String mobileCountryCode;
     @NotBlank
-    private String newPassword;
+    private String mobileNumber;
 }
