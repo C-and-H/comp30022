@@ -1,12 +1,14 @@
 package candh.crm.controller;
 
 import candh.crm.model.Contact;
+import candh.crm.payload.request.ByIdRequest;
 import candh.crm.service.ContactRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -61,7 +63,8 @@ public class ContactController
 
     @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
-    public List<Contact> friendList(@RequestParam("id") String id) {
-        return contactRelationService.findAllFriends(id);
+    public List<Contact> friendList(
+            @Valid @RequestBody ByIdRequest byIdRequest) {
+        return contactRelationService.findAllFriends(byIdRequest.getId());
     }
 }

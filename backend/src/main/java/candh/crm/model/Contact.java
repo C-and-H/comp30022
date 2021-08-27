@@ -11,6 +11,7 @@ public class Contact
 {
     @Id
     private String id;
+
     private String userId;
     private String friendId;
     private boolean accepted;

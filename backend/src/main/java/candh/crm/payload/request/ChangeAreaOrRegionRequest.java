@@ -9,14 +9,12 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /user/changeRealName.
+ * Request body parameters for /user/changeAreaOrRegion.
  */
-public class ChangeRealNameRequest
+public class ChangeAreaOrRegionRequest
 {
     @NotBlank
     private String id;
     @NotBlank
-    private String first_name;
-    @NotBlank
-    private String last_name;
+    private String areaOrRegion;
 }
