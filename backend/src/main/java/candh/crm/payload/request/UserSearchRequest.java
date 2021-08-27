@@ -13,14 +13,9 @@ import javax.validation.constraints.NotBlank;
  */
 public class UserSearchRequest
 {
-    @NotBlank
     private String email;
-    @NotBlank
     private String first_name;
-    @NotBlank
     private String last_name;
-    @NotBlank
     private String areaOrRegion;
-    @NotBlank
     private String industry;
 }

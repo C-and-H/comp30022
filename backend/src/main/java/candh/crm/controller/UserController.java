@@ -9,7 +9,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -129,17 +132,44 @@ public class UserController
 
     /**
      * Handles Http Post for searching users.
-     * TODO
+     *
+     * Search is case-insensitive and needs not to be exact search.
+     * At least one field should be non-empty.
      */
-//    @PostMapping("/user/search")
-//    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> search(
-//            @Valid @RequestBody UserSearchRequest userSearchRequest) {
-//        return ResponseEntity.ok(userRepository.searchByKeywords(
-//                userSearchRequest.getEmail(),
-//                userSearchRequest.getFirst_name(),
-//                userSearchRequest.getLast_name(),
-//                userSearchRequest.getAreaOrRegion(),
-//                userSearchRequest.getIndustry()));
-//    }
+    @PostMapping("/user/search")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> search(
+            @Valid @RequestBody UserSearchRequest userSearchRequest) {
+        String email = userSearchRequest.getEmail();
+        String first_name = userSearchRequest.getFirst_name();
+        String last_name = userSearchRequest.getLast_name();
+        String areaOrRegion = userSearchRequest.getAreaOrRegion();
+        String industry = userSearchRequest.getIndustry();
+
+        List<User> _users = new ArrayList<>();
+        if (!email.equals("")) {
+            _users = userRepository.findBy_Email(email);
+        }
+        if (!first_name.equals("")) {
+            _users = _users.stream()
+                    .filter(userRepository.findBy_First_name(first_name)::contains)
+                    .collect(Collectors.toList());
+        }
+        if (!last_name.equals("")) {
+            _users = _users.stream()
+                    .filter(userRepository.findBy_Last_name(last_name)::contains)
+                    .collect(Collectors.toList());
+        }
+        if (!areaOrRegion.equals("")) {
+            _users = _users.stream()
+                    .filter(userRepository.findBy_AreaOrRegion(areaOrRegion)::contains)
+                    .collect(Collectors.toList());
+        }
+        if (!industry.equals("")) {
+            _users = _users.stream()
+                    .filter(userRepository.findBy_Industry(industry)::contains)
+                    .collect(Collectors.toList());
+        }
+        return ResponseEntity.ok(_users);
+    }
 }

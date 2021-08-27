@@ -12,7 +12,18 @@ public interface UserRepository extends MongoRepository<User, String>
 {
     User findByEmail(String email);
 
-//    @Query()
-//    List<User> searchByKeywords(String email, String first_name, String last_name,
-//                              String areaOrRegion, String industry);
+    @Query(value = "{'email': {$regex: '?0', $options: 'i'}}")
+    List<User> findBy_Email(String _email);
+
+    @Query(value = "{'first_name': {$regex: '?0', $options: 'i'}}")
+    List<User> findBy_First_name(String _first_name);
+
+    @Query(value = "{'last_name': {$regex: '?0', $options: 'i'}}")
+    List<User> findBy_Last_name(String _last_name);
+
+    @Query(value = "{'areaOrRegion': {$regex: '?0', $options: 'i'}}")
+    List<User> findBy_AreaOrRegion(String _areaOrRegion);
+
+    @Query(value = "{'industry': {$regex: '?0', $options: 'i'}}")
+    List<User> findBy_Industry(String _industry);
 }

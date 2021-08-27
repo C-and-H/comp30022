@@ -125,16 +125,6 @@ public class User implements UserDetails
         return this.enabled;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
-    }
-
     public String getId() {
         return id;
     }
@@ -189,5 +179,15 @@ public class User implements UserDetails
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 }
