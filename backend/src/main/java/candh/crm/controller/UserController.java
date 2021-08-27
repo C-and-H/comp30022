@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-public class TestController
+public class UserController
 {
     @Autowired
     private UserDataService userDataService;
