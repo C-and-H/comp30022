@@ -86,8 +86,7 @@ public class AuthController
      * By requesting this page, set a non-enabled user to enabled state.
      */
     @GetMapping("/signup/{email}/{signupConfirmPath}")
-    public ResponseEntity<?> confirmSignup(@PathVariable() String email,
-                                           @PathVariable() String signupConfirmPath) {
+    public ResponseEntity<?> confirmSignup(@PathVariable() String email) {
         User user = userDataService.findUserByEmail(email);
         if (user != null && !user.isEnabled()) {
             user.setEnabled(true);   // confirm

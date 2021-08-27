@@ -33,8 +33,4 @@ public class UserDataService
             userRepository.deleteById(user.getId());
         }
     }
-
-    public List<User> findUsersAll() {
-        return userRepository.findAll();
-    }
 }
