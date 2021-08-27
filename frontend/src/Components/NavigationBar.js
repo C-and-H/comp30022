@@ -10,7 +10,7 @@ class NavigationBar extends React.Component {
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
           <i className="fa fa-user fa-fw"></i>
-          {this.props.user.username}
+          {this.props.user.first_name}
         </Nav.Link>
         <Nav.Link
           href="/login"
@@ -30,7 +30,7 @@ class NavigationBar extends React.Component {
         >
           <NavDropdown.Item href="/profile">
             <i className="fa fa-user fa-fw"></i>
-            {this.props.user.username}
+            {this.props.user.first_name}
           </NavDropdown.Item>
           <NavDropdown.Item href="/setting">
             <i class="fas fa-cog"></i> Setting

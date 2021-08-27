@@ -104,6 +104,7 @@ class SignUp extends Component {
           window.location = "/signup";
         });
     }
+    this.isWaiting = false;
   }
 
   handleEmail(event) {
