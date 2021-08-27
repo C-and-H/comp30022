@@ -9,12 +9,14 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /login.
+ * Request body parameters for /changeRealName.
  */
-public class LoginRequest
+public class ChangeRealNameRequest
 {
     @NotBlank
-    private String username;
+    private String id;
     @NotBlank
-    private String password;
+    private String first_name;
+    @NotBlank
+    private String last_name;
 }

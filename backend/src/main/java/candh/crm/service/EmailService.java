@@ -25,7 +25,7 @@ public class EmailService
     /**
      * Send signup confirmation email.
      *
-     * @param to        target email address
+     * @param to  target email address
      * @param receiver  first name of the receiver
      */
     public void sendConfirmMail(String to, String receiver,

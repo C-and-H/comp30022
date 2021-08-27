@@ -18,12 +18,12 @@ public class ContactController
     private ContactRelationService contactRelationService;
 
 /*
-    @PostMapping("/confirmFriendRequest")
-    @PostMapping("/listSentFriendRequest")
-    @PostMapping("/listReceivedFriendRequest")
+    @PostMapping("/friend/confirmRequest")
+    @PostMapping("/friend/listSentRequests")
+    @PostMapping("/friend/listReceivedRequests")
 */
 
-    @PostMapping("/sendFriendRequest")
+    @PostMapping("/friend/sendRequest")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sendRequest(@RequestBody Contact friendship) {
         Contact contact = contactRelationService
@@ -44,7 +44,7 @@ public class ContactController
         return ResponseEntity.ok("Friend request sent.");
     }
 
-    @PostMapping("/deleteFriend")
+    @PostMapping("/friend/delete")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteFriend(@RequestBody Contact friendship) {
         Contact contact = contactRelationService
@@ -60,9 +60,9 @@ public class ContactController
         return ResponseEntity.ok("Friend delete.");
     }
 
-    @PostMapping("/listFriend")
+    @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
-    public List<Contact> friendList(@PathParam("email") String email) {
+    public List<Contact> friendList(@RequestParam("email") String email) {
         return contactRelationService.findAllFriends(email);
     }
 }

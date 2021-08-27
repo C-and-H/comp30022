@@ -1,7 +1,12 @@
 package candh.crm.service;
 
 import candh.crm.model.User;
+import candh.crm.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,11 +29,17 @@ public class AuthService implements UserDetailsService
     @Autowired
     private UserDataService userDataService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtUtils jwtUtils;
+
     /**
      * Add a new user to database, with password encoded.
      * Then send a confirmation email for account activation.
      *
-     * @param user
+     * @param user  a user object, that must contain email, password, first name, and last name
      */
     public void signupUser(User user) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -72,12 +83,26 @@ public class AuthService implements UserDetailsService
      * Length 5 to 10.
      * Only contain upper and lower case letter or numbers.
      *
-     * @param password  password address user entered
+     * @param password  password user entered
      */
     public boolean validPassword(String password) {
         String regex = "[A-Za-z0-9]{5,10}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    /**
+     * Using email as username.
+     * Authenticate users and generate jwt web token.
+     *
+     * @param email  email address user entered
+     * @param password  password user entered
+     */
+    public String authenticateUser(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtUtils.generateJwtToken(authentication);
     }
 }

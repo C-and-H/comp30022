@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Database CRUD.
@@ -19,6 +20,8 @@ public class UserDataService
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
+    public Optional<User> findUserById(String id) { return userRepository.findById(id); }
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);

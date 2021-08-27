@@ -10,6 +10,4 @@ import java.util.List;
 public interface ContactRepository extends MongoRepository<Contact, String>
 {
     List<Contact> findByUserEmail(String userEmail);
-
-    List<Contact> findByFriendEmail(String friendEmail);
 }

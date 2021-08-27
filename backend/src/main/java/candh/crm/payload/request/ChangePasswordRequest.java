@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request form body parameters for /changePassword.
+ * Request body parameters for /user/changePassword.
  */
 public class ChangePasswordRequest
 {

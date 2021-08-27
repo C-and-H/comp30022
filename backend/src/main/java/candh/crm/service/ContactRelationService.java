@@ -33,8 +33,8 @@ public class ContactRelationService
 
     /**
      * find contactRelation by user's and friend's emails
-     * @param user email of user
-     * @param friend email of friend
+     * @param user  email of user
+     * @param friend  email of friend
      * @return contact found or null if not found
      */
     public Contact findByUserAndFriend(String user, String friend) {
@@ -51,8 +51,8 @@ public class ContactRelationService
 
     /**
      * Delete contactRelation by user's and friend's emails
-     * @param user email of user
-     * @param friend email of friend
+     * @param user  email of user
+     * @param friend  email of friend
      */
     public void deleteContact(String user, String friend) {
         Contact contact = this.findByUserAndFriend(user, friend);

@@ -3,23 +3,16 @@ package candh.crm.controller;
 import candh.crm.model.User;
 import candh.crm.payload.request.ChangePasswordRequest;
 import candh.crm.payload.request.LoginRequest;
-import candh.crm.payload.response.JwtResponse;
-import candh.crm.security.JwtUtils;
+import candh.crm.payload.response.LoginResponse;
 import candh.crm.service.AuthService;
 import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -34,44 +27,25 @@ public class AuthController
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    JwtUtils jwtUtils;
-
     /**
-     * Handles Http Post for login authentication, with JSON Web Token.
+     * Handles Http Post for login authentication.
+     * Check account status, verify password, generate jwt token.
+     * Respond with token, id, and user's email address.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(
+    public ResponseEntity<?> loginAndGenerateJwtToken(
             @Valid @RequestBody LoginRequest loginRequest) {
-
+        // check account status
         User user = userDataService.findUserByEmail(loginRequest.getUsername());
         if (user == null) return ResponseEntity.ok("Email not found.");
         if (!user.isEnabled()) return ResponseEntity.ok("Account not enabled.");
 
-        // verify password
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(), loginRequest.getPassword()));
+        // verify password and generate jwt token
+        String jwt = authService.authenticateUser(loginRequest.getUsername(),
+                loginRequest.getPassword());
 
-        // generate jwt web token
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        // get user details
-        User userDetails = (User) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getFirst_name(),
-                userDetails.getLast_name(),
-                roles));
+        return ResponseEntity.ok(
+                new LoginResponse(jwt, user.getId(), user.getEmail()));
     }
 
     /**
@@ -79,7 +53,7 @@ public class AuthController
      * Requires a form body specifying email, password, first_name, and last_name.
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> signupUser(@RequestBody User user) {
+    public ResponseEntity<?> signup(@RequestBody User user) {
         // validate email and password format
         if (!authService.validEmail(user.getEmail())) {
             return ResponseEntity.ok("Email is not valid.");
@@ -112,8 +86,8 @@ public class AuthController
      * By requesting this page, set a non-enabled user to enabled state.
      */
     @GetMapping("/signup/{email}/{signupConfirmPath}")
-    public ResponseEntity<?> confirmUser(@PathVariable() String email,
-                                         @PathVariable() String signupConfirmPath) {
+    public ResponseEntity<?> confirmSignup(@PathVariable() String email,
+                                           @PathVariable() String signupConfirmPath) {
         User user = userDataService.findUserByEmail(email);
         if (user != null && !user.isEnabled()) {
             user.setEnabled(true);   // confirm
@@ -126,18 +100,16 @@ public class AuthController
 
     /**
      * Handles a Http Post for user password change.
-     * Requires a form body specifying email, oldPassword, and newPassword.
      */
     @PostMapping("/changePassword")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(
             @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
-        String email = changePasswordRequest.getEmail();
         String oldPassword = changePasswordRequest.getOldPassword();
         String newPassword = changePasswordRequest.getNewPassword();
 
-        // email should be enabled, then authenticate old password
-        User user = userDataService.findUserByEmail(email);
+        // email should be enabled, then authenticate by old password
+        User user = userDataService.findUserByEmail(changePasswordRequest.getEmail());
         if (user == null || !user.isEnabled()) {
             return ResponseEntity.ok("Account not found or not enabled.");
         }
