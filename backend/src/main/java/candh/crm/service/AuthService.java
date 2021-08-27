@@ -1,6 +1,7 @@
 package candh.crm.service;
 
 import candh.crm.model.User;
+import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,13 +22,13 @@ import java.util.regex.Pattern;
 public class AuthService implements UserDetailsService
 {
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private EmailService EmailService;
-
-    @Autowired
-    private UserDataService userDataService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -41,17 +42,19 @@ public class AuthService implements UserDetailsService
      *
      * @param user  a user object, that must contain email, password, first name, and last name
      */
-    public void signupUser(User user) throws MessagingException {
+    public void signupUser(User user, boolean isEnabled) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDataService.saveUser(user);
-        EmailService.sendConfirmMail(user.getEmail(),
-                user.getFirst_name(), user.getSignupConfirmPath());
+        userRepository.save(user);
+        if (!isEnabled) {
+            EmailService.sendConfirmMail(user.getEmail(),
+                    user.getFirst_name(), user.getSignupConfirmPath());
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        User user = userDataService.findUserByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user != null) {
             return user;
         } else {

@@ -61,7 +61,7 @@ public class ContactController
 
     @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
-    public List<Contact> friendList(@RequestParam("email") String email) {
-        return contactRelationService.findAllFriends(email);
+    public List<Contact> friendList(@RequestParam("id") String id) {
+        return contactRelationService.findAllFriends(id);
     }
 }

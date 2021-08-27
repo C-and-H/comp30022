@@ -4,8 +4,8 @@ import candh.crm.model.User;
 import candh.crm.payload.request.ChangePasswordRequest;
 import candh.crm.payload.request.LoginRequest;
 import candh.crm.payload.response.LoginResponse;
+import candh.crm.repository.UserRepository;
 import candh.crm.service.AuthService;
-import candh.crm.service.UserDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,10 +19,10 @@ import javax.validation.Valid;
 public class AuthController
 {
     @Autowired
-    private PasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserDataService userDataService;
+    private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private AuthService authService;
@@ -36,7 +36,7 @@ public class AuthController
     public ResponseEntity<?> loginAndGenerateJwtToken(
             @Valid @RequestBody LoginRequest loginRequest) {
         // check account status
-        User user = userDataService.findUserByEmail(loginRequest.getUsername());
+        User user = userRepository.findByEmail(loginRequest.getUsername());
         if (user == null) return ResponseEntity.ok("Email not found.");
         if (!user.isEnabled()) return ResponseEntity.ok("Account not enabled.");
 
@@ -62,19 +62,19 @@ public class AuthController
             return ResponseEntity.ok("Password is not valid.");
         }
 
-        // exist by user email
-        User _user = userDataService.findUserByEmail(user.getEmail());
+        // existing by user email
+        User _user = userRepository.findByEmail(user.getEmail());
         if (_user != null) {
             if (_user.isEnabled()) {
                 return ResponseEntity.ok("Email is already taken.");
             } else {   // email taken but not confirmed
-                userDataService.deleteUserByEmail(_user.getEmail());
+                userRepository.deleteById(_user.getEmail());
             }
         }
 
         // save to database
         try {
-            authService.signupUser(user);
+            authService.signupUser(user, false);
         } catch (Exception e) {
             return ResponseEntity.ok("Error during user signup.");
         }
@@ -87,10 +87,10 @@ public class AuthController
      */
     @GetMapping("/signup/{email}/{signupConfirmPath}")
     public ResponseEntity<?> confirmSignup(@PathVariable() String email) {
-        User user = userDataService.findUserByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user != null && !user.isEnabled()) {
             user.setEnabled(true);   // confirm
-            userDataService.saveUser(user);
+            userRepository.save(user);
             return ResponseEntity.ok("Signup confirm success.");
         } else {
             return ResponseEntity.ok("Signup confirm invalid or deprecated.");
@@ -108,7 +108,7 @@ public class AuthController
         String newPassword = changePasswordRequest.getNewPassword();
 
         // email should be enabled, then authenticate by old password
-        User user = userDataService.findUserByEmail(changePasswordRequest.getEmail());
+        User user = userRepository.findByEmail(changePasswordRequest.getEmail());
         if (user == null || !user.isEnabled()) {
             return ResponseEntity.ok("Account not found or not enabled.");
         }
@@ -126,8 +126,7 @@ public class AuthController
 
         // save to database
         try {
-            user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-            userDataService.saveUser(user);
+            authService.signupUser(user, true);
         } catch (Exception e) {
             return ResponseEntity.ok("Error during changing password.");
         }

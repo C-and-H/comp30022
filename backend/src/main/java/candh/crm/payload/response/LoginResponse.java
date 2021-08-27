@@ -9,7 +9,8 @@ import lombok.Setter;
 /**
  * Response body parameters for /login.
  */
-public class LoginResponse {
+public class LoginResponse
+{
     private String token;
     private String type = "Bearer";
     private String id;
