@@ -1,13 +1,9 @@
 package candh.crm.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
-@Getter
-@Setter
 @ToString
 
 @Document(collection = "contactRelation")
@@ -26,5 +22,33 @@ public class Contact
         // TODO: friend confirmation
         this.accepted = false;
         this.notes = "";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getFriendId() {
+        return friendId;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

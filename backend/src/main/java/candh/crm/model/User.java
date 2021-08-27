@@ -152,10 +152,6 @@ public class User implements UserDetails
         return signupConfirmPath;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
