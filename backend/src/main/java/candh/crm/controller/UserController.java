@@ -4,6 +4,7 @@ import candh.crm.model.User;
 import candh.crm.payload.request.AddMobileRequest;
 import candh.crm.payload.request.ChangeRealNameRequest;
 import candh.crm.payload.request.DeleteMobileRequest;
+import candh.crm.payload.request.UserRequest;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,9 @@ public class UserController
      */
     @PostMapping("/user")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> findUserById(@RequestParam("id") String id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<?> findUserById(
+            @Valid @RequestBody UserRequest userRequest) {
+        Optional<User> user = userRepository.findById(userRequest.getId());
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {

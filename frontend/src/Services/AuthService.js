@@ -7,22 +7,39 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/";
 
 class AuthService {
-  login(username, password) {
-    return axios
-      .post(API_URL + "login", {
-        username,
-        password,
-      })
-      .then((response) => {
-        if (response.data.token) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
+  /**
+   *
+   * @param {*} token
+   */
+  async getUserDataFromBackend(token, id) {
+    const response = await axios.post(
+      API_URL + "user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    console.log(response);
+    if (response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+  }
 
-        return response.data;
-      });
+  async login(username, password) {
+    const response = await axios.post(API_URL + "login", {
+      username,
+      password,
+    });
+    if (response.data.token) {
+      localStorage.setItem("basic", JSON.stringify(response.data));
+    }
+    return response.data;
   }
 
   logout() {
+    localStorage.removeItem("basic");
     localStorage.removeItem("user");
   }
 
@@ -32,6 +49,10 @@ class AuthService {
       email,
       password,
     });
+  }
+
+  getBasicInfo() {
+    return JSON.parse(localStorage.getItem("basic"));
   }
 
   getCurrentUser() {

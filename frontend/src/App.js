@@ -52,22 +52,18 @@ class App extends Component {
     //this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showModeratorBoard: false,
-      showAdminBoard: false,
-      currentUser: undefined,
+      currentUser: null,
+      basic: null,
     };
   }
 
   componentDidMount() {
-    const user = AuthService.getCurrentUser();
+    const basic = AuthService.getBasicInfo();
 
-    if (user) {
-      console.log("App", user);
-      this.setState({
-        currentUser: user,
-        showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
-        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
-      });
+    if (basic) {
+      AuthService.getUserDataFromBackend(basic.token, basic.id);
+      const currentUser = AuthService.getCurrentUser();
+      this.setState({ currentUser, basic });
     }
   }
 
@@ -76,19 +72,14 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser } = this.state;
 
     return (
       <div className="App">
         <Router>
-          <NavigationBar
-            user={this.state.currentUser}
-            onLogOut={this.handleLogOut}
-          />
+          <NavigationBar user={currentUser} onLogOut={this.handleLogOut} />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
-            {/* <SignUp /> */}
-            {/* <UserProfiles/> */}
             <Route path="/login" component={LogIn} />
             <Route exact path="/contact" component={ContactList} />
 

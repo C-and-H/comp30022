@@ -79,7 +79,6 @@ class NavigationBar extends React.Component {
   }
 
   render() {
-    console.log(this.props.user);
     return (
       <Navbar bg="dark" variant="dark">
         <Container>
