@@ -46,7 +46,7 @@ public class AuthController
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @Valid @RequestBody LoginRequest loginRequest) {
-        // account not found or not enabled
+
         User user = userDataService.findUserByEmail(loginRequest.getUsername());
         if (user == null) return ResponseEntity.ok("Email not found.");
         if (!user.isEnabled()) return ResponseEntity.ok("Account not enabled.");
@@ -56,14 +56,15 @@ public class AuthController
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(), loginRequest.getPassword()));
 
+        // generate jwt web token
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
+        // get user details
         User userDetails = (User) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),

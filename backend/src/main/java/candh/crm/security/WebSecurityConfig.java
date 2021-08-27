@@ -1,4 +1,4 @@
-package candh.crm.config;
+package candh.crm.security;
 
 import candh.crm.security.AuthEntryPointJwt;
 import candh.crm.security.AuthTokenFilter;
