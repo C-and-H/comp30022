@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /changeAreaOrRegion.
+ * Request body parameters for /user/changeAreaOrRegion.
  */
 public class ChangeAreaOrRegionRequest
 {

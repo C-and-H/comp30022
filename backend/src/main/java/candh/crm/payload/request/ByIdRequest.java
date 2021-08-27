@@ -8,13 +8,8 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 
-/**
- * Request body parameters for /user/changeIndustry.
- */
-public class ChangeIndustryRequest
+public class ByIdRequest
 {
     @NotBlank
     private String id;
-    @NotBlank
-    private String industry;
 }

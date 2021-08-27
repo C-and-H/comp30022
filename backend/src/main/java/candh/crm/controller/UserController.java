@@ -23,8 +23,9 @@ public class UserController
      */
     @PostMapping("/user")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> findUserById(@RequestParam("id") String id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<?> findUserById(
+            @Valid @RequestBody ByIdRequest byIdRequest) {
+        Optional<User> user = userRepository.findById(byIdRequest.getId());
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
@@ -128,11 +129,17 @@ public class UserController
 
     /**
      * Handles Http Post for searching users.
-     * Returns 50 search results.
+     * TODO
      */
 //    @PostMapping("/user/search")
 //    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> search() {
-//
+//    public ResponseEntity<?> search(
+//            @Valid @RequestBody UserSearchRequest userSearchRequest) {
+//        return ResponseEntity.ok(userRepository.searchByKeywords(
+//                userSearchRequest.getEmail(),
+//                userSearchRequest.getFirst_name(),
+//                userSearchRequest.getLast_name(),
+//                userSearchRequest.getAreaOrRegion(),
+//                userSearchRequest.getIndustry()));
 //    }
 }
