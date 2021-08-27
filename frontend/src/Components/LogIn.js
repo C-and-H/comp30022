@@ -48,6 +48,7 @@ class LogIn extends Component {
         ) {
           alert(response);
         } else {
+          alert("Login successed. Welcome!");
           this.props.history.push("/");
           window.location.reload();
         }

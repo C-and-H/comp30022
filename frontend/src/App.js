@@ -11,7 +11,8 @@ import LogIn from "./Components/LogIn";
 import Profile from "./Components/UserProfile";
 import BoardUser from "./Components/BoardUser";
 import AuthService from "./Services/AuthService";
-import Verify from './Components/Verify';
+import Verify from "./Components/Verify";
+import ContactList from "./Components/contactList";
 
 // const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
 const API_URL = "http://localhost:8080";
@@ -89,12 +90,13 @@ class App extends Component {
             {/* <SignUp /> */}
             {/* <UserProfiles/> */}
             <Route path="/login" component={LogIn} />
+            <Route exact path="/contact" component={ContactList} />
 
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
             <Route exact path={["/", "/home"]} component={HomePage} />
-            <Route path = "/signup/:email/:code">
-                <Verify />
+            <Route path="/signup/:email/:code">
+              <Verify />
             </Route>
             <Route path="/">
               <HomePage />
