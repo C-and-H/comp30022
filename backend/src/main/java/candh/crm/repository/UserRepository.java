@@ -26,4 +26,7 @@ public interface UserRepository extends MongoRepository<User, String>
 
     @Query(value = "{'industry': {$regex: '?0', $options: 'i'}}")
     List<User> findBy_Industry(String _industry);
+
+    @Query(value = "{'company': {$regex: '?0', $options: 'i'}}")
+    List<User> findBy_Company(String _company);
 }

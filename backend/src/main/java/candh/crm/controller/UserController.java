@@ -1,7 +1,8 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
-import candh.crm.payload.request.*;
+import candh.crm.payload.request.ByIdRequest;
+import candh.crm.payload.request.user.*;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -97,7 +98,7 @@ public class UserController
     }
 
     /**
-     * Handles Http Post for area/region change.
+     * Handles Http Post for user's area/region change.
      */
     @PostMapping("/user/changeAreaOrRegion")
     @PreAuthorize("hasRole('USER')")
@@ -131,45 +132,81 @@ public class UserController
     }
 
     /**
+     * Handles Http Post for user's company change.
+     */
+    @PostMapping("/user/changeCompany")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeCompany(
+            @Valid @RequestBody ChangeCompanyRequest changeCompanyRequest) {
+        Optional<User> user = userRepository.findById(changeCompanyRequest.getId());
+        if (user.isPresent()) {
+            user.get().setCompany(changeCompanyRequest.getCompany());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your company.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user's personal summary change.
+     */
+    @PostMapping("/user/changePersonalSummary")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changePersonalSummary(
+            @Valid @RequestBody ChangePersonalSummaryRequest changePersonalSummaryRequest) {
+        Optional<User> user = userRepository.findById(changePersonalSummaryRequest.getId());
+        if (user.isPresent()) {
+            user.get().setPersonalSummary(changePersonalSummaryRequest.getPersonalSummary());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your personal summary.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
      * Handles Http Post for searching users.
      *
-     * Search is case-insensitive and needs not to be exact search.
+     * Partial search is case-insensitive, and based on regex.
      * At least one field should be non-empty.
      */
     @PostMapping("/user/search")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> search(
-            @Valid @RequestBody UserSearchRequest userSearchRequest) {
-        String email = userSearchRequest.getEmail();
-        String first_name = userSearchRequest.getFirst_name();
-        String last_name = userSearchRequest.getLast_name();
-        String areaOrRegion = userSearchRequest.getAreaOrRegion();
-        String industry = userSearchRequest.getIndustry();
+            @Valid @RequestBody UserSearchRequest userSearchRequest)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // request fields
+        Map<String,String> map = new HashMap<>();
+        Method[] methods = UserSearchRequest.class.getMethods();
+        List<String> params = List.of("Email", "First_name", "Last_name",
+                "AreaOrRegion", "Industry", "Company");
+        for (Method m: methods) {
+            if (m.getName().startsWith("get") &&
+                    params.contains(m.getName().substring(3))) {   // filter getters
+                String value = (String) m.invoke(userSearchRequest);
+                map.put(m.getName().substring(3), value);
+            }
+        }
 
-        List<User> _users = new ArrayList<>();
-        if (!email.equals("")) {
-            _users = userRepository.findBy_Email(email);
+        List<User> users = new ArrayList<>();
+        for (String field : map.keySet())
+        {
+            // query method
+            Method m = UserRepository.class
+                    .getDeclaredMethod("findBy_" + field, String.class);
+            String value = map.get(field);
+            // search
+            if (!value.equals("")) {
+                List<User> _users = (List<User>) m.invoke(userRepository, value);
+                if (users.isEmpty()) users = _users;
+                else {   // intersection
+                    users = _users.stream().filter(users::contains)
+                            .collect(Collectors.toList());
+                }
+                if (_users.isEmpty()) break;   // no results found
+            }
         }
-        if (!first_name.equals("")) {
-            _users = _users.stream()
-                    .filter(userRepository.findBy_First_name(first_name)::contains)
-                    .collect(Collectors.toList());
-        }
-        if (!last_name.equals("")) {
-            _users = _users.stream()
-                    .filter(userRepository.findBy_Last_name(last_name)::contains)
-                    .collect(Collectors.toList());
-        }
-        if (!areaOrRegion.equals("")) {
-            _users = _users.stream()
-                    .filter(userRepository.findBy_AreaOrRegion(areaOrRegion)::contains)
-                    .collect(Collectors.toList());
-        }
-        if (!industry.equals("")) {
-            _users = _users.stream()
-                    .filter(userRepository.findBy_Industry(industry)::contains)
-                    .collect(Collectors.toList());
-        }
-        return ResponseEntity.ok(_users);
+        return ResponseEntity.ok(users);
     }
 }

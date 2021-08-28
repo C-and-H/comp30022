@@ -33,6 +33,8 @@ public class User implements UserDetails
     private List<Pair<String,String>> mobiles;
     private String areaOrRegion;
     private String industry;
+    private String company;
+    private String personalSummary;
 
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
@@ -54,6 +56,8 @@ public class User implements UserDetails
         this.mobiles = new ArrayList<>();
         this.areaOrRegion = "";
         this.industry = "";
+        this.company = "";
+        this.personalSummary = "";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
     }
@@ -153,6 +157,14 @@ public class User implements UserDetails
         return industry;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public String getPersonalSummary() {
+        return personalSummary;
+    }
+
     public String getSignupConfirmPath() {
         return signupConfirmPath;
     }
@@ -175,6 +187,14 @@ public class User implements UserDetails
 
     public void setIndustry(String industry) {
         this.industry = industry;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setPersonalSummary(String personalSummary) {
+        this.personalSummary = personalSummary;
     }
 
     public void setEnabled(boolean enabled) {
