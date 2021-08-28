@@ -2,6 +2,7 @@ package candh.crm.controller;
 
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
+import candh.crm.payload.request.ByManyIdsRequest;
 import candh.crm.payload.request.user.*;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,25 @@ public class UserController
         } else {
             return ResponseEntity.ok("Id not found.");
         }
+    }
+
+    /**
+     * Handles Http Post for multiple users' information query by ids.
+     */
+    @PostMapping("/userMany")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> findManyUsersByIds(
+            @RequestBody ByManyIdsRequest byManyIdsRequest) {
+        List<User> users = new ArrayList<>();
+        for (String id: byManyIdsRequest.getIds()) {
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                users.add(user.get());
+            } else {
+                return ResponseEntity.ok("Id not found.");
+            }
+        }
+        return ResponseEntity.ok(users);
     }
 
     /**
