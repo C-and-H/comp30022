@@ -17,7 +17,7 @@ function ContainedButtons() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <a href="/signup" class="btn btn-primary btn-homepage">
+      <a href="/signup" className="btn btn-primary btn-homepage">
         Let's Get Started!
       </a>
     </div>
@@ -28,10 +28,10 @@ function ContainedButtons() {
 class HomePage extends React.Component {
   render() {
     return (
-      <div class="container">
-        <div class="row">
+      <div className="container">
+        <div className="row">
           <center>
-            <div class="col-7" id="column-left" style={{ paddingTop: 80 }}>
+            <div className="col-7" id="column-left" style={{ paddingTop: 80 }}>
               <h1>What is CRM?</h1>
               <h2 style={{ textAlign: "right" }}>
                 —Customer Relationship Management
@@ -59,7 +59,7 @@ class HomePage extends React.Component {
             </div>
           </center>
         </div>
-        <div class="row">
+        <div className="row">
           <center>
             <ContainedButtons />
           </center>

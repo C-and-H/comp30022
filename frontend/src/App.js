@@ -51,18 +51,18 @@ class App extends Component {
     //this.logOut = this.logOut.bind(this);
 
     this.state = {
-      currentUser: null,
-      basic: null,
+      currentUser: JSON.parse(localStorage.getItem("user")),
+      basic: JSON.parse(localStorage.getItem("basic")),
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const basic = AuthService.getBasicInfo();
 
     if (basic) {
-      AuthService.getUserDataFromBackend(basic.token, basic.id);
+      await AuthService.getUserDataFromBackend(basic.token, basic.id);
       const currentUser = AuthService.getCurrentUser();
-      this.setState({ currentUser, basic });
+      this.setState({ basic, currentUser });
     }
   }
 
@@ -72,7 +72,6 @@ class App extends Component {
 
   render() {
     const { currentUser } = this.state;
-
     return (
       <div className="App">
         <Router>
