@@ -1,7 +1,6 @@
 import React from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends React.Component {

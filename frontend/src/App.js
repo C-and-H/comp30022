@@ -1,10 +1,9 @@
 import "./App.css";
 import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUp from "./Components/SignUp";
 import { HashRouter } from "react-router-dom";
-import Footer from "./Components/pageFooter";
 import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";

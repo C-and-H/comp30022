@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
 import "../App.css";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import AuthService from "../Services/AuthService";
-
-const API_URL = "http://localhost:8080";
 
 class LogIn extends Component {
   constructor(props) {
