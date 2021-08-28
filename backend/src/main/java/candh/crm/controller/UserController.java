@@ -38,24 +38,24 @@ public class UserController
         }
     }
 
-    /**
-     * Handles Http Post for multiple users' information query by ids.
-     */
-    @PostMapping("/userMany")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> findManyUsersByIds(
-            @RequestBody ByManyIdsRequest byManyIdsRequest) {
-        List<User> users = new ArrayList<>();
-        for (String id: byManyIdsRequest.getIds()) {
-            Optional<User> user = userRepository.findById(id);
-            if (user.isPresent()) {
-                users.add(user.get());
-            } else {
-                return ResponseEntity.ok("Id not found.");
-            }
-        }
-        return ResponseEntity.ok(users);
-    }
+//    /**
+//     * Handles Http Post for multiple users' information query by ids.
+//     */
+//    @PostMapping("/userMany")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<?> findManyUsersByIds(
+//            @RequestBody ByManyIdsRequest byManyIdsRequest) {
+//        List<User> users = new ArrayList<>();
+//        for (String id: byManyIdsRequest.getIds()) {
+//            Optional<User> user = userRepository.findById(id);
+//            if (user.isPresent()) {
+//                users.add(user.get());
+//            } else {
+//                return ResponseEntity.ok("Id not found.");
+//            }
+//        }
+//        return ResponseEntity.ok(users);
+//    }
 
     /**
      * Handles Http Post for user's real name change.
