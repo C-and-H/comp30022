@@ -15,6 +15,5 @@ public class ChangeIndustryRequest
 {
     @NotBlank
     private String id;
-    @NotBlank
     private String industry;
 }

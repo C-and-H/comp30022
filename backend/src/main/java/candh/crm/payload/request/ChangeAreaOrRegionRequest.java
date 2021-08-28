@@ -15,6 +15,5 @@ public class ChangeAreaOrRegionRequest
 {
     @NotBlank
     private String id;
-    @NotBlank
     private String areaOrRegion;
 }
