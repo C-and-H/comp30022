@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
+import ReactTooltip from "react-tooltip";
 
 class FriendDisplay extends Component {
   render() {
-    const { name } = this.props;
+    const { user } = this.props;
     return (
-      <div>
-        <Button variant="outline-dark" size="lg">
+      <span>
+        <Button
+          className="btn-friend"
+          variant="outline-dark"
+          size="lg"
+          data-tip={user.email}
+        >
           <i className="fa fa-user-circle fa-fw"></i>
-          {name}
+          {" " + user.first_name + " " + user.last_name}
         </Button>
-      </div>
+        <ReactTooltip place="right" type="info" html={true} />
+      </span>
     );
   }
 }

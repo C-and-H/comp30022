@@ -1,30 +1,29 @@
-:root{
-  --button-font:'Montserrat', sans-serif;
+:root {
+  --button-font: "Montserrat", sans-serif;
 }
 
-
 /*------------------ SignUp Components ---------------*/
-.password-requirement{
+.password-requirement {
   font-size: small;
   margin: 0;
-  list-style-type:none;
+  list-style-type: none;
   padding-left: 0;
   color: rgb(168, 58, 58);
 }
 
-#signup-to-signin{
-  background-color:#3485F0;
+#signup-to-signin {
+  background-color: #3485f0;
   margin-top: 10px;
   border: black;
 }
 
-.form-label{
+.form-label {
   display: inline-block;
   margin-bottom: 5px;
   margin-top: 5px;
 }
 
-.signup-form{
+.signup-form {
   width: 100%;
   max-width: 330px;
   padding: 15px;
@@ -32,50 +31,49 @@
   height: 100%;
 }
 
-.signup-password{
+.signup-password {
   display: inline-block;
   margin-top: 5px;
 }
-.submit-btn{
-  background-color:#3485F0;
+.submit-btn {
+  background-color: #3485f0;
   margin-top: 15px;
 }
 /*------------------ SignUp Components end---------------*/
 
 /*------------------ HomePage Components ---------------*/
-.navbar-dark .navbar-nav .nav-link{
+.navbar-dark .navbar-nav .nav-link {
   color: white;
 }
-.navbar-dark .navbar-brand{
+.navbar-dark .navbar-brand {
   color: white;
 }
 .navbar-dark .navbar-brand:hover,
-.navbar-dark .navbar-nav .nav-link:hover{
+.navbar-dark .navbar-nav .nav-link:hover {
   color: black;
   transition: 0.4s;
 }
 
-h1{
-  text-shadow:2px 3px 0px rgba(150, 150, 150, 0.7)
+h1 {
+  text-shadow: 2px 3px 0px rgba(150, 150, 150, 0.7);
 }
 
-body .bg-dark{
+body .bg-dark {
   /* color: rgb(43, 47, 49); */
   margin-bottom: 50px;
-  background-color: #3485F0 !important;
+  background-color: #3485f0 !important;
   /* box-shadow: 10px 10px 5px 5px rgba(43, 47, 49, 1); */
 }
 
-
-.col-sm{
+.col-sm {
   text-align: center;
 }
-#column-left{
+#column-left {
   text-align: left;
 }
 
-.btn-homepage{
-  padding: .75rem 1rem;
+.btn-homepage {
+  padding: 0.75rem 1rem;
   margin: 30px;
   height: 50px;
   width: 180px;
@@ -89,17 +87,29 @@ body .bg-dark{
 }
 /*------------------ HomePage Components ---------------*/
 
-footer{
+footer {
   height: 30px;
-  position:absolute;
+  position: absolute;
   color: aliceblue;
-  left:0;
-  bottom:0;
-  right:0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   text-align: center;
   background-color: rgb(31, 30, 30);
 }
 
+/*------------------ Contact Components ---------------*/
+.rectangle {
+  display: inline-block;
+  width: 200px;
+  background: white;
+}
+
+.btn-friend {
+  width: 200px;
+}
+
+/*------------------ Contact Components end ---------------*/
 
 /* 
 .App {
@@ -140,4 +150,3 @@ footer{
     transform: rotate(360deg);
   }
 } */
-

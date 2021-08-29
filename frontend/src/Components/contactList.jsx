@@ -69,12 +69,9 @@ class ContactList extends Component {
   render() {
     const { friendList } = this.state;
     return (
-      <div>
+      <div className="rectangle">
         {friendList.map((friend) => (
-          <FriendDisplay
-            key={friend.id}
-            name={friend.first_name + " " + friend.last_name}
-          />
+          <FriendDisplay key={friend.id} user={friend} />
         ))}
       </div>
     );
