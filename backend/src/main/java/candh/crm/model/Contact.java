@@ -21,7 +21,7 @@ public class Contact
         this.userId = userId;
         this.friendId = friendId;
         // TODO: friend confirmation
-        this.accepted = false;
+        this.accepted = true;
         this.notes = "";
     }
 

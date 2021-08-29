@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../Services/AuthService";
 import axios from "axios";
+import FriendDisplay from "./friendDisplay";
 
 const API_URL = "http://localhost:8080/";
 
@@ -11,11 +12,11 @@ class ContactList extends Component {
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
       currentUser: JSON.parse(localStorage.getItem("user")),
-      friends: null,
+      friendList: [],
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
     const basic = AuthService.getBasicInfo();
 
@@ -25,6 +26,7 @@ class ContactList extends Component {
       window.location.reload();
     } else {
       this.setState({ currentUser, basic });
+      this.getFriends();
     }
   }
 
@@ -39,16 +41,43 @@ class ContactList extends Component {
         },
       }
     );
-    console.log(response);
+
     if (response.data) {
-      return response.data;
+      for (let i = 0; i < response.data.length; i++) {
+        await this.getFriendInfo(response.data[i].friendId);
+      }
     }
-    return null;
+  }
+
+  async getFriendInfo(id) {
+    const response = await axios.post(
+      API_URL + "user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + this.state.basic.token,
+        },
+      }
+    );
+    if (response.data) {
+      let friendList = [...this.state.friendList];
+      friendList.push(response.data);
+      this.setState({ friendList });
+    }
   }
 
   render() {
-    this.getFriends();
-    return <p> aa</p>;
+    const { friendList } = this.state;
+    return (
+      <div>
+        {friendList.map((friend) => (
+          <FriendDisplay
+            key={friend.id}
+            name={friend.first_name + " " + friend.last_name}
+          />
+        ))}
+      </div>
+    );
   }
 }
 
