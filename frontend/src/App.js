@@ -7,7 +7,7 @@ import { HashRouter } from "react-router-dom";
 import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
-import Profile from "./Components/UserProfile";
+import Profile from "./Components/Profiles/UserProfile";
 import BoardUser from "./Components/BoardUser";
 import AuthService from "./Services/AuthService";
 import Verify from "./Components/Verify";
@@ -75,38 +75,27 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <NavigationBar user={currentUser} onLogOut={this.handleLogOut} />
+          <NavigationBar user = {currentUser} onLogOut = {this.handleLogOut} />
           <Switch>
-            <Route exact path="/signup" component={SignUp} />
-            <Route path="/login" component={LogIn} />
-            <Route exact path="/contact" component={ContactList} />
-
-            <Route exact path="/profile" component={Profile} />
-            <Route path="/user" component={BoardUser} />
-            <Route exact path={["/", "/home"]} component={HomePage} />
-            <Route path="/signup/:email/:code">
+            
+            <Route exact path = "/signup" component = {SignUp} />
+            <Route path = "/login" component = {LogIn} />
+            <Route exact path = "/contact" component = {ContactList} />
+            <Route exact path = "/profile" component = {Profile} />
+            <Route path = "/user" component = {BoardUser} />
+            <Route exact path = {["/", "/home"]} component = {HomePage} />
+            <Route path = "/signup/:email/:code">
               <Verify />
             </Route>
-            <Route path="/">
+            <Route path = "/">
               <HomePage />
             </Route>
           </Switch>
         </Router>
-        {/* <HomePage/> */}
-        {/* <Footer/> */}
       </div>
     );
   }
 }
 
-function Home() {
-  return (
-    <HashRouter>
-      <div>
-        <UserProfiles />
-      </div>
-    </HashRouter>
-  );
-}
 
 export default App;

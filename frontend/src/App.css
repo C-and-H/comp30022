@@ -60,7 +60,7 @@ h1 {
 
 body .bg-dark {
   /* color: rgb(43, 47, 49); */
-  margin-bottom: 50px;
+  margin-bottom: 0px;
   background-color: #3485f0 !important;
   /* box-shadow: 10px 10px 5px 5px rgba(43, 47, 49, 1); */
 }
@@ -85,7 +85,38 @@ body .bg-dark {
 
   /* vertical-align: middle; */
 }
-/*------------------ HomePage Components ---------------*/
+/*------------------ HomePage Components End ---------------*/
+
+
+/*------------------ Profile SideBar Components ---------------*/ 
+.profile-side-bar {
+  width: 240px !important;
+ }
+ .pro-sidebar{
+   height: 50vh !important;
+ }
+ .pro-sidebar > .pro-sidebar-inner{
+  width: 80% !important;
+  flex-direction: unset;
+  /* height: 70vh; */
+ }
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
+  background-color: beige;
+  width: 250px !important;
+}
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content{
+  font-size: 20px;
+  text-align: center;
+  color: black;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item:hover{
+  background-color: rgb(208, 218, 157);
+  transition: 0.4s;
+}
+
+/*------------------ Profile SideBar Components End ---------------*/ 
+
 
 footer {
   height: 30px;
@@ -110,43 +141,3 @@ footer {
 }
 
 /*------------------ Contact Components end ---------------*/
-
-/* 
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
