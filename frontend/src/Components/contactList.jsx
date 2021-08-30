@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import AuthService from "../Services/AuthService";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
 import FriendDisplay from "./friendDisplay";
+import { Redirect } from "react-router-dom";
 
 const API_URL = "http://localhost:8080/";
 
@@ -13,6 +15,7 @@ class ContactList extends Component {
       basic: JSON.parse(localStorage.getItem("basic")),
       currentUser: JSON.parse(localStorage.getItem("user")),
       friendList: [],
+      redirect: null,
     };
   }
 
@@ -49,6 +52,24 @@ class ContactList extends Component {
     }
   }
 
+  redirectSearch() {
+    const redirect = "/searchUser";
+    this.setState({ redirect });
+  }
+
+  header() {
+    return (
+      <div className="contact-header">
+        <Button className="minus">
+          <i className="fas fa-user-minus" />
+        </Button>
+        <Button className="plus" onClick={() => this.redirectSearch()}>
+          <i className="fas fa-user-plus" />
+        </Button>
+      </div>
+    );
+  }
+
   async getFriendInfo(id) {
     const response = await axios.post(
       API_URL + "user",
@@ -67,9 +88,13 @@ class ContactList extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     const { friendList } = this.state;
     return (
       <div className="rectangle">
+        {this.header()}
         {friendList.map((friend) => (
           <FriendDisplay key={friend.id} user={friend} />
         ))}

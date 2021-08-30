@@ -60,7 +60,7 @@ h1 {
 
 body .bg-dark {
   /* color: rgb(43, 47, 49); */
-  margin-bottom: 50px;
+  margin-bottom: 0px;
   background-color: #3485f0 !important;
   /* box-shadow: 10px 10px 5px 5px rgba(43, 47, 49, 1); */
 }
@@ -101,12 +101,39 @@ footer {
 /*------------------ Contact Components ---------------*/
 .rectangle {
   display: inline-block;
+  overflow: auto;
   width: 200px;
+  height: calc(100vh - 56px);
   background: white;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
 }
 
 .btn-friend {
   width: 200px;
+}
+
+.contact-header {
+  width: 200px;
+  height: 40px;
+  background: chocolate;
+}
+
+.plus {
+  color: white;
+  background-color: chocolate;
+  float: right;
+  height: 40px;
+  width: 40px;
+}
+
+.minus {
+  background-color: chocolate;
+  color: white;
+  float: left;
+  height: 40px;
+  width: 40px;
 }
 
 /*------------------ Contact Components end ---------------*/

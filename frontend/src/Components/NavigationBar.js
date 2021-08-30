@@ -11,6 +11,10 @@ class NavigationBar extends Component {
           <i className="fa fa-user fa-fw"></i>
           {this.props.user.first_name}
         </Nav.Link>
+        <Nav.Link href="/contact" className={"navbar_nav"}>
+          <i className="fa fa-user-friends"></i>
+          Contacts
+        </Nav.Link>
         <Nav.Link
           href="/login"
           className={"navbar_nav"}
@@ -30,6 +34,10 @@ class NavigationBar extends Component {
           <NavDropdown.Item href="/profile">
             <i className="fa fa-user fa-fw"></i>
             {this.props.user.first_name}
+          </NavDropdown.Item>
+          <NavDropdown.Item href="/contact">
+            <i className="fa fa-user-friends"></i>
+            Contacts
           </NavDropdown.Item>
           <NavDropdown.Item href="/setting">
             <i className="fas fa-cog"></i> Setting
