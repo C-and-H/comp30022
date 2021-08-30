@@ -1,4 +1,4 @@
-To host the backend, an admin should add the following environment variables:
+A backend hoster should add the following environment variables:
 1. `MONGO_USERNAME=Michael`
 2. `MONGO_PASSWORD=1234`
 3. `MAIL_PASSWORD=ch123321`

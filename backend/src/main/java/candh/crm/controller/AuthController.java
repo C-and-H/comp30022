@@ -1,8 +1,7 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
-import candh.crm.payload.request.ChangePasswordRequest;
-import candh.crm.payload.request.LoginRequest;
+import candh.crm.payload.request.auth.*;
 import candh.crm.payload.response.LoginResponse;
 import candh.crm.repository.UserRepository;
 import candh.crm.service.AuthService;

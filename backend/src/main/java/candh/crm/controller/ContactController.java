@@ -19,7 +19,9 @@ public class ContactController
     private ContactRelationService contactRelationService;
 
 /*
+    @PostMapping("/friend/withdrawRequest")
     @PostMapping("/friend/confirmRequest")
+    @PostMapping("/friend/refuseRequest")
     @PostMapping("/friend/listSentRequests")
     @PostMapping("/friend/listReceivedRequests")
 */
@@ -63,7 +65,7 @@ public class ContactController
 
     @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
-    public List<Contact> friendList(
+    public List<Contact> listFriends(
             @Valid @RequestBody ByIdRequest byIdRequest) {
         return contactRelationService.findAllFriends(byIdRequest.getId());
     }

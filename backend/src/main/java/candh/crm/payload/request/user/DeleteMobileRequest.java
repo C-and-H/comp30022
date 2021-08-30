@@ -1,4 +1,4 @@
-package candh.crm.payload.request;
+package candh.crm.payload.request.user;
 
 import lombok.Getter;
 import lombok.Setter;

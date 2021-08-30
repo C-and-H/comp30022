@@ -33,6 +33,8 @@ public class User implements UserDetails
     private List<Pair<String,String>> mobiles;
     private String areaOrRegion;
     private String industry;
+    private String company;
+    private String personalSummary;
 
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
@@ -54,6 +56,8 @@ public class User implements UserDetails
         this.mobiles = new ArrayList<>();
         this.areaOrRegion = "";
         this.industry = "";
+        this.company = "";
+        this.personalSummary = "";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
     }
@@ -125,16 +129,6 @@ public class User implements UserDetails
         return this.enabled;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
-    }
-
     public String getId() {
         return id;
     }
@@ -163,6 +157,14 @@ public class User implements UserDetails
         return industry;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public String getPersonalSummary() {
+        return personalSummary;
+    }
+
     public String getSignupConfirmPath() {
         return signupConfirmPath;
     }
@@ -187,7 +189,25 @@ public class User implements UserDetails
         this.industry = industry;
     }
 
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setPersonalSummary(String personalSummary) {
+        this.personalSummary = personalSummary;
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 }
