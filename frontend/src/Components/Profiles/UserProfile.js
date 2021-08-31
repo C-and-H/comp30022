@@ -42,48 +42,20 @@ export default class Profile extends Component {
     return (
       <div className="container">
         {this.state.userReady ? (
-          <div>
-            <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Welcome back, {currentUser.first_name}!</h1>
-
-            {/* <Router>
-          <NavigationBar user = {currentUser} onLogOut = {this.handleLogOut} />
-          <Switch>
-            
-            <Route exact path = "/signup" component = {SignUp} />
-            <Route path = "/login" component = {LogIn} />
-            <Route exact path = "/contact" component = {ContactList} />
-            <Route exact path = "/profile" component = {Profile} />
-            <Route path = "/user" component = {BoardUser} />
-            <Route exact path = {["/", "/home"]} component = {HomePage} />
-            <Route path = "/signup/:email/:code">
-              <Verify />
-            </Route>
-            <Route path = "/">
-              <HomePage />
-            </Route>
-          </Switch>
-        </Router> */}
-        <Row>
+        <div>
+          <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Welcome back, {currentUser.first_name}!</h1>
+          <Row>
           <Router>
-          <Col xs="4" style={{textAlign:"center"}}>.col-4
-          <ProfileSideBar/>
-          </Col>
-          <Col xs="8" style={{textAlign:"center"}}>.col-8
-          <Switch>
-          
-          <Route exact path = "/profile/change-password" component = {ChangePassword} />
-          </Switch>
-          </Col>
-          
-          {/* </div> */}
+            <Col xs="4" style={{textAlign:"center"}}>.col-4
+              <ProfileSideBar/>
+            </Col>
+            <Col xs="8" style={{textAlign:"center"}}>.col-8
+              <Switch>
+              <Route exact path = "/profile/change-password" component = {ChangePassword} />
+              </Switch>
+            </Col>
           </Router>
           </Row>
-        {/* <Row>
-        <Col xs="4" style={{textAlign:"center"}}>.col-4
-          <ProfileSideBar/>
-        </Col>
-        <Col xs="8" style={{textAlign:"center"}}>.col-8</Col>
-      </Row> */}
             
             
               {/* <h3>
