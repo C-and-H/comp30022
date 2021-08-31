@@ -1,9 +1,13 @@
 import React from 'react';
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
+import AuthService from "../../Services/AuthService";
 
 class ChangePassword extends React.Component {
-  constructor() {
-    super();
+  /**
+   * the component used to render the change password form
+   */
+  constructor(props) {
+    super(props);
 
     this.handleNewPassword = this.handleNewPassword.bind(this);
     this.handleConfirmNewPassword = this.handleConfirmNewPassword.bind(this)
@@ -29,11 +33,35 @@ class ChangePassword extends React.Component {
     this.setState({ confirmNewPassword: event.target.value});
   }
 
-  handleSubmit(event) {
+  /* redirect to /profile if success, otherwise refresh the current page */
+  async handleSubmit(event) {
+    event.preventDefault();
+
     if (this.state.newPassword !== this.state.confirmNewPassword) {
       alert("Confirm New password does not match New Password!");
     } else {
-      alert("Ok!");
+      await AuthService.changePassword(this.state.oldPassword, this.state.newPassword)
+      .then((response) => {
+        if (
+          response === "Account not found or not enabled." ||
+          response === "Wrong old password." ||
+          response === "New password is not valid." ||
+          response === "New password is same as the old one."
+        ) {
+          alert(response);
+          this.props.history.push("/profile/change-password");
+          window.location.reload();
+        } else {
+          console.log(response);
+          alert("You have successfully changed your password!");
+          this.props.history.push("/profile");
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("an error occurs...");
+      });
     }
   }
 

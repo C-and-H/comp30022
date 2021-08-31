@@ -37,6 +37,31 @@ class AuthService {
     return response.data;
   }
 
+  /* send change password request */
+  async changePassword(oldPassword, newPassword) {
+    const user = this.getBasicInfo();
+    if (user && user.token) {
+      const email = user.email;
+      const token = user.token;
+      const response = await axios.post(
+        API_URL + "changePassword", 
+        {
+          email,
+          oldPassword,
+          newPassword
+        }, 
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      return response.data;
+    } else {
+      return "Current user was not found. Please log in ";
+    }  
+  }
+
   logout() {
     localStorage.removeItem("basic");
     localStorage.removeItem("user");
