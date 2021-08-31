@@ -39,6 +39,9 @@ class ContactList extends Component {
     this._isMounted = false;
   }
 
+  /**
+   * get contactRelation data from backend
+   */
   async getFriends() {
     const { basic, currentUser } = this.state;
     const response = await axios.post(
@@ -58,11 +61,18 @@ class ContactList extends Component {
     }
   }
 
+  /**
+   * go to search page
+   */
   redirectSearch() {
     const redirect = "/searchUser";
     this.setState({ redirect });
   }
 
+  /**
+   *
+   * @returns contact list header layout
+   */
   header() {
     return (
       <div className="contact-header">
@@ -76,6 +86,10 @@ class ContactList extends Component {
     );
   }
 
+  /**
+   * get friends' detailed info by their id
+   * @param {*} id id of interested user
+   */
   async getFriendInfo(id) {
     const response = await axios.post(
       API_URL + "user",

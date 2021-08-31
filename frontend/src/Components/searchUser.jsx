@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
+import { Form, Input, Button } from "reactstrap";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import axios from "axios";
 import SearchResult from "./searchResult";
@@ -14,10 +14,22 @@ class SearchUser extends Component {
       detailed: false,
       results: null,
       basic: JSON.parse(localStorage.getItem("basic")),
+      firstName: "",
+      lastName: "",
+      email: "",
+      areaOrRegion: "",
+      industry: "",
+      company: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSwitch = this.handleSwitch.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handleFirstName = this.handleFirstName.bind(this);
+    this.handleLastName = this.handleLastName.bind(this);
+    this.handleArea = this.handleArea.bind(this);
+    this.handleIndustry = this.handleIndustry.bind(this);
+    this.handleCompany = this.handleCompany.bind(this);
   }
 
   componentDidMount() {
@@ -33,14 +45,21 @@ class SearchUser extends Component {
     this._isMounted = false;
   }
 
+  /**
+   * automatically search when user enter or delete something
+   */
   handleChange(event) {
-    if (event.target.value === "") {
+    if (!event.target.value || event.target.value === "") {
       this._isMounted && this.setState({ results: null });
     } else {
       this.getResults(event.target.value);
     }
   }
 
+  /**
+   * get the sketchy search results from backend
+   * @param {*} value the input from user
+   */
   async getResults(value) {
     const { basic } = this.state;
     const response = await axios.post(
@@ -59,6 +78,45 @@ class SearchUser extends Component {
   }
 
   /**
+   * get the detailed search results from backend
+   */
+  async getDetails() {
+    if (this.validInput()) {
+      const {
+        basic,
+        firstName,
+        lastName,
+        email,
+        areaOrRegion,
+        industry,
+        company,
+      } = this.state;
+      const response = await axios.post(
+        API_URL + "user/search",
+        {
+          email: email,
+          first_name: firstName,
+          last_name: lastName,
+          areaOrRegion: areaOrRegion,
+          industry: industry,
+          company: company,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
+
+      if (response.data) {
+        this._isMounted && this.setState({ results: response.data });
+      }
+    } else {
+      alert("At least one field must be filled!");
+    }
+  }
+
+  /**
    *  just to make the button clickable but nothing will happen
    */
   nothingHappens() {}
@@ -72,36 +130,76 @@ class SearchUser extends Component {
     }
   }
 
+  /**
+   * switch between sketchy search and detailed search
+   */
   handleSwitch(detailed) {
     const results = null;
     this.setState({ detailed, results });
   }
 
+  /**
+   * input updates for detailed search
+   */
+  handleEmail(event) {
+    this.setState({ email: event.target.value });
+  }
+
+  handleFirstName(event) {
+    this.setState({ firstName: event.target.value });
+  }
+
+  handleLastName(event) {
+    this.setState({ lastName: event.target.value });
+  }
+
+  handleArea(event) {
+    this.setState({ areaOrRegion: event.target.value });
+  }
+
+  handleIndustry(event) {
+    this.setState({ industry: event.target.value });
+  }
+
+  handleCompany(event) {
+    this.setState({ company: event.target.value });
+  }
+
+  handleSubmit() {
+    this.getDetails();
+  }
+
+  /**
+   *
+   * @returns search bar layout for sketchy search
+   */
   sketchySearch() {
     return (
-      <div>
-        <form className="search-form">
-          <input
-            type="text"
-            placeholder="  Search by type in email / first name / last name / region / company"
-            className="search-bar"
-            name="search"
-            onChange={this.handleChange}
-            onKeyPress={this.onKeyUp}
-          />
-          <Button
-            className="btn-search"
-            onClick={() => {
-              this.nothingHappens();
-            }}
-          >
-            <i className="fas fa-search" />
-          </Button>
-        </form>
-      </div>
+      <form className="search-form">
+        <input
+          type="text"
+          placeholder="  Search by type in email / first name / last name / region / company"
+          className="search-bar"
+          name="search"
+          onChange={this.handleChange}
+          onKeyPress={this.onKeyUp}
+        />
+        <Button
+          className="btn-search"
+          onClick={() => {
+            this.nothingHappens();
+          }}
+        >
+          <i className="fas fa-search" />
+        </Button>
+      </form>
     );
   }
 
+  /**
+   *
+   * @returns display the search results
+   */
   searchResults() {
     const { results } = this.state;
     if (results.length === 0) {
@@ -117,11 +215,80 @@ class SearchUser extends Component {
     }
   }
 
+  /**
+   *
+   * @returns search bar layout for detailed search
+   */
   detailedSearch() {
+    const { firstName, lastName, email, areaOrRegion, industry, company } =
+      this.state;
     return (
-      <div>
-        <h1>Search</h1>
-      </div>
+      <Form className="search-form-detailed">
+        <Input
+          type="text"
+          value={firstName}
+          onChange={this.handleFirstName}
+          placeholder="First Name"
+          className="search-detailed"
+        />
+        <Input
+          type="text"
+          value={lastName}
+          onChange={this.handleLastName}
+          placeholder="Last Name"
+          className="search-detailed"
+        />
+        <Input
+          type="text"
+          value={email}
+          onChange={this.handleEmail}
+          placeholder="Email"
+          className="search-detailed"
+        />
+        <Input
+          type="text"
+          value={areaOrRegion}
+          onChange={this.handleArea}
+          placeholder="Area or Region"
+          className="search-detailed"
+        />
+        <Input
+          type="text"
+          value={industry}
+          onChange={this.handleIndustry}
+          placeholder="Industry"
+          className="search-detailed"
+        />
+        <Input
+          type="text"
+          value={company}
+          onChange={this.handleCompany}
+          placeholder="Company"
+          className="search-detailed"
+        />
+        <Button
+          className="btn-search-detailed"
+          onClick={() => this.handleSubmit()}
+        >
+          Search
+        </Button>
+      </Form>
+    );
+  }
+
+  /**
+   * Detailed search requires at least one field to be none empty
+   */
+  validInput() {
+    const { firstName, lastName, email, areaOrRegion, industry, company } =
+      this.state;
+    return !(
+      firstName.length === 0 &&
+      lastName.length === 0 &&
+      email.length === 0 &&
+      areaOrRegion.length === 0 &&
+      industry.length === 0 &&
+      company.length === 0
     );
   }
 

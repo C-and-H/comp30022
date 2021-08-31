@@ -161,13 +161,13 @@ footer {
 
 .search-results {
   width: 500px;
-  max-height: calc(100vh - 400px);
+  max-height: calc(100vh - 430px);
   min-height: 100px;
   overflow: auto;
   text-align: center;
 
   margin: auto;
-  margin-top: 30px;
+  margin-top: 50px;
   position: absolute;
   left: 0;
   right: 0;
@@ -179,6 +179,28 @@ footer {
 
 .not-found {
   margin-top: 50px;
+}
+
+.search-detailed {
+  width: 180px;
+  display: inline;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.search-form-detailed {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.btn-search-detailed {
+  display: block;
+  width: 200px;
+  background-color: coral;
+  margin: auto;
+  margin-top: 50px;
+  left: 0;
+  right: 0;
 }
 
 /*------------------ Contact Components end ---------------*/
