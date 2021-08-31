@@ -61,6 +61,7 @@ class SearchUser extends Component {
    * @param {*} value the input from user
    */
   async getResults(value) {
+    const search = this.state.detailed;
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "user/sketchySearch",
@@ -73,7 +74,9 @@ class SearchUser extends Component {
     );
 
     if (response.data) {
-      this._isMounted && this.setState({ results: response.data });
+      search === this.state.detailed &&
+        this._isMounted &&
+        this.setState({ results: response.data });
     }
   }
 
@@ -81,6 +84,7 @@ class SearchUser extends Component {
    * get the detailed search results from backend
    */
   async getDetails() {
+    const search = this.state.detailed;
     if (this.validInput()) {
       const {
         basic,
@@ -109,7 +113,9 @@ class SearchUser extends Component {
       );
 
       if (response.data) {
-        this._isMounted && this.setState({ results: response.data });
+        search === this.state.detailed &&
+          this._isMounted &&
+          this.setState({ results: response.data });
       }
     } else {
       alert("At least one field must be filled!");
