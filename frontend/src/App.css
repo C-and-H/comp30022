@@ -136,6 +136,51 @@ footer {
   width: 40px;
 }
 
+.search-bar {
+  width: 600px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.search-form {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.btn-search {
+  width: 40px;
+  height: 40px;
+  background-color: coral;
+  margin: 0px;
+}
+
+.centered {
+  text-align: center;
+  margin-top: 120px;
+}
+
+.search-results {
+  width: 500px;
+  max-height: calc(100vh - 400px);
+  min-height: 100px;
+  overflow: auto;
+  text-align: center;
+
+  margin: auto;
+  margin-top: 30px;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.btn-searchResult {
+  width: 500px;
+}
+
+.not-found {
+  margin-top: 50px;
+}
+
 /*------------------ Contact Components end ---------------*/
 
 /* 

@@ -10,6 +10,7 @@ const API_URL = "http://localhost:8080/";
 class ContactList extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
 
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -20,6 +21,7 @@ class ContactList extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     const currentUser = AuthService.getCurrentUser();
     const basic = AuthService.getBasicInfo();
 
@@ -28,9 +30,13 @@ class ContactList extends Component {
       this.props.history.push("/");
       window.location.reload();
     } else {
-      this.setState({ currentUser, basic });
+      this._isMounted && this.setState({ currentUser, basic });
       this.getFriends();
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   async getFriends() {
@@ -83,7 +89,7 @@ class ContactList extends Component {
     if (response.data) {
       let friendList = [...this.state.friendList];
       friendList.push(response.data);
-      this.setState({ friendList });
+      this._isMounted && this.setState({ friendList });
     }
   }
 

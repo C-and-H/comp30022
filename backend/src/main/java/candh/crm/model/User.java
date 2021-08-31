@@ -67,6 +67,7 @@ public class User implements UserDetails
         return password;
     }
 
+
     private static String generateRandomString(int length) {
         if (length < 1) throw new IllegalArgumentException();
         StringBuilder sb = new StringBuilder(length);

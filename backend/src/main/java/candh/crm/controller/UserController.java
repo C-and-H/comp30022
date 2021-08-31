@@ -229,4 +229,55 @@ public class UserController
         }
         return ResponseEntity.ok(users);
     }
+
+    /**
+     *
+     * @param searchRequest one input searchKey
+     *
+     *  search through all "Email", "First_name", "Last_name",
+     *  "AreaOrRegion", "Industry", "Company" fields to find regex
+     */
+    @PostMapping("/user/sketchySearch")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> sketchySearch(
+            @Valid @RequestBody SearchRequest searchRequest)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        List<String> params = List.of("Email", "First_name", "Last_name",
+                "AreaOrRegion", "Industry", "Company");
+
+        ArrayList<User> users = new ArrayList<>();
+        for (String field : params)
+        {
+            // query method
+            Method m = UserRepository.class
+                    .getDeclaredMethod("findBy_" + field, String.class);
+            String value = searchRequest.getSearchKey();
+            // search
+            if (!value.equals("")) {
+                List<User> _users = (List<User>) m.invoke(userRepository, value);
+                if (_users.isEmpty()) continue;
+                else {
+                    users.addAll(_users);
+                }
+            }
+        }
+
+        // remove duplicates
+        ArrayList<User> results = new ArrayList<>();
+        boolean add = true;
+        for (int i = 0; i < users.size(); i++) {
+            add = true;
+            for (int j = 0; j<i; j++) {
+                if (users.get(i).getId().equals(users.get(j).getId())) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add) {
+                results.add(users.get(i));
+            }
+        }
+        return ResponseEntity.ok(results);
+    }
 }
