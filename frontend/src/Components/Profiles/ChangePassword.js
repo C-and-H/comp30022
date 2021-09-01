@@ -19,6 +19,7 @@ class ChangePassword extends React.Component {
     newPassword: "",
     confirmNewPassword: "",
     oldPassword: "",
+    showPassword: false
   };
 
   handleNewPassword(event) {
@@ -31,6 +32,10 @@ class ChangePassword extends React.Component {
 
   handleConfirmNewPassword(event) {
     this.setState({ confirmNewPassword: event.target.value});
+  }
+
+  handleShowPassword() {
+    this.setState({ showPassword: !this.state.showPassword });
   }
 
   /* redirect to /profile if success, otherwise refresh the current page */
@@ -73,7 +78,7 @@ class ChangePassword extends React.Component {
           <FormGroup>
             <Label className="form-label">&nbsp;Old Password</Label>
             <Input
-              type="password"
+              type={this.state.showPassword ? 'text' : 'password'}
               placeholder="Your Old Password"
               name="Old Password"
               value={this.state.oldPassword}
@@ -85,7 +90,7 @@ class ChangePassword extends React.Component {
           <FormGroup>
             <Label className="form-label"> &nbsp;New Password</Label>
             <Input
-              type="password"
+              type={this.state.showPassword ? 'text' : 'password'}
               placeholder="Your New Password"
               name="New Password"
               value={this.state.newPassword}
@@ -98,7 +103,7 @@ class ChangePassword extends React.Component {
           <FormGroup>
             <Label className="form-label"> &nbsp;Confirm New Password</Label>
             <Input
-              type="password"
+              type={this.state.showPassword ? 'text' : 'password'}
               placeholder="Confirm Your New Password"
               name="Confirm New Password"
               value={this.state.confirmNewPassword}
@@ -106,6 +111,14 @@ class ChangePassword extends React.Component {
               pattern="[A-Za-z0-9]{5,10}"
               required
             />
+            <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
+              {
+                this.state.showPassword ?
+                <i className="fas fa-toggle-on toggle-icon"></i> :
+                <i className="fas fa-toggle-off toggle-icon"></i>
+              }
+              
+            </Button>
           </FormGroup>
 
           <Button
@@ -114,9 +127,23 @@ class ChangePassword extends React.Component {
           >
             Submit
           </Button>
+          
         </Form>
       </div>
     )
   }
 }
+
+/* function to */
+function PasswordRevealer({ value }) {
+  const [shown, setShown] = React.useState(false);
+
+  return (
+    <div>
+      <input type={shown ? 'text' : 'password'} value={value} onChange={() => {}} />
+      <button onClick={() => setShown(!shown)}>显示/隐藏</button>
+    </div>
+  );
+}
+
 export default ChangePassword;

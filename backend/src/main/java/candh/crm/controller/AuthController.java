@@ -130,6 +130,7 @@ public class AuthController
 
         // save to database
         try {
+            user.setPassword(newPassword);
             authService.signupUser(user, true);
         } catch (Exception e) {
             return ResponseEntity.ok("Error during changing password.");

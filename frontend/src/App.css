@@ -129,6 +129,20 @@ footer {
   background-color: rgb(31, 30, 30);
 }
 
+.btn-show-password {
+  display: inline;
+  border-radius: 50px;
+  margin-top: 10px;
+  background-color: blueviolet;
+  font-size: 20px;
+  height: 30px;
+}
+
+.toggle-icon {
+  display: flex;
+  margin: 0px;
+}
+
 /*------------------ Contact Components ---------------*/
 .rectangle {
   display: inline-block;
