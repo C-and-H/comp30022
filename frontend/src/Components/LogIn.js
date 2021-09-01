@@ -40,7 +40,8 @@ class LogIn extends Component {
       .then((response) => {
         if (
           response === "Email not found." ||
-          response === "Account not enabled."
+          response === "Account not enabled." ||
+          response === "Wrong password!"
         ) {
           alert(response);
         } else {

@@ -41,11 +41,15 @@ public class AuthController
         if (!user.isEnabled()) return ResponseEntity.ok("Account not enabled.");
 
         // verify password and generate jwt token
-        String jwt = authService.authenticateUser(loginRequest.getUsername(),
-                loginRequest.getPassword());
-
-        return ResponseEntity.ok(
-                new LoginResponse(jwt, user.getId(), user.getEmail()));
+        try {
+            String jwt = authService.authenticateUser(loginRequest.getUsername(),
+                    loginRequest.getPassword());
+            return ResponseEntity.ok(
+                    new LoginResponse(jwt, user.getId(), user.getEmail()));
+        }
+        catch (Exception e) {
+            return ResponseEntity.ok("Wrong password!");
+        }
     }
 
     /**
