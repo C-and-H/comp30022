@@ -190,6 +190,9 @@ public class UserController
      *
      * Partial search is case-insensitive, and based on regex.
      * At least one field should be non-empty.
+     *
+     * @param userSearchRequest  multiple search keys
+     *
      */
     @PostMapping("/user/search")
     @PreAuthorize("hasRole('USER')")
@@ -231,21 +234,20 @@ public class UserController
     }
 
     /**
+     * Search through all "Email", "First_name", "Last_name",
+     * "AreaOrRegion", "Industry", "Company" fields to find regex.
      *
-     * @param searchRequest one input searchKey
+     * @param searchRequest  one input search key
      *
-     *  search through all "Email", "First_name", "Last_name",
-     *  "AreaOrRegion", "Industry", "Company" fields to find regex
      */
     @PostMapping("/user/sketchySearch")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sketchySearch(
             @Valid @RequestBody SearchRequest searchRequest)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-
+        // request fields
         List<String> params = List.of("Email", "First_name", "Last_name",
                 "AreaOrRegion", "Industry", "Company");
-
         ArrayList<User> users = new ArrayList<>();
         for (String field : params)
         {
