@@ -44,7 +44,7 @@ class ContactList extends Component {
   async getFriends() {
     const { basic, currentUser } = this.state;
     const response = await axios.post(
-      API_URL + "friend/listFriends",
+      API_URL + "/friend/listFriends",
       { id: currentUser.id },
       {
         headers: {
@@ -91,7 +91,7 @@ class ContactList extends Component {
    */
   async getFriendInfo(id) {
     const response = await axios.post(
-      API_URL + "user",
+      API_URL + "/user",
       { id: id },
       {
         headers: {

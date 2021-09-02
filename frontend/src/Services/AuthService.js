@@ -12,7 +12,7 @@ class AuthService {
    */
   async getUserDataFromBackend(token, id) {
     const response = await axios.post(
-      API_URL + "user",
+      API_URL + "/user",
       { id: id },
       {
         headers: {
@@ -26,7 +26,7 @@ class AuthService {
   }
 
   async login(username, password) {
-    const response = await axios.post(API_URL + "login", {
+    const response = await axios.post(API_URL + "/login", {
       username,
       password,
     });
@@ -43,7 +43,7 @@ class AuthService {
       const email = user.email;
       const token = user.token;
       const response = await axios.post(
-        API_URL + "changePassword",
+        API_URL + "/changePassword",
         {
           email,
           oldPassword,
@@ -67,7 +67,7 @@ class AuthService {
   }
 
   register(username, email, password) {
-    return axios.post(API_URL + "signup", {
+    return axios.post(API_URL + "/signup", {
       username,
       email,
       password,

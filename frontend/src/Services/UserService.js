@@ -8,7 +8,7 @@ import { API_URL } from "../constant";
 
 class UserService {
   getUserBoard() {
-    return axios.get(API_URL + "findAllUsers", { headers: authHeader() });
+    return axios.get(API_URL + "/findAllUsers", { headers: authHeader() });
   }
 }
 

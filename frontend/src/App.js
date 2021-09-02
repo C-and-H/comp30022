@@ -12,7 +12,6 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 
-// const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
 
 class App extends Component {
   constructor(props) {

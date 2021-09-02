@@ -63,7 +63,7 @@ class SearchUser extends Component {
     const search = this.state.detailed;
     const { basic } = this.state;
     const response = await axios.post(
-      API_URL + "user/sketchySearch",
+      API_URL + "/user/sketchySearch",
       { searchKey: value },
       {
         headers: {
@@ -95,7 +95,7 @@ class SearchUser extends Component {
         company,
       } = this.state;
       const response = await axios.post(
-        API_URL + "user/search",
+        API_URL + "/user/search",
         {
           email: email,
           first_name: firstName,

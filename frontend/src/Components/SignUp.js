@@ -70,7 +70,7 @@ class SignUp extends Component {
         showPassword: false,
       };
       await axios
-        .post(API_URL + "signup", user)
+        .post(API_URL + "/signup", user)
         .then((response) => {
           if (response.data === "Email is already taken.") {
             this.setState({
