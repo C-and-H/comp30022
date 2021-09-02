@@ -202,11 +202,11 @@ public class UserController
         // request fields
         Map<String,String> map = new HashMap<>();
         Method[] methods = UserSearchRequest.class.getMethods();
-        List<String> params = List.of("Email", "First_name", "Last_name",
-                "AreaOrRegion", "Industry", "Company");
+        String[] params = {"Email", "First_name", "Last_name",
+                "AreaOrRegion", "Industry", "Company"};
         for (Method m: methods) {
             if (m.getName().startsWith("get") &&
-                    params.contains(m.getName().substring(3))) {   // filter getters
+                    Arrays.asList(params).contains(m.getName().substring(3))) {   // filter getters
                 String value = (String) m.invoke(userSearchRequest);
                 map.put(m.getName().substring(3), value);
             }
@@ -246,8 +246,8 @@ public class UserController
             @Valid @RequestBody SearchRequest searchRequest)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // request fields
-        List<String> params = List.of("Email", "First_name", "Last_name",
-                "AreaOrRegion", "Industry", "Company");
+        String params[] = {"Email", "First_name", "Last_name",
+                "AreaOrRegion", "Industry", "Company"};
         ArrayList<User> users = new ArrayList<>();
         for (String field : params)
         {
