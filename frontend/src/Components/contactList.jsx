@@ -4,8 +4,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import FriendDisplay from "./friendDisplay";
 import { Redirect } from "react-router-dom";
-
-const API_URL = "http://localhost:8080/";
+import { API_URL } from "../constant";
 
 class ContactList extends Component {
   constructor(props) {

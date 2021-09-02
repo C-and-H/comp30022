@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import AuthService from "../../Services/AuthService";
 
@@ -10,7 +10,7 @@ class ChangePassword extends React.Component {
     super(props);
 
     this.handleNewPassword = this.handleNewPassword.bind(this);
-    this.handleConfirmNewPassword = this.handleConfirmNewPassword.bind(this)
+    this.handleConfirmNewPassword = this.handleConfirmNewPassword.bind(this);
     this.handleOldPassword = this.handleOldPassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -19,7 +19,7 @@ class ChangePassword extends React.Component {
     newPassword: "",
     confirmNewPassword: "",
     oldPassword: "",
-    showPassword: false
+    showPassword: false,
   };
 
   handleNewPassword(event) {
@@ -31,7 +31,7 @@ class ChangePassword extends React.Component {
   }
 
   handleConfirmNewPassword(event) {
-    this.setState({ confirmNewPassword: event.target.value});
+    this.setState({ confirmNewPassword: event.target.value });
   }
 
   handleShowPassword() {
@@ -45,40 +45,42 @@ class ChangePassword extends React.Component {
     if (this.state.newPassword !== this.state.confirmNewPassword) {
       alert("Confirm New password does not match New Password!");
     } else {
-      await AuthService.changePassword(this.state.oldPassword, this.state.newPassword)
-      .then((response) => {
-        if (
-          response === "Account not found or not enabled." ||
-          response === "Wrong old password." ||
-          response === "New password is not valid." ||
-          response === "New password is same as the old one."
-        ) {
-          alert(response);
-          this.props.history.push("/profile/change-password");
-          window.location.reload();
-        } else {
-          console.log(response);
-          alert("You have successfully changed your password!");
-          this.props.history.push("/profile");
-          window.location.reload();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("an error occurs...");
-      });
+      await AuthService.changePassword(
+        this.state.oldPassword,
+        this.state.newPassword
+      )
+        .then((response) => {
+          if (
+            response === "Account not found or not enabled." ||
+            response === "Wrong old password." ||
+            response === "New password is not valid." ||
+            response === "New password is same as the old one."
+          ) {
+            alert(response);
+            this.props.history.push("/profile/change-password");
+            window.location.reload();
+          } else {
+            console.log(response);
+            alert("You have successfully changed your password!");
+            this.props.history.push("/profile");
+            window.location.reload();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("an error occurs...");
+        });
     }
   }
 
-
-  render(){
-    return(
+  render() {
+    return (
       <div>
         <Form className="signup-form" onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label className="form-label">&nbsp;Old Password</Label>
             <Input
-              type={this.state.showPassword ? 'text' : 'password'}
+              type={this.state.showPassword ? "text" : "password"}
               placeholder="Your Old Password"
               name="Old Password"
               value={this.state.oldPassword}
@@ -90,7 +92,7 @@ class ChangePassword extends React.Component {
           <FormGroup>
             <Label className="form-label"> &nbsp;New Password</Label>
             <Input
-              type={this.state.showPassword ? 'text' : 'password'}
+              type={this.state.showPassword ? "text" : "password"}
               placeholder="Your New Password"
               name="New Password"
               value={this.state.newPassword}
@@ -103,7 +105,7 @@ class ChangePassword extends React.Component {
           <FormGroup>
             <Label className="form-label"> &nbsp;Confirm New Password</Label>
             <Input
-              type={this.state.showPassword ? 'text' : 'password'}
+              type={this.state.showPassword ? "text" : "password"}
               placeholder="Confirm Your New Password"
               name="Confirm New Password"
               value={this.state.confirmNewPassword}
@@ -111,13 +113,15 @@ class ChangePassword extends React.Component {
               pattern="[A-Za-z0-9]{5,10}"
               required
             />
-            <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
-              {
-                this.state.showPassword ?
-                <i className="fas fa-toggle-on toggle-icon"></i> :
+            <Button
+              className="btn-show-password"
+              onClick={() => this.handleShowPassword()}
+            >
+              {this.state.showPassword ? (
+                <i className="fas fa-toggle-on toggle-icon"></i>
+              ) : (
                 <i className="fas fa-toggle-off toggle-icon"></i>
-              }
-              
+              )}
             </Button>
           </FormGroup>
 
@@ -127,23 +131,10 @@ class ChangePassword extends React.Component {
           >
             Submit
           </Button>
-          
         </Form>
       </div>
-    )
+    );
   }
-}
-
-/* function to */
-function PasswordRevealer({ value }) {
-  const [shown, setShown] = React.useState(false);
-
-  return (
-    <div>
-      <input type={shown ? 'text' : 'password'} value={value} onChange={() => {}} />
-      <button onClick={() => setShown(!shown)}>显示/隐藏</button>
-    </div>
-  );
 }
 
 export default ChangePassword;

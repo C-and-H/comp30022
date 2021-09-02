@@ -4,8 +4,7 @@
 
 import axios from "axios";
 import authHeader from "./authHeader";
-
-const API_URL = "http://localhost:8080/";
+import { API_URL } from "../constant";
 
 class UserService {
   getUserBoard() {

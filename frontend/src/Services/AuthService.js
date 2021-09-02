@@ -3,8 +3,7 @@
 */
 
 import axios from "axios";
-
-const API_URL = "http://localhost:8080/";
+import { API_URL } from "../constant";
 
 class AuthService {
   /**
@@ -44,12 +43,12 @@ class AuthService {
       const email = user.email;
       const token = user.token;
       const response = await axios.post(
-        API_URL + "changePassword", 
+        API_URL + "changePassword",
         {
           email,
           oldPassword,
-          newPassword
-        }, 
+          newPassword,
+        },
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -59,7 +58,7 @@ class AuthService {
       return response.data;
     } else {
       return "Current user was not found. Please log in ";
-    }  
+    }
   }
 
   logout() {

@@ -3,8 +3,7 @@ import { Form, Input, Button } from "reactstrap";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import axios from "axios";
 import SearchResult from "./searchResult";
-
-const API_URL = "http://localhost:8080/";
+import { API_URL } from "../constant";
 
 class SearchUser extends Component {
   constructor(props) {

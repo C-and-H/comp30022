@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../App.css";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import AuthService from "../Services/AuthService";
 
@@ -31,7 +30,7 @@ class LogIn extends Component {
   }
 
   handleShowPassword() {
-    this.setState({ showPassword: !this.state.showPassword});
+    this.setState({ showPassword: !this.state.showPassword });
   }
 
   async handleSubmit(event) {
@@ -86,14 +85,16 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
-          <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
-            {
-              this.state.showPassword ?
-              <i className="fas fa-toggle-on toggle-icon"></i> :
+          <Button
+            className="btn-show-password"
+            onClick={() => this.handleShowPassword()}
+          >
+            {this.state.showPassword ? (
+              <i className="fas fa-toggle-on toggle-icon"></i>
+            ) : (
               <i className="fas fa-toggle-off toggle-icon"></i>
-            }
+            )}
           </Button>
-          
 
           <Button
             type="submit"
@@ -104,7 +105,9 @@ class LogIn extends Component {
         </Form>
 
         <center>
-          <a href="/signup" className="signin-to-signup">Haven't signed up yet? Register Now!</a>
+          <a href="/signup" className="signin-to-signup">
+            Haven't signed up yet? Register Now!
+          </a>
         </center>
       </div>
     );

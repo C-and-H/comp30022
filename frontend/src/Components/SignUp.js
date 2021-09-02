@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../App.css";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import { withRouter } from "react-router-dom";
-// import { Button,FormGroup,FormLabel,InputGroup,Form } from 'react-bootstrap';
-// const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
-const API_URL = "http://localhost:8080";
+import { API_URL } from "../constant";
 
 class SignUp extends Component {
   constructor(props) {
@@ -70,7 +67,7 @@ class SignUp extends Component {
         password: this.state.userPassword,
         first_name: this.state.userFirstName,
         last_name: this.state.userLastName,
-        showPassword: false
+        showPassword: false,
       };
       await axios
         .post(API_URL + "/signup", user)
@@ -126,7 +123,7 @@ class SignUp extends Component {
   }
 
   handleShowPassword() {
-    this.setState({ showPassword: !this.state.showPassword});
+    this.setState({ showPassword: !this.state.showPassword });
   }
 
   render() {
@@ -202,14 +199,17 @@ class SignUp extends Component {
               required
             />
           </FormGroup>
-          
+
           {/* display whether or not to show password*/}
-          <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
-            {
-              this.state.showPassword ?
-              <i className="fas fa-toggle-on toggle-icon"></i> :
+          <Button
+            className="btn-show-password"
+            onClick={() => this.handleShowPassword()}
+          >
+            {this.state.showPassword ? (
+              <i className="fas fa-toggle-on toggle-icon"></i>
+            ) : (
               <i className="fas fa-toggle-off toggle-icon"></i>
-            }
+            )}
           </Button>
 
           {/* display whether they are the same or not. */}

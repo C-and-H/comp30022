@@ -1,11 +1,8 @@
 import React from "react";
 import axios from "axios";
-import "../App.css";
 import { Button } from "reactstrap";
 import { useLocation } from "react-router-dom";
-// import { Button,FormGroup,FormLabel,InputGroup,Form } from 'react-bootstrap';
-// const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
-const API_URL = "http://localhost:8080";
+import { API_URL } from "../constant";
 
 function Verify() {
   const location = useLocation();
