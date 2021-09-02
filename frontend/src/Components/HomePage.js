@@ -15,6 +15,17 @@ const useStyles = makeStyles((theme) => ({
 // display button
 function ContainedButtons() {
   const classes = useStyles();
+  const basic = localStorage.getItem("basic");
+
+  if (basic) {
+    return (
+      <div className={classes.root}>
+        <a href="/profile" className="btn btn-primary btn-homepage">
+          Let's Get Started!
+        </a>
+      </div>
+    );
+  }
   return (
     <div className={classes.root}>
       <a href="/signup" className="btn btn-primary btn-homepage">

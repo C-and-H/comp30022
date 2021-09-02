@@ -154,12 +154,146 @@ footer {
 /*------------------ Contact Components ---------------*/
 .rectangle {
   display: inline-block;
+  overflow: auto;
   width: 200px;
+  height: calc(100vh - 56px);
   background: white;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
 }
 
 .btn-friend {
   width: 200px;
 }
 
+.contact-header {
+  width: 200px;
+  height: 40px;
+  background: chocolate;
+}
+
+.plus {
+  color: white;
+  background-color: chocolate;
+  float: right;
+  height: 40px;
+  width: 40px;
+}
+
+.minus {
+  background-color: chocolate;
+  color: white;
+  float: left;
+  height: 40px;
+  width: 40px;
+}
+
+.search-bar {
+  width: 600px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.search-form {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.btn-search {
+  width: 40px;
+  height: 40px;
+  background-color: coral;
+  margin: 0px;
+}
+
+.centered {
+  text-align: center;
+  margin-top: 120px;
+}
+
+.search-results {
+  width: 500px;
+  max-height: calc(100vh - 430px);
+  min-height: 100px;
+  overflow: auto;
+  text-align: center;
+
+  margin: auto;
+  margin-top: 50px;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.btn-searchResult {
+  width: 500px;
+}
+
+.not-found {
+  margin-top: 50px;
+}
+
+.search-detailed {
+  width: 180px;
+  display: inline;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.search-form-detailed {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.btn-search-detailed {
+  display: block;
+  width: 200px;
+  background-color: coral;
+  margin: auto;
+  margin-top: 50px;
+  left: 0;
+  right: 0;
+}
+
 /*------------------ Contact Components end ---------------*/
+
+/* 
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */

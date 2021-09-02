@@ -1,9 +1,7 @@
-package candh.crm.payload.request;
+package candh.crm.payload.request.user;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -13,14 +11,10 @@ import javax.validation.constraints.NotBlank;
  */
 public class UserSearchRequest
 {
-    @NotBlank
     private String email;
-    @NotBlank
     private String first_name;
-    @NotBlank
     private String last_name;
-    @NotBlank
     private String areaOrRegion;
-    @NotBlank
     private String industry;
+    private String company;
 }

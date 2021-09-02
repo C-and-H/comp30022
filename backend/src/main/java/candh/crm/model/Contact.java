@@ -4,6 +4,8 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
+import java.util.Objects;
+
 @ToString
 
 @Document(collection = "contactRelation")
@@ -51,5 +53,15 @@ public class Contact
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Contact contact = (Contact) obj;
+        return Objects.equals(id, contact.id);
     }
 }

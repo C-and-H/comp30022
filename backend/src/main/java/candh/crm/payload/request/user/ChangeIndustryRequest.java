@@ -1,4 +1,4 @@
-package candh.crm.payload.request;
+package candh.crm.payload.request.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +15,5 @@ public class ChangeIndustryRequest
 {
     @NotBlank
     private String id;
-    @NotBlank
     private String industry;
 }
