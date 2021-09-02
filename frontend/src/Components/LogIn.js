@@ -90,6 +90,9 @@ class LogIn extends Component {
             Log In
           </Button>
         </Form>
+      <center>
+        <a href="/signup" className="signin-to-signup">Haven't signed up yet? Register Now!</a>
+      </center>
       </div>
     );
   }

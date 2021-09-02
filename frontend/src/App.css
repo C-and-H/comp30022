@@ -41,6 +41,14 @@
 }
 /*------------------ SignUp Components end---------------*/
 
+
+/*------------------ SignIn Components ------------------*/
+#signin-to-signup {
+  font-size: small;
+}
+/*------------------ SignIn Components end---------------*/
+
+
 /*------------------ HomePage Components ---------------*/
 .navbar-dark .navbar-nav .nav-link {
   color: white;
