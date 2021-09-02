@@ -1,37 +1,285 @@
 package candh.crm.controller;
 
 import candh.crm.model.User;
-import candh.crm.service.UserDataService;
+import candh.crm.payload.request.ByIdRequest;
+import candh.crm.payload.request.ByManyIdsRequest;
+import candh.crm.payload.request.user.*;
+import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-// TODO: only provided for frontend test
+import javax.validation.Valid;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
 public class UserController
 {
     @Autowired
-    private UserDataService userDataService;
+    UserRepository userRepository;
 
-    @GetMapping("/findAllUsers")
-    public List<User> findAllUsers() {
-        return userDataService.findUsersAll();
+    /**
+     * Handles Http Post for user information query by id.
+     */
+    @PostMapping("/user")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> findUserById(
+            @Valid @RequestBody ByIdRequest byIdRequest) {
+        Optional<User> user = userRepository.findById(byIdRequest.getId());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
     }
 
-    @GetMapping("/user/findUserByEmail/{email}")
-    public ResponseEntity<?> findUserByEmail(@PathVariable() String email) {
-        User user = userDataService.findUserByEmail(email);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+//    /**
+//     * Handles Http Post for multiple users' information query by ids.
+//     */
+//    @PostMapping("/userMany")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<?> findManyUsersByIds(
+//            @RequestBody ByManyIdsRequest byManyIdsRequest) {
+//        List<User> users = new ArrayList<>();
+//        for (String id: byManyIdsRequest.getIds()) {
+//            Optional<User> user = userRepository.findById(id);
+//            if (user.isPresent()) {
+//                users.add(user.get());
+//            } else {
+//                return ResponseEntity.ok("Id not found.");
+//            }
+//        }
+//        return ResponseEntity.ok(users);
+//    }
+
+    /**
+     * Handles Http Post for user's real name change.
+     */
+    @PostMapping("/user/changeRealName")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeRealName(
+            @Valid @RequestBody ChangeRealNameRequest changeRealNameRequest) {
+        Optional<User> user = userRepository.findById(changeRealNameRequest.getId());
+        if (user.isPresent()) {
+            user.get().setFirst_name(changeRealNameRequest.getFirst_name());
+            user.get().setLast_name(changeRealNameRequest.getLast_name());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your name.");
         } else {
-            return ResponseEntity.ok("Email not found.");
+            return ResponseEntity.ok("Id not found.");
         }
+    }
+
+    /**
+     * Handles Http Post for user to add a new mobile.
+     */
+    @PostMapping("/user/addMobile")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> addMobile(
+            @Valid @RequestBody AddMobileRequest addMobileRequest) {
+        Optional<User> user = userRepository.findById(addMobileRequest.getId());
+        if (user.isPresent()) {
+            user.get().addMobile(addMobileRequest.getMobileCountryCode(),
+                    addMobileRequest.getMobileNumber());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully added a new mobile.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user to delete an existing mobile.
+     */
+    @PostMapping("/user/deleteMobile")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteMobile(
+            @Valid @RequestBody DeleteMobileRequest deleteMobileRequest) {
+        String mobileCountryCode = deleteMobileRequest.getMobileCountryCode();
+        String mobileNumber = deleteMobileRequest.getMobileNumber();
+
+        Optional<User> user = userRepository.findById(deleteMobileRequest.getId());
+        if (user.isPresent()) {
+            if (user.get().hasMobile(mobileCountryCode, mobileNumber)) {
+                user.get().deleteMobile(mobileCountryCode, mobileNumber);
+                userRepository.save(user.get());
+                return ResponseEntity.ok("You just successfully deleted an existing mobile.");
+            } else {
+                return ResponseEntity.ok("Mobile not found.");
+            }
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user's area/region change.
+     */
+    @PostMapping("/user/changeAreaOrRegion")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeAreaOrRegion(
+            @Valid @RequestBody ChangeAreaOrRegionRequest changeAreaOrRegionRequest) {
+        Optional<User> user = userRepository.findById(changeAreaOrRegionRequest.getId());
+        if (user.isPresent()) {
+            user.get().setAreaOrRegion(changeAreaOrRegionRequest.getAreaOrRegion());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your area/region.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user's working industry change.
+     */
+    @PostMapping("/user/changeIndustry")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeIndustry(
+            @Valid @RequestBody ChangeIndustryRequest changeIndustryRequest) {
+        Optional<User> user = userRepository.findById(changeIndustryRequest.getId());
+        if (user.isPresent()) {
+            user.get().setIndustry(changeIndustryRequest.getIndustry());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your industry.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user's company change.
+     */
+    @PostMapping("/user/changeCompany")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeCompany(
+            @Valid @RequestBody ChangeCompanyRequest changeCompanyRequest) {
+        Optional<User> user = userRepository.findById(changeCompanyRequest.getId());
+        if (user.isPresent()) {
+            user.get().setCompany(changeCompanyRequest.getCompany());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your company.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for user's personal summary change.
+     */
+    @PostMapping("/user/changePersonalSummary")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changePersonalSummary(
+            @Valid @RequestBody ChangePersonalSummaryRequest changePersonalSummaryRequest) {
+        Optional<User> user = userRepository.findById(changePersonalSummaryRequest.getId());
+        if (user.isPresent()) {
+            user.get().setPersonalSummary(changePersonalSummaryRequest.getPersonalSummary());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your personal summary.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for searching users.
+     *
+     * Partial search is case-insensitive, and based on regex.
+     * At least one field should be non-empty.
+     *
+     * @param userSearchRequest  multiple search keys
+     *
+     */
+    @PostMapping("/user/search")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> search(
+            @Valid @RequestBody UserSearchRequest userSearchRequest)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // request fields
+        Map<String,String> map = new HashMap<>();
+        Method[] methods = UserSearchRequest.class.getMethods();
+        List<String> params = List.of("Email", "First_name", "Last_name",
+                "AreaOrRegion", "Industry", "Company");
+        for (Method m: methods) {
+            if (m.getName().startsWith("get") &&
+                    params.contains(m.getName().substring(3))) {   // filter getters
+                String value = (String) m.invoke(userSearchRequest);
+                map.put(m.getName().substring(3), value);
+            }
+        }
+
+        List<User> users = new ArrayList<>();
+        for (String field : map.keySet())
+        {
+            // query method
+            Method m = UserRepository.class
+                    .getDeclaredMethod("findBy_" + field, String.class);
+            String value = map.get(field);
+            // search
+            if (!value.equals("")) {
+                List<User> _users = (List<User>) m.invoke(userRepository, value);
+                if (users.isEmpty()) users = _users;
+                else {   // intersection
+                    users = _users.stream().filter(users::contains)
+                            .collect(Collectors.toList());
+                }
+                if (_users.isEmpty()) break;   // no results found
+            }
+        }
+        return ResponseEntity.ok(users);
+    }
+
+    /**
+     * Search through all "Email", "First_name", "Last_name",
+     * "AreaOrRegion", "Industry", "Company" fields to find regex.
+     *
+     * @param searchRequest  one input search key
+     *
+     */
+    @PostMapping("/user/sketchySearch")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> sketchySearch(
+            @Valid @RequestBody SearchRequest searchRequest)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // request fields
+        List<String> params = List.of("Email", "First_name", "Last_name",
+                "AreaOrRegion", "Industry", "Company");
+        ArrayList<User> users = new ArrayList<>();
+        for (String field : params)
+        {
+            // query method
+            Method m = UserRepository.class
+                    .getDeclaredMethod("findBy_" + field, String.class);
+            String value = searchRequest.getSearchKey();
+            // search
+            if (!value.equals("")) {
+                List<User> _users = (List<User>) m.invoke(userRepository, value);
+                if (_users.isEmpty()) continue;
+                else {
+                    users.addAll(_users);
+                }
+            }
+        }
+
+        // remove duplicates
+        ArrayList<User> results = new ArrayList<>();
+        boolean add = true;
+        for (int i = 0; i < users.size(); i++) {
+            add = true;
+            for (int j = 0; j<i; j++) {
+                if (users.get(i).getId().equals(users.get(j).getId())) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add) {
+                results.add(users.get(i));
+            }
+        }
+        return ResponseEntity.ok(results);
     }
 }

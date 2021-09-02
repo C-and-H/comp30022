@@ -1,4 +1,4 @@
-package candh.crm.payload.request;
+package candh.crm.payload.request.auth;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request form body parameters for /changePassword.
+ * Request body parameters for /user/changePassword.
  */
 public class ChangePasswordRequest
 {

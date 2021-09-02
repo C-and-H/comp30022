@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
 import "../App.css";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import AuthService from "../Services/AuthService";
-
-const API_URL = "http://localhost:8080";
 
 class LogIn extends Component {
   constructor(props) {
@@ -18,6 +14,7 @@ class LogIn extends Component {
       input: {},
       msg: {},
       redirect: null,
+      showPassword: false,
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -33,6 +30,10 @@ class LogIn extends Component {
     this.setState({ userPassword: event.target.value });
   }
 
+  handleShowPassword() {
+    this.setState({ showPassword: !this.state.showPassword});
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
 
@@ -44,17 +45,18 @@ class LogIn extends Component {
       .then((response) => {
         if (
           response === "Email not found." ||
-          response === "Account not enabled."
+          response === "Account not enabled." ||
+          response === "Wrong password!"
         ) {
           alert(response);
         } else {
+          alert("Login successed. Welcome!");
           this.props.history.push("/");
           window.location.reload();
         }
       })
       .catch((err) => {
-        console.log(err);
-        alert("an error occurs...");
+        alert("Login failed.");
       });
   }
 
@@ -75,7 +77,7 @@ class LogIn extends Component {
           <FormGroup>
             <Label className="form-label"> &nbsp;Password</Label>
             <Input
-              type="password"
+              type={this.state.showPassword ? "text" : "password"}
               placeholder="Password"
               name="password"
               value={this.state.password}
@@ -84,6 +86,14 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
+          <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
+            {
+              this.state.showPassword ?
+              <i className="fas fa-toggle-on toggle-icon"></i> :
+              <i className="fas fa-toggle-off toggle-icon"></i>
+            }
+          </Button>
+          
 
           <Button
             type="submit"
@@ -92,6 +102,10 @@ class LogIn extends Component {
             Log In
           </Button>
         </Form>
+
+        <center>
+          <a href="/signup" className="signin-to-signup">Haven't signed up yet? Register Now!</a>
+        </center>
       </div>
     );
   }

@@ -1,8 +1,8 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import "../App.css"
-import { Form, Input, Button, FormGroup, Label } from 'reactstrap';
-import {withRouter} from 'react-router-dom';
+import "../App.css";
+import { Form, Input, Button, FormGroup, Label } from "reactstrap";
+import { withRouter } from "react-router-dom";
 // import { Button,FormGroup,FormLabel,InputGroup,Form } from 'react-bootstrap';
 // const API_URL = "https://crm-c-and-h-backend.herokuapp.com"
 const API_URL = "http://localhost:8080";
@@ -56,7 +56,7 @@ class SignUp extends Component {
       msg: msg,
     });
   }
-  async handleSubmit(event){
+  async handleSubmit(event) {
     this.isWaiting = true;
     event.preventDefault(); // what is this?
     this.validation();
@@ -70,6 +70,7 @@ class SignUp extends Component {
         password: this.state.userPassword,
         first_name: this.state.userFirstName,
         last_name: this.state.userLastName,
+        showPassword: false
       };
       await axios
         .post(API_URL + "/signup", user)
@@ -97,7 +98,8 @@ class SignUp extends Component {
         .catch((err) => {
           console.log(err);
           alert("an error occurs...");
-        }).finally(() =>{
+        })
+        .finally(() => {
           this.iswaiting = false;
           //this.props.history.push("/signup");
           //console.log("bruh");
@@ -123,49 +125,108 @@ class SignUp extends Component {
     this.setState({ userLastName: event.target.value });
   }
 
+  handleShowPassword() {
+    this.setState({ showPassword: !this.state.showPassword});
+  }
+
   render() {
     return (
       <div>
-      <Form className="signup-form" onSubmit= {this.handleSubmit}>
-        <center>
-          <h1>Sign up</h1>
-          <center><a href="/login" class="btn btn-primary" id = "signup-to-signin">Already have account? Login here</a></center>
-        </center>
-        <FormGroup>
-          <Label className="form-label">&nbsp;Email</Label>
-          <Input type = "email" value = {this.state.userEmail} onChange = {this.handleEmail} placeholder="Email" required/>
-        </FormGroup>
-        <FormGroup>
-          <Label className="form-label">	&nbsp;First Name</Label>
-          <Input type = "text" value = {this.state.userFirstName} onChange = {this.handleFirstName} placeholder="First Name" required/>
-        </FormGroup>
-        <FormGroup>
-          <Label className="form-label">	&nbsp;Last Name</Label>
-          <Input type = "text" value = {this.state.userLastName} onChange = {this.handleLastName} placeholder="Last Name" required/>
-        </FormGroup>
-        <FormGroup>
-          <Label className="signup-password">	&nbsp;Password</Label>
-          {/* password requiement */}
-          <ul className="password-requirement">
-          <li>&nbsp;5-10 letters or numbers</li>
-          </ul>
-          <Input type = "password" placeholder="Password" name="password" value = {this.state.password} onChange = {this.passwordConfirm} pattern="[A-Za-z0-9]{5,10}" required/>
-        </FormGroup>
-        <FormGroup>
-          <Label className="form-label">&nbsp;Confirm Password</Label>
-          <Input type = "password" pattern="[A-Za-z0-9]{5,10}" name = "confirm_password" value = {this.state.userPassword} 
-              onChange = {event => {this.handlePassword(event); this.passwordConfirm(event)}} placeholder="Confirm Password" required/>
-        </FormGroup>
+        <Form className="signup-form" onSubmit={this.handleSubmit}>
+          <center>
+            <h1>Sign up</h1>
+            <center>
+              <a href="/login" class="btn btn-primary" id="signup-to-signin">
+                Already have account? Login here
+              </a>
+            </center>
+          </center>
+          <FormGroup>
+            <Label className="form-label">&nbsp;Email</Label>
+            <Input
+              type="email"
+              value={this.state.userEmail}
+              onChange={this.handleEmail}
+              placeholder="Email"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label className="form-label"> &nbsp;First Name</Label>
+            <Input
+              type="text"
+              value={this.state.userFirstName}
+              onChange={this.handleFirstName}
+              placeholder="First Name"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label className="form-label"> &nbsp;Last Name</Label>
+            <Input
+              type="text"
+              value={this.state.userLastName}
+              onChange={this.handleLastName}
+              placeholder="Last Name"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label className="signup-password"> &nbsp;Password</Label>
+            {/* password requiement */}
+            <ul className="password-requirement">
+              <li>&nbsp;5-10 letters or numbers</li>
+            </ul>
+            <Input
+              type={this.state.showPassword ? "text" : "password"}
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.passwordConfirm}
+              pattern="[A-Za-z0-9]{5,10}"
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label className="form-label">&nbsp;Confirm Password</Label>
+            <Input
+              type={this.state.showPassword ? "text" : "password"}
+              pattern="[A-Za-z0-9]{5,10}"
+              name="confirm_password"
+              value={this.state.userPassword}
+              onChange={(event) => {
+                this.handlePassword(event);
+                this.passwordConfirm(event);
+              }}
+              placeholder="Confirm Password"
+              required
+            />
+          </FormGroup>
+          
+          {/* display whether or not to show password*/}
+          <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
+            {
+              this.state.showPassword ?
+              <i className="fas fa-toggle-on toggle-icon"></i> :
+              <i className="fas fa-toggle-off toggle-icon"></i>
+            }
+          </Button>
 
-        {/* display whether they are the same or not. */}
-        <div className = "text-danger">{this.state.msg.password}</div>
-        {/* <div className = "text-success">{this.state.msg.confirm_password}</div> */}
-        {/* display if the user exists */}
-        <div className = "text-danger">{this.state.msg.user_exist}</div>
-        <div className = "text-danger">{this.state.msg.email_invalid}</div>
+          {/* display whether they are the same or not. */}
+          <div className="text-danger">{this.state.msg.password}</div>
+          {/* <div className = "text-success">{this.state.msg.confirm_password}</div> */}
+          {/* display if the user exists */}
+          <div className="text-danger">{this.state.msg.user_exist}</div>
+          <div className="text-danger">{this.state.msg.email_invalid}</div>
 
-        <Button type="submit" disabled={this.isWaiting} className="submit-btn btn-med btn-block btn-dark col-12">Register</Button>
-      </Form>
+          <Button
+            type="submit"
+            disabled={this.isWaiting}
+            className="submit-btn btn-med btn-block btn-dark col-12"
+          >
+            Register
+          </Button>
+        </Form>
       </div>
     );
   }

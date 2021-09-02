@@ -1,7 +1,13 @@
 package candh.crm.service;
 
 import candh.crm.model.User;
+import candh.crm.repository.UserRepository;
+import candh.crm.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,31 +22,39 @@ import java.util.regex.Pattern;
 public class AuthService implements UserDetailsService
 {
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private EmailService EmailService;
 
     @Autowired
-    private UserDataService userDataService;
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     /**
      * Add a new user to database, with password encoded.
      * Then send a confirmation email for account activation.
      *
-     * @param user
+     * @param user  a user object, that must contain email, password, first name, and last name
      */
-    public void signupUser(User user) throws MessagingException {
+    public void signupUser(User user, boolean isEnabled) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDataService.saveUser(user);
-        EmailService.sendConfirmMail(user.getEmail(),
-                user.getFirst_name(), user.getSignupConfirmPath());
+        userRepository.save(user);
+        if (!isEnabled) {
+            EmailService.sendConfirmMail(user.getEmail(),
+                    user.getFirst_name(), user.getSignupConfirmPath());
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        User user = userDataService.findUserByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user != null) {
             return user;
         } else {
@@ -72,12 +86,26 @@ public class AuthService implements UserDetailsService
      * Length 5 to 10.
      * Only contain upper and lower case letter or numbers.
      *
-     * @param password  password address user entered
+     * @param password  password user entered
      */
     public boolean validPassword(String password) {
         String regex = "[A-Za-z0-9]{5,10}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    /**
+     * Using email as username.
+     * Authenticate users and generate jwt web token.
+     *
+     * @param email  email address user entered
+     * @param password  password user entered
+     */
+    public String authenticateUser(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtUtils.generateJwtToken(authentication);
     }
 }
