@@ -70,7 +70,7 @@ class SignUp extends Component {
         showPassword: false,
       };
       await axios
-        .post(API_URL + "/signup", user)
+        .post(API_URL + "signup", user)
         .then((response) => {
           if (response.data === "Email is already taken.") {
             this.setState({
@@ -100,7 +100,7 @@ class SignUp extends Component {
           this.iswaiting = false;
           //this.props.history.push("/signup");
           //console.log("bruh");
-          window.location = "/signup";
+          // window.location = "/signup";
         });
     }
     this.isWaiting = false;
