@@ -70,6 +70,7 @@ class SignUp extends Component {
         password: this.state.userPassword,
         first_name: this.state.userFirstName,
         last_name: this.state.userLastName,
+        showPassword: false
       };
       await axios
         .post(API_URL + "/signup", user)
@@ -124,6 +125,10 @@ class SignUp extends Component {
     this.setState({ userLastName: event.target.value });
   }
 
+  handleShowPassword() {
+    this.setState({ showPassword: !this.state.showPassword});
+  }
+
   render() {
     return (
       <div>
@@ -173,7 +178,7 @@ class SignUp extends Component {
               <li>&nbsp;5-10 letters or numbers</li>
             </ul>
             <Input
-              type="password"
+              type={this.state.showPassword ? "text" : "password"}
               placeholder="Password"
               name="password"
               value={this.state.password}
@@ -185,7 +190,7 @@ class SignUp extends Component {
           <FormGroup>
             <Label className="form-label">&nbsp;Confirm Password</Label>
             <Input
-              type="password"
+              type={this.state.showPassword ? "text" : "password"}
               pattern="[A-Za-z0-9]{5,10}"
               name="confirm_password"
               value={this.state.userPassword}
@@ -197,6 +202,15 @@ class SignUp extends Component {
               required
             />
           </FormGroup>
+          
+          {/* display whether or not to show password*/}
+          <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
+            {
+              this.state.showPassword ?
+              <i className="fas fa-toggle-on toggle-icon"></i> :
+              <i className="fas fa-toggle-off toggle-icon"></i>
+            }
+          </Button>
 
           {/* display whether they are the same or not. */}
           <div className="text-danger">{this.state.msg.password}</div>

@@ -14,6 +14,7 @@ class LogIn extends Component {
       input: {},
       msg: {},
       redirect: null,
+      showPassword: false,
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -27,6 +28,10 @@ class LogIn extends Component {
 
   handlePassword(event) {
     this.setState({ userPassword: event.target.value });
+  }
+
+  handleShowPassword() {
+    this.setState({ showPassword: !this.state.showPassword});
   }
 
   async handleSubmit(event) {
@@ -73,7 +78,7 @@ class LogIn extends Component {
           <FormGroup>
             <Label className="form-label"> &nbsp;Password</Label>
             <Input
-              type="password"
+              type={this.state.showPassword ? "text" : "password"}
               placeholder="Password"
               name="password"
               value={this.state.password}
@@ -82,6 +87,14 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
+          <Button className="btn-show-password" onClick={() => this.handleShowPassword()}>
+            {
+              this.state.showPassword ?
+              <i className="fas fa-toggle-on toggle-icon"></i> :
+              <i className="fas fa-toggle-off toggle-icon"></i>
+            }
+          </Button>
+          
 
           <Button
             type="submit"
@@ -90,9 +103,10 @@ class LogIn extends Component {
             Log In
           </Button>
         </Form>
-      <center>
-        <a href="/signup" className="signin-to-signup">Haven't signed up yet? Register Now!</a>
-      </center>
+
+        <center>
+          <a href="/signup" className="signin-to-signup">Haven't signed up yet? Register Now!</a>
+        </center>
       </div>
     );
   }
