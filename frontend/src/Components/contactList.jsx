@@ -34,7 +34,7 @@ class ContactList extends Component {
       this.getFriends();
     }
   }
-  
+
   componentWillUnmount() {
     this._isMounted = false;
   }
