@@ -33,7 +33,7 @@ class SearchUser extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    if (!this.state.basic.token) {
+    if (!this.state.basic) {
       alert("Login required to access the page.");
       this.props.history.push("/");
       window.location.reload();

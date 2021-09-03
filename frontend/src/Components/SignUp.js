@@ -74,15 +74,13 @@ class SignUp extends Component {
         .then((response) => {
           if (response.data === "Email is already taken.") {
             this.setState({
-              msg: { user_exist: "Email Has been taken. Please login." },
+              msg: { user_exist: "Email has been taken." },
             });
-            alert(response.data);
           }
           if (response.data === "Email is not valid.") {
             this.setState({
-              msg: { email_invalid: "Email is not valid. Please try again." },
+              msg: { email_invalid: "Email is not valid." },
             });
-            alert(response.data);
           }
           if (
             response.data === "You just successfully submit a signup request."
@@ -98,9 +96,6 @@ class SignUp extends Component {
         })
         .finally(() => {
           this.iswaiting = false;
-          //this.props.history.push("/signup");
-          //console.log("bruh");
-          // window.location = "/signup";
         });
     }
     this.isWaiting = false;
