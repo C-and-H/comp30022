@@ -59,8 +59,9 @@ public class AuthController
      * Validates if jwt token has expired.
      */
     @PostMapping("/jwt/checkExpired")
-    public boolean jwtExpired(@RequestBody String jwt) {
-        return jwtUtils.validateJwtToken(jwt);
+    public boolean jwtExpired(
+            @Valid @RequestBody CheckExpirationRequest checkExpirationRequest) {
+        return jwtUtils.validateJwtToken(checkExpirationRequest.getAuthToken());
     }
 
     /**
