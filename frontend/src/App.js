@@ -12,7 +12,6 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +24,14 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const basic = AuthService.getBasicInfo();
+    let basic = AuthService.getBasicInfo();
+    if (basic) {
+      await AuthService.validToken(basic.token);
+      basic = AuthService.getBasicInfo();
+      if (!basic) {
+        this.setState({ basic: null, currentUser: null });
+      }
+    }
 
     if (basic) {
       await AuthService.getUserDataFromBackend(basic.token, basic.id);
@@ -43,7 +49,7 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <NavigationBar user = {currentUser} onLogOut = {this.handleLogOut} />
+          <NavigationBar user={currentUser} onLogOut={this.handleLogOut} />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route path="/login" component={LogIn} />
@@ -56,7 +62,7 @@ class App extends Component {
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
-            <Route path = "/">
+            <Route path="/">
               <HomePage />
             </Route>
           </Switch>

@@ -25,6 +25,17 @@ class AuthService {
     }
   }
 
+  async validToken(token) {
+    const response = await axios.post(API_URL + "/jwt/checkExpired", {
+      authToken: token,
+    });
+
+    if (!response.data) {
+      this.logout();
+      alert("Login expired, please login again.");
+    }
+  }
+
   async login(username, password) {
     const response = await axios.post(API_URL + "/login", {
       username,
