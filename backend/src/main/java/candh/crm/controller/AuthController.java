@@ -4,6 +4,7 @@ import candh.crm.model.User;
 import candh.crm.payload.request.auth.*;
 import candh.crm.payload.response.LoginResponse;
 import candh.crm.repository.UserRepository;
+import candh.crm.security.JwtUtils;
 import candh.crm.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,9 @@ public class AuthController
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     /**
      * Handles Http Post for login authentication.
@@ -49,6 +53,14 @@ public class AuthController
         catch (Exception e) {
             return ResponseEntity.ok("Wrong password!");
         }
+    }
+
+    /**
+     * Validates if jwt token has expired.
+     */
+    @PostMapping("/jwt/checkExpired")
+    public boolean jwtExpired(@RequestBody String jwt) {
+        return jwtUtils.validateJwtToken(jwt);
     }
 
     /**
