@@ -19,4 +19,16 @@ public class DeleteMobileRequest
     private String mobileCountryCode;
     @NotBlank
     private String mobileNumber;
+
+    public String getMobileCountryCode() {
+        return this.mobileCountryCode;
+    }
+
+    public String getMobileNumber() {
+        return this.mobileNumber;
+    }
+
+    public String getId() {
+        return this.id;
+    }
 }

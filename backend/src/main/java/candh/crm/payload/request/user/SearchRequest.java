@@ -8,4 +8,12 @@ import lombok.Setter;
 public class SearchRequest
 {
     private String searchKey;
+
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
+    }
+
+    public String getSearchKey() {
+        return this.searchKey;
+    }
 }

@@ -19,4 +19,16 @@ public class ChangeRealNameRequest
     private String first_name;
     @NotBlank
     private String last_name;
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getFirst_name() {
+        return this.first_name;
+    }
 }
