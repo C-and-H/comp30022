@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-//import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 //import ProfileSideBar from "./ProfileSideBar"
 
@@ -24,35 +24,44 @@ export default class ProfileDisplay extends Component{
   componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
     // if not login
+		
     if (!currentUser) this.setState({ redirect: "/home" });
     this.setState({ currentUser: currentUser, userReady: true });
-		if (currentUser.mobiles) this.setState({hasPhone: true});
+		if (currentUser.mobiles.length != 0) this.setState({hasPhone: true});
 		if (currentUser.industry) this.setState({hasIndustry: true});
+			
 		if (currentUser.areaOrRegion) this.setState({hasRegion: true});
-    // console.log(this.state.currentUser, this.state.basic)
+    // console.log(currentUser.industry);
+		//console.log(this.state.hasIndustry);	
+		// console.log(this.state.redirect);
   }
 
 	
 
 	render(){
 		//const spaces = "       ";
-		const {currentUser} = this.state;
+		const {currentUser, hasIndustry, hasPhone, hasRegion} = this.state;
+		
+		//console.log(this.state.hasPhone);
 		const fullName = currentUser.first_name + " " + currentUser.last_name;
+		if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
 		return(
 			<div>
 				<h1>Full Name: {fullName}</h1>
 				<h1>Email: {currentUser.email}</h1>
-				{this.hasPhone ? (
+				{hasPhone ? (
 					<h1>Phone: {currentUser.mobiles}</h1>
 				) : (
 					<></>
 				)}
-				{this.hasIndustry ?(
+				{hasIndustry ?(
 					<h1>Industry: {currentUser.industry}</h1>
 				) : (
 					<></>
 				)}
-				{this.hasRegion ? (
+				{hasRegion ? (
 					<h1>Region: {currentUser.areaOrRegion}</h1>
 				) : (
 				<></>
