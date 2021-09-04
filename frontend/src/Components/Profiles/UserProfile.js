@@ -6,6 +6,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 import ProfileSideBar from "./ProfileSideBar"
+import SettingProfile from "./SettingProfile";
 import {Row, Col } from 'reactstrap';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ChangePassword from './ChangePassword'
@@ -46,13 +47,17 @@ export default class Profile extends Component {
           <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Welcome back, {currentUser.first_name}!</h1>
           <Row>
           <Router>
-            <Col xs="4" style={{textAlign:"center"}}>.col-4
+            <Col xs="3" style={{textAlign:"center"}}>
               <ProfileSideBar/>
             </Col>
-            <Col xs="8" style={{textAlign:"center"}}>.col-8
+            <Col xs="9" style={{textAlign:"center"}}>
               <Switch>
-              <Route exact path = "/profile/change-password" component = {ChangePassword} />
+              <Route exact path = "/setting" component = {SettingProfile} />
               </Switch>
+              <Switch>
+              <Route exact path = "/setting/change-password" component = {ChangePassword} />
+              </Switch>
+
             </Col>
           </Router>
           </Row>

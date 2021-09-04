@@ -1,5 +1,8 @@
 :root {
   --button-font: "Montserrat", sans-serif;
+  --median-font-size: 16px;
+  --large-font-size: 30px;
+  --small-font-size: 12px;
 }
 
 /*------------------ SignUp Components ---------------*/
@@ -109,7 +112,7 @@ body .bg-dark {
   /* height: 70vh; */
  }
 .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
-  background-color: beige;
+  background-color: #F2EDA2;
   width: 250px !important;
 }
 .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content{
@@ -122,6 +125,51 @@ body .bg-dark {
   background-color: rgb(208, 218, 157);
   transition: 0.4s;
 }
+
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header{
+  border-bottom:2px solid black !important;
+  color: black;
+  margin-top: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+/*------------------ Setting Profile Components ---------------*/ 
+.setting-profile-h4{
+  font-size: var(--large-font-size);
+  text-align: left;
+  border-bottom:1px solid gray !important;
+  padding-bottom: 5px;
+}
+.setting-profile-label{
+  text-align: left;
+}
+.setting-profile-formgroup{
+  text-align: left;
+  padding-top: 10px;
+}
+.setting-profile-submit-btn-left{
+ float: left;
+ border-radius: 8px;
+ background-color: green;
+ color: white;
+}
+.setting-profile-submit-btn-right{
+  float: right;
+  border-radius: 8px;
+  background-color: grey;
+ }
+ .setting-profile-form-label{
+  display: inline-block;
+  margin-bottom: 2px;
+ }
+
+/*------------------ Setting Profile Components End ---------------*/ 
+
+
+
+
 
 /*------------------ Profile SideBar Components End ---------------*/ 
 

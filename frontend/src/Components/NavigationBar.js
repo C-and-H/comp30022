@@ -5,6 +5,7 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
   logIn() {
+    console.log(this.props)
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>

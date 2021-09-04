@@ -5,7 +5,7 @@ import SignUp from "./Components/SignUp";
 import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
-import Profile from "./Components/Profiles/UserProfile";
+import Setting from "./Components/Profiles/UserProfile";
 import BoardUser from "./Components/BoardUser";
 import AuthService from "./Services/AuthService";
 import Verify from "./Components/Verify";
@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     //this.logOut = this.logOut.bind(this);
-
+    
     this.state = {
       currentUser: JSON.parse(localStorage.getItem("user")),
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -56,7 +56,7 @@ class App extends Component {
             <Route exact path="/contact" component={ContactList} />
 
             <Route exact path="/searchUser" component={SearchUser} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/setting" component={Setting} />
             <Route exact path={["/", "/home"]} component={HomePage} />
             <Route path="/signup/:email/:code">
               <Verify />

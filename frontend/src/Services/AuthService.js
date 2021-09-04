@@ -72,6 +72,31 @@ class AuthService {
     }
   }
 
+  /* send change name request */
+  async changeName(first_name, last_name, id) {
+    const user = this.getBasicInfo();
+    if (user && user.token) {
+      
+      const token = user.token;
+      const response = await axios.post(
+        API_URL + "/user/changeRealName",
+        {
+          id,
+          first_name,
+          last_name,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      return response.data;
+    } else {
+      return "Current user was not found. Please log in ";
+    }
+  }
+
   logout() {
     localStorage.removeItem("basic");
     localStorage.removeItem("user");
