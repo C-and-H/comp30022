@@ -26,7 +26,7 @@ public class ContactController
     private ContactRelationService contactRelationService;
 
     /**
-     * Handles Http Post for all friends of a user.
+     * Handles Http Post for getting all friends of a user.
      */
     @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
@@ -41,35 +41,74 @@ public class ContactController
         }
     }
 
-/*
-    @PostMapping("/friend/withdrawRequest")
-    @PostMapping("/friend/confirmRequest")
-    @PostMapping("/friend/refuseRequest")
+    /**
+     * Handles Http Post for getting all sent requests of a user
+     * that has not been accepted yet (*including* the case of declined requests).
+     *
+     * @return  people's id.
+     */
     @PostMapping("/friend/listSentRequests")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> listSentRequests(
+            @Valid @RequestBody ByIdRequest byIdRequest) {
+        Optional<User> user = userRepository.findById(byIdRequest.getId());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(contactRelationService
+                    .findAllSentRequests(byIdRequest.getId()));
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for getting all received requests of a user
+     * that has not been accepted yet (*excluding* the case of declined requests).
+     *
+     * @return  people's id.
+     */
     @PostMapping("/friend/listReceivedRequests")
-    @PostMapping("/friend/search")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> listReceivedRequests(
+            @Valid @RequestBody ByIdRequest byIdRequest) {
+        Optional<User> user = userRepository.findById(byIdRequest.getId());
+        if (user.isPresent()) {
+            return ResponseEntity.ok(contactRelationService
+                    .findAllReceivedRequests(byIdRequest.getId()));
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+/*
+    @PostMapping("/friend/cancelRequest")
+    @PostMapping("/friend/confirmRequest")
+    @PostMapping("/friend/declineRequest")
 */
 
-//    @PostMapping("/friend/sendRequest")
-//    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> sendRequest(@RequestBody Contact friendship) {
-//        Contact contact = contactRelationService
-//                .findByUserAndFriend(friendship.getUserId(), friendship.getFriendId());
-//        if (contact != null)
-//        {
-//            if (contact.isAccepted()) {
-//                return ResponseEntity.ok("Already friends.");
-//            } else {
-//                return ResponseEntity.ok("Request already sent but not yet confirmed.");
-//            }
-//        }
-//        contactRelationService.saveContact(
-//                new Contact(friendship.getUserId(), friendship.getFriendId()));
-//        contactRelationService.saveContact(
-//                new Contact(friendship.getFriendId(), friendship.getUserId()));
-//
-//        return ResponseEntity.ok("Friend request sent.");
-//    }
+    /**
+     * Handles Http Post for sending request.
+     */
+    @PostMapping("/friend/sendRequest")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> sendRequest(
+            @Valid @RequestBody FriendRequest friendRequest) {
+        Optional<User> user = userRepository.findById(friendRequest.getUserId());
+        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
+        if (!user.isPresent()) {
+            return ResponseEntity.ok("User id not found.");
+        }
+        if (!friend.isPresent()) {
+            return ResponseEntity.ok("Friend id not found.");
+        }
+        // send
+        try {
+            contactRelationService.sendRequest(friendRequest.getUserId(),
+                    friendRequest.getFriendId());
+            return ResponseEntity.ok("Request sent.");
+        } catch (Exception e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
+    }
 
     /**
      * Handles Http Post for friend deletion.

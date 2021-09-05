@@ -23,13 +23,73 @@ public class ContactRelationService
      * @return  a list of contact relations that satisfy the conditions.
      */
     public List<Contact> findAllFriends(String userId) {
-        List<Contact> friends = contactRepository.findFriendsByUserId(userId);
-        friends = friends.stream()
+        List<Contact> _friends = contactRepository.findFriendsByUserId(userId);
+        return _friends.stream()
                 .filter(c -> contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
                 .collect(Collectors.toList());
-        return friends;
+    }
+
+    /**
+     * @param userId  id of the user
+     * @return  scenarios 2, 5.
+     */
+    public List<String> findAllSentRequests(String userId) {
+        List<Contact> _sent = contactRepository.findFriendsByUserId(userId);
+        return _sent.stream()
+                .filter(c -> !contactRepository
+                        .findByUserIdAndFriendId(c.getFriendId(), userId)
+                        .isAccepted())
+                .map(c -> c.getFriendId())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * @param userId  id of the user
+     * @return  scenarios 3.
+     */
+    public List<String> findAllReceivedRequests(String userId) {
+        List<Contact> _received = contactRepository
+                .findFriendsByUserIdAndAcceptedAndIgnored(userId, false, false);
+        return _received.stream()
+                .filter(c -> contactRepository
+                        .findByUserIdAndFriendId(c.getFriendId(), userId)
+                        .isAccepted())
+                .map(c -> c.getFriendId())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Send friend request from a user to another user.
+     *
+     * @param userId  id of the user
+     * @param friendId  id of the friend to send
+     */
+    public void sendRequest(String userId, String friendId) throws Exception {
+        Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
+        Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
+        if (u == null) {   // 7, send request
+            contactRepository.save(new Contact(userId, friendId, true));
+            contactRepository.save(new Contact(friendId, userId, false));
+        }
+        else if (u.isAccepted() && !f.isAccepted()) {
+            // 2, pass
+            if (f.isIgnored()) f.setIgnored(false);   // 5, resend declined request
+            contactRepository.save(f);
+        }
+        else if (!u.isAccepted() && f.isAccepted()) {   // 3 & 4, confirm
+            u.setAccepted(true);
+            u.setIgnored(false);
+            contactRepository.save(u);
+        }
+        else if (!u.isAccepted()) {   // 6, resend cancelled request
+            u.setAccepted(true);
+            contactRepository.save(u);
+        }
+        else {   // 1 or invalid
+            throw new Exception("Operation refused.");
+        }
     }
 
     /**
@@ -54,7 +114,7 @@ public class ContactRelationService
     /**
      * Change notes of a friend for a user.
      *
-     * @param userId  id of the initiator
+     * @param userId  id of the user
      * @param friendId  id of a friend
      */
     public void changeNotes(String userId, String friendId, String notes)
@@ -77,8 +137,7 @@ public class ContactRelationService
      * @param user2Id  id of the second user
      * @return  (areFriends=true, (contact_user1, contact_user2)) or (false, false)
      */
-    private Pair<Boolean,?> verifyFriendship(
-            String user1Id, String user2Id) {
+    private Pair<Boolean,?> verifyFriendship(String user1Id, String user2Id) {
         Contact u = contactRepository.findByUserIdAndFriendId(user1Id, user2Id);
         Contact f = contactRepository.findByUserIdAndFriendId(user2Id, user1Id);
         if (u != null && u.isAccepted() && f != null && f.isAccepted()) {

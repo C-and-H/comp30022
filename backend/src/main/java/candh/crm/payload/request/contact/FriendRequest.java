@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /contact/withdrawRequest,
+ * Request body parameters for /contact/sendRequest, /contact/withdrawRequest,
  * /contact/confirmRequest, /contact/refuseRequest and /contact/delete.
  */
 public class FriendRequest
