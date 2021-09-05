@@ -32,8 +32,10 @@ public class ContactRelationService
     }
 
     /**
+     * Find scenarios 2 and 5.
+     *
      * @param userId  id of the user
-     * @return  scenarios 2, 5.
+     * @return  a list of ids
      */
     public List<String> findAllSentRequests(String userId) {
         List<Contact> _sent = contactRepository.findFriendsByUserId(userId);
@@ -46,8 +48,10 @@ public class ContactRelationService
     }
 
     /**
+     * Find scenario 3.
+     *
      * @param userId  id of the user
-     * @return  scenarios 3.
+     * @return  a list of ids
      */
     public List<String> findAllReceivedRequests(String userId) {
         List<Contact> _received = contactRepository
