@@ -1,10 +1,10 @@
 package candh.crm.controller;
 
 import candh.crm.exceptions.FriendNotExistException;
-import candh.crm.model.Contact;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
-import candh.crm.payload.request.contact.DeleteFriendRequest;
+import candh.crm.payload.request.contact.ChangeNotesRequest;
+import candh.crm.payload.request.contact.FriendRequest;
 import candh.crm.repository.UserRepository;
 import candh.crm.service.ContactRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -48,7 +47,6 @@ public class ContactController
     @PostMapping("/friend/refuseRequest")
     @PostMapping("/friend/listSentRequests")
     @PostMapping("/friend/listReceivedRequests")
-    @PostMapping("/friend/changeNotes")
     @PostMapping("/friend/search")
 */
 
@@ -80,17 +78,44 @@ public class ContactController
     @PostMapping("/friend/delete")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteFriend(
-            @Valid @RequestBody DeleteFriendRequest deleteFriendRequest) {
-        Optional<User> user = userRepository.findById(deleteFriendRequest.getUserId());
+            @Valid @RequestBody FriendRequest friendRequest) {
+        Optional<User> user = userRepository.findById(friendRequest.getUserId());
         if (user.isPresent()) {
             try {
-                contactRelationService.deleteFriend(deleteFriendRequest.getUserId(),
-                        deleteFriendRequest.getFriendId());
+                // delete
+                contactRelationService.deleteFriend(friendRequest.getUserId(),
+                        friendRequest.getFriendId());
             } catch (FriendNotExistException e) {
                 return ResponseEntity.ok(e.getMessage());
             }
             return ResponseEntity.ok("Friend deleted.");
-        } else {
+        }
+        else {
+            return ResponseEntity.ok("User id not found.");
+        }
+    }
+
+    /**
+     * Handles Http Post for friend notes change.
+     * Before someone's notes get changed, the initiator must be a friend of the person.
+     */
+    @PostMapping("/friend/changeNotes")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeNotes(
+            @Valid @RequestBody ChangeNotesRequest changeNotesRequest) {
+        Optional<User> user = userRepository.findById(changeNotesRequest.getUserId());
+        if (user.isPresent()) {
+            try {
+                // change
+                contactRelationService.changeNotes(changeNotesRequest.getUserId(),
+                        changeNotesRequest.getFriendId(),
+                        changeNotesRequest.getNotes());
+            } catch (FriendNotExistException e) {
+                return ResponseEntity.ok(e.getMessage());
+            }
+            return ResponseEntity.ok("Notes changed.");
+        }
+        else {
             return ResponseEntity.ok("User id not found.");
         }
     }

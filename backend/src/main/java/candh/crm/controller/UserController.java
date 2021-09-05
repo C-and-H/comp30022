@@ -81,11 +81,11 @@ public class UserController
     @PostMapping("/user/addMobile")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addMobile(
-            @Valid @RequestBody AddMobileRequest addMobileRequest) {
-        Optional<User> user = userRepository.findById(addMobileRequest.getId());
+            @Valid @RequestBody MobileRequest mobileRequest) {
+        Optional<User> user = userRepository.findById(mobileRequest.getId());
         if (user.isPresent()) {
-            user.get().addMobile(addMobileRequest.getMobileCountryCode(),
-                    addMobileRequest.getMobileNumber());
+            user.get().addMobile(mobileRequest.getMobileCountryCode(),
+                    mobileRequest.getMobileNumber());
             userRepository.save(user.get());
             return ResponseEntity.ok("You just successfully added a new mobile.");
         } else {
@@ -99,11 +99,11 @@ public class UserController
     @PostMapping("/user/deleteMobile")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteMobile(
-            @Valid @RequestBody DeleteMobileRequest deleteMobileRequest) {
-        String mobileCountryCode = deleteMobileRequest.getMobileCountryCode();
-        String mobileNumber = deleteMobileRequest.getMobileNumber();
+            @Valid @RequestBody MobileRequest mobileRequest) {
+        String mobileCountryCode = mobileRequest.getMobileCountryCode();
+        String mobileNumber = mobileRequest.getMobileNumber();
 
-        Optional<User> user = userRepository.findById(deleteMobileRequest.getId());
+        Optional<User> user = userRepository.findById(mobileRequest.getId());
         if (user.isPresent()) {
             if (user.get().hasMobile(mobileCountryCode, mobileNumber)) {
                 user.get().deleteMobile(mobileCountryCode, mobileNumber);

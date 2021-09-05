@@ -9,12 +9,14 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /contact/delete.
+ * Request body parameters for /contact/changeNotes.
  */
-public class DeleteFriendRequest
+public class ChangeNotesRequest
 {
     @NotBlank
     private String userId;
     @NotBlank
     private String friendId;
+    @NotBlank
+    private String notes;
 }

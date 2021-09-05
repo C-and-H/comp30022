@@ -9,9 +9,9 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /user/deleteMobile.
+ * Request body parameters for /user/addMobile and /user/deleteMobile.
  */
-public class DeleteMobileRequest
+public class MobileRequest
 {
     @NotBlank
     private String id;
