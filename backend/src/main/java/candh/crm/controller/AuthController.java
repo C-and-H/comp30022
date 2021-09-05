@@ -84,7 +84,7 @@ public class AuthController
             if (_user.isEnabled()) {
                 return ResponseEntity.ok("Email is already taken.");
             } else {   // email taken but not confirmed
-                userRepository.deleteById(_user.getId());
+                userRepository.delete(_user);
             }
         }
 

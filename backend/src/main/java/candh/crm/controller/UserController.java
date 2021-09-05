@@ -196,7 +196,7 @@ public class UserController
      */
     @PostMapping("/user/search")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> search(
+    public List<User> search(
             @Valid @RequestBody UserSearchRequest userSearchRequest)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // request fields
@@ -224,13 +224,14 @@ public class UserController
                 List<User> _users = (List<User>) m.invoke(userRepository, value);
                 if (users.isEmpty()) users = _users;
                 else {   // intersection
-                    users = _users.stream().filter(users::contains)
+                    users = _users.stream()
+                            .filter(users::contains)
                             .collect(Collectors.toList());
                 }
                 if (_users.isEmpty()) break;   // no results found
             }
         }
-        return ResponseEntity.ok(users);
+        return users;
     }
 
     /**
@@ -242,7 +243,7 @@ public class UserController
      */
     @PostMapping("/user/sketchySearch")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> sketchySearch(
+    public List<User> sketchySearch(
             @Valid @RequestBody SearchRequest searchRequest)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // request fields
@@ -280,6 +281,6 @@ public class UserController
                 results.add(users.get(i));
             }
         }
-        return ResponseEntity.ok(results);
+        return results;
     }
 }
