@@ -1,6 +1,6 @@
 package candh.crm.controller;
 
-import candh.crm.exceptions.FriendNotExistException;
+import candh.crm.exception.FriendNotExistException;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
 import candh.crm.payload.request.contact.ChangeNotesRequest;

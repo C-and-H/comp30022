@@ -1,6 +1,6 @@
 package candh.crm.service;
 
-import candh.crm.exceptions.FriendNotExistException;
+import candh.crm.exception.FriendNotExistException;
 import candh.crm.model.Contact;
 import candh.crm.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package candh.crm.exceptions;
+package candh.crm.exception;
 
 /**
  * An exception thrown when a user is attempting to
