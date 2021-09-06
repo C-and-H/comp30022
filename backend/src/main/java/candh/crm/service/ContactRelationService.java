@@ -73,25 +73,90 @@ public class ContactRelationService
     public void sendRequest(String userId, String friendId) throws Exception {
         Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
         Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
-        if (u == null) {   // 7, send request
+        if (u == null && f == null) {   // 7, send request
             contactRepository.save(new Contact(userId, friendId, true));
             contactRepository.save(new Contact(friendId, userId, false));
         }
-        else if (u.isAccepted() && !f.isAccepted()) {
-            // 2, pass
+        else if (u.isAccepted() && !u.isIgnored() && !f.isAccepted()) {
             if (f.isIgnored()) f.setIgnored(false);   // 5, resend declined request
+            // 2, pass
             contactRepository.save(f);
         }
-        else if (!u.isAccepted() && f.isAccepted()) {   // 3 & 4, confirm
+        else if (!u.isAccepted() && f.isAccepted() && !f.isIgnored()) {   // 3 & 4, confirm
             u.setAccepted(true);
             u.setIgnored(false);
             contactRepository.save(u);
         }
-        else if (!u.isAccepted()) {   // 6, resend cancelled request
+        else if (!u.isAccepted() && !u.isIgnored() && !f.isAccepted() &&
+                !f.isIgnored()) {   // 6, resend cancelled request
             u.setAccepted(true);
             contactRepository.save(u);
         }
         else {   // 1 or invalid
+            throw new Exception("Operation refused.");
+        }
+    }
+
+    /**
+     * Confirm incoming friend request of a user from another user.
+     *
+     * Scenario 3 -> 1.
+     *
+     * @param userId  id of the user
+     * @param friendId  id of another user who sent request
+     */
+    public void confirmRequest(String userId, String friendId) throws Exception {
+        Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
+        Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
+        if (!u.isAccepted() && !u.isIgnored() && f.isAccepted() &&
+                !f.isIgnored()) {   // 3
+            u.setAccepted(true);
+            contactRepository.save(u);
+        }
+        else {   // other or invalid
+            throw new Exception("Operation refused.");
+        }
+    }
+
+    /**
+     * Decline incoming friend request of a user from another user.
+     *
+     * Scenario 3 -> 4.
+     *
+     * @param userId  id of the user
+     * @param friendId  id of another user who sent request
+     */
+    public void declineRequest(String userId, String friendId) throws Exception {
+        Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
+        Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
+        if (!u.isAccepted() && !u.isIgnored() && f.isAccepted() &&
+                !f.isIgnored()) {   // 3
+            u.setIgnored(true);
+            contactRepository.save(u);
+        }
+        else {   // other or invalid
+            throw new Exception("Operation refused.");
+        }
+    }
+
+    /**
+     * Withdraw outgoing friend request of a user to another user.
+     *
+     * Scenarios 2 or 5 -> 6.
+     *
+     * @param userId  id of the user
+     * @param friendId  id of the friend who the user sent request to
+     */
+    public void cancelRequest(String userId, String friendId) throws Exception {
+        Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
+        Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
+        if (u.isAccepted() && !u.isIgnored() && !f.isAccepted()) {   // 2 or 5
+            u.setAccepted(false);
+            f.setIgnored(false);
+            contactRepository.save(u);
+            contactRepository.save(f);
+        }
+        else {   // other or invalid
             throw new Exception("Operation refused.");
         }
     }

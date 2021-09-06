@@ -79,12 +79,6 @@ public class ContactController
         }
     }
 
-/*
-    @PostMapping("/friend/cancelRequest")
-    @PostMapping("/friend/confirmRequest")
-    @PostMapping("/friend/declineRequest")
-*/
-
     /**
      * Handles Http Post for sending request.
      */
@@ -105,6 +99,81 @@ public class ContactController
             contactRelationService.sendRequest(friendRequest.getUserId(),
                     friendRequest.getFriendId());
             return ResponseEntity.ok("Request sent.");
+        } catch (Exception e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
+    }
+
+    /**
+     * Handles Http Post for confirming request.
+     */
+    @PostMapping("/friend/confirmRequest")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> confirmRequest(
+            @Valid @RequestBody FriendRequest friendRequest) {
+        Optional<User> user = userRepository.findById(friendRequest.getUserId());
+        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
+        if (!user.isPresent()) {
+            return ResponseEntity.ok("User id not found.");
+        }
+        if (!friend.isPresent()) {
+            return ResponseEntity.ok("Friend id not found.");
+        }
+        // confirm
+        try {
+            contactRelationService.confirmRequest(friendRequest.getUserId(),
+                    friendRequest.getFriendId());
+            return ResponseEntity.ok("Request confirmed.");
+        } catch (Exception e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
+    }
+
+    /**
+     * Handles Http Post for declining request.
+     */
+    @PostMapping("/friend/declineRequest")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> declineRequest(
+            @Valid @RequestBody FriendRequest friendRequest) {
+        Optional<User> user = userRepository.findById(friendRequest.getUserId());
+        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
+        if (!user.isPresent()) {
+            return ResponseEntity.ok("User id not found.");
+        }
+        if (!friend.isPresent()) {
+            return ResponseEntity.ok("Friend id not found.");
+        }
+        // decline
+        try {
+            contactRelationService.declineRequest(friendRequest.getUserId(),
+                    friendRequest.getFriendId());
+            return ResponseEntity.ok("Request declined.");
+        } catch (Exception e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
+    }
+
+    /**
+     * Handles Http Post for cancelling request.
+     */
+    @PostMapping("/friend/cancelRequest")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> cancelRequest(
+            @Valid @RequestBody FriendRequest friendRequest) {
+        Optional<User> user = userRepository.findById(friendRequest.getUserId());
+        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
+        if (!user.isPresent()) {
+            return ResponseEntity.ok("User id not found.");
+        }
+        if (!friend.isPresent()) {
+            return ResponseEntity.ok("Friend id not found.");
+        }
+        // cancel
+        try {
+            contactRelationService.cancelRequest(friendRequest.getUserId(),
+                    friendRequest.getFriendId());
+            return ResponseEntity.ok("Request cancelled.");
         } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
         }
