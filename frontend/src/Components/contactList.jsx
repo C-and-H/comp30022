@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import FriendDisplay from "./friendDisplay";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../constant";
+import RequestReceived from "./requestReceived";
 
 class ContactList extends Component {
   constructor(props) {
@@ -117,15 +118,18 @@ class ContactList extends Component {
     }
     const { friendList } = this.state;
     return (
-      <div className="rectangle">
-        {this.header()}
-        {friendList.map((friend) => (
-          <FriendDisplay
-            key={friend.id}
-            user={friend}
-            onClick={() => this.redirectFriend(friend.id)}
-          />
-        ))}
+      <div>
+        <div className="rectangle">
+          {this.header()}
+          {friendList.map((friend) => (
+            <FriendDisplay
+              key={friend.id}
+              user={friend}
+              onClick={() => this.redirectFriend(friend.id)}
+            />
+          ))}
+        </div>
+        <RequestReceived />
       </div>
     );
   }
