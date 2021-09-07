@@ -12,7 +12,6 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
-import FriendUser from "./Components/friendProfile";
 
 class App extends Component {
   constructor(props) {
@@ -58,7 +57,6 @@ class App extends Component {
             <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/user/:id" component={OtherUser} />
-            <Route exact path="/friend/:id" component={FriendUser} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path={["/", "/home"]} component={HomePage} />
             <Route path="/signup/:email/:code">

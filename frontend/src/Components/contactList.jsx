@@ -69,7 +69,7 @@ class ContactList extends Component {
   }
 
   redirectFriend(id) {
-    const redirect = "/friend/" + id;
+    const redirect = "/user/" + id;
     this.setState({ redirect });
   }
 
