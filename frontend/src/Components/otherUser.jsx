@@ -68,6 +68,24 @@ class OtherUser extends Component {
     }
   }
 
+  async deleteFriend() {
+    const { basic, id } = this.state;
+    const response = await axios.post(
+      API_URL + "/friend/delete",
+      { userId: basic.id, friendId: id },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      alert(response.data);
+      window.location.reload();
+    }
+  }
+
   async checkFriend() {
     const { basic, id } = this.state;
     const response = await axios.post(
@@ -87,7 +105,19 @@ class OtherUser extends Component {
 
   friendProfile() {
     const { friend } = this.state;
-    return <div>{<h1>Profile of your friend: {friend.name}</h1>}</div>;
+    return (
+      <div>
+        <h1>Profile of your friend: {friend.name}</h1>
+        <Button
+          className="btn-search"
+          onClick={() => {
+            this.deleteFriend();
+          }}
+        >
+          <i className="fas fa-minus" />
+        </Button>
+      </div>
+    );
   }
 
   nonFriendProfile() {
