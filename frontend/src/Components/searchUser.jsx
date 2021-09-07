@@ -4,6 +4,7 @@ import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import axios from "axios";
 import SearchResult from "./searchResult";
 import { API_URL } from "../constant";
+import { Redirect } from "react-router-dom";
 
 class SearchUser extends Component {
   constructor(props) {
@@ -19,6 +20,8 @@ class SearchUser extends Component {
       areaOrRegion: "",
       industry: "",
       company: "",
+      redirect: null,
+      friendList: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,13 +34,14 @@ class SearchUser extends Component {
     this.handleCompany = this.handleCompany.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._isMounted = true;
     if (!this.state.basic) {
       alert("Login required to access the page.");
       this.props.history.push("/");
       window.location.reload();
     }
+    await this.getFriends();
   }
 
   componentWillUnmount() {
@@ -64,7 +68,7 @@ class SearchUser extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/user/sketchySearch",
-      { searchKey: value },
+      { id: basic.id, searchKey: value },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -77,6 +81,37 @@ class SearchUser extends Component {
         this._isMounted &&
         this.setState({ results: response.data });
     }
+  }
+
+  async getFriends() {
+    const { basic } = this.state;
+    const response = await axios.post(
+      API_URL + "/friend/listFriends",
+      { id: basic.id },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      let friendList = [];
+      for (let i = 0; i < response.data.length; i++) {
+        friendList.push(response.data[i].friendId);
+      }
+      this._isMounted && this.setState({ friendList });
+    }
+  }
+
+  isFriend(id) {
+    const { friendList } = this.state;
+    for (let i = 0; i < friendList.length; i++) {
+      if (id === friendList[i]) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -97,6 +132,7 @@ class SearchUser extends Component {
       const response = await axios.post(
         API_URL + "/user/search",
         {
+          id: basic.id,
           email: email,
           first_name: firstName,
           last_name: lastName,
@@ -213,7 +249,11 @@ class SearchUser extends Component {
       return (
         <div className="search-results">
           {results.map((user) => (
-            <SearchResult key={user.id} user={user} />
+            <SearchResult
+              key={user.id}
+              user={user}
+              onClick={() => this.redirectUser(user.id)}
+            />
           ))}
         </div>
       );
@@ -297,7 +337,20 @@ class SearchUser extends Component {
     );
   }
 
+  redirectUser(id) {
+    if (this.isFriend(id)) {
+      const redirect = "/friend/" + id;
+      this.setState({ redirect });
+    } else {
+      const redirect = "/user/" + id;
+      this.setState({ redirect });
+    }
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div className="centered">
         <BootstrapSwitchButton
