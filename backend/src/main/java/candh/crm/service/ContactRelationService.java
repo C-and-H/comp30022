@@ -206,7 +206,7 @@ public class ContactRelationService
      * @param user2Id  id of the second user
      * @return  (areFriends=true, (contact_user1, contact_user2)) or (false, false)
      */
-    private Pair<Boolean,?> verifyFriendship(String user1Id, String user2Id) {
+    public Pair<Boolean,?> verifyFriendship(String user1Id, String user2Id) {
         Contact u = contactRepository.findByUserIdAndFriendId(user1Id, user2Id);
         Contact f = contactRepository.findByUserIdAndFriendId(user2Id, user1Id);
         if (u != null && u.isAccepted() && f != null && f.isAccepted()) {

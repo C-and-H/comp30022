@@ -26,6 +26,27 @@ public class ContactController
     private ContactRelationService contactRelationService;
 
     /**
+     * Verify friendship between two users.
+     */
+    @PostMapping("/friend/verifyFriendship")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> verifyFriendship(
+            @Valid @RequestBody FriendRequest friendRequest) {
+        Optional<User> user = userRepository.findById(friendRequest.getUserId());
+        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
+        if (!user.isPresent()) {
+            return ResponseEntity.ok("User id not found.");
+        }
+        if (!friend.isPresent()) {
+            return ResponseEntity.ok("Friend id not found.");
+        }
+        // verify
+        return ResponseEntity.ok(
+                contactRelationService.verifyFriendship(friendRequest.getUserId(),
+                friendRequest.getFriendId()).getFirst());
+    }
+
+    /**
      * Handles Http Post for getting all friends of a user.
      */
     @PostMapping("/friend/listFriends")
