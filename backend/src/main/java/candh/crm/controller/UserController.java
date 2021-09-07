@@ -2,7 +2,6 @@ package candh.crm.controller;
 
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
-import candh.crm.payload.request.ByManyIdsRequest;
 import candh.crm.payload.request.user.*;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,23 +190,23 @@ public class UserController
      * Partial search is case-insensitive, and based on regex.
      * At least one field should be non-empty.
      *
-     * @param userSearchRequest  multiple search keys
+     * @param searchRequest  multiple search keys
      *
      */
     @PostMapping("/user/search")
     @PreAuthorize("hasRole('USER')")
     public List<User> search(
-            @Valid @RequestBody UserSearchRequest userSearchRequest)
+            @Valid @RequestBody SearchRequest searchRequest)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // request fields
         Map<String,String> map = new HashMap<>();
-        Method[] methods = UserSearchRequest.class.getMethods();
+        Method[] methods = SearchRequest.class.getMethods();
         String[] params = {"Email", "First_name", "Last_name",
                 "AreaOrRegion", "Industry", "Company"};
         for (Method m: methods) {
             if (m.getName().startsWith("get") &&
                     Arrays.asList(params).contains(m.getName().substring(3))) {   // filter getters
-                String value = (String) m.invoke(userSearchRequest);
+                String value = (String) m.invoke(searchRequest);
                 map.put(m.getName().substring(3), value);
             }
         }
@@ -221,6 +220,7 @@ public class UserController
             String value = map.get(field);
             // search
             if (!value.equals("")) {
+                @SuppressWarnings("unchecked")
                 List<User> _users = (List<User>) m.invoke(userRepository, value);
                 if (users.isEmpty()) users = _users;
                 else {   // intersection
@@ -231,23 +231,26 @@ public class UserController
                 if (_users.isEmpty()) break;   // no results found
             }
         }
-        return users;
+        // remove user self
+        return users.stream()
+                .filter(u -> !u.getId().equals(searchRequest.getId()))
+                .collect(Collectors.toList());
     }
 
     /**
      * Search through all "Email", "First_name", "Last_name",
      * "AreaOrRegion", "Industry", "Company" fields to find regex.
      *
-     * @param searchRequest  one input search key
+     * @param sketchySearchRequest  one input search key
      *
      */
     @PostMapping("/user/sketchySearch")
     @PreAuthorize("hasRole('USER')")
     public List<User> sketchySearch(
-            @Valid @RequestBody SearchRequest searchRequest)
+            @Valid @RequestBody SketchySearchRequest sketchySearchRequest)
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // request fields
-        String params[] = {"Email", "First_name", "Last_name",
+        String[] params = {"Email", "First_name", "Last_name",
                 "AreaOrRegion", "Industry", "Company"};
         ArrayList<User> users = new ArrayList<>();
         for (String field : params)
@@ -255,17 +258,14 @@ public class UserController
             // query method
             Method m = UserRepository.class
                     .getDeclaredMethod("findBy_" + field, String.class);
-            String value = searchRequest.getSearchKey();
+            String value = sketchySearchRequest.getSearchKey();
             // search
             if (!value.equals("")) {
+                @SuppressWarnings("unchecked")
                 List<User> _users = (List<User>) m.invoke(userRepository, value);
-                if (_users.isEmpty()) continue;
-                else {
-                    users.addAll(_users);
-                }
+                if (!_users.isEmpty()) users.addAll(_users);
             }
         }
-
         // remove duplicates
         ArrayList<User> results = new ArrayList<>();
         boolean add = true;
@@ -281,6 +281,9 @@ public class UserController
                 results.add(users.get(i));
             }
         }
-        return results;
+        // remove user self
+        return results.stream()
+                .filter(u -> !u.getId().equals(sketchySearchRequest.getId()))
+                .collect(Collectors.toList());
     }
 }
