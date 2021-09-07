@@ -282,6 +282,10 @@ footer {
   background-color: mediumslateblue;
 }
 
+.div-contact {
+  display: flex;
+}
+
 /*------------------ Contact Components end ---------------*/
 
 /* 

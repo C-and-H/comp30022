@@ -6,6 +6,7 @@ import FriendDisplay from "./friendDisplay";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../constant";
 import RequestReceived from "./requestReceived";
+import RequestSent from "./requestSent";
 
 class ContactList extends Component {
   constructor(props) {
@@ -118,7 +119,7 @@ class ContactList extends Component {
     }
     const { friendList } = this.state;
     return (
-      <div>
+      <div className="div-contact">
         <div className="rectangle">
           {this.header()}
           {friendList.map((friend) => (
@@ -130,6 +131,7 @@ class ContactList extends Component {
           ))}
         </div>
         <RequestReceived />
+        <RequestSent />
       </div>
     );
   }
