@@ -15,6 +15,10 @@ class NavigationBar extends Component {
           <i className="fa fa-user-friends"></i>
           Contacts
         </Nav.Link>
+        <Nav.Link href="/searchUser" className={"navbar_nav"}>
+          <i className="fa fa-search"></i>
+          Search
+        </Nav.Link>
         <Nav.Link
           href="/login"
           className={"navbar_nav"}
