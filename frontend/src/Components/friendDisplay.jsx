@@ -12,6 +12,7 @@ class FriendDisplay extends Component {
           variant="outline-dark"
           size="lg"
           data-tip={user.email}
+          onClick={this.props.onClick}
         >
           <i className="fa fa-user-circle fa-fw"></i>
           {" " + user.first_name + " " + user.last_name}

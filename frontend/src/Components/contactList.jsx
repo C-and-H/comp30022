@@ -68,6 +68,11 @@ class ContactList extends Component {
     this.setState({ redirect });
   }
 
+  redirectFriend(id) {
+    const redirect = "/friend/" + id;
+    this.setState({ redirect });
+  }
+
   /**
    *
    * @returns contact list header layout
@@ -115,7 +120,11 @@ class ContactList extends Component {
       <div className="rectangle">
         {this.header()}
         {friendList.map((friend) => (
-          <FriendDisplay key={friend.id} user={friend} />
+          <FriendDisplay
+            key={friend.id}
+            user={friend}
+            onClick={() => this.redirectFriend(friend.id)}
+          />
         ))}
       </div>
     );
