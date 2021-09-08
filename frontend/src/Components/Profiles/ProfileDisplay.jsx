@@ -70,11 +70,13 @@ export default class ProfileDisplay extends Component{
 				hasRegion: false,
 				hasGender: false,
 				hasCompany: false,
-				hasSummary: false
+				hasSummary: false,
+				
   	  };
 
 	}
 
+	
 
 	// if current user is null, will go back to homepage
   componentDidMount() {
@@ -83,14 +85,14 @@ export default class ProfileDisplay extends Component{
 		
     if (!currentUser) this.setState({ redirect: "/home" });
     this.setState({ currentUser: currentUser, userReady : true });
+
+		// display following if they exist
 		if (currentUser.mobiles.length !== 0) this.setState({hasPhone : true});
 		if (currentUser.industry) this.setState({hasIndustry : true});
 		if (currentUser.company) this.setState({hasCompany : true});
 		if (currentUser.personalSummary) this.setState({hasSummary : true});
 		if (currentUser.areaOrRegion) this.setState({hasRegion : true});
-    // console.log(currentUser.industry);
-		//console.log(this.state.hasIndustry);	
-		// console.log(this.state.redirect);
+    
   }
 
 	
@@ -98,8 +100,7 @@ export default class ProfileDisplay extends Component{
 	
 
 	render(){
-		//const spaces = "       ";
-		//const spaces = {$nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp}
+		
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			hasGender, hasSummary 
@@ -107,7 +108,8 @@ export default class ProfileDisplay extends Component{
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
 		const fullName = currentUser.first_name + " " + currentUser.last_name;
-		
+		const mobiles = currentUser.mobiles;
+		//const mobiles = ["fda", "fa"];
 		if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
@@ -182,6 +184,25 @@ export default class ProfileDisplay extends Component{
 						<h1 style = {headerStyle}>
 							Contact details 
 						</h1>
+						{hasPhone ? (
+							<div>
+							<h1 style = {lineStyle}>bruh
+							{
+								mobiles.map((element) => {
+									return (
+										<p style = {{textAlign :"right", marginRight: 270}}>
+										{element}
+										</p>
+										)
+								
+								})
+							}
+							</h1>
+							</div>
+						) : (
+							<></>
+						)}
+						
 						<div>
 								<h1 style = {lineStyle}>Email: 
 									<span style = {valueStyle}>{currentUser.email}</span>
