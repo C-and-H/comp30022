@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import axios from "axios";
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/material.css'
+import 'react-phone-input-2/lib/bootstrap.css'
 class SettingProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -274,18 +274,21 @@ class SettingProfile extends React.Component {
               <Input placeholder={this.state.currentUser.username} disabled={true} pattern="[A-Za-z ]+" required></Input>
             </FormGroup>
           </Col></Row>
-          {/* <PhoneInput defaultCountry= "US" placeholder="Enter phone number"/> */}
+
           <Row>
             <Col xs="4">
               <FormGroup className="setting-profile-formgroup">
-                {/* <Label className="setting-profile-form-label" style={{float:"left"}}>Mobile: </Label> */}
-                <PhoneInput country={'au'} value={this.state.currentUser.phone} onChange={phone => this.setState({ phone })}/>
-                {/* <PhoneInput country={'us'} value={this.state.phone} onChange={phone => this.setState({ phone })} /> */}
-                {/* <Input type="text"></Input> */}
+                <Label className="setting-profile-form-label" style={{float:"left"}}>Mobile: </Label>
+                <div>
+                  <PhoneInput 
+                    country={'au'} 
+                    value={this.state.currentUser.phone} 
+                    onChange={phone => this.setState({ phone })}
+                    placeholder="61 (46) 1234 567"/>
+                </div>
               </FormGroup>
             </Col>
           </Row>
-
 
           <Row><Col xs="8">
             <FormGroup className="setting-profile-formgroup">

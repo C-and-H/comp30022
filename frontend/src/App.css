@@ -184,14 +184,24 @@ body .bg-dark {
 .PhoneInputCountryIconImg{
   max-width: 10%;
 }
-.react-tel-input .special-label {
+/* .react-tel-input .special-label { */
   /* display: none  !important; */
-}
+/* } */
 .react-tel-input .form-control {
   width: 100% !important;
   height: 100% !important;
-  padding-top: 14px !important;
-  padding-bottom: 14px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.react-tel-input .selected-flag .flag{
+  margin-top: 0 !important;
+}
+.react-tel-input .selected-flag:focus:before, .react-tel-input .selected-flag.open:before{
+  border: none !important;
+  box-shadow: none !important;
+}
+.react-tel-input .selected-flag:before{
+  border: none !important;
 }
 /*------------------ Setting Profile Components End ---------------*/ 
 
