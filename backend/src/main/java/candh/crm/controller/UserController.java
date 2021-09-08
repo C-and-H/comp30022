@@ -74,24 +74,40 @@ public class UserController
             return ResponseEntity.ok("Id not found.");
         }
     }
-
     /**
-     * Handles Http Post for user to add a new mobile.
+     * Handles Http Post for user to add a new phone number.
      */
-    @PostMapping("/user/addMobile")
+
+    @PostMapping("/user/changePhone")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> addMobile(
+    public ResponseEntity<?> changePhone(
             @Valid @RequestBody AddMobileRequest addMobileRequest) {
         Optional<User> user = userRepository.findById(addMobileRequest.getId());
         if (user.isPresent()) {
-            user.get().addMobile(addMobileRequest.getMobileCountryCode(),
-                    addMobileRequest.getMobileNumber());
+            user.get().setPhone(addMobileRequest.getMobileNumber());
             userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully added a new mobile.");
+            return ResponseEntity.ok("You just successfully change your phone number.");
         } else {
             return ResponseEntity.ok("Id not found.");
         }
     }
+//    /**
+//     * Handles Http Post for user to add a new mobile.
+//     */
+//    @PostMapping("/user/addMobile")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<?> addMobile(
+//            @Valid @RequestBody AddMobileRequest addMobileRequest) {
+//        Optional<User> user = userRepository.findById(addMobileRequest.getId());
+//        if (user.isPresent()) {
+//            user.get().addMobile(addMobileRequest.getMobileCountryCode(),
+//                    addMobileRequest.getMobileNumber());
+//            userRepository.save(user.get());
+//            return ResponseEntity.ok("You just successfully added a new mobile.");
+//        } else {
+//            return ResponseEntity.ok("Id not found.");
+//        }
+//    }
 
     /**
      * Handles Http Post for user to delete an existing mobile.

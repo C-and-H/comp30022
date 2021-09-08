@@ -31,6 +31,7 @@ public class User implements UserDetails
 
     /** consist of (mobileCountryCode, mobileNumber) */
     private List<Pair<String,String>> mobiles;
+    private String phone;
     private String areaOrRegion;
     private String industry;
     private String company;
@@ -54,6 +55,7 @@ public class User implements UserDetails
         this.first_name = first_name;
         this.last_name = last_name;
         this.mobiles = new ArrayList<>();
+        this.phone = "";
         this.areaOrRegion = "";
         this.industry = "";
         this.company = "";
@@ -149,6 +151,13 @@ public class User implements UserDetails
         return mobiles;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     public String getAreaOrRegion() {
         return areaOrRegion;
     }

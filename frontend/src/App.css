@@ -154,17 +154,45 @@ body .bg-dark {
  border-radius: 8px;
  background-color: green;
  color: white;
+ margin-bottom: 50px;
 }
 .setting-profile-submit-btn-right{
   float: right;
   border-radius: 8px;
   background-color: grey;
+  margin-bottom: 50px;
  }
  .setting-profile-form-label{
   display: inline-block;
   margin-bottom: 2px;
  }
-
+ .setting-profile-description-input{
+  /* padding-top: 0;
+  padding-bottom: 0; */
+  height: 200px;
+ }
+.PhoneInputCountrySelect{
+    /* position: absolute;
+    top: 0;
+    left: 0; */
+    /* height: 100%; */
+    width: 50%;
+ }
+.PhoneInputInput{
+  max-width: 90%;
+}
+.PhoneInputCountryIconImg{
+  max-width: 10%;
+}
+.react-tel-input .special-label {
+  /* display: none  !important; */
+}
+.react-tel-input .form-control {
+  width: 100% !important;
+  height: 100% !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
 /*------------------ Setting Profile Components End ---------------*/ 
 
 

@@ -15,8 +15,6 @@ public class AddMobileRequest
 {
     @NotBlank
     private String id;
-    @NotBlank
-    private String mobileCountryCode;
-    @NotBlank
+    
     private String mobileNumber;
 }
