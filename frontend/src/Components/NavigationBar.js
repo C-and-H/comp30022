@@ -5,6 +5,7 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
   logIn() {
+    const notificationNumber = 4;
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
@@ -19,6 +20,38 @@ class NavigationBar extends Component {
           <i className="fa fa-search"></i>
           Search
         </Nav.Link>
+        
+        {notificationNumber !== 0 ?
+            <NavDropdown
+              eventkey={notificationNumber}
+              title={
+                <span>
+                  <i className="fa fa-rocket"></i>
+                  Inbox
+                  <span className='badge badge-warning notification-badge'> {notificationNumber} </span> 
+                </span>
+              }
+              id="collasible-nav-dropdown"
+            >
+              <NavDropdown.Item href="/profile">
+                <i className="fa fa-user fa-fw"></i>
+                {this.props.user.first_name}
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/contact">
+                <i className="fa fa-user-friends"></i>
+                Contacts
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/setting">
+                <i className="fas fa-cog"></i> Setting
+              </NavDropdown.Item>
+
+              <NavDropdown.Divider />
+            </NavDropdown>
+            : 
+            <Nav.Link className={"navbar_nav"}>
+              <i className="fa fa-rocket"></i>
+              Inbox         
+            </Nav.Link>}
         <Nav.Link
           href="/login"
           className={"navbar_nav"}

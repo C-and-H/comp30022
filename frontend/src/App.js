@@ -12,6 +12,7 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
+import Inbox from "./Components/Inbox";
 
 class App extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={LogIn} />
+            <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/user/:id" component={OtherUser} />
