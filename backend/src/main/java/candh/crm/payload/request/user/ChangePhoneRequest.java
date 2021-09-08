@@ -9,12 +9,11 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /user/addMobile.
+ * Request body parameters for /user/changePhone.
  */
-public class AddMobileRequest
+public class ChangePhoneRequest
 {
     @NotBlank
     private String id;
-    
     private String mobileNumber;
 }

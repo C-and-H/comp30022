@@ -29,8 +29,6 @@ public class User implements UserDetails
     private String first_name;
     private String last_name;
 
-    /** consist of (mobileCountryCode, mobileNumber) */
-    private List<Pair<String,String>> mobiles;
     private String phone;
     private String areaOrRegion;
     private String industry;
@@ -54,7 +52,6 @@ public class User implements UserDetails
         this.password = password;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.mobiles = new ArrayList<>();
         this.phone = "";
         this.areaOrRegion = "";
         this.industry = "";
@@ -84,18 +81,6 @@ public class User implements UserDetails
      */
     public String getName() {
         return this.first_name + " " + this.last_name;
-    }
-
-    public void addMobile(String mobileCountryCode, String mobileNumber) {
-        mobiles.add(Pair.of(mobileCountryCode, mobileNumber));
-    }
-
-    public boolean hasMobile(String mobileCountryCode, String mobileNumber) {
-        return mobiles.contains(Pair.of(mobileCountryCode, mobileNumber));
-    }
-
-    public void deleteMobile(String mobileCountryCode, String mobileNumber) {
-        mobiles.remove(Pair.of(mobileCountryCode, mobileNumber));
     }
 
     @Override
@@ -147,17 +132,10 @@ public class User implements UserDetails
         return last_name;
     }
 
-    public List<Pair<String,String>> getMobiles() {
-        return mobiles;
-    }
-
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
     public String getAreaOrRegion() {
         return areaOrRegion;
     }
@@ -188,6 +166,10 @@ public class User implements UserDetails
 
     public void setLast_name(String last_name) {
         this.last_name = last_name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setAreaOrRegion(String areaOrRegion) {

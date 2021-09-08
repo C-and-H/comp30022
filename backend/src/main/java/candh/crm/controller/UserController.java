@@ -74,60 +74,19 @@ public class UserController
             return ResponseEntity.ok("Id not found.");
         }
     }
+
     /**
      * Handles Http Post for user to add a new phone number.
      */
-
     @PostMapping("/user/changePhone")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePhone(
-            @Valid @RequestBody AddMobileRequest addMobileRequest) {
-        Optional<User> user = userRepository.findById(addMobileRequest.getId());
+            @Valid @RequestBody ChangePhoneRequest changePhoneRequest) {
+        Optional<User> user = userRepository.findById(changePhoneRequest.getId());
         if (user.isPresent()) {
-            user.get().setPhone(addMobileRequest.getMobileNumber());
+            user.get().setPhone(changePhoneRequest.getMobileNumber());
             userRepository.save(user.get());
             return ResponseEntity.ok("You just successfully change your phone number.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
-    }
-//    /**
-//     * Handles Http Post for user to add a new mobile.
-//     */
-//    @PostMapping("/user/addMobile")
-//    @PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<?> addMobile(
-//            @Valid @RequestBody AddMobileRequest addMobileRequest) {
-//        Optional<User> user = userRepository.findById(addMobileRequest.getId());
-//        if (user.isPresent()) {
-//            user.get().addMobile(addMobileRequest.getMobileCountryCode(),
-//                    addMobileRequest.getMobileNumber());
-//            userRepository.save(user.get());
-//            return ResponseEntity.ok("You just successfully added a new mobile.");
-//        } else {
-//            return ResponseEntity.ok("Id not found.");
-//        }
-//    }
-
-    /**
-     * Handles Http Post for user to delete an existing mobile.
-     */
-    @PostMapping("/user/deleteMobile")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> deleteMobile(
-            @Valid @RequestBody DeleteMobileRequest deleteMobileRequest) {
-        String mobileCountryCode = deleteMobileRequest.getMobileCountryCode();
-        String mobileNumber = deleteMobileRequest.getMobileNumber();
-
-        Optional<User> user = userRepository.findById(deleteMobileRequest.getId());
-        if (user.isPresent()) {
-            if (user.get().hasMobile(mobileCountryCode, mobileNumber)) {
-                user.get().deleteMobile(mobileCountryCode, mobileNumber);
-                userRepository.save(user.get());
-                return ResponseEntity.ok("You just successfully deleted an existing mobile.");
-            } else {
-                return ResponseEntity.ok("Mobile not found.");
-            }
         } else {
             return ResponseEntity.ok("Id not found.");
         }
