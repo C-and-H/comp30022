@@ -78,7 +78,7 @@ public class UserController
     /**
      * Handles Http Post for user to add a new mobile.
      */
-    @PostMapping("/user/addMobile")
+        @PostMapping("/user/addMobile")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> addMobile(
             @Valid @RequestBody AddMobileRequest addMobileRequest) {
