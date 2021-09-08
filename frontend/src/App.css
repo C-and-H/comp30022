@@ -285,6 +285,13 @@ footer {
   display: flex;
 }
 
+.note-input {
+  width: 200px;
+  height: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 /*------------------ Contact Components end ---------------*/
 
 /* 

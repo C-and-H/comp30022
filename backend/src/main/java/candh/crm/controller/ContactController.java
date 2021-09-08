@@ -43,7 +43,7 @@ public class ContactController
         // verify
         return ResponseEntity.ok(
                 contactRelationService.verifyFriendship(friendRequest.getUserId(),
-                friendRequest.getFriendId()).getFirst());
+                friendRequest.getFriendId()).getSecond());
     }
 
     /**

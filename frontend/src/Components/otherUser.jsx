@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../Services/AuthService";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
+import { Form, Input, Button } from "reactstrap";
 import { API_URL } from "../constant";
 
 class OtherUser extends Component {
@@ -13,8 +13,12 @@ class OtherUser extends Component {
       basic: JSON.parse(localStorage.getItem("basic")),
       friend: null,
       id: this.props.match.params.id,
-      isFriend: false,
+      isFriend: null,
+      edit: false,
+      note: "",
     };
+
+    this.handleNote = this.handleNote.bind(this);
   }
 
   async componentDidMount() {
@@ -103,8 +107,30 @@ class OtherUser extends Component {
     }
   }
 
+  async editFriendNote() {
+    const { basic, id, note } = this.state;
+    const response = await axios.post(
+      API_URL + "/friend/changeNotes",
+      { userId: basic.id, friendId: id, notes: note },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      alert(response.data);
+      window.location.reload();
+    }
+  }
+
+  handleNote(event) {
+    this.setState({ note: event.target.value });
+  }
+
   friendProfile() {
-    const { friend } = this.state;
+    const { friend, isFriend, edit, note } = this.state;
     return (
       <div>
         <h1>Profile of your friend: {friend.name}</h1>
@@ -116,6 +142,37 @@ class OtherUser extends Component {
         >
           <i className="fas fa-minus" />
         </Button>
+        {edit ? (
+          <Form>
+            <Input
+              type="text"
+              value={note || ""}
+              onChange={this.handleNote}
+              placeholder="Note"
+              className="note-input"
+            />
+            <Button
+              className="btn-search"
+              onClick={() => {
+                this.editFriendNote();
+              }}
+            >
+              <i className="fas fa-save" />
+            </Button>
+          </Form>
+        ) : (
+          <div>
+            <h1>Note: {isFriend.first.notes}</h1>
+            <Button
+              className="btn-search"
+              onClick={() => {
+                this.setState({ edit: true, note: isFriend.first.notes });
+              }}
+            >
+              <i className="fas fa-pencil-alt" />
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
