@@ -226,8 +226,7 @@ footer {
 .requests-list-received {
   width: 300px;
   background-color: cornflowerblue;
-  max-height: calc(100vh - 430px);
-  min-height: 100px;
+  height: calc(100vh - 300px);
   overflow: auto;
   text-align: center;
   display: inline-block;
