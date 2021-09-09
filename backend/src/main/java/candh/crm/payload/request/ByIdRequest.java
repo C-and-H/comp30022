@@ -13,6 +13,8 @@ public class ByIdRequest
     @NotBlank
     private String id;
 
+    public ByIdRequest() { }
+
     public ByIdRequest(String userId) {
         this.id = id;
     }
