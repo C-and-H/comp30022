@@ -1,5 +1,7 @@
-package candh.crm.security;
+package candh.crm.config;
 
+import candh.crm.security.AuthEntryPointJwt;
+import candh.crm.security.AuthTokenFilter;
 import candh.crm.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
