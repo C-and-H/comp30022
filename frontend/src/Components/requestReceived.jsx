@@ -118,7 +118,7 @@ class RequestReceived extends Component {
 
   request(user) {
     return (
-      <span>
+      <span key={user.id}>
         <Button
           className="btn btn-danger btn-outline-light btn-accept"
           onClick={() => this.declineRequest(user.id)}

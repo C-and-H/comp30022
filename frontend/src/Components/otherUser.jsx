@@ -146,7 +146,7 @@ class OtherUser extends Component {
           <Form>
             <Input
               type="text"
-              value={note || ""}
+              value={note}
               onChange={this.handleNote}
               placeholder="Note"
               className="note-input"

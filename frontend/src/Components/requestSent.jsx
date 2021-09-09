@@ -101,7 +101,7 @@ class RequestSent extends Component {
 
   request(user) {
     return (
-      <span>
+      <span key={user.id}>
         <Button
           className="btn-request-sent"
           variant="outline-dark"
