@@ -1,9 +1,40 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import AuthService from "../Services/AuthService";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isConnected: false,
+      notificationNumber: 0
+    };
+  }
+
+  async componentDidMount() {
+    const currentUser = AuthService.getCurrentUser();
+    this.connect();
+    
+  }
+
+  connect() {
+    var stompClient = null;
+    var socket = new SockJS('/candh-crm-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        this.isConnected = true;
+        stompClient.subscribe('/topic/notification', function (numNotification) {
+            console.log("Subscribe!");
+        });
+    });
+  }
+
   logIn() {
     const notificationNumber = 4;
     return (

@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "bootstrap": "^5.1.0",
+    "bootstrap-switch-button-react": "^1.2.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-beta.5",
     "react-dom": "^17.0.2",
@@ -17,9 +18,10 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-tooltip": "^3.9.2",
-    "bootstrap-switch-button-react": "^1.2.0",
     "reactstrap": "^8.9.0",
+    "sockjs-client": "^1.5.2",
     "start": "^5.1.0",
+    "stompjs": "^2.3.3",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
