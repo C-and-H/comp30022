@@ -4,6 +4,7 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import AuthService from "../Services/AuthService";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import { API_URL } from "../constant";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
@@ -12,31 +13,52 @@ class NavigationBar extends Component {
 
     this.state = {
       isConnected: false,
-      notificationNumber: 0
+      notificationNumber: 0,
+      stompClient: null
     };
+
+    this.connectCallback = this.connectCallback.bind(this);
   }
 
   async componentDidMount() {
-    const currentUser = AuthService.getCurrentUser();
     this.connect();
-    
+    await this.sleep(5000);
+    this.sendUserId();
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   connect() {
-    var stompClient = null;
-    var socket = new SockJS('/candh-crm-websocket');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
+    var self = this;
+    var socket = new SockJS(API_URL + '/candh-crm-websocket');
+    self.stompClient = Stomp.over(socket);
+    self.stompClient.connect({}, function (frame) {
+        console.log('Connected: ' );
+        console.log(frame);
+        console.log('Hello!!!');
         this.isConnected = true;
-        stompClient.subscribe('/topic/notification', function (numNotification) {
-            console.log("Subscribe!");
-        });
+        self.stompClient.subscribe('/topic/notification', self.connectCallback);
+        console.log("Subscribed!");
+        //this.sendUserId();
     });
   }
 
+  connectCallback (numNotification) {
+    console.log("New push come!");
+    console.log(numNotification.body);
+    this.notificationNumber = numNotification.body;
+  }
+
+  sendUserId() {
+    console.log("send user id " + AuthService.getBasicInfo().id);
+    this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
+  }
+
   logIn() {
-    const notificationNumber = 4;
+    var notificationNumber = 4;
+    //notificationNumber = this.notificationNumber;
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
