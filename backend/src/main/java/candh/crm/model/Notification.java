@@ -4,8 +4,6 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
-
 @ToString
 
 @Document(collection = "notification")
@@ -13,14 +11,13 @@ public class Notification
 {
     @Id
     String id;
-
     String userId;
     /** message content */
     String message;
     /** when the notification was created */
-    Timestamp when;
+    String when;
 
-    public Notification(String userId, String message, Timestamp when) {
+    public Notification(String userId, String message, String when) {
         this.userId = userId;
         this.message = message;
         this.when = when;
@@ -34,7 +31,7 @@ public class Notification
         return message;
     }
 
-    public Timestamp getWhen() {
+    public String getWhen() {
         return when;
     }
 
@@ -46,7 +43,7 @@ public class Notification
         this.message = message;
     }
 
-    public void setWhen(Timestamp when) {
+    public void setWhen(String when) {
         this.when = when;
     }
 }

@@ -22,7 +22,6 @@ public class User implements UserDetails
 {
     @Id
     private String id;
-
     @Indexed(unique = true)
     private String email;
     private String password;

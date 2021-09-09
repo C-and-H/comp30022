@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Service
@@ -34,7 +33,7 @@ public class NotificationService
      */
     public void create(String id, String message) {
         notificationRepository.save(
-                new Notification(id, message, Timestamp.valueOf(LocalDateTime.now())));
+                new Notification(id, message, LocalDateTime.now().toString()));
     }
 
     /**
