@@ -20,6 +20,12 @@ public class Notification
     /** when the notification was created */
     Timestamp when;
 
+    public Notification(String userId, String message, Timestamp when) {
+        this.userId = userId;
+        this.message = message;
+        this.when = when;
+    }
+
     public String getUserId() {
         return userId;
     }

@@ -34,7 +34,7 @@ class NavigationBar extends Component {
     var self = this;
     var socket = new SockJS(API_URL + '/candh-crm-websocket');
     self.stompClient = Stomp.over(socket);
-    self.stompClient.connect({name : AuthService.getBasicInfo().id}, function (frame) {
+    self.stompClient.connect({id : AuthService.getBasicInfo().id}, function (frame) {
         console.log('Connected: ' );
         console.log(frame);
         self.setState({ isConnected : true});
