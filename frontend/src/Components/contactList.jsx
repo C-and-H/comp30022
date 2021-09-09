@@ -16,6 +16,7 @@ class ContactList extends Component {
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
       currentUser: JSON.parse(localStorage.getItem("user")),
+      friends: [],
       friendList: [],
       redirect: null,
     };
@@ -56,8 +57,11 @@ class ContactList extends Component {
     );
 
     if (response.data) {
+      let { friends } = this.state;
       for (let i = 0; i < response.data.length; i++) {
         await this.getFriendInfo(response.data[i].friendId);
+        friends.push([response.data[i].friendId, response.data[i].notes]);
+        this.setState({ friends });
       }
     }
   }
@@ -113,6 +117,16 @@ class ContactList extends Component {
     }
   }
 
+  friendNote(id) {
+    const { friends } = this.state;
+    for (let i = 0; i < friends.length; i++) {
+      if (id === friends[i][0]) {
+        return friends[i][1];
+      }
+    }
+    return "";
+  }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -126,6 +140,7 @@ class ContactList extends Component {
             <FriendDisplay
               key={friend.id}
               user={friend}
+              note={this.friendNote(friend.id)}
               onClick={() => this.redirectFriend(friend.id)}
             />
           ))}

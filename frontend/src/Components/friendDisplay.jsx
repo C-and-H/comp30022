@@ -4,14 +4,14 @@ import ReactTooltip from "react-tooltip";
 
 class FriendDisplay extends Component {
   render() {
-    const { user } = this.props;
+    const { user, note } = this.props;
     return (
       <span>
         <Button
           className="btn-friend"
           variant="outline-dark"
           size="lg"
-          data-tip={user.email}
+          data-tip={user.email + (note.length > 0 && "<br />" + note)}
           onClick={this.props.onClick}
         >
           <i className="fa fa-user-circle fa-fw"></i>
