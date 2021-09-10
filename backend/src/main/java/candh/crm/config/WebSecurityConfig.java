@@ -1,5 +1,7 @@
-package candh.crm.security;
+package candh.crm.config;
 
+import candh.crm.security.AuthEntryPointJwt;
+import candh.crm.security.AuthTokenFilter;
 import candh.crm.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
     @Autowired
-    AuthService authService;
+    private AuthService authService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -62,7 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/", "/login", "/signup", "/signup/*/*", "/jwt/checkExpired").permitAll().anyRequest().authenticated();
+                .authorizeRequests().antMatchers("/", "/login", "/signup", "/signup/*/*", "/jwt/checkExpired",
+                        "/candh-crm-websocket/**", "/topic/**", "/app/**").permitAll().anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -16,6 +16,9 @@ public class ContactRelationService
     @Autowired
     private ContactRepository contactRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     /**
      * Find all contacts of a user that the user is accepted by any friend.
      *
@@ -70,17 +73,23 @@ public class ContactRelationService
      * @param userId  id of the user
      * @param friendId  id of the friend to send
      */
-    public void sendRequest(String userId, String friendId) throws Exception {
+    public void sendRequest(String userId, String friendId) throws Exception
+    {
         Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
         Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
         if (u == null && f == null) {   // 7, send request
             contactRepository.save(new Contact(userId, friendId, true));
             contactRepository.save(new Contact(friendId, userId, false));
+            // TODO
+            notificationService.create(friendId, "TestTestTestTestTest");
+            notificationService.push(friendId);
         }
         else if (u.isAccepted() && !u.isIgnored() && !f.isAccepted()) {
-            if (f.isIgnored()) f.setIgnored(false);   // 5, resend declined request
+            if (f.isIgnored()) {   // 5, resend declined request
+                f.setIgnored(false);
+                contactRepository.save(f);
+            }
             // 2, pass
-            contactRepository.save(f);
         }
         else if (!u.isAccepted() && f.isAccepted() && !f.isIgnored()) {   // 3 & 4, confirm
             u.setAccepted(true);

@@ -50,6 +50,14 @@
 }
 /*------------------ SignIn Components end---------------*/
 
+/*------------------ NavigationBar Components ------------------*/
+.notification-badge {
+  background-color: rgb(168, 58, 58);
+  margin-left: 5px;
+  margin-right: 0px;
+}
+/*------------------ NavigationBar Components end---------------*/
+
 /*------------------ HomePage Components ---------------*/
 .navbar-dark .navbar-nav .nav-link {
   color: white;
