@@ -4,15 +4,20 @@ import candh.crm.controller.NotificationController;
 import candh.crm.model.Notification;
 import candh.crm.payload.request.ByIdRequest;
 import candh.crm.repository.NotificationRepository;
+import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class NotificationService
 {
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private NotificationRepository notificationRepository;
 
@@ -31,9 +36,56 @@ public class NotificationService
      * @param id  id of the user
      * @param message  message content
      */
-    public void create(String id, String message) {
+    private void create(String id, String message) {
         notificationRepository.save(
                 new Notification(id, message, LocalDateTime.now().toString()));
+    }
+
+    /**
+     * Create a friend request notification for the receiver,
+     * and push to the receiver if possible.
+     *
+     * @param receiverId  id of the receiver
+     * @param senderId  id of the sender
+     */
+    public void createReceiveFriendRequestNotification(
+            String receiverId, String senderId) {
+        String senderName = userRepository.findById(senderId).get().getName();
+        create(receiverId,
+                "You received a new friend request from " +
+                        senderName + ".");
+        push(receiverId);
+    }
+
+    /**
+     * Delete a sent friend request notification,
+     * and push to the receiver if possible.
+     *
+     * @param receiverId  id of the receiver
+     * @param senderId  id of the sender
+     */
+    public void deleteReceiveFriendRequestNotification(
+            String receiverId, String senderId) {
+        String senderName = userRepository.findById(senderId).get().getName();
+        String message = "You received a new friend request from " + senderName + ".";
+        notificationRepository.delete(
+                notificationRepository.findByUserIdAndMessage(receiverId, message));
+        push(receiverId);
+    }
+
+    /**
+     * Create a friend acceptance notification for the sender,
+     * and push to the sender if possible.
+     *
+     * @param acceptorId  id of the confirmer
+     * @param senderId  id of the sender
+     */
+    public void createAcceptFriendRequestNotification(
+            String acceptorId, String senderId) {
+        String acceptor = userRepository.findById(acceptorId).get().getName();
+        create(senderId,
+                "You and " + acceptor + " are friends now!");
+        push(senderId);
     }
 
     /**
