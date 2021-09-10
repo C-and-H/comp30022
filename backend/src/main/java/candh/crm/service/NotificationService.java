@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -58,7 +59,7 @@ public class NotificationService
     }
 
     /**
-     * Delete a sent friend request notification,
+     * Delete the most recent sent friend request notification,
      * and push to the receiver if possible.
      *
      * @param receiverId  id of the receiver
@@ -68,9 +69,23 @@ public class NotificationService
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
         String message = "You received a new friend request from " + senderName + ".";
-        notificationRepository.delete(
-                notificationRepository.findByUserIdAndMessage(receiverId, message));
-        push(receiverId);
+        List<Notification> sent = notificationRepository.findByUserIdAndMessage(receiverId, message);
+        if (sent != null)
+        {
+            notificationRepository.delete(sent.stream()
+                    .max(new Comparator<Notification>() {
+                        @Override
+                        public int compare(Notification o1, Notification o2) {
+                            LocalDateTime t1 = LocalDateTime.parse(o1.getWhen()),
+                                    t2 = LocalDateTime.parse(o2.getWhen());
+                            if (t1.isBefore(t2)) return -1;
+                            else if (t1.isAfter(t2)) return 1;
+                            else return 0;
+                        }
+                    }).get()
+            );
+            push(receiverId);
+        }
     }
 
     /**

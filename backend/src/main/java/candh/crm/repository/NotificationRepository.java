@@ -13,5 +13,5 @@ public interface NotificationRepository extends MongoRepository<Notification, St
     List<Notification> findByUserId(String userId);
 
     @Query(value = "{$and: [{'userId': '?0'}, {'message': ?1}]}")
-    Notification findByUserIdAndMessage(String userId, String message);
+    List<Notification> findByUserIdAndMessage(String userId, String message);
 }
