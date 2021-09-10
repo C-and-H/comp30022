@@ -2,44 +2,34 @@ package candh.crm.service;
 
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class WebSocketSessionService
 {
-    private final Map<String, Principal> sessionMap = new HashMap<>();
+    private final Map<String, String> sessionMap = new ConcurrentHashMap<>();
 
     /**
      * Add a user to the session map.
      *
-     * @param id  id of the user
-     * @param principal
+     * @param userId  id of the user
+     * @param sessionId  id of the session
      */
-    public void setUserSession(String id, Principal principal) {
-        sessionMap.put(id, principal);
+    public void setUserSession(String userId, String sessionId) {
+        sessionMap.put(userId, sessionId);
     }
 
     /**
      * Remove a user out of the session map.
      *
-     * @param id  id of the user
+     * @param sessionId  id of the session
      */
-    public void removeSession(String id) {
-        sessionMap.remove(id);
+    public void removeSession(String sessionId) {
+        sessionMap.values().remove(sessionId);
     }
 
-    /**
-     * Verify if a user is present in the session map.
-     *
-     * @param id  id of the user
-     */
-    public boolean sessionExists(String id) {
-        return sessionMap.containsKey(id);
-    }
-
-    public Map<String, Principal> getSessionMap() {
+    public Map<String, String> getSessionMap() {
         return sessionMap;
     }
 }

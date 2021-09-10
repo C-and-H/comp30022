@@ -71,7 +71,7 @@ public class NotificationController
             // operate
             List<Notification> notifications = notificationRepository
                     .findByUserId(byIdRequest.getId());
-            // notificationRepository.deleteAll(notifications);
+            notificationRepository.deleteAll(notifications);
             // push through socket
             notificationService.push(byIdRequest.getId());
             return ResponseEntity.ok(notifications);

@@ -52,9 +52,7 @@ public class NotificationService
     public void createReceiveFriendRequestNotification(
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
-        create(receiverId,
-                "You received a new friend request from " +
-                        senderName + ".");
+        create(receiverId, "Friend request: " + senderName + ".");
         push(receiverId);
     }
 
@@ -68,9 +66,9 @@ public class NotificationService
     public void deleteReceiveFriendRequestNotification(
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
-        String message = "You received a new friend request from " + senderName + ".";
+        String message = "Friend request: " + senderName + ".";
         List<Notification> sent = notificationRepository.findByUserIdAndMessage(receiverId, message);
-        if (sent != null)
+        if (!sent.isEmpty())
         {
             notificationRepository.delete(sent.stream()
                     .max(new Comparator<Notification>() {
@@ -98,8 +96,7 @@ public class NotificationService
     public void createAcceptFriendRequestNotification(
             String acceptorId, String senderId) {
         String acceptor = userRepository.findById(acceptorId).get().getName();
-        create(senderId,
-                "You and " + acceptor + " are friends now!");
+        create(senderId, "New friend: " + acceptor + "!");
         push(senderId);
     }
 
@@ -107,12 +104,13 @@ public class NotificationService
      * Actively push the map that contains the number of (unread) notifications,
      * as long as the channel to a receiver is open, using socket.
      *
-     * @param id  id of the user
+     * @param userId  id of the user
      */
-    public void push(String id) {
-        if (webSocketSessionService.sessionExists(id)) {
-            template.convertAndSend(id, "/topic/notification",
-                    notificationController.count(new ByIdRequest(id)));
+    public void push(String userId) {
+        String sessionId = webSocketSessionService.getSessionMap().get(userId);
+        if (sessionId != null) {
+            template.convertAndSend("/topic/notification",
+                    notificationController.count(new ByIdRequest(userId)));
         }
     }
 }
