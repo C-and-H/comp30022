@@ -72,10 +72,10 @@ class AuthService {
     }
   }
 
-
   logout() {
     localStorage.removeItem("basic");
     localStorage.removeItem("user");
+    localStorage.removeItem("notifications");
   }
 
   register(username, email, password) {

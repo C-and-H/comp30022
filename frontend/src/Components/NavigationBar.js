@@ -4,19 +4,20 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
-  
   getNotificationDropDownItem(notification) {
     return (
-      <NavDropdown.Item>
-        {/* {notification.message} */}
-        <button> gui </button>
+      <NavDropdown.Item key={notification.when} className="text-muted">
+        <p className="notify-dropdown">
+          {notification.message}
+          <button> gui </button>
+        </p>
       </NavDropdown.Item>
     );
   }
 
   logIn() {
     console.log(this.props.notifications);
-    const { notifications } = this.props; 
+    const { notifications } = this.props;
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
@@ -31,35 +32,35 @@ class NavigationBar extends Component {
           <i className="fa fa-search"></i>
           Search
         </Nav.Link>
-        
-        {this.props.notificationNumber !== 0 ?
-            <NavDropdown
-              eventkey={this.props.notificationNumber}
-              title={
-                <span>
-                  <i className="fa fa-rocket"></i>
-                  Inbox
-                  <span className='badge badge-warning notification-badge'> {this.props.notificationNumber} </span> 
+
+        {this.props.notificationNumber !== 0 ? (
+          <NavDropdown
+            eventkey={this.props.notificationNumber}
+            title={
+              <span>
+                <i className="fa fa-rocket"></i>
+                Inbox
+                <span className="badge badge-warning notification-badge">
+                  {" "}
+                  {this.props.notificationNumber}{" "}
                 </span>
-              }
-              id="collasible-nav-dropdown"
-              onClick={this.props.onGetNotification}
-            >
-              {
-                notifications.map(
-                  (notification) => (this.getNotificationDropDownItem(notification))
-                )
-              }
-              
-              <NavDropdown.Divider />
-            </NavDropdown>
-            
-            : 
-            <Nav.Link className={"navbar_nav"}>
-              <i className="fa fa-rocket"></i>
-              Inbox         
-            </Nav.Link>
-        }
+              </span>
+            }
+            id="collasible-nav-dropdown"
+            onClick={this.props.onGetNotification}
+          >
+            {notifications.map((notification) =>
+              this.getNotificationDropDownItem(notification)
+            )}
+
+            <NavDropdown.Divider />
+          </NavDropdown>
+        ) : (
+          <Nav.Link className={"navbar_nav"}>
+            <i className="fa fa-rocket"></i>
+            Inbox
+          </Nav.Link>
+        )}
         <Nav.Link
           href="/login"
           className={"navbar_nav"}

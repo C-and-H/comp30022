@@ -6,7 +6,7 @@ import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
-import ProfileDisplay from "./Components/Profiles/ProfileDisplay"
+import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
 import AuthService from "./Services/AuthService";
 import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
@@ -23,7 +23,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     //this.logOut = this.logOut.bind(this);
-    
+
     this.state = {
       currentUser: JSON.parse(localStorage.getItem("user")),
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -31,7 +31,7 @@ class App extends Component {
       isConnected: false,
       notificationNumber: 0,
       stompClient: null,
-      notifications: []
+      notifications: [],
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -71,31 +71,51 @@ class App extends Component {
 
   connect() {
     var self = this;
-    var socket = new SockJS(API_URL + '/candh-crm-websocket');
+    var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
-    self.stompClient.connect({id : AuthService.getBasicInfo().id}, function (frame) {
-        console.log('Connected: ' );
+    self.stompClient.connect(
+      { id: AuthService.getBasicInfo().id },
+      function (frame) {
+        console.log("Connected: ");
         console.log(frame);
-        self.setState({ isConnected : true});
-        self.stompClient.subscribe('/topic/notification', self.subscribeCallback);
+        self.setState({ isConnected: true });
+        self.stompClient.subscribe(
+          "/topic/notification",
+          self.subscribeCallback
+        );
         self.sendUserId();
-    });
+      }
+    );
   }
 
-  subscribeCallback (numNotification) {
+  subscribeCallback(numNotification) {
     console.log("New push come!");
     console.log(JSON.parse(numNotification.body).count);
-    this.setState({ notificationNumber: JSON.parse(numNotification.body).count});
+    let notifications = localStorage.getItem("notifications");
+    if (!notifications) {
+      const notificationNumber = JSON.parse(numNotification.body).count;
+      this.setState({ notificationNumber });
+    } else {
+      console.log(notifications);
+      const notificationNumber =
+        JSON.parse(numNotification.body).count +
+        JSON.parse(notifications).length;
+      this.setState({ notificationNumber });
+    }
   }
 
   sendUserId() {
     console.log("send user id " + AuthService.getBasicInfo().id);
-    this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
+    this.stompClient.send(
+      "/app/notification/unread",
+      {},
+      JSON.stringify({ id: AuthService.getBasicInfo().id })
+    );
   }
 
   disconnect() {
     if (this.stompClient !== null) {
-        this.stompClient.disconnect({}, {id : AuthService.getBasicInfo().id});
+      this.stompClient.disconnect({}, { id: AuthService.getBasicInfo().id });
     }
     this.setState({ isConnected: false });
     console.log("Disconnected");
@@ -107,18 +127,31 @@ class App extends Component {
     const response = await axios.post(
       API_URL + "/notification/fetch",
       {
-        id
+        id,
       },
       {
         headers: {
           Authorization: "Bearer " + token,
         },
-      });
+      }
+    );
 
     console.log(response.data);
-    this.setState({notifications: response.data});
-    console.log("Num notifications: ")
+    let notifications = localStorage.getItem("notifications");
+    if (!notifications) {
+      notifications = response.data;
+    } else {
+      notifications = JSON.parse(notifications);
+      for (let i = 0; i < response.data.length; i++) {
+        notifications.push(response.data[i]);
+      }
+    }
+    localStorage.setItem("notifications", JSON.stringify(notifications));
+    this.setState({ notifications });
+    console.log("Num notifications: ");
     console.log(this.state.notifications.length);
+    console.log(response.data);
+    console.log("local", JSON.parse(localStorage.getItem("notifications")));
   }
 
   render() {
@@ -127,11 +160,13 @@ class App extends Component {
       <div className="App">
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
-          <NavigationBar user={currentUser} 
-            onLogOut={this.handleLogOut} 
-            notifications={this.state.notifications} 
+          <NavigationBar
+            user={currentUser}
+            onLogOut={this.handleLogOut}
+            notifications={this.state.notifications}
             notificationNumber={this.state.notificationNumber}
-            onGetNotification={this.getNotifications}/>
+            onGetNotification={this.getNotifications}
+          />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={LogIn} />
@@ -141,7 +176,7 @@ class App extends Component {
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path={["/", "/home"]} component={HomePage} />
-            <Route exact path = "/profile" component = {ProfileDisplay} />
+            <Route exact path="/profile" component={ProfileDisplay} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
