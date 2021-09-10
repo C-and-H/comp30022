@@ -12,7 +12,9 @@ class ContactList extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-
+    
+    // friends => friend id and note tuple
+    // friendList => friend user information
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
       currentUser: JSON.parse(localStorage.getItem("user")),
