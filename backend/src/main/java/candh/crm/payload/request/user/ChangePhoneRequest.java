@@ -9,15 +9,9 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
-<<<<<<< HEAD:backend/src/main/java/candh/crm/payload/request/user/ChangePhoneRequest.java
  * Request body parameters for /user/changePhone.
  */
 public class ChangePhoneRequest
-=======
- * Request body parameters for /user/addMobile and /user/deleteMobile.
- */
-public class MobileRequest
->>>>>>> origin/sprint2-frontend-1.0-Contact:backend/src/main/java/candh/crm/payload/request/user/MobileRequest.java
 {
     @NotBlank
     private String id;
@@ -26,7 +20,6 @@ public class MobileRequest
     public String getMobileNumber() {
         return this.mobileNumber;
     }
-
 
     public String getId() {
         return this.id;
