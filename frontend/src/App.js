@@ -11,6 +11,8 @@ import AuthService from "./Services/AuthService";
 import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
+import OtherUser from "./Components/otherUser";
+import { Redirect } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -20,6 +22,7 @@ class App extends Component {
     this.state = {
       currentUser: JSON.parse(localStorage.getItem("user")),
       basic: JSON.parse(localStorage.getItem("basic")),
+      redirect: null,
     };
   }
 
@@ -29,7 +32,7 @@ class App extends Component {
       await AuthService.validToken(basic.token);
       basic = AuthService.getBasicInfo();
       if (!basic) {
-        this.setState({ basic: null, currentUser: null });
+        this.setState({ redirect: "/login", basic: null, currentUser: null });
       }
     }
 
@@ -45,18 +48,19 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser } = this.state;
+    const { currentUser, redirect } = this.state;
     return (
       <div className="App">
         <Router>
+          {redirect && <Redirect to={this.state.redirect} />}
           <NavigationBar user={currentUser} onLogOut={this.handleLogOut} />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
-            <Route path="/login" component={LogIn} />
+            <Route exact path="/login" component={LogIn} />
             <Route exact path="/contact" component={ContactList} />
-
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
+            <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path={["/", "/home"]} component={HomePage} />
             <Route exact path = "/profile" component = {ProfileDisplay} />
             <Route path="/signup/:email/:code">

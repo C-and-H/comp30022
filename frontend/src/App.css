@@ -44,13 +44,11 @@
 }
 /*------------------ SignUp Components end---------------*/
 
-
 /*------------------ SignIn Components ------------------*/
 #signin-to-signup {
   font-size: small;
 }
 /*------------------ SignIn Components end---------------*/
-
 
 /*------------------ HomePage Components ---------------*/
 .navbar-dark .navbar-nav .nav-link {
@@ -98,30 +96,29 @@ body .bg-dark {
 }
 /*------------------ HomePage Components End ---------------*/
 
-
-/*------------------ Profile SideBar Components ---------------*/ 
+/*------------------ Profile SideBar Components ---------------*/
 .profile-side-bar {
   width: 240px !important;
- }
- .pro-sidebar{
-   height: 50vh !important;
- }
- .pro-sidebar > .pro-sidebar-inner{
+}
+.pro-sidebar {
+  height: 50vh !important;
+}
+.pro-sidebar > .pro-sidebar-inner {
   width: 80% !important;
   flex-direction: unset;
   /* height: 70vh; */
- }
+}
 .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
   background-color: #F2EDA2;
   width: 250px !important;
 }
-.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content{
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content {
   font-size: 20px;
   text-align: center;
   color: black;
 }
 
-.pro-sidebar .pro-menu .pro-menu-item:hover{
+.pro-sidebar .pro-menu .pro-menu-item:hover {
   background-color: rgb(208, 218, 157);
   transition: 0.4s;
 }
@@ -257,6 +254,7 @@ footer {
   width: 200px;
   height: 40px;
   background: chocolate;
+  margin: auto;
 }
 
 .plus {
@@ -312,6 +310,17 @@ footer {
   right: 0;
 }
 
+.requests-list-received {
+  width: 300px;
+  background-color: cornflowerblue;
+  height: calc(100vh - 300px);
+  overflow: auto;
+  text-align: center;
+  display: inline-block;
+  margin: auto;
+  margin-left: 30px;
+}
+
 .btn-searchResult {
   width: 500px;
 }
@@ -340,6 +349,34 @@ footer {
   margin-top: 50px;
   left: 0;
   right: 0;
+}
+
+.btn-request {
+  width: 200px;
+  height: 50px;
+  background-color: mediumslateblue;
+}
+
+.btn-accept {
+  width: 50px;
+  height: 50px;
+}
+
+.btn-request-sent {
+  width: 250px;
+  height: 50px;
+  background-color: mediumslateblue;
+}
+
+.div-contact {
+  display: flex;
+}
+
+.note-input {
+  width: 200px;
+  height: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /*------------------ Contact Components end ---------------*/

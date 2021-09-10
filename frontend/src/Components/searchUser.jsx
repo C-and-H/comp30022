@@ -4,6 +4,7 @@ import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import axios from "axios";
 import SearchResult from "./searchResult";
 import { API_URL } from "../constant";
+import { Redirect } from "react-router-dom";
 
 class SearchUser extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class SearchUser extends Component {
       areaOrRegion: "",
       industry: "",
       company: "",
+      redirect: null,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -64,7 +66,7 @@ class SearchUser extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/user/sketchySearch",
-      { searchKey: value },
+      { id: basic.id, searchKey: value },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -97,6 +99,7 @@ class SearchUser extends Component {
       const response = await axios.post(
         API_URL + "/user/search",
         {
+          id: basic.id,
           email: email,
           first_name: firstName,
           last_name: lastName,
@@ -213,7 +216,11 @@ class SearchUser extends Component {
       return (
         <div className="search-results">
           {results.map((user) => (
-            <SearchResult key={user.id} user={user} />
+            <SearchResult
+              key={user.id}
+              user={user}
+              onClick={() => this.redirectUser(user.id)}
+            />
           ))}
         </div>
       );
@@ -297,7 +304,15 @@ class SearchUser extends Component {
     );
   }
 
+  redirectUser(id) {
+    const redirect = "/user/" + id;
+    this.setState({ redirect });
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div className="centered">
         <BootstrapSwitchButton
