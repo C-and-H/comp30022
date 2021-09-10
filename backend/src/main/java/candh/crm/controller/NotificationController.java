@@ -3,7 +3,6 @@ package candh.crm.controller;
 import candh.crm.model.Notification;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
-import candh.crm.payload.request.notification.FetchRequest;
 import candh.crm.repository.NotificationRepository;
 import candh.crm.repository.UserRepository;
 import candh.crm.service.NotificationService;
@@ -66,15 +65,15 @@ public class NotificationController
     @PostMapping("/notification/fetch")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> fetch(
-            @Valid @RequestBody FetchRequest fetchRequest) {
-        Optional<User> user = userRepository.findById(fetchRequest.getUserId());
+            @Valid @RequestBody ByIdRequest byIdRequest) {
+        Optional<User> user = userRepository.findById(byIdRequest.getId());
         if (user.isPresent()) {
             // operate
-            List<Notification> notifications = (List<Notification>)
-                    notificationRepository.findAllById(fetchRequest.getNotificationIds());
+            List<Notification> notifications = notificationRepository
+                    .findByUserId(byIdRequest.getId());
             notificationRepository.deleteAll(notifications);
             // push through socket
-            notificationService.push(fetchRequest.getUserId());
+            notificationService.push(byIdRequest.getId());
             return ResponseEntity.ok(notifications);
         } else {
             return ResponseEntity.ok("User Id not found.");
