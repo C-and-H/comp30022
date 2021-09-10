@@ -31,10 +31,11 @@ class App extends Component {
       isConnected: false,
       notificationNumber: 0,
       stompClient: null,
-      notifications: {}
+      notifications: []
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
+    this.getNotifications = this.getNotifications.bind(this);
   }
 
   async componentDidMount() {
@@ -81,11 +82,26 @@ class App extends Component {
     });
   }
 
-  async subscribeCallback (numNotification) {
+  subscribeCallback (numNotification) {
     console.log("New push come!");
     console.log(JSON.parse(numNotification.body).count);
     this.setState({ notificationNumber: JSON.parse(numNotification.body).count});
+  }
 
+  sendUserId() {
+    console.log("send user id " + AuthService.getBasicInfo().id);
+    this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
+  }
+
+  disconnect() {
+    if (this.stompClient !== null) {
+        this.stompClient.disconnect({}, {id : AuthService.getBasicInfo().id});
+    }
+    this.setState({ isConnected: false });
+    console.log("Disconnected");
+  }
+
+  async getNotifications() {
     const token = AuthService.getBasicInfo().token;
     const id = AuthService.getBasicInfo().id;
     const response = await axios.post(
@@ -105,19 +121,6 @@ class App extends Component {
     console.log(this.state.notifications.length);
   }
 
-  sendUserId() {
-    console.log("send user id " + AuthService.getBasicInfo().id);
-    this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
-  }
-
-  disconnect() {
-    if (this.stompClient !== null) {
-        this.stompClient.disconnect({}, {id : AuthService.getBasicInfo().id});
-    }
-    this.setState({ isConnected: false });
-    console.log("Disconnected");
-  }
-
   render() {
     const { currentUser, redirect } = this.state;
     return (
@@ -127,7 +130,8 @@ class App extends Component {
           <NavigationBar user={currentUser} 
             onLogOut={this.handleLogOut} 
             notifications={this.state.notifications} 
-            notificationNumber={this.state.notificationNumber}/>
+            notificationNumber={this.state.notificationNumber}
+            onGetNotification={this.getNotifications}/>
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={LogIn} />

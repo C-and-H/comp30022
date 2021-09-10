@@ -5,7 +5,18 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
   
+  getNotificationDropDownItem(notification) {
+    return (
+      <NavDropdown.Item>
+        {/* {notification.message} */}
+        <button> gui </button>
+      </NavDropdown.Item>
+    );
+  }
+
   logIn() {
+    console.log(this.props.notifications);
+    const { notifications } = this.props; 
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
@@ -32,11 +43,14 @@ class NavigationBar extends Component {
                 </span>
               }
               id="collasible-nav-dropdown"
+              onClick={this.props.onGetNotification}
             >
-              <NavDropdown.Item href="/profile">
-                <i className="fa fa-user fa-fw"></i>
-                {this.props.user.first_name}
-              </NavDropdown.Item>
+              {
+                notifications.map(
+                  (notification) => (this.getNotificationDropDownItem(notification))
+                )
+              }
+              
               <NavDropdown.Divider />
             </NavDropdown>
             
