@@ -87,7 +87,7 @@ export default class ProfileDisplay extends Component{
     this.setState({ currentUser: currentUser, userReady : true });
 
 		// display following if they exist
-		if (currentUser.mobiles.length !== 0) this.setState({hasPhone : true});
+		if (currentUser.phone.length !== 0) this.setState({hasPhone : true});
 		if (currentUser.industry) this.setState({hasIndustry : true});
 		if (currentUser.company) this.setState({hasCompany : true});
 		if (currentUser.personalSummary) this.setState({hasSummary : true});
@@ -186,8 +186,9 @@ export default class ProfileDisplay extends Component{
 						</h1>
 						{hasPhone ? (
 							<div>
-							<h1 style = {lineStyle}>bruh
-							{
+							<h1 style = {lineStyle}>bruh 
+              <span style = {valueStyle}>{currentUser.phone}</span>
+							{/* {
 								mobiles.map((element) => {
 									return (
 										<p style = {{textAlign :"right", marginRight: 270}}>
@@ -195,8 +196,8 @@ export default class ProfileDisplay extends Component{
 										</p>
 										)
 								
-								})
-							}
+								}) */}
+							{/* } */}
 							</h1>
 							</div>
 						) : (
@@ -212,13 +213,13 @@ export default class ProfileDisplay extends Component{
 						
 					</div>
 					<div>
-						<center>
+						{/* <center> */}
 
 							{/* <ContainedButtons />
 							{/* <Button className = {classes.root} variant="primary" size = "lg">
 								Edit my profile
 							</Button> */} 
-						</center>
+						{/* </center> */}
 					</div>
 				</center>
 			</div>

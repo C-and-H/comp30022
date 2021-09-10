@@ -21,9 +21,6 @@ public class ChangePhoneRequest
         return this.mobileNumber;
     }
 
-    public String getMobileCountryCode() {
-        return this.mobileCountryCode;
-    }
 
     public String getId() {
         return this.id;

@@ -6,7 +6,7 @@ import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
-import BoardUser from "./Components/BoardUser";
+import ProfileDisplay from "./Components/Profiles/ProfileDisplay"
 import AuthService from "./Services/AuthService";
 import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
@@ -58,6 +58,7 @@ class App extends Component {
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path={["/", "/home"]} component={HomePage} />
+            <Route exact path = "/profile" component = {ProfileDisplay} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>

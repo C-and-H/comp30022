@@ -57,7 +57,7 @@ export default class Profile extends Component {
 
               <Route exact path = "/setting/change-password" component = {ChangePassword} />
 
-                <Route exact path = "/profile" component = {ProfileDisplay} />
+                
               </Switch>
             </Col>
           </Router>
