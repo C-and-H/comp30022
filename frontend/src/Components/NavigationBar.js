@@ -1,69 +1,11 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import AuthService from "../Services/AuthService";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
-import { API_URL } from "../constant";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isConnected: false,
-      notificationNumber: 3,
-      stompClient: null
-    };
-
-    this.connectCallback = this.connectCallback.bind(this);
-  }
-
-  componentDidMount() {
-    if (!this.state.isConnected) {
-      this.connect();
-    }
-  }
-
-  componentWillUnmount() {
-    this.disconnect();
-  }
-
-  connect() {
-    var self = this;
-    var socket = new SockJS(API_URL + '/candh-crm-websocket');
-    self.stompClient = Stomp.over(socket);
-    // self.stompClient.connect({id : AuthService.getBasicInfo().id}, function (frame) {
-    //     console.log('Connected: ' );
-    //     console.log(frame);
-    //     self.setState({ isConnected : true});
-    //     self.stompClient.subscribe('/topic/notification', self.connectCallback);
-    //     self.sendUserId();
-    // });
-  }
-
-  connectCallback (numNotification) {
-    console.log("New push come!");
-    console.log(numNotification.body);
-    this.setState({ notificationNumber: numNotification.body });
-  }
-
-  sendUserId() {
-    // console.log("send user id " + AuthService.getBasicInfo().id);
-    // this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
-  }
-
-  disconnect() {
-    if (this.stompClient !== null) {
-        this.stompClient.disconnect();
-    }
-    this.setState({ isConnected: false });
-    console.log("Disconnected");
-  }
-
+  
   logIn() {
-    console.log(this.props)
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
@@ -79,14 +21,14 @@ class NavigationBar extends Component {
           Search
         </Nav.Link>
         
-        {this.state.notificationNumber != 0  ?
+        {this.props.notificationNumber !== 0 ?
             <NavDropdown
-              eventkey={this.state.notificationNumber}
+              eventkey={this.props.notificationNumber}
               title={
                 <span>
                   <i className="fa fa-rocket"></i>
                   Inbox
-                  <span className='badge badge-warning notification-badge'> {this.state.notificationNumber} </span> 
+                  <span className='badge badge-warning notification-badge'> {this.props.notificationNumber} </span> 
                 </span>
               }
               id="collasible-nav-dropdown"
