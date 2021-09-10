@@ -34,13 +34,13 @@ class NavigationBar extends Component {
     var self = this;
     var socket = new SockJS(API_URL + '/candh-crm-websocket');
     self.stompClient = Stomp.over(socket);
-    self.stompClient.connect({id : AuthService.getBasicInfo().id}, function (frame) {
-        console.log('Connected: ' );
-        console.log(frame);
-        self.setState({ isConnected : true});
-        self.stompClient.subscribe('/topic/notification', self.connectCallback);
-        self.sendUserId();
-    });
+    // self.stompClient.connect({id : AuthService.getBasicInfo().id}, function (frame) {
+    //     console.log('Connected: ' );
+    //     console.log(frame);
+    //     self.setState({ isConnected : true});
+    //     self.stompClient.subscribe('/topic/notification', self.connectCallback);
+    //     self.sendUserId();
+    // });
   }
 
   connectCallback (numNotification) {
@@ -50,8 +50,8 @@ class NavigationBar extends Component {
   }
 
   sendUserId() {
-    console.log("send user id " + AuthService.getBasicInfo().id);
-    this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
+    // console.log("send user id " + AuthService.getBasicInfo().id);
+    // this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
   }
 
   disconnect() {

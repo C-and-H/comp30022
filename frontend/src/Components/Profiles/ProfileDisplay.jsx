@@ -5,16 +5,6 @@ import AuthService from "../../Services/AuthService";
 import {Button} from "reactstrap";
 //import ProfileSideBar from "./ProfileSideBar"
 
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      // margin: theme.spacing(1),
-      margin: 40,
-    },
-  },
-}));
 
 const lineStyle = {
 	marginTop: 40,
@@ -103,12 +93,13 @@ export default class ProfileDisplay extends Component{
 		
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
-			hasGender, hasSummary 
+			// hasGender,
+       hasSummary 
 		} = this.state;
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
 		const fullName = currentUser.first_name + " " + currentUser.last_name;
-		const mobiles = currentUser.mobiles;
+		// const mobiles = currentUser.mobiles;
 		//const mobiles = ["fda", "fa"];
 		if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;

@@ -10,7 +10,6 @@ import SettingProfile from "./SettingProfile";
 import {Row, Col } from 'reactstrap';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ChangePassword from './ChangePassword'
-import ProfileDisplay from "./ProfileDisplay";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ export default class Profile extends Component {
       return <Redirect to={this.state.redirect} />;
     }
 
-    const { currentUser, basic } = this.state;
+    const { currentUser } = this.state;
 
     return (
       <div className="container">

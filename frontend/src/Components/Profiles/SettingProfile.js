@@ -3,7 +3,6 @@ import '../../App.css'
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import { Row, Col } from 'reactstrap';
 import AuthService from "../../Services/AuthService";
-import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import axios from "axios";
 import PhoneInput from 'react-phone-input-2'
@@ -222,11 +221,11 @@ class SettingProfile extends React.Component {
     console.log(this.state.userFirstName, this.state.userLastName, this.state.userID, this.state.areaOrRegion, this.state.phone)
 
     // get the message from the backend and store it in a variable
-    let msg_changeName = await this.changeName(this.state.userFirstName, this.state.userLastName, this.state.userID)
-    let msg_areaOrRegion = await this.changeAreaOrRegion(this.state.userID, this.state.areaOrRegion)
-    let msg_industry = await this.changeIndustry(this.state.userID, this.state.industry)
-    let msg_company = await this.changeCompany(this.state.userID, this.state.company)
-    let msg_description = await this.changeDescription(this.state.userID, this.state.description)
+    // let msg_changeName = await this.changeName(this.state.userFirstName, this.state.userLastName, this.state.userID)
+    // let msg_areaOrRegion = await this.changeAreaOrRegion(this.state.userID, this.state.areaOrRegion)
+    // let msg_industry = await this.changeIndustry(this.state.userID, this.state.industry)
+    // let msg_company = await this.changeCompany(this.state.userID, this.state.company)
+    // let msg_description = await this.changeDescription(this.state.userID, this.state.description)
     let msg_phone = await this.changePhone(this.state.userID, this.state.phone)
 
     // fetch the data from backend again
