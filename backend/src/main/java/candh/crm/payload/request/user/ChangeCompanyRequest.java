@@ -16,4 +16,20 @@ public class ChangeCompanyRequest
     @NotBlank
     private String id;
     private String company;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getCompany() {
+        return this.company;
+    }
 }

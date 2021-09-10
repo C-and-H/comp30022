@@ -10,6 +10,7 @@ import SettingProfile from "./SettingProfile";
 import {Row, Col } from 'reactstrap';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ChangePassword from './ChangePassword'
+import ProfileDisplay from "./ProfileDisplay";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -53,11 +54,11 @@ export default class Profile extends Component {
             <Col xs="9" style={{textAlign:"center"}}>
               <Switch>
               <Route exact path = "/setting" component = {SettingProfile} />
-              </Switch>
-              <Switch>
-              <Route exact path = "/setting/change-password" component = {ChangePassword} />
-              </Switch>
 
+              <Route exact path = "/setting/change-password" component = {ChangePassword} />
+
+                <Route exact path = "/profile" component = {ProfileDisplay} />
+              </Switch>
             </Col>
           </Router>
           </Row>

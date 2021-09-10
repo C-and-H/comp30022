@@ -16,4 +16,20 @@ public class ChangePersonalSummaryRequest
     @NotBlank
     private String id;
     private String personalSummary;
+
+    public String getPersonalSummary() {
+        return this.personalSummary;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPersonalSummary(String personalSummary) {
+        this.personalSummary = personalSummary;
+    }
 }
