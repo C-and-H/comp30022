@@ -41,9 +41,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = byIdRequest.getId();
         Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
@@ -67,9 +67,9 @@ public class ContactController
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listFriends(
             @RequestHeader("Authorization") String headerAuth) {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String id = userRepository.findByEmail(userEmail).getId();
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         return ResponseEntity.ok(contactRelationService.findAllFriends(id));
     }
 
@@ -83,9 +83,9 @@ public class ContactController
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listSentRequests(
             @RequestHeader("Authorization") String headerAuth) {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String id = userRepository.findByEmail(userEmail).getId();
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         return ResponseEntity.ok(contactRelationService.findAllSentRequests(id));
     }
 
@@ -99,9 +99,9 @@ public class ContactController
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listReceivedRequests(
             @RequestHeader("Authorization") String headerAuth) {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String id = userRepository.findByEmail(userEmail).getId();
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         return ResponseEntity.ok(contactRelationService.findAllReceivedRequests(id));
     }
 
@@ -116,9 +116,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = byIdRequest.getId();
         Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
@@ -144,9 +144,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = byIdRequest.getId();
         Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
@@ -172,9 +172,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = byIdRequest.getId();
         Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
@@ -200,9 +200,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = byIdRequest.getId();
         Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
@@ -229,9 +229,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = byIdRequest.getId();
         try {
             // delete
@@ -252,9 +252,9 @@ public class ContactController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody ChangeNotesRequest changeNotesRequest)
     {
-        String userEmail = jwtUtils.getUserNameFromJwtToken(
-                jwtUtils.parseJwt(headerAuth));
-        String userId = userRepository.findByEmail(userEmail).getId();
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
         String friendId = changeNotesRequest.getId();
         try {
             // change

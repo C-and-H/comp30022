@@ -16,6 +16,5 @@ public class ChangeNotesRequest
     /** id of the friend to change notes */
     @NotBlank
     private String id;
-    @NotBlank
     private String notes;
 }
