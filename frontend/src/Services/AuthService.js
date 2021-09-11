@@ -51,12 +51,10 @@ class AuthService {
   async changePassword(oldPassword, newPassword) {
     const user = this.getBasicInfo();
     if (user && user.token) {
-      const email = user.email;
       const token = user.token;
       const response = await axios.post(
         API_URL + "/changePassword",
         {
-          email,
           oldPassword,
           newPassword,
         },
