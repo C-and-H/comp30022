@@ -162,11 +162,11 @@ class OtherUser extends Component {
           </Form>
         ) : (
           <div>
-            <h1>Note: {isFriend.first.notes}</h1>
+            <h1>Note: {isFriend.notes}</h1>
             <Button
               className="btn-search"
               onClick={() => {
-                this.setState({ edit: true, note: isFriend.first.notes });
+                this.setState({ edit: true, note: isFriend.notes });
               }}
             >
               <i className="fas fa-pencil-alt" />
