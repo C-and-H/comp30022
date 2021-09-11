@@ -1,13 +1,15 @@
 package candh.crm.controller;
 
 import candh.crm.exception.FriendNotExistException;
+import candh.crm.model.Contact;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
 import candh.crm.payload.request.contact.ChangeNotesRequest;
-import candh.crm.payload.request.contact.FriendRequest;
 import candh.crm.repository.UserRepository;
+import candh.crm.security.JwtUtils;
 import candh.crm.service.ContactRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,25 +27,37 @@ public class ContactController
     @Autowired
     private ContactRelationService contactRelationService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     /**
      * Verify friendship between two users.
+     *
+     * @param byIdRequest  contains id of the friend
      */
     @PostMapping("/friend/verifyFriendship")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> verifyFriendship(
-            @Valid @RequestBody FriendRequest friendRequest) {
-        Optional<User> user = userRepository.findById(friendRequest.getUserId());
-        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
-        if (!user.isPresent()) {
-            return ResponseEntity.ok("User id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = byIdRequest.getId();
+        Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
         }
         // verify
-        return ResponseEntity.ok(
-                contactRelationService.verifyFriendship(friendRequest.getUserId(),
-                friendRequest.getFriendId()).getSecond());
+        Pair<Boolean,?> vrf = contactRelationService.verifyFriendship(userId, friendId);
+        if (vrf.getFirst()) {
+            @SuppressWarnings("unchecked")
+            Pair<Contact,Contact> contacts = (Pair<Contact,Contact>) vrf.getSecond();
+            // exclude second in response
+            return ResponseEntity.ok(Pair.of(contacts.getFirst(), new Contact()));
+        }
+        return ResponseEntity.ok(false);
     }
 
     /**
@@ -52,14 +66,11 @@ public class ContactController
     @PostMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listFriends(
-            @Valid @RequestBody ByIdRequest byIdRequest) {
-        Optional<User> user = userRepository.findById(byIdRequest.getId());
-        if (user.isPresent()) {
-            return ResponseEntity.ok(contactRelationService
-                    .findAllFriends(byIdRequest.getId()));
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth) {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String id = userRepository.findByEmail(userEmail).getId();
+        return ResponseEntity.ok(contactRelationService.findAllFriends(id));
     }
 
     /**
@@ -71,14 +82,11 @@ public class ContactController
     @PostMapping("/friend/listSentRequests")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listSentRequests(
-            @Valid @RequestBody ByIdRequest byIdRequest) {
-        Optional<User> user = userRepository.findById(byIdRequest.getId());
-        if (user.isPresent()) {
-            return ResponseEntity.ok(contactRelationService
-                    .findAllSentRequests(byIdRequest.getId()));
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth) {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String id = userRepository.findByEmail(userEmail).getId();
+        return ResponseEntity.ok(contactRelationService.findAllSentRequests(id));
     }
 
     /**
@@ -90,35 +98,35 @@ public class ContactController
     @PostMapping("/friend/listReceivedRequests")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listReceivedRequests(
-            @Valid @RequestBody ByIdRequest byIdRequest) {
-        Optional<User> user = userRepository.findById(byIdRequest.getId());
-        if (user.isPresent()) {
-            return ResponseEntity.ok(contactRelationService
-                    .findAllReceivedRequests(byIdRequest.getId()));
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth) {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String id = userRepository.findByEmail(userEmail).getId();
+        return ResponseEntity.ok(contactRelationService.findAllReceivedRequests(id));
     }
 
     /**
      * Handles Http Post for sending request.
+     *
+     * @param byIdRequest  contains id of the friend
      */
     @PostMapping("/friend/sendRequest")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sendRequest(
-            @Valid @RequestBody FriendRequest friendRequest) {
-        Optional<User> user = userRepository.findById(friendRequest.getUserId());
-        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
-        if (!user.isPresent()) {
-            return ResponseEntity.ok("User id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = byIdRequest.getId();
+        Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
         }
         // send
         try {
-            contactRelationService.sendRequest(friendRequest.getUserId(),
-                    friendRequest.getFriendId());
+            contactRelationService.sendRequest(userId, friendId);
             return ResponseEntity.ok("Request sent.");
         } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
@@ -127,23 +135,26 @@ public class ContactController
 
     /**
      * Handles Http Post for confirming request.
+     *
+     * @param byIdRequest  contains id of the friend
      */
     @PostMapping("/friend/confirmRequest")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> confirmRequest(
-            @Valid @RequestBody FriendRequest friendRequest) {
-        Optional<User> user = userRepository.findById(friendRequest.getUserId());
-        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
-        if (!user.isPresent()) {
-            return ResponseEntity.ok("User id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = byIdRequest.getId();
+        Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
         }
         // confirm
         try {
-            contactRelationService.confirmRequest(friendRequest.getUserId(),
-                    friendRequest.getFriendId());
+            contactRelationService.confirmRequest(userId, friendId);
             return ResponseEntity.ok("Request confirmed.");
         } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
@@ -152,23 +163,26 @@ public class ContactController
 
     /**
      * Handles Http Post for declining request.
+     *
+     * @param byIdRequest  contains id of the friend
      */
     @PostMapping("/friend/declineRequest")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> declineRequest(
-            @Valid @RequestBody FriendRequest friendRequest) {
-        Optional<User> user = userRepository.findById(friendRequest.getUserId());
-        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
-        if (!user.isPresent()) {
-            return ResponseEntity.ok("User id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = byIdRequest.getId();
+        Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
         }
         // decline
         try {
-            contactRelationService.declineRequest(friendRequest.getUserId(),
-                    friendRequest.getFriendId());
+            contactRelationService.declineRequest(userId, friendId);
             return ResponseEntity.ok("Request declined.");
         } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
@@ -177,23 +191,26 @@ public class ContactController
 
     /**
      * Handles Http Post for cancelling request.
+     *
+     * @param byIdRequest  contains id of the friend
      */
     @PostMapping("/friend/cancelRequest")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> cancelRequest(
-            @Valid @RequestBody FriendRequest friendRequest) {
-        Optional<User> user = userRepository.findById(friendRequest.getUserId());
-        Optional<User> friend = userRepository.findById(friendRequest.getFriendId());
-        if (!user.isPresent()) {
-            return ResponseEntity.ok("User id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = byIdRequest.getId();
+        Optional<User> friend = userRepository.findById(byIdRequest.getId());
         if (!friend.isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
         }
         // cancel
         try {
-            contactRelationService.cancelRequest(friendRequest.getUserId(),
-                    friendRequest.getFriendId());
+            contactRelationService.cancelRequest(userId, friendId);
             return ResponseEntity.ok("Request cancelled.");
         } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
@@ -203,25 +220,26 @@ public class ContactController
     /**
      * Handles Http Post for friend deletion.
      * Before someone gets deleted, the initiator must be a friend of the person.
+     *
+     * @param byIdRequest  contains id of the friend
      */
     @PostMapping("/friend/delete")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteFriend(
-            @Valid @RequestBody FriendRequest friendRequest) {
-        Optional<User> user = userRepository.findById(friendRequest.getUserId());
-        if (user.isPresent()) {
-            try {
-                // delete
-                contactRelationService.deleteFriend(friendRequest.getUserId(),
-                        friendRequest.getFriendId());
-            } catch (FriendNotExistException e) {
-                return ResponseEntity.ok(e.getMessage());
-            }
-            return ResponseEntity.ok("Friend deleted.");
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = byIdRequest.getId();
+        try {
+            // delete
+            contactRelationService.deleteFriend(userId, friendId);
+        } catch (FriendNotExistException e) {
+            return ResponseEntity.ok(e.getMessage());
         }
-        else {
-            return ResponseEntity.ok("User id not found.");
-        }
+        return ResponseEntity.ok("Friend deleted.");
     }
 
     /**
@@ -231,21 +249,20 @@ public class ContactController
     @PostMapping("/friend/changeNotes")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changeNotes(
-            @Valid @RequestBody ChangeNotesRequest changeNotesRequest) {
-        Optional<User> user = userRepository.findById(changeNotesRequest.getUserId());
-        if (user.isPresent()) {
-            try {
-                // change
-                contactRelationService.changeNotes(changeNotesRequest.getUserId(),
-                        changeNotesRequest.getFriendId(),
-                        changeNotesRequest.getNotes());
-            } catch (FriendNotExistException e) {
-                return ResponseEntity.ok(e.getMessage());
-            }
-            return ResponseEntity.ok("Notes changed.");
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ChangeNotesRequest changeNotesRequest)
+    {
+        String userEmail = jwtUtils.getUserNameFromJwtToken(
+                jwtUtils.parseJwt(headerAuth));
+        String userId = userRepository.findByEmail(userEmail).getId();
+        String friendId = changeNotesRequest.getId();
+        try {
+            // change
+            contactRelationService.changeNotes(userId, friendId,
+                    changeNotesRequest.getNotes());
+        } catch (FriendNotExistException e) {
+            return ResponseEntity.ok(e.getMessage());
         }
-        else {
-            return ResponseEntity.ok("User id not found.");
-        }
+        return ResponseEntity.ok("Notes changed.");
     }
 }

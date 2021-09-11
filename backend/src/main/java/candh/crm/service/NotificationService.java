@@ -74,8 +74,8 @@ public class NotificationService
                     .max(new Comparator<Notification>() {
                         @Override
                         public int compare(Notification o1, Notification o2) {
-                            LocalDateTime t1 = LocalDateTime.parse(o1.getWhen()),
-                                    t2 = LocalDateTime.parse(o2.getWhen());
+                            LocalDateTime t1 = LocalDateTime.parse(o1.getWhen());
+                            LocalDateTime t2 = LocalDateTime.parse(o2.getWhen());
                             if (t1.isBefore(t2)) return -1;
                             else if (t1.isAfter(t2)) return 1;
                             else return 0;

@@ -34,6 +34,8 @@ public class Contact
 
     private String notes;
 
+    public Contact() { }
+
     public Contact(String userId, String friendId, boolean accepted) {
         this.userId = userId;
         this.friendId = friendId;

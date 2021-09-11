@@ -28,7 +28,7 @@ public class AuthController
     private AuthService authService;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     /**
      * Handles Http Post for login authentication.
@@ -119,15 +119,14 @@ public class AuthController
     @PostMapping("/changePassword")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(
-            @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ChangePasswordRequest changePasswordRequest)
+    {
         String oldPassword = changePasswordRequest.getOldPassword();
         String newPassword = changePasswordRequest.getNewPassword();
+        String email = jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth));
+        User user = userRepository.findByEmail(email);
 
-        // email should be enabled, then authenticate by old password
-        User user = userRepository.findByEmail(changePasswordRequest.getEmail());
-        if (user == null || !user.isEnabled()) {
-            return ResponseEntity.ok("Account not found or not enabled.");
-        }
         if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
             return ResponseEntity.ok("Wrong old password.");
         }
