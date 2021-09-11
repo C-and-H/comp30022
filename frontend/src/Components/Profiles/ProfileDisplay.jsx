@@ -2,36 +2,11 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 //import { Header } from 'react-native-elements';
-import {Button} from "reactstrap";
+import {Button, Container, Row, Col} from "reactstrap";
+import '../../App.css'
+
 //import ProfileSideBar from "./ProfileSideBar"
 
-
-const lineStyle = {
-	marginTop: 40,
-	padding : 10,
-	fontSize : 18,
-	textAlign : "left",
-	fontFamily:"Comic Sans MS"
-	//float:"right"
-	//paddingRight : 80
-	//padding-left// : 10
-}
-
-const valueStyle = {
-	//marginTop: 40,
-	//padding : 10,
-	marginRight: 270,
-	fontSize : 18,
-	textAlign : "left",
-	float : "right",
-	fontFamily:"Comic Sans MS"
-}
-
-const headerStyle = {
-	textAlign : "left",
-	fontSize : 28,
-	backgroundColor : "#F6FA83"
-}
 
 // const imgStyle = {
 // 	float: "left",
@@ -66,6 +41,7 @@ export default class ProfileDisplay extends Component{
 				myself: false
 				// fullName: 
 				// this.state.currentUser.first_name + " " +this.currentUser.last_name
+				//https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png
   	  };
 
 	}
@@ -136,8 +112,10 @@ export default class ProfileDisplay extends Component{
 		console.log(fullName);
 		return(
 				
-				<div className = "container">
-			
+				<Container>
+						<h4 className = "profileDispay-line">
+							{fullName}
+						</h4>
 					
 						{myself ? (
 							<div style={{float: 'right'}}>
@@ -146,6 +124,7 @@ export default class ProfileDisplay extends Component{
 						) : (
 							<></>
 						)}
+					
 					<h1 style = {headerStyle}>
 						Basic Info 
 					</h1>
@@ -153,7 +132,7 @@ export default class ProfileDisplay extends Component{
 					<center>
 						<div>
 							<div>
-								<h1 style = {lineStyle}>Full Name: 
+								<h1 >Full Name: 
 									<span style = {valueStyle}>{fullName}</span>
 								</h1>
 								
@@ -162,7 +141,7 @@ export default class ProfileDisplay extends Component{
 							
 						{hasCompany ?(
 						<div>
-							<h1 style = {lineStyle}>Company: 
+							<h1 style = {lineStyl}>Company: 
 								<span style = {valueStyle}>{currentUser.company}</span>
 							</h1>
 							
@@ -255,7 +234,7 @@ export default class ProfileDisplay extends Component{
 						{/* </center> */}
 					</div>
 				</center>
-			</div>
+			</Container>
 			
 			
 		);

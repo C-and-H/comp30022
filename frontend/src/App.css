@@ -387,8 +387,40 @@ footer {
   margin-right: 10px;
 }
 
+
 /*------------------ Contact Components end ---------------*/
 
+
+/*------------------ profileDisplay Components -------------*/
+.profileDisplay-line{
+  margin-top: 40;
+	font-size: 18;
+	text-align: "left";
+	font-family:"Comic Sans MS";
+	
+}
+
+.profileDisplay-value{
+  margin-right: 270;
+	font-size : 18;
+	text-align : "left";
+	float : "right";
+	font-family:"Comic Sans MS"
+}
+
+.profileDisplay-bar{
+	text-align : "left";
+	font-size : 28;
+	background-color : "#F6FA83";
+  margin-top: 10
+
+}
+
+.profileDisplay-header{
+  text-align: "left";
+  font-size: 35;
+  margin-top: 10
+}
 /* 
 .App {
   text-align: center;
