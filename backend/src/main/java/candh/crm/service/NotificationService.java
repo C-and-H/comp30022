@@ -6,12 +6,14 @@ import candh.crm.payload.request.ByIdRequest;
 import candh.crm.repository.NotificationRepository;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NotificationService
@@ -26,7 +28,7 @@ public class NotificationService
     private NotificationController notificationController;
 
     @Autowired
-    private WebSocketSessionService webSocketSessionService;
+    private WebSocketSubscriptionService webSocketSubscriptionService;
 
     @Autowired
     private SimpMessagingTemplate template;
@@ -53,7 +55,7 @@ public class NotificationService
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
         create(receiverId, "Friend request: " + senderName + ".");
-        push(receiverId);
+        pushTo(receiverId);
     }
 
     /**
@@ -82,7 +84,7 @@ public class NotificationService
                         }
                     }).get()
             );
-            push(receiverId);
+            pushTo(receiverId);
         }
     }
 
@@ -97,7 +99,7 @@ public class NotificationService
             String acceptorId, String senderId) {
         String acceptor = userRepository.findById(acceptorId).get().getName();
         create(senderId, "New friend: " + acceptor + "!");
-        push(senderId);
+        pushTo(senderId);
     }
 
     /**
@@ -106,11 +108,19 @@ public class NotificationService
      *
      * @param userId  id of the user
      */
-    public void push(String userId) {
-        String sessionId = webSocketSessionService.getSessionMap().get(userId);
-        if (sessionId != null) {
-            template.convertAndSend("/topic/notification",
-                    notificationController.count(new ByIdRequest(userId)));
+    public void pushTo(String userId) {
+        Map<String, List<String>> map =
+                webSocketSubscriptionService.getNotificationMap();
+        if (map.containsKey(userId)) {
+            for (String path : map.get(userId)) {
+                path = "/topic/notification/" + path;
+                try {
+                    template.convertAndSend(path,
+                            notificationController.count(new ByIdRequest(userId)));
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

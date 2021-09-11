@@ -26,6 +26,10 @@ public class UserController
     @Autowired
     private JwtUtils jwtUtils;
 
+    // search fields
+    private static final String[] params = {"Email", "First_name", "Last_name",
+            "AreaOrRegion", "Industry", "Company"};
+
     /**
      * Handles Http Post for user information query by id.
      */
@@ -183,11 +187,8 @@ public class UserController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
 
-        // request fields
         Map<String,String> map = new HashMap<>();
         Method[] methods = SearchRequest.class.getMethods();
-        String[] params = {"Email", "First_name", "Last_name",
-                "AreaOrRegion", "Industry", "Company"};
         for (Method m: methods) {
             if (m.getName().startsWith("get") &&
                     Arrays.asList(params).contains(m.getName().substring(3))) {   // filter getters
@@ -239,9 +240,6 @@ public class UserController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
 
-        // request fields
-        String[] params = {"Email", "First_name", "Last_name",
-                "AreaOrRegion", "Industry", "Company"};
         ArrayList<User> users = new ArrayList<>();
         for (String field : params)
         {

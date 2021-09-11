@@ -6,6 +6,7 @@ import candh.crm.payload.response.LoginResponse;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
 import candh.crm.service.AuthService;
+import candh.crm.service.WebSocketSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,9 @@ public class AuthController
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private WebSocketSubscriptionService webSocketSubscriptionService;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -147,5 +151,16 @@ public class AuthController
             return ResponseEntity.ok("Error during changing password.");
         }
         return ResponseEntity.ok("You just successfully changed password.");
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("hasRole('USER')")
+    public void logout(
+            @RequestHeader("Authorization") String headerAuth)
+    {
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        webSocketSubscriptionService.clear(id);
     }
 }

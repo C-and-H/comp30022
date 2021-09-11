@@ -1,8 +1,7 @@
 package candh.crm.config;
 
-import candh.crm.service.WebSocketSessionService;
+import candh.crm.service.WebSocketSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -14,12 +13,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
 {
     @Autowired
-    private WebSocketSessionService webSocketSessionService;
-
-    @Bean
-    public PresenceEventListener presenceEventListener() {
-        return new PresenceEventListener(webSocketSessionService);
-    }
+    private WebSocketSubscriptionService webSocketSubscriptionService;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
