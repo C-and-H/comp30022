@@ -59,9 +59,24 @@ class App extends Component {
 
     if (basic) {
       if (!this.state.isConnected) {
-        this.connect();
+        this.getNotificationPath();
       }
     }
+  }
+
+  async getNotificationPath() {
+    const token = AuthService.getBasicInfo().token;
+    await axios.post(
+      API_URL + "/notification/connect",
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then(
+      (response) => this.connect(response.data)
+    );
   }
 
   componentWillUnmount() {
@@ -72,7 +87,8 @@ class App extends Component {
     AuthService.logout();
   }
 
-  connect() {
+  connect(notificationPath) {
+    console.log("notificationPath: " + notificationPath);
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
@@ -83,7 +99,7 @@ class App extends Component {
         console.log(frame);
         self.setState({ isConnected: true });
         self.stompClient.subscribe(
-          "/topic/notification",
+          "/topic/notification/" + notificationPath,
           self.subscribeCallback
         );
         self.sendUserId();
@@ -126,12 +142,9 @@ class App extends Component {
 
   async getNotifications() {
     const token = AuthService.getBasicInfo().token;
-    const id = AuthService.getBasicInfo().id;
     const response = await axios.post(
       API_URL + "/notification/fetch",
-      {
-        id,
-      },
+      {},
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -161,6 +174,7 @@ class App extends Component {
     this.setState({ notifications });
     console.log("Num notifications: ");
     console.log(this.state.notifications.length);
+    this.setState({ notificationNumber: this.state.notifications.length});
     console.log(response.data);
     console.log("local", JSON.parse(localStorage.getItem("notifications")));
   }

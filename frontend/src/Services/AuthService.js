@@ -74,6 +74,15 @@ class AuthService {
     localStorage.removeItem("basic");
     localStorage.removeItem("user");
     localStorage.removeItem("notifications");
+    const token = this.getBasicInfo().token;
+    axios.post(API_URL + "/logout",
+      {},
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
   }
 
   register(username, email, password) {
