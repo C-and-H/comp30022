@@ -1,8 +1,7 @@
 package candh.crm.service;
 
-import candh.crm.controller.NotificationController;
 import candh.crm.model.Notification;
-import candh.crm.payload.request.ByIdRequest;
+import candh.crm.model.User;
 import candh.crm.repository.NotificationRepository;
 import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class NotificationService
@@ -23,9 +24,6 @@ public class NotificationService
 
     @Autowired
     private NotificationRepository notificationRepository;
-
-    @Autowired
-    private NotificationController notificationController;
 
     @Autowired
     private WebSocketSubscriptionService webSocketSubscriptionService;
@@ -103,6 +101,20 @@ public class NotificationService
     }
 
     /**
+     * Count the number of (unread) notifications given user id.
+     * @return  {"count": number of notifications}, or null
+     */
+    public Map<String,Object> count(String id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return new ConcurrentHashMap<String,Object>() {{
+                put("count", notificationRepository.findByUserId(id).size());
+            }};
+        }
+        return null;
+    }
+
+    /**
      * Actively push the map that contains the number of (unread) notifications,
      * as long as the channel to a receiver is open, using socket.
      *
@@ -115,8 +127,7 @@ public class NotificationService
             for (String path : map.get(userId)) {
                 path = "/topic/notification/" + path;
                 try {
-                    template.convertAndSend(path,
-                            notificationController.count(new ByIdRequest(userId)));
+                    template.convertAndSend(path, count(userId));
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }

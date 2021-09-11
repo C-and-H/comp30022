@@ -11,7 +11,6 @@ import candh.crm.service.WebSocketSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @CrossOrigin("*")
@@ -45,24 +42,18 @@ public class NotificationController
 
     /**
      * Respond with the number of (unread) notifications using socket.
-     * If userId not valid, send -1.
+     * If userId not valid, don't send.
      *
      * @param byIdRequest  contains the user id
-     * @return  {"count": number of notifications}
+     * @return  {"count": number of notifications}.
      */
     @MessageMapping("/notification/unread")
-    @SendTo("/topic/notification/**")
-    public Map<String, Object> count(@Valid ByIdRequest byIdRequest) {
-        Optional<User> user = userRepository.findById(byIdRequest.getId());
+    public void count(@Valid ByIdRequest byIdRequest)
+    {
+        String userId = byIdRequest.getId();
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            return new ConcurrentHashMap<String, Object>() {{
-                put("count", notificationRepository
-                        .findByUserId(byIdRequest.getId()).size());
-            }};
-        } else {
-            return new ConcurrentHashMap<String, Object>() {{
-                put("count", -1);
-            }};
+            notificationService.pushTo(userId);
         }
     }
 
