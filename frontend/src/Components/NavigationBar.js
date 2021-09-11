@@ -1,23 +1,37 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import '../App.css'
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
+  
+  /** helper function: get one notification as a dropdown item */
   getNotificationDropDownItem(notification) {
     return (
-      <NavDropdown.Item key={notification.when} className="text-muted">
+      <NavDropdown.Item key={notification.id} onClick={() => this.props.removeNotification(notification.id)}>
         <p className="notify-dropdown">
           {notification.message}
-          <button> gui </button>
         </p>
       </NavDropdown.Item>
     );
   }
 
+  /** get all notifications as dropdown items */
+  getAllNotificationDropDownItem (notifications) {
+    if (notifications) {
+      return (
+        notifications.map((notification) =>
+          this.getNotificationDropDownItem(notification)
+        )
+      );
+    } else {
+      return null;
+    }
+  }
+
   logIn() {
-    console.log(this.props.notifications);
-    const { notifications } = this.props;
+    let notifications = JSON.parse(localStorage.getItem("notifications"));
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
@@ -33,7 +47,7 @@ class NavigationBar extends Component {
           Search
         </Nav.Link>
 
-        {this.props.notificationNumber !== 0 ? (
+        {this.props.notificationNumber !==0 ? (
           <NavDropdown
             eventkey={this.props.notificationNumber}
             title={
@@ -46,21 +60,26 @@ class NavigationBar extends Component {
                 </span>
               </span>
             }
-            id="collasible-nav-dropdown"
+            id="basic-nav-dropdown"
             onClick={this.props.onGetNotification}
           >
-            {notifications.map((notification) =>
-              this.getNotificationDropDownItem(notification)
-            )}
+            <NavDropdown.Item>
+              <Button variant="outline-danger" size="sm" 
+                      onClick={this.props.removeAllNotifications}> 
+                      mark all as read 
+              </Button>
+            </NavDropdown.Item>
 
             <NavDropdown.Divider />
+            { this.getAllNotificationDropDownItem (notifications) }
           </NavDropdown>
         ) : (
-          <Nav.Link className={"navbar_nav"}>
+          <Nav.Link className={"navbar_nav"} disabled >
             <i className="fa fa-rocket"></i>
             Inbox
-          </Nav.Link>
-        )}
+          </Nav.Link>         
+        )
+        }
         <Nav.Link
           href="/login"
           className={"navbar_nav"}

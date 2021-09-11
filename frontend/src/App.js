@@ -32,10 +32,13 @@ class App extends Component {
       notificationNumber: 0,
       stompClient: null,
       notifications: [],
+      notificationCounter: 0 // help adding unique id to each notification
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
     this.getNotifications = this.getNotifications.bind(this);
+    this.removeAllNotifications = this.removeAllNotifications.bind(this);
+    this.removeNotification = this.removeNotification.bind(this);
   }
 
   async componentDidMount() {
@@ -94,13 +97,13 @@ class App extends Component {
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       const notificationNumber = JSON.parse(numNotification.body).count;
-      this.setState({ notificationNumber });
+      this.setState({ notificationNumber : notificationNumber});
     } else {
       console.log(notifications);
       const notificationNumber =
         JSON.parse(numNotification.body).count +
         JSON.parse(notifications).length;
-      this.setState({ notificationNumber });
+      this.setState({ notificationNumber : notificationNumber});
     }
   }
 
@@ -139,11 +142,19 @@ class App extends Component {
     console.log(response.data);
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
-      notifications = response.data;
+      notifications = [];
+      for (let i = 0; i < response.data.length; i++) {
+        notifications.push({id:this.state.notificationCounter, ...response.data[i]});
+        this.setState({notificationCounter : this.state.notificationCounter+1});
+      }
     } else {
       notifications = JSON.parse(notifications);
+      if (!this.state.notificationCounter) {
+        this.setState({notificationCounter : notifications.length}) // avoid resetting to zero after refresh
+      }
       for (let i = 0; i < response.data.length; i++) {
-        notifications.push(response.data[i]);
+        notifications.push({id:this.state.notificationCounter, ...response.data[i]});
+        this.setState({notificationCounter : this.state.notificationCounter+1});
       }
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
@@ -152,6 +163,23 @@ class App extends Component {
     console.log(this.state.notifications.length);
     console.log(response.data);
     console.log("local", JSON.parse(localStorage.getItem("notifications")));
+  }
+
+  removeNotification(notificationID) {
+    console.log("Removing notification :" + notificationID);
+    let notifications = JSON.parse(localStorage.getItem("notifications"));
+    if (notificationID > -1) {
+      notifications = notifications.filter(noti => noti.id !== notificationID);
+      this.setState({notificationNumber : this.state.notificationNumber-1});
+    }
+    localStorage.setItem("notifications", JSON.stringify(notifications)); 
+  }
+
+  removeAllNotifications() {
+    console.log("Removing All notification");
+    localStorage.removeItem("notifications");
+    this.setState({notificationNumber : 0});
+    this.setState({notificationCounter : 0})
   }
 
   render() {
@@ -166,6 +194,8 @@ class App extends Component {
             notifications={this.state.notifications}
             notificationNumber={this.state.notificationNumber}
             onGetNotification={this.getNotifications}
+            removeNotification={this.removeNotification}
+            removeAllNotifications={this.removeAllNotifications}
           />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
