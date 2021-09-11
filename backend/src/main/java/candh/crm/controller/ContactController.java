@@ -34,6 +34,7 @@ public class ContactController
      * Verify friendship between two users.
      *
      * @param byIdRequest  contains id of the friend
+     * @return  false or contact relation of the user
      */
     @PostMapping("/friend/verifyFriendship")
     @PreAuthorize("hasRole('USER')")
@@ -55,7 +56,7 @@ public class ContactController
             @SuppressWarnings("unchecked")
             Pair<Contact,Contact> contacts = (Pair<Contact,Contact>) vrf.getSecond();
             // exclude second in response
-            return ResponseEntity.ok(Pair.of(contacts.getFirst(), new Contact()));
+            return ResponseEntity.ok(contacts.getFirst());
         }
         return ResponseEntity.ok(false);
     }
