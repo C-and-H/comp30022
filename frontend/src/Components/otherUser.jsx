@@ -94,7 +94,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/verifyFriendship",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
