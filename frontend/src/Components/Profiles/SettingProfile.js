@@ -78,7 +78,6 @@ class SettingProfile extends React.Component {
       const response = await axios.post(
         API_URL + "/user/changeRealName",
         {
-          id,
           first_name,
           last_name,
         },
@@ -102,7 +101,6 @@ class SettingProfile extends React.Component {
       const response = await axios.post(
         API_URL + "/user/changeAreaOrRegion",
         {
-          id,
           areaOrRegion
         },
         {
@@ -125,7 +123,6 @@ class SettingProfile extends React.Component {
       const response = await axios.post(
         API_URL + "/user/changeIndustry",
         {
-          id,
           industry
         },
         {
@@ -148,7 +145,6 @@ class SettingProfile extends React.Component {
       const response = await axios.post(
         API_URL + "/user/changeCompany",
         {
-          id,
           company
         },
         {
@@ -171,7 +167,6 @@ class SettingProfile extends React.Component {
       const response = await axios.post(
         API_URL + "/user/changePersonalSummary",
         {
-          id,
           personalSummary
         },
         {
@@ -195,7 +190,6 @@ class SettingProfile extends React.Component {
       const response = await axios.post(
         API_URL + "/user/changePhone",
         {
-          id,
           mobileNumber
         },
         {
@@ -219,6 +213,8 @@ class SettingProfile extends React.Component {
     let basic = AuthService.getBasicInfo();
     event.preventDefault();
     console.log(this.state.userFirstName, this.state.userLastName, this.state.userID, this.state.areaOrRegion, this.state.phone)
+
+    // TODO: Remove the parameter of the functions to change information
 
     // get the message from the backend and store it in a variable
     // let msg_changeName = await this.changeName(this.state.userFirstName, this.state.userLastName, this.state.userID)
