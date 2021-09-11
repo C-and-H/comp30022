@@ -59,7 +59,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/sendRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -76,7 +76,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/delete",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -111,7 +111,7 @@ class OtherUser extends Component {
     const { basic, id, note } = this.state;
     const response = await axios.post(
       API_URL + "/friend/changeNotes",
-      { userId: basic.id, friendId: id, notes: note },
+      { id: id, notes: note },
       {
         headers: {
           Authorization: "Bearer " + basic.token,

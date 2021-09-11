@@ -81,7 +81,7 @@ class RequestReceived extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/friend/confirmRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -98,7 +98,7 @@ class RequestReceived extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/friend/declineRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
