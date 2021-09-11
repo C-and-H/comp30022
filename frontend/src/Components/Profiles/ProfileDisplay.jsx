@@ -53,7 +53,8 @@ export default class ProfileDisplay extends Component{
       this.state = {
         redirect: null,
         userReady: false,
-        currentUser: localStorage.getItem("user"),
+        //currentUser: localStorage.getItem("user"),
+				currentUser: null,
         basic: localStorage.getItem("basic"),
 				hasPhone: false,
 				hasIndustry: false,
@@ -61,7 +62,10 @@ export default class ProfileDisplay extends Component{
 				hasGender: false,
 				hasCompany: false,
 				hasSummary: false,
-				
+				bruh:false,
+				myself: false
+				// fullName: 
+				// this.state.currentUser.first_name + " " +this.currentUser.last_name
   	  };
 
 	}
@@ -69,15 +73,33 @@ export default class ProfileDisplay extends Component{
 	
 
 	// if current user is null, will go back to homepage
-  componentDidMount() {
-    const currentUser = AuthService.getCurrentUser();
+  async componentDidMount() {
+		const basic = AuthService.getBasicInfo();
+		var currentUser;
+		//console.log(this.props.match.params.id);
+		if (this.props.match.params.id){
+			currentUser = await AuthService.getUserDataFromBackend(
+				basic.token, this.props.match.params.id
+			
+			);
+			//this.setState({myself:false})
+			
+		}else{
+			//this.setState({currentUser: AuthService.getCurrentUser()});
+			currentUser = await AuthService.getCurrentUser();
+			this.setState({myself: true})
+		}
+		
+		
+		
+    //console.log(cur	rentUser);
     // if not login
 		
     if (!currentUser) this.setState({ redirect: "/home" });
-    this.setState({ currentUser: currentUser, userReady : true });
+    this.setState({currentUser: currentUser, userReady : true });
 
 		// display following if they exist
-		if (currentUser.phone.length !== 0) this.setState({hasPhone : true});
+		if (currentUser.phone) this.setState({hasPhone : true});
 		if (currentUser.industry) this.setState({hasIndustry : true});
 		if (currentUser.company) this.setState({hasCompany : true});
 		if (currentUser.personalSummary) this.setState({hasSummary : true});
@@ -94,24 +116,36 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary 
+       hasSummary, myself
 		} = this.state;
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
-		const fullName = currentUser.first_name + " " + currentUser.last_name;
+		
+		//const fullName = currentUser.first_name + " " + currentUser.last_name;
 		// const mobiles = currentUser.mobiles;
 		//const mobiles = ["fda", "fa"];
 		if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
+
+		if (!currentUser){
+			return <div></div>;
+		}
+		const fullName = currentUser.first_name + " " + currentUser.last_name;
+		console.log(currentUser);
+		console.log(fullName);
 		return(
 				
 				<div className = "container">
 			
 					
-					<div style={{float: 'right'}}>
-            <Button color = "primary" href = "/setting">Edit</Button>
-        	</div>
+						{myself ? (
+							<div style={{float: 'right'}}>
+								<Button color = "primary" href = "/setting">Edit</Button>
+							</div>
+						) : (
+							<></>
+						)}
 					<h1 style = {headerStyle}>
 						Basic Info 
 					</h1>
@@ -169,15 +203,23 @@ export default class ProfileDisplay extends Component{
 							<></>
 						)}
 						<h1 style = {lineStyle}> </h1>
-						<div style={{float: 'right'}}>
-            <Button color = "primary" href = "/setting">Edit</Button>
-        	</div>
+
+						
+						{myself ? (
+							<div style={{float: 'right'}}>
+								<Button color = "primary" href = "/setting">Edit</Button>
+							</div>
+						) : (
+							<></>
+						)}
+            
+        	
 						<h1 style = {headerStyle}>
 							Contact details 
 						</h1>
 						{hasPhone ? (
 							<div>
-							<h1 style = {lineStyle}>bruh 
+							<h1 style = {lineStyle}>Phone Number: 
               <span style = {valueStyle}>{currentUser.phone}</span>
 							{/* {
 								mobiles.map((element) => {
