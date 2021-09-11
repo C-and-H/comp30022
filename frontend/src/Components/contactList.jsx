@@ -47,10 +47,10 @@ class ContactList extends Component {
    * get contactRelation data from backend
    */
   async getFriends() {
-    const { basic, currentUser } = this.state;
+    const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/friend/listFriends",
-      { id: currentUser.id },
+      {},
       {
         headers: {
           Authorization: "Bearer " + basic.token,
