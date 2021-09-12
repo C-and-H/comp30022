@@ -392,34 +392,50 @@ footer {
 
 
 /*------------------ profileDisplay Components -------------*/
-.profileDisplay-line{
-  margin-top: 40;
-	font-size: 18;
-	text-align: "left";
-	font-family:"Comic Sans MS";
+.profile-display-line{
+  margin-top: 45px;
+	font-size: 28px;
+	text-align: left;
+	
 	
 }
 
-.profileDisplay-value{
-  margin-right: 270;
-	font-size : 18;
-	text-align : "left";
-	float : "right";
-	font-family:"Comic Sans MS"
+.profile-display-value{
+  margin-left: 30px;
+  margin-top: 45px;
+	font-size: 28px;
+	text-align : left;
+	
+	
 }
 
-.profileDisplay-bar{
-	text-align : "left";
-	font-size : 28;
-	background-color : "#F6FA83";
-  margin-top: 10
+.profile-display-bar{
+	text-align : left;
+	font-size : 28px;
+	background-color : skyblue;
+  margin-top: 30px;
+  
 
 }
 
-.profileDisplay-header{
-  text-align: "left";
-  font-size: 35;
-  margin-top: 10
+.profile-display-header{
+  text-align: left;
+  font-size: 72px;
+  margin-top: 10px;
+  font-family:"Comic Sans MS"
+}
+
+.profile-display-edit-btn{
+  border-radius: 20px;
+  
+  height: 42px;
+  float: right;
+  background-color: mediumslateblue;
+}
+
+.profile-display-inner-container{
+  margin-right: 20px;
+  
 }
 /* 
 .App {

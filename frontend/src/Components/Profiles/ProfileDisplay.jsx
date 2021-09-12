@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 //import { Header } from 'react-native-elements';
-import {Button, Container, Row, Col} from "reactstrap";
+import {Button, Container, Row, Col, Label} from "reactstrap";
 import '../../App.css'
-
+import AutoFitImage from 'react-image-autofit-frame';
+import { WiAlien } from "react-icons/wi";
 //import ProfileSideBar from "./ProfileSideBar"
 
 
@@ -112,128 +113,95 @@ export default class ProfileDisplay extends Component{
 		console.log(fullName);
 		return(
 				
-				<Container>
-						<h4 className = "profileDispay-line">
-							{fullName}
-						</h4>
-					
-						{myself ? (
-							<div style={{float: 'right'}}>
-								<Button color = "primary" href = "/setting">Edit</Button>
-							</div>
-						) : (
-							<></>
-						)}
-					
-					<h1 style = {headerStyle}>
-						Basic Info 
-					</h1>
+			<Container>
+				<Row className = "profile-display-header">
+					{fullName}
+				</Row>
+				<Row className="profile-display-bar">
 				
-					<center>
-						<div>
-							<div>
-								<h1 >Full Name: 
-									<span style = {valueStyle}>{fullName}</span>
-								</h1>
-								
-							</div>
-							
-							
-						{hasCompany ?(
-						<div>
-							<h1 style = {lineStyl}>Company: 
-								<span style = {valueStyle}>{currentUser.company}</span>
-							</h1>
-							
-						</div>
-						) : (
-							<></>
-						)}
-
-						{hasIndustry ?(
-							<div>
-								<h1 style = {lineStyle}>industry: 
-									<span style = {valueStyle}>{currentUser.industry}</span>
-								</h1>
-							
-							</div>
-						) : (
-							<></>
-						)}
-						{hasRegion ? (
-							<div>
-							<h1 style = {lineStyle}>Region: 
-								<span style = {valueStyle}>{currentUser.areaOrRegion}</span>
-							</h1>
-							
-						</div>
+					<Col>
+						Basic Info
+					</Col>
+					<Col></Col>
+					{myself ? (
+						<Col>
+							<Button className = "profile-display-edit-btn">
+								Edit My Profile!
+							</Button>
+						</Col>
 						) : (
 						<></>
-						)}
-						
-						{hasSummary ? (
-							<div>
-								<h1 style = {lineStyle}>Personal Summary: </h1>
-								<p style = {{textAlign:"left", marginLeft: 60 }}>
-									{currentUser.personalSummary}
-								</p>
-							</div>
-						) : (
-							<></>
-						)}
-						<h1 style = {lineStyle}> </h1>
+					)}
+					
+				</Row>
 
-						
-						{myself ? (
-							<div style={{float: 'right'}}>
-								<Button color = "primary" href = "/setting">Edit</Button>
-							</div>
-						) : (
-							<></>
-						)}
-            
-        	
-						<h1 style = {headerStyle}>
-							Contact details 
-						</h1>
-						{hasPhone ? (
-							<div>
-							<h1 style = {lineStyle}>Phone Number: 
-              <span style = {valueStyle}>{currentUser.phone}</span>
-							{/* {
-								mobiles.map((element) => {
-									return (
-										<p style = {{textAlign :"right", marginRight: 270}}>
-										{element}
-										</p>
-										)
-								
-								}) */}
-							{/* } */}
-							</h1>
-							</div>
-						) : (
-							<></>
-						)}
-						
-						<div>
-								<h1 style = {lineStyle}>Email: 
-									<span style = {valueStyle}>{currentUser.email}</span>
-								</h1>
-								
-							</div>
-						
-					</div>
-					<div>
-						{/* <center> */}
+				<Row className = "profile-display-inner-container">
+						<Col>
+							<WiAlien size={350}/>
+						</Col>
+						<Col xs="8">
+							<Container>
+								<Row> 
+									<Col>
+										<Label className="profile-display-line">
+											Industry: 
+										</Label>
+									</Col>
 
-							{/* <ContainedButtons />
-							{/* <Button className = {classes.root} variant="primary" size = "lg">
-								Edit my profile
-							</Button> */} 
-						{/* </center> */}
-					</div>
-				</center>
+									<Col>
+										{hasIndustry ? (
+											<Label className="profile-display-value">
+												{currentUser.industry}
+											</Label>
+										) : (
+											<Label className="profile-display-value">
+												Not set!
+											</Label>
+										)}
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<Label className="profile-display-line">
+											Company:
+										</Label>
+									</Col>
+									<Col>
+										{hasCompany ? (
+											<Label className="profile-display-value">
+												{currentUser.company}
+											</Label>
+										) : (
+											<Label className="profile-display-value">
+												Not set!
+											</Label>
+										)}
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<Label className="profile-display-line">
+											Region:
+										</Label>
+									</Col>
+									<Col>
+										{hasRegion ? (
+											<Label className="profile-display-value">
+												{currentUser.areaOrRegion}
+											</Label>
+										) : (
+											<Label className="profile-display-value">
+												Not set!
+											</Label>
+										)}
+									</Col>
+								</Row>
+							</Container>
+						</Col>
+						
+				</Row>
+					
+						
 			</Container>
 			
 			
