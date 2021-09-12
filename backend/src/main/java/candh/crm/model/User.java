@@ -33,6 +33,7 @@ public class User implements UserDetails
     private String industry;
     private String company;
     private String personalSummary;
+    private String icon;
 
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
@@ -56,6 +57,7 @@ public class User implements UserDetails
         this.industry = "";
         this.company = "";
         this.personalSummary = "";
+        this.icon = "fa fa-user fa-fw";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
     }
@@ -94,6 +96,7 @@ public class User implements UserDetails
     public String getUsername() {
         return this.email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -155,6 +158,11 @@ public class User implements UserDetails
         return signupConfirmPath;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -169,6 +177,10 @@ public class User implements UserDetails
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public void setAreaOrRegion(String areaOrRegion) {

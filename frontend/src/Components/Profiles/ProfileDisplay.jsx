@@ -98,7 +98,6 @@ export default class ProfileDisplay extends Component{
 	
 
 	
-
 	
 
 	render(){

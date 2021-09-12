@@ -160,6 +160,23 @@ public class UserController
     }
 
     /**
+     * Handles Http Post for user's personal summary change.
+     */
+    @PostMapping("/user/changeIcon")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeIcon(
+            @Valid @RequestBody ChangeIconRequest changeIconRequest) {
+        Optional<User> user = userRepository.findById(changeIconRequest.getId());
+        if (user.isPresent()) {
+            user.get().setPersonalSummary(changeIconRequest.getIcon());
+            userRepository.save(user.get());
+            return ResponseEntity.ok("You just successfully changed your personal summary.");
+        } else {
+            return ResponseEntity.ok("Id not found.");
+        }
+    }
+
+    /**
      * Handles Http Post for searching users.
      *
      * Partial search is case-insensitive, and based on regex.
