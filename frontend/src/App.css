@@ -413,7 +413,7 @@ footer {
 	text-align : left;
 	font-size : 28px;
 	background-color : skyblue;
-  margin-top: 30px;
+  margin-top: 40px;
   
 
 }
@@ -436,6 +436,22 @@ footer {
 .profile-display-inner-container{
   margin-right: 20px;
   
+}
+
+.profile-display-p{
+  margin-top: 40px;
+  text-align: justify;
+}
+
+.profile-display-contact-line{
+  margin-top: 45px;
+  font-size: 28px;
+  margin-left: 280px;
+}
+
+.profile-display-contact-value{
+  margin-top: 45px;
+  font-size: 28px;
 }
 /* 
 .App {

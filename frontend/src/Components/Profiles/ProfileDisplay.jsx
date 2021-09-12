@@ -4,8 +4,8 @@ import AuthService from "../../Services/AuthService";
 //import { Header } from 'react-native-elements';
 import {Button, Container, Row, Col, Label} from "reactstrap";
 import '../../App.css'
-import AutoFitImage from 'react-image-autofit-frame';
 import { WiAlien } from "react-icons/wi";
+
 //import ProfileSideBar from "./ProfileSideBar"
 
 
@@ -38,7 +38,6 @@ export default class ProfileDisplay extends Component{
 				hasGender: false,
 				hasCompany: false,
 				hasSummary: false,
-				bruh:false,
 				myself: false
 				// fullName: 
 				// this.state.currentUser.first_name + " " +this.currentUser.last_name
@@ -84,6 +83,19 @@ export default class ProfileDisplay extends Component{
     
   }
 
+	componentWillUnmount() {
+		this.setState({
+			myself: false,
+			currentUser: null,
+			hasPhone: false,
+			hasIndustry: false,
+			hasRegion: false,
+			hasGender: false,
+			hasCompany: false,
+			hasSummary: false,
+		})
+	}
+
 	
 
 	
@@ -125,7 +137,7 @@ export default class ProfileDisplay extends Component{
 					<Col></Col>
 					{myself ? (
 						<Col>
-							<Button className = "profile-display-edit-btn">
+							<Button className = "profile-display-edit-btn" href="/setting">
 								Edit My Profile!
 							</Button>
 						</Col>
@@ -196,12 +208,74 @@ export default class ProfileDisplay extends Component{
 										)}
 									</Col>
 								</Row>
+								<Row>
+									{hasSummary ? (
+										<Col>
+											<Label className="profile-display-line">
+												Something About Me : 
+											</Label>
+											<p className = "profile-display-p">
+												{currentUser.personalSummary}
+											</p>
+										</Col>
+									) : (
+										<></>
+									)}
+								</Row>
 							</Container>
 						</Col>
 						
 				</Row>
+				<Row className="profile-display-bar">
+				
+					<Col>
+						Contact Detail
+					</Col>
+					<Col></Col>
+					{myself ? (
+						<Col>
+							<Button className = "profile-display-edit-btn" href="/setting">
+								Edit My Profile!
+							</Button>
+						</Col>
+						) : (
+						<></>
+					)}
 					
-						
+				</Row>
+				
+				<Row> 
+				 
+					<Col>
+						<Label className="profile-display-contact-line">
+							Email: 
+						</Label>
+					</Col>
+					<Col>
+						<Label className="profile-display-contact-value">
+							{currentUser.email}
+						</Label>
+					
+					</Col>
+				</Row>
+				{hasPhone ? (
+					<Row> 
+				 
+					<Col>
+						<Label className="profile-display-contact-line">
+							Phone Number: 
+						</Label>
+					</Col>
+					<Col>
+						<Label className="profile-display-contact-value">
+							{currentUser.phone}
+						</Label>
+					
+					</Col>
+				</Row>
+				) : (
+					<></>
+				)}
 			</Container>
 			
 			
