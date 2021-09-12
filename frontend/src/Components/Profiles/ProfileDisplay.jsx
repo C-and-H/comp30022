@@ -38,7 +38,9 @@ export default class ProfileDisplay extends Component{
 				hasGender: false,
 				hasCompany: false,
 				hasSummary: false,
-				myself: false
+				myself: false,
+				reRender: false,
+				id: null
 				// fullName: 
 				// this.state.currentUser.first_name + " " +this.currentUser.last_name
 				//https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png
@@ -46,15 +48,17 @@ export default class ProfileDisplay extends Component{
 
 	}
 
+
 	
 
 	// if current user is null, will go back to homepage
   async componentDidMount() {
+		
 		const basic = AuthService.getBasicInfo();
 		var currentUser;
 		//console.log(this.props.match.params.id);
 		if (this.props.match.params.id){
-			currentUser = await AuthService.getUserDataFromBackend(
+			currentUser = await AuthService.getOtherUser(
 				basic.token, this.props.match.params.id
 			
 			);
@@ -72,7 +76,11 @@ export default class ProfileDisplay extends Component{
     // if not login
 		
     if (!currentUser) this.setState({ redirect: "/home" });
-    this.setState({currentUser: currentUser, userReady : true });
+    this.setState({
+										currentUser: currentUser, 
+										userReady : true,
+										id: currentUser.id
+									});	
 
 		// display following if they exist
 		if (currentUser.phone) this.setState({hasPhone : true});
@@ -83,18 +91,7 @@ export default class ProfileDisplay extends Component{
     
   }
 
-	componentWillUnmount() {
-		this.setState({
-			myself: false,
-			currentUser: null,
-			hasPhone: false,
-			hasIndustry: false,
-			hasRegion: false,
-			hasGender: false,
-			hasCompany: false,
-			hasSummary: false,
-		})
-	}
+	
 
 	
 
@@ -105,7 +102,7 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary, myself
+       hasSummary, myself, reRender
 		} = this.state;
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
@@ -117,12 +114,14 @@ export default class ProfileDisplay extends Component{
       return <Redirect to={this.state.redirect} />;
     }
 
+		
+
 		if (!currentUser){
 			return <div></div>;
 		}
 		const fullName = currentUser.first_name + " " + currentUser.last_name;
-		console.log(currentUser);
-		console.log(fullName);
+		// console.log(currentUser);
+		// console.log(fullName);
 		return(
 				
 			<Container>
