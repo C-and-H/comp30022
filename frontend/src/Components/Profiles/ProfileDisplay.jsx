@@ -18,7 +18,11 @@ import { WiAlien } from "react-icons/wi";
 
 
 
-
+const iconStyle = {
+	marginTop: 40,
+	marginLeft: 50,
+	fontSize: 200
+}
 
 
 
@@ -40,7 +44,7 @@ export default class ProfileDisplay extends Component{
 				hasSummary: false,
 				myself: false,
 				reRender: false,
-				id: null
+				icon: "fa fa-user fa-fw"
 				// fullName: 
 				// this.state.currentUser.first_name + " " +this.currentUser.last_name
 				//https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png
@@ -102,7 +106,7 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary, myself, reRender
+       hasSummary, myself, reRender, icon
 		} = this.state;
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
@@ -148,7 +152,28 @@ export default class ProfileDisplay extends Component{
 
 				<Row className = "profile-display-inner-container">
 						<Col>
-							<WiAlien size={350}/>
+							<Container>
+								<Row>
+									<i className={icon} style={iconStyle}></i>
+								</Row>
+								{myself ? (
+									<Row className="profile-display-line">
+										<Col></Col>
+										<Col xs="6">
+											<Button className="profile-display-icon-btn">
+												Change Icon
+											</Button>
+										</Col>
+										
+										<Col></Col>
+									</Row>
+								) : (
+									<></>
+								)}
+								
+							</Container>
+						
+						
 						</Col>
 						<Col xs="8">
 							<Container>
@@ -225,6 +250,7 @@ export default class ProfileDisplay extends Component{
 						</Col>
 						
 				</Row>
+				
 				<Row className="profile-display-bar">
 				
 					<Col>

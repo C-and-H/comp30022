@@ -453,6 +453,14 @@ footer {
   margin-top: 45px;
   font-size: 28px;
 }
+.profile-display-icon-btn{
+  margin-left: 0px;
+  align-self: center;
+  border-radius: 20px ;
+  height: 32px;
+  text-align: justify;
+  background-color: mediumslateblue;
+}
 /* 
 .App {
   text-align: center;
