@@ -57,7 +57,7 @@ public class User implements UserDetails
         this.industry = "";
         this.company = "";
         this.personalSummary = "";
-        this.icon = "fa fa-user fa-fw";
+        this.icon = "";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
     }

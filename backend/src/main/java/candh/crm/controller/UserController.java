@@ -160,7 +160,7 @@ public class UserController
     }
 
     /**
-     * Handles Http Post for user's personal summary change.
+     * Handles Http Post for user's icon change.
      */
     @PostMapping("/user/changeIcon")
     @PreAuthorize("hasRole('USER')")
@@ -168,9 +168,10 @@ public class UserController
             @Valid @RequestBody ChangeIconRequest changeIconRequest) {
         Optional<User> user = userRepository.findById(changeIconRequest.getId());
         if (user.isPresent()) {
-            user.get().setPersonalSummary(changeIconRequest.getIcon());
+            user.get().setIcon(changeIconRequest.getIcon());
+
             userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your personal summary.");
+            return ResponseEntity.ok("You just successfully changed your icon");
         } else {
             return ResponseEntity.ok("Id not found.");
         }

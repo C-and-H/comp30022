@@ -92,6 +92,7 @@ export default class ProfileDisplay extends Component{
 		if (currentUser.company) this.setState({hasCompany : true});
 		if (currentUser.personalSummary) this.setState({hasSummary : true});
 		if (currentUser.areaOrRegion) this.setState({hasRegion : true});
+    if (currentUser.icon) this.setState({icon: currentUser.icon});
     
   }
 
@@ -107,6 +108,7 @@ export default class ProfileDisplay extends Component{
 			// hasGender,
        hasSummary, myself, reRender, icon
 		} = this.state;
+    console.log(currentUser);
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
 		
@@ -159,7 +161,10 @@ export default class ProfileDisplay extends Component{
 									<Row className="profile-display-line">
 										<Col></Col>
 										<Col xs="6">
-											<Button className="profile-display-icon-btn">
+											<Button 
+                        className="profile-display-icon-btn"
+                        href="/changeIcon"
+                      >
 												Change Icon
 											</Button>
 										</Col>
