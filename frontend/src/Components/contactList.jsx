@@ -48,9 +48,8 @@ class ContactList extends Component {
    */
   async getFriends() {
     const { basic } = this.state;
-    const response = await axios.post(
+    const response = await axios.get(
       API_URL + "/friend/listFriends",
-      {},
       {
         headers: {
           Authorization: "Bearer " + basic.token,

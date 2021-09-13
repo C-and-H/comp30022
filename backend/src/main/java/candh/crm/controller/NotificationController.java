@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,7 +61,7 @@ public class NotificationController
      * Handles Http Post for random notification subscription path allocation
      * for the new connection of socket clients.
      */
-    @PostMapping("/notification/connect")
+    @GetMapping("/notification/connect")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> connect(
             @RequestHeader("Authorization") String headerAuth)
@@ -77,7 +77,7 @@ public class NotificationController
      * Handles Http Post for fetching notifications,
      * and then delete them in database (once they are fetched).
      */
-    @PostMapping("/notification/fetch")
+    @GetMapping("/notification/fetch")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> fetch(
             @RequestHeader("Authorization") String headerAuth)

@@ -153,7 +153,7 @@ public class AuthController
         return ResponseEntity.ok("You just successfully changed password.");
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     @PreAuthorize("hasRole('USER')")
     public void logout(
             @RequestHeader("Authorization") String headerAuth)

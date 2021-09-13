@@ -37,9 +37,8 @@ class RequestReceived extends Component {
 
   async getRequests() {
     const { basic } = this.state;
-    const response = await axios.post(
+    const response = await axios.get(
       API_URL + "/friend/listReceivedRequests",
-      {},
       {
         headers: {
           Authorization: "Bearer " + basic.token,

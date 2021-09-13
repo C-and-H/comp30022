@@ -66,9 +66,8 @@ class App extends Component {
 
   async getNotificationPath() {
     const token = AuthService.getBasicInfo().token;
-    await axios.post(
+    await axios.get(
       API_URL + "/notification/connect",
-      {},
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -142,9 +141,8 @@ class App extends Component {
 
   async getNotifications() {
     const token = AuthService.getBasicInfo().token;
-    const response = await axios.post(
+    const response = await axios.get(
       API_URL + "/notification/fetch",
-      {},
       {
         headers: {
           Authorization: "Bearer " + token,

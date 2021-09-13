@@ -64,7 +64,7 @@ public class ContactController
     /**
      * Handles Http Post for getting all friends of a user.
      */
-    @PostMapping("/friend/listFriends")
+    @GetMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listFriends(
             @RequestHeader("Authorization") String headerAuth) {
@@ -80,7 +80,7 @@ public class ContactController
      *
      * @return  people's id.
      */
-    @PostMapping("/friend/listSentRequests")
+    @GetMapping("/friend/listSentRequests")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listSentRequests(
             @RequestHeader("Authorization") String headerAuth) {
@@ -96,7 +96,7 @@ public class ContactController
      *
      * @return  people's id.
      */
-    @PostMapping("/friend/listReceivedRequests")
+    @GetMapping("/friend/listReceivedRequests")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listReceivedRequests(
             @RequestHeader("Authorization") String headerAuth) {

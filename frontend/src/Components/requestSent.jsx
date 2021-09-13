@@ -37,9 +37,8 @@ class RequestSent extends Component {
 
   async getRequests() {
     const { basic } = this.state;
-    const response = await axios.post(
+    const response = await axios.get(
       API_URL + "/friend/listSentRequests",
-      {},
       {
         headers: {
           Authorization: "Bearer " + basic.token,
