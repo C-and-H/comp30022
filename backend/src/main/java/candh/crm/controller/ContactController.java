@@ -62,7 +62,7 @@ public class ContactController
     }
 
     /**
-     * Handles Http Post for getting all friends of a user.
+     * Handles Http Get for all friends of a user.
      */
     @GetMapping("/friend/listFriends")
     @PreAuthorize("hasRole('USER')")
@@ -75,7 +75,7 @@ public class ContactController
     }
 
     /**
-     * Handles Http Post for getting all sent requests of a user
+     * Handles Http Get for all sent requests of a user
      * that has not been accepted yet (*including* the case of declined requests).
      *
      * @return  people's id.
@@ -91,7 +91,7 @@ public class ContactController
     }
 
     /**
-     * Handles Http Post for getting all received requests of a user
+     * Handles Http Get for all received requests of a user
      * that has not been accepted yet (*excluding* the case of declined requests).
      *
      * @return  people's id.

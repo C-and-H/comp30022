@@ -41,7 +41,7 @@ public class NotificationController
     private JwtUtils jwtUtils;
 
     /**
-     * Respond with the number of (unread) notifications using socket.
+     * Responds with the number of (unread) notifications using socket.
      * If userId not valid, don't send.
      *
      * @param byIdRequest  contains the user id
@@ -58,7 +58,7 @@ public class NotificationController
     }
 
     /**
-     * Handles Http Post for random notification subscription path allocation
+     * Handles Http Get for random notification subscription path allocation
      * for the new connection of socket clients.
      */
     @GetMapping("/notification/connect")
@@ -74,7 +74,7 @@ public class NotificationController
     }
 
     /**
-     * Handles Http Post for fetching notifications,
+     * Handles Http Get for fetching notifications,
      * and then delete them in database (once they are fetched).
      */
     @GetMapping("/notification/fetch")
