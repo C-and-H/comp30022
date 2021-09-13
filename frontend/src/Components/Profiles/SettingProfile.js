@@ -221,21 +221,42 @@ class SettingProfile extends React.Component {
     console.log(this.state.userFirstName, this.state.userLastName, this.state.userID, this.state.areaOrRegion, this.state.phone)
 
     // get the message from the backend and store it in a variable
-    // let msg_changeName = await this.changeName(this.state.userFirstName, this.state.userLastName, this.state.userID)
-    // let msg_areaOrRegion = await this.changeAreaOrRegion(this.state.userID, this.state.areaOrRegion)
-    // let msg_industry = await this.changeIndustry(this.state.userID, this.state.industry)
-    // let msg_company = await this.changeCompany(this.state.userID, this.state.company)
-    // let msg_description = await this.changeDescription(this.state.userID, this.state.description)
+    let msg_changeName = await this.changeName(this.state.userFirstName, this.state.userLastName, this.state.userID)
+    let msg_areaOrRegion = await this.changeAreaOrRegion(this.state.userID, this.state.areaOrRegion)
+    let msg_industry = await this.changeIndustry(this.state.userID, this.state.industry)
+    let msg_company = await this.changeCompany(this.state.userID, this.state.company)
+    let msg_description = await this.changeDescription(this.state.userID, this.state.description)
     let msg_phone = await this.changePhone(this.state.userID, this.state.phone)
 
     // fetch the data from backend again
     await AuthService.getUserDataFromBackend(basic.token, basic.id);
-    // alert(msg_changeName === "You just successfully changed your name.")
-    // alert(msg_areaOrRegion === "You just successfully changed your area/region.")
-    // alert(msg_industry === "You just successfully changed your industry.")
-    // alert(msg_company === "You just successfully changed your company.")
-    // alert(msg_description === "You just successfully changed your personal summary.")
-    alert(msg_phone)
+
+    // error message display
+    if(!(msg_changeName === "You just successfully changed your name.")){
+      alert("cannot change you name, please try again.")
+    }
+    if(! (msg_areaOrRegion === "You just successfully changed your area/region.") ){
+      alert("cannot change your area/region, please try again.")
+    }
+    if(! (msg_company === "You just successfully changed your company.")){
+      alert("cannot change your industry, please try again.")
+    }
+    if(! (msg_company === "You just successfully changed your company.")){
+      alert("cannot change your company, please try again.")
+    }
+    if(! (msg_description === "You just successfully changed your personal summary.")){
+      alert("cannot change your personal summary, please try again.")
+    }
+    if(! (msg_phone === "You just successfully change your phone number.")){
+      alert("cannot change your phone number, please try again")
+    }
+
+    // change success message display
+    if(msg_changeName === "You just successfully changed your name." && msg_areaOrRegion === "You just successfully changed your area/region." &&
+    msg_industry === "You just successfully changed your industry." && msg_company === "You just successfully changed your company." &&
+    msg_description === "You just successfully changed your personal summary." && msg_phone === "You just successfully change your phone number."){
+      alert("You have successfully change your personal details.")
+    }
     // reload the whole page after submit the form
     window.location.reload(false);
   }

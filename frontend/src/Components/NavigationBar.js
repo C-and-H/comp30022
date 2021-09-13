@@ -63,7 +63,7 @@ class NavigationBar extends Component {
   }
 
   logIn() {
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>

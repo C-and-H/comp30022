@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import { API_URL } from "../constant";
 import RequestReceived from "./requestReceived";
 import RequestSent from "./requestSent";
+import {CSVLink} from "react-csv";
 
 class ContactList extends Component {
   constructor(props) {
@@ -20,10 +21,14 @@ class ContactList extends Component {
       currentUser: JSON.parse(localStorage.getItem("user")),
       friends: [],
       friendList: [],
+      friends_csv:[],
       redirect: null,
+      headers_csv:[],
+      show: false
     };
   }
 
+  
   async componentDidMount() {
     this._isMounted = true;
     const currentUser = AuthService.getCurrentUser();
@@ -64,9 +69,66 @@ class ContactList extends Component {
         await this.getFriendInfo(response.data[i].friendId);
         friends.push([response.data[i].friendId, response.data[i].notes]);
         this.setState({ friends });
+      
       }
+      
+      // deal with export contacts data to csv
+      let { friendList } = this.state;
+      let friend_csv = []
+      for(let i = 0; i < friendList.length; i++){
+        let friend = friendList[i]
+        
+        let info = {
+          email: friend.email,
+          name: friend.name,
+          company: friend.company,
+          industry: friend.industry,
+          personalSummary: friend.personalSummary,
+          phone: friend.phone,
+          note: friends[i][1]
+        }
+        friend_csv.push(info)
+      }
+      
+      // set the header of the csv file
+      const headers_csv = [
+        {label: 'Email', key: 'email'},
+        {label: 'Full Name', key: 'name'},
+        {label: 'Company', key: 'company'},
+        {label: 'Industry', key: 'industry'},
+        {label: 'Description', key: 'personalSummary'},
+        {label: 'Phone Number', key: 'phone'},
+        {label: 'Note', key: 'note'},
+      ]
+
+      this.setState({friends_csv: friend_csv})
+      this.setState({headers_csv: headers_csv})
+      this.setState({show: true})
     }
   }
+
+    /**
+   * get friends' detailed info by their id
+   * @param {*} id id of interested user
+   */
+     async getFriendInfo(id) {
+      const response = await axios.post(
+        API_URL + "/user",
+        { id: id },
+        {
+          headers: {
+            Authorization: "Bearer " + this.state.basic.token,
+          },
+        }
+      );
+      if (response.data) {
+        // console.log(response.data)
+        let friendList = [...this.state.friendList];
+        friendList.push(response.data);
+        // console.log(friendList)
+        this._isMounted && this.setState({ friendList });
+      }
+    }
 
   /**
    * go to search page
@@ -98,26 +160,7 @@ class ContactList extends Component {
     );
   }
 
-  /**
-   * get friends' detailed info by their id
-   * @param {*} id id of interested user
-   */
-  async getFriendInfo(id) {
-    const response = await axios.post(
-      API_URL + "/user",
-      { id: id },
-      {
-        headers: {
-          Authorization: "Bearer " + this.state.basic.token,
-        },
-      }
-    );
-    if (response.data) {
-      let friendList = [...this.state.friendList];
-      friendList.push(response.data);
-      this._isMounted && this.setState({ friendList });
-    }
-  }
+
 
   friendNote(id) {
     const { friends } = this.state;
@@ -133,7 +176,8 @@ class ContactList extends Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { friendList } = this.state;
+    const { friendList ,friends_csv, headers_csv, show } = this.state;
+    // console.log(friendList)
     return (
       <div className="div-contact">
         <div className="rectangle">
@@ -146,6 +190,10 @@ class ContactList extends Component {
               onClick={() => this.redirectFriend(friend.id)}
             />
           ))}
+        </div>
+        <div>
+        {!show && <p>export contacts</p>}
+        {show && <CSVLink data={friends_csv} headers={headers_csv} filename={"Contacts"} >export contacts</CSVLink>}
         </div>
         <RequestReceived />
         <RequestSent />
