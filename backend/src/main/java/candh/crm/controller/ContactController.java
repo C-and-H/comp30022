@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("${crm.app.frontend.host}")
 public class ContactController
 {
     @Autowired

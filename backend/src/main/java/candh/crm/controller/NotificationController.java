@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("${crm.app.frontend.host}")
 public class NotificationController
 {
     @Autowired
