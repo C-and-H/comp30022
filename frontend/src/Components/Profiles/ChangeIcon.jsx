@@ -42,7 +42,7 @@ export default class ChangeIcon extends Component{
       const token = user.token;
       
       //newIcon = JSON.stringify(newIcon);
-      console.log(newIcon);
+      //console.log(newIcon);
       const response = await axios.post (
         API_URL + "/user/changeIcon", 
         {
@@ -72,6 +72,8 @@ export default class ChangeIcon extends Component{
   }
 
   async handleSubmit() {
+    let basic = AuthService.getBasicInfo();
+    
     let newIcon = await this.changeIcon(this.state.userID, this.state.chosen);
     console.log(this.newIcon);
     if (newIcon !== "An error has occured") {
@@ -80,6 +82,8 @@ export default class ChangeIcon extends Component{
     } else {
       alert(newIcon);
     }
+
+    await AuthService.getUserDataFromBackend(basic.token, basic.id);
   }
 
   render() {
@@ -97,6 +101,12 @@ export default class ChangeIcon extends Component{
               <i  className="fas fa-blind" style={iconStyle}></i>
             </Button>
             
+          </Col>
+          <Col>
+            <Button onClick={() => this.handleClick("fa fa-user fa-fw")}>
+              <i  className="fa fa-user fa-fw" style={iconStyle}></i>
+            </Button>
+
           </Col>
         </Row>
 
