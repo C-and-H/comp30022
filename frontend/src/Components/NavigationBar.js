@@ -14,7 +14,8 @@ class NavigationBar extends Component {
     this.state = {
       isConnected: false,
       notificationNumber: 3,
-      stompClient: null
+      stompClient: null,
+      defaultIcon: "fa fa-user fa-fw"
     };
 
     this.connectCallback = this.connectCallback.bind(this);
@@ -67,7 +68,12 @@ class NavigationBar extends Component {
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
-          <i className={this.props.user.icon}></i>
+          {this.props.user.icon ? (
+            <i className={this.props.user.icon}></i>
+          ) : (
+            <i className={this.state.defaultIcon}></i>
+          )}
+          
           {this.props.user.first_name}
         </Nav.Link>
         <Nav.Link href="/contact" className={"navbar_nav"}>

@@ -9,8 +9,8 @@ import { API_URL } from "../../constant";
 
 const iconStyle = {
 	marginTop: 40,
-	marginLeft: 50,
-	fontSize: 200
+	
+	fontSize: 100
 }
 
 export default class ChangeIcon extends Component{
@@ -97,21 +97,65 @@ export default class ChangeIcon extends Component{
       <Container>
         <Row>
           <Col>
-            <Button onClick={() => this.handleClick("fas fa-blind")}>
+            <Button 
+              className = "change-icon-btn-frame" 
+              onClick={() => this.handleClick("fas fa-blind")}
+            >
               <i  className="fas fa-blind" style={iconStyle}></i>
             </Button>
             
           </Col>
           <Col>
-            <Button onClick={() => this.handleClick("fa fa-user fa-fw")}>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("fa fa-user fa-fw")}
+            >
               <i  className="fa fa-user fa-fw" style={iconStyle}></i>
             </Button>
 
           </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	fas fa-wheelchair")}
+            >
+              <i  className="	fas fa-wheelchair" style={iconStyle}></i>
+            </Button>
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	fab fa-accessible-icon")}
+            >
+              <i  className="	fab fa-accessible-icon" style={iconStyle}></i>
+            </Button>
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	far fa-question-circle")}
+            >
+              <i  className="	far fa-question-circle" style={iconStyle}></i>
+            </Button>
+          </Col>
         </Row>
-
-        <Button onClick={this.handleSubmit}>Save changes</Button>
+        <Row className="change-icon-line">
+          <Col></Col>
+          <Col xs="7">
+            <Button 
+              className = "change-icon-btn-save"
+              onClick={this.handleSubmit}
+            >
+              Save changes
+            </Button>
+          </Col>
+          
+          
+        </Row>
+        
       </Container>
+
+      
     )
   }
 }

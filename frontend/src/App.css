@@ -461,6 +461,29 @@ footer {
   text-align: justify;
   background-color: mediumslateblue;
 }
+
+/******************** ProfileDisplay Components END ********************/
+
+
+/******************** ChangeIcon Components  ********************/
+.change-icon-btn-frame{
+  margin-top: 40px;
+  height: 160px;
+  width: 160px;
+  align-items: justify;
+  background-color: skyblue;
+}
+
+.change-icon-btn-save{
+  height: 60px;
+  width: 140px;
+  text-align: justify;
+  background-color: mediumslateblue;
+}
+
+.change-icon-line{
+  margin-top: 40px;
+}
 /* 
 .App {
   text-align: center;
