@@ -117,7 +117,7 @@ body .bg-dark {
   /* height: 70vh; */
 }
 .pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
-  background-color: #F2EDA2;
+  background-color: #f2eda2;
   width: 250px !important;
 }
 .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item > .pro-item-content {
@@ -131,66 +131,65 @@ body .bg-dark {
   transition: 0.4s;
 }
 
-.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header{
-  border-bottom:2px solid black !important;
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header {
+  border-bottom: 2px solid black !important;
   color: black;
   margin-top: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-
-/*------------------ Setting Profile Components ---------------*/ 
-.setting-profile-h4{
+/*------------------ Setting Profile Components ---------------*/
+.setting-profile-h4 {
   font-size: var(--large-font-size);
   text-align: left;
-  border-bottom:1px solid gray !important;
+  border-bottom: 1px solid gray !important;
   padding-bottom: 5px;
 }
-.setting-profile-label{
+.setting-profile-label {
   text-align: left;
 }
-.setting-profile-formgroup{
+.setting-profile-formgroup {
   text-align: left;
   padding-top: 10px;
 }
-.setting-profile-submit-btn-left{
- float: left;
- border-radius: 8px;
- background-color: green;
- color: white;
- margin-bottom: 50px;
+.setting-profile-submit-btn-left {
+  float: left;
+  border-radius: 8px;
+  background-color: green;
+  color: white;
+  margin-bottom: 50px;
 }
-.setting-profile-submit-btn-right{
+.setting-profile-submit-btn-right {
   float: right;
   border-radius: 8px;
   background-color: grey;
   margin-bottom: 50px;
- }
- .setting-profile-form-label{
+}
+.setting-profile-form-label {
   display: inline-block;
   margin-bottom: 2px;
- }
- .setting-profile-description-input{
+}
+.setting-profile-description-input {
   /* padding-top: 0;
   padding-bottom: 0; */
   height: 200px;
- }
-.PhoneInputCountrySelect{
-    /* position: absolute;
+}
+.PhoneInputCountrySelect {
+  /* position: absolute;
     top: 0;
     left: 0; */
-    /* height: 100%; */
-    width: 50%;
- }
-.PhoneInputInput{
+  /* height: 100%; */
+  width: 50%;
+}
+.PhoneInputInput {
   max-width: 90%;
 }
-.PhoneInputCountryIconImg{
+.PhoneInputCountryIconImg {
   max-width: 10%;
 }
 /* .react-tel-input .special-label { */
-  /* display: none  !important; */
+/* display: none  !important; */
 /* } */
 .react-tel-input .form-control {
   width: 100% !important;
@@ -198,24 +197,20 @@ body .bg-dark {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
-.react-tel-input .selected-flag .flag{
+.react-tel-input .selected-flag .flag {
   margin-top: 0 !important;
 }
-.react-tel-input .selected-flag:focus:before, .react-tel-input .selected-flag.open:before{
+.react-tel-input .selected-flag:focus:before,
+.react-tel-input .selected-flag.open:before {
   border: none !important;
   box-shadow: none !important;
 }
-.react-tel-input .selected-flag:before{
+.react-tel-input .selected-flag:before {
   border: none !important;
 }
-/*------------------ Setting Profile Components End ---------------*/ 
+/*------------------ Setting Profile Components End ---------------*/
 
-
-
-
-
-/*------------------ Profile SideBar Components End ---------------*/ 
-
+/*------------------ Profile SideBar Components End ---------------*/
 
 footer {
   height: 30px;
@@ -285,6 +280,11 @@ footer {
   width: 600px;
   height: 40px;
   border-radius: 6px;
+}
+
+.search-contact {
+  width: 200px;
+  height: 40px;
 }
 
 .search-form {
