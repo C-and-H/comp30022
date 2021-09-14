@@ -468,6 +468,18 @@ footer {
   border-radius: 4px;
 }
 
+.btn-searchEmail {
+  width: 80%;
+  margin-left: 10%;
+}
+
+.div-email-results {
+  width: 100%;
+  max-height: 300px;
+  margin-top: 50px;
+  overflow: auto;
+}
+
 /*------------------ Email Components end ---------------*/
 
 /* 

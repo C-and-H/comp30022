@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
+import { API_URL } from "../constant";
+import axios from "axios";
 
 class Email extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
+    this._isEmpty = true;
 
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -15,6 +18,7 @@ class Email extends Component {
       toEmails: [],
       email: "",
       fromName: JSON.parse(localStorage.getItem("user")).name,
+      searchEmails: null,
     };
 
     this.handleChangeBody = this.handleChangeBody.bind(this);
@@ -60,11 +64,17 @@ class Email extends Component {
     }
   }
 
+  /**
+   * automatically search when user enter or delete something
+   */
   handleChangeReceiver(event) {
     if (!event.target.value || event.target.value === "") {
-      this._isMounted && this.setState({ email: "" });
+      this._isMounted && this.setState({ email: "", searchEmails: null });
+      this._isEmpty = true;
     } else {
+      this._isEmpty = false;
       this._isMounted && this.setState({ email: event.target.value });
+      this.searchEmail(event.target.value);
     }
   }
 
@@ -104,7 +114,7 @@ class Email extends Component {
   }
 
   mailInfo() {
-    const { toEmails, fromName, email } = this.state;
+    const { toEmails, fromName, email, searchEmails } = this.state;
     return (
       <div className="div-sender">
         <div className="div-mail-title">
@@ -141,6 +151,14 @@ class Email extends Component {
             Add
           </Button>
         </div>
+        <div className="div-email-results">
+          {searchEmails &&
+            (searchEmails.length === 0 ? (
+              <h2> None match</h2>
+            ) : (
+              searchEmails.map((user) => this.displaySearch(user))
+            ))}
+        </div>
       </div>
     );
   }
@@ -163,7 +181,7 @@ class Email extends Component {
           }
         }
         toEmails.push(email);
-        this.setState({ toEmails, email: "" });
+        this._isMounted && this.setState({ toEmails, email: "" });
       } else {
         alert("Email not valid");
       }
@@ -189,10 +207,54 @@ class Email extends Component {
         newEmails.push(toEmails[i]);
       }
     }
-    this.setState({ toEmails: newEmails });
+    this._isMounted && this.setState({ toEmails: newEmails });
   }
 
-  searchEmail() {}
+  async searchEmail(email) {
+    const { basic } = this.state;
+    const response = await axios.post(
+      API_URL + "/user/search",
+      {
+        id: basic.id,
+        email: email,
+        first_name: "",
+        last_name: "",
+        areaOrRegion: "",
+        industry: "",
+        company: "",
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      !this._isEmpty &&
+        this._isMounted &&
+        this.setState({ searchEmails: response.data });
+    }
+  }
+
+  displaySearch(user) {
+    return (
+      <Button
+        id={user.id}
+        className="btn-searchEmail"
+        variant="outline-dark"
+        size="lg"
+        onClick={() => this.fillEmail(user.email)}
+      >
+        <i className="fa fa-user-circle fa-fw"></i>
+        {" " + user.first_name + " " + user.last_name + " " + user.email}
+      </Button>
+    );
+  }
+
+  fillEmail(email) {
+    this._isMounted && this.setState({ email: email });
+  }
 
   render() {
     return (
