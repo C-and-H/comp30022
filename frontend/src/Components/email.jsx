@@ -9,6 +9,7 @@ class Email extends Component {
     super(props);
     this._isMounted = false;
     this._isEmpty = true;
+    this._isSending = false;
 
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -108,7 +109,13 @@ class Email extends Component {
             onChange={this.handleChangeBody}
           />
         </div>
-        <Button className="btn-send">Send</Button>
+        <Button
+          className="btn-send"
+          onClick={() => this.sendEmail()}
+          disabled={this._isSending}
+        >
+          Send
+        </Button>
       </div>
     );
   }
@@ -190,7 +197,7 @@ class Email extends Component {
 
   displayToEmails(email) {
     return (
-      <div id={email} className="email-display">
+      <div key={email} className="email-display">
         {email}
         <Button onClick={() => this.removeEmail(email)}>
           <i className="fas fa-times" />
@@ -240,7 +247,7 @@ class Email extends Component {
   displaySearch(user) {
     return (
       <Button
-        id={user.id}
+        key={user.id}
         className="btn-searchEmail"
         variant="outline-dark"
         size="lg"
@@ -254,6 +261,54 @@ class Email extends Component {
 
   fillEmail(email) {
     this._isMounted && this.setState({ email: email });
+  }
+
+  async sendEmail() {
+    this._isSending = true;
+    if (this.validSend()) {
+      const { basic, mailBody, mailTitle, toEmails, fromName } = this.state;
+      let receiver = "";
+      receiver = receiver + toEmails[0];
+      if (toEmails.length > 1) {
+        for (let i = 1; i < toEmails.length; i++) {
+          receiver = receiver + ", " + toEmails[i];
+        }
+      }
+      const response = await axios.post(
+        API_URL + "/email/sendEmail",
+        {
+          receiver: receiver,
+          sender: fromName,
+          title: mailTitle,
+          content: mailBody,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
+
+      if (response.data) {
+        alert(response.data);
+      }
+    } else {
+      alert("All fields must be filled");
+    }
+    this._isSending = false;
+  }
+
+  validSend() {
+    const { mailBody, mailTitle, toEmails, fromName } = this.state;
+    if (
+      mailBody === "" ||
+      mailTitle === "" ||
+      toEmails.length === 0 ||
+      fromName === ""
+    ) {
+      return false;
+    }
+    return true;
   }
 
   render() {
