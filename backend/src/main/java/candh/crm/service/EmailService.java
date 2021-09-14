@@ -63,10 +63,10 @@ public class EmailService
         message.setSubject(title);
 
         // message body
-        String messageBody = content + "<br /><br />Send from: " + sender;
+        String messageBody = content + "\n\nSend from: " + sender;
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(messageBody,"UTF-8","html");
+        messageBodyPart.setText(messageBody);
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
         message.setContent(multipart);

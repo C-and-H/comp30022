@@ -9,7 +9,6 @@ class Email extends Component {
     super(props);
     this._isMounted = false;
     this._isEmpty = true;
-    this._isSending = false;
 
     this.state = {
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -20,6 +19,7 @@ class Email extends Component {
       email: "",
       fromName: JSON.parse(localStorage.getItem("user")).name,
       searchEmails: null,
+      sending: false,
     };
 
     this.handleChangeBody = this.handleChangeBody.bind(this);
@@ -80,7 +80,7 @@ class Email extends Component {
   }
 
   mailContent() {
-    const { mailBody, mailTitle } = this.state;
+    const { mailBody, mailTitle, sending } = this.state;
     return (
       <div className="div-mail">
         <div className="div-mail-title">
@@ -112,7 +112,7 @@ class Email extends Component {
         <Button
           className="btn-send"
           onClick={() => this.sendEmail()}
-          disabled={this._isSending}
+          disabled={sending}
         >
           Send
         </Button>
@@ -264,7 +264,7 @@ class Email extends Component {
   }
 
   async sendEmail() {
-    this._isSending = true;
+    this.setState({ sending: true });
     if (this.validSend()) {
       const { basic, mailBody, mailTitle, toEmails, fromName } = this.state;
       let receiver = "";
@@ -295,7 +295,7 @@ class Email extends Component {
     } else {
       alert("All fields must be filled");
     }
-    this._isSending = false;
+    this.setState({ sending: false });
   }
 
   validSend() {
