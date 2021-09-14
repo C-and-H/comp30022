@@ -105,6 +105,10 @@ class NavigationBar extends Component {
             Inbox
           </Nav.Link>
         )}
+        <Nav.Link href="/email" className={"navbar_nav"}>
+          <i className="fa fa-mail-bulk"></i>
+          Email
+        </Nav.Link>
         <Nav.Link
           href="/login"
           className={"navbar_nav"}

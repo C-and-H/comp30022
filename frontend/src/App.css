@@ -389,6 +389,54 @@ footer {
 
 /*------------------ Contact Components end ---------------*/
 
+/*------------------ Email Components ---------------*/
+
+.div-mail {
+  margin-top: 3%;
+  margin-left: 10%;
+  width: 50%;
+  height: 80%;
+  background-color: cornflowerblue;
+  position: absolute;
+  display: inline-block;
+}
+
+.div-sender {
+  margin-top: 3%;
+  margin-left: 65%;
+  width: 30%;
+  height: 80%;
+  background-color: deepskyblue;
+  position: absolute;
+  display: inline-block;
+}
+
+.div-mail-body {
+  width: 80%;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+
+.div-mail-title {
+  width: 80%;
+  margin-top: 10%;
+  margin-left: 10%;
+}
+
+.mail-body {
+  width: 100%;
+}
+
+.btn-send {
+  width: 10%;
+  height: 6%;
+  margin-top: 5%;
+  margin-left: 80%;
+  background-color: lightsalmon;
+}
+
+/*------------------ Email Components end ---------------*/
+
 /* 
 .App {
   text-align: center;
