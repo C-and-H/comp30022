@@ -14,7 +14,7 @@ import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
-import Email from "./Components/Profiles/email";
+import Email from "./Components/email";
 
 class App extends Component {
   constructor(props) {
