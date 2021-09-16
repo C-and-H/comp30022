@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-import {Button, Container, Row, Col, Label} from "reactstrap";
+import {
+  Button, Container, Row, Col, Label, Collapse, Form,
+  FormGroup, Input
+} from "reactstrap";
 import '../../App.css'
 
 import UserService  from "../../Services/UserService";
@@ -46,7 +49,8 @@ export default class ProfileDisplay extends Component{
 				isFriend: false,
 				icon: "fa fa-user fa-fw",
         btnText: null,
-        disableBtn: false
+        disableBtn: false,
+        isOpen: false
 				// fullName: 
 				// this.state.currentUser.first_name + " " +this.currentUser.last_name
 				//https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png
@@ -168,7 +172,7 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary, myself,  icon, isFriend
+       hasSummary, myself,  icon, isFriend, isOpen
 		} = this.state;
     console.log(currentUser);
 		//const classes = useStyles();
@@ -369,6 +373,35 @@ export default class ProfileDisplay extends Component{
 				) : (
 					<></>
 				)}
+
+        {isFriend ? (
+          <Container>
+            <Row className="profile-display-bar">
+              <Col>
+                Note On This Friend
+              </Col>
+              <Col></Col>
+              <Col>
+                <Button className="profile-display-edit-btn">
+                  Change Note
+                </Button>
+              </Col>
+            </Row>
+            <Collapse isOpen={isOpen}>
+              <Form>
+                <FormGroup>
+
+                </FormGroup>
+              </Form>
+            </Collapse>
+            
+            <Row>
+              <p className="profile-display-p"></p>
+            </Row>
+          </Container>
+        ) : (
+          <></>
+        )}
 			</Container>
 			
 			
