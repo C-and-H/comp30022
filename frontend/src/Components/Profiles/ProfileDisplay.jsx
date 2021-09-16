@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-//import { Header } from 'react-native-elements';
 import {Button, Container, Row, Col, Label} from "reactstrap";
 import '../../App.css'
-import { WiAlien } from "react-icons/wi";
+
+import UserService  from "../../Services/UserService";
 
 //import ProfileSideBar from "./ProfileSideBar"
 
@@ -43,13 +43,17 @@ export default class ProfileDisplay extends Component{
 				hasCompany: false,
 				hasSummary: false,
 				myself: false,
-				reRender: false,
-				icon: "fa fa-user fa-fw"
+				isFriend: false,
+				icon: "fa fa-user fa-fw",
+        btnText: null,
+        disableBtn: false
 				// fullName: 
 				// this.state.currentUser.first_name + " " +this.currentUser.last_name
 				//https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png
   	  };
-
+    
+    this.friendBtn = this.friendBtn.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 	}
 
 
@@ -64,8 +68,14 @@ export default class ProfileDisplay extends Component{
 		if (this.props.match.params.id){
 			currentUser = await AuthService.getOtherUser(
 				basic.token, this.props.match.params.id
-			
 			);
+
+      let friendship = await UserService.checkFriend(
+        basic.id,
+        this.props.match.params.id,
+        basic.token
+      );
+      this.setState({isFriend: friendship})
 			//this.setState({myself:false})
 			
 		}else{
@@ -74,7 +84,11 @@ export default class ProfileDisplay extends Component{
 			this.setState({myself: true})
 		}
 		
-		
+		if (this.state.isFriend){
+      this.setState({btnText: "Unfriend"});
+    } else {
+      this.setState({btnText: "Add friend"});
+    }
 		
     //console.log(cur	rentUser);
     // if not login
@@ -96,7 +110,55 @@ export default class ProfileDisplay extends Component{
     
   }
 
-	
+  async handleClick() {
+    const {isFriend} = this.state;
+    const user = AuthService.getBasicInfo();
+    var res;
+    if (isFriend) {
+      // send delete friend request
+      res = await UserService.deleteFriend (
+        user.id,
+        this.props.match.params.id,
+        user.token
+      );
+      this.setState({btnText: "Add friend"})
+    } else {
+      // send friend request
+      res = await UserService.sentFriendRequest (
+        user.id,
+        this.props.match.params.id,
+        user.token
+      );
+      this.setState({btnText: "Request sent"});
+      //console.log("bruh")
+      this.setState({disableBtn: true});
+    }
+    
+    await AuthService.getUserDataFromBackend(user.token, user.id);
+  }
+
+	friendBtn(){
+    const {btnText, disableBtn} = this.state;
+    return (
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col xs="6">
+            <Button 
+              className="profile-display-icon-btn"
+              disabled={disableBtn}
+              onClick={() => this.handleClick()}
+            >
+              {btnText}
+            </Button>
+          </Col>
+
+          <Col></Col>
+        </Row>
+      </Container>
+    )
+    
+  }
 
 	
 	
@@ -106,7 +168,7 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary, myself, reRender, icon
+       hasSummary, myself,  icon, isFriend
 		} = this.state;
     console.log(currentUser);
 		//const classes = useStyles();
@@ -172,7 +234,9 @@ export default class ProfileDisplay extends Component{
 										<Col></Col>
 									</Row>
 								) : (
-									<></>
+									<Row className="profile-display-line">
+                    {this.friendBtn()}
+                  </Row>
 								)}
 								
 							</Container>
