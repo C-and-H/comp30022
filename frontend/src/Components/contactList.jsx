@@ -153,7 +153,8 @@ class ContactList extends Component {
   }
 
   /**
-   * search friends' name, email, industry, company and areaOrRegion
+   * search friends' name, email, industry, company, areaOrRegion
+   * and friend notes
    * @param {*} key search key
    */
   matchContacts(key) {
@@ -179,6 +180,10 @@ class ContactList extends Component {
           continue;
         }
         if (search.test(friendList[i].areaOrRegion)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+        if (search.test(this.friendNote(friendList[i].id))) {
           searchList.push(friendList[i]);
           continue;
         }
