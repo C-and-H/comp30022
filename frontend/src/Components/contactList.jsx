@@ -275,7 +275,7 @@ class ContactList extends Component {
         </div>
         <div>
         {!show && <p>export contacts</p>}
-        {show && <CSVLink data={friends_csv} headers={headers_csv} filename={"Contacts"} >export contacts</CSVLink>}
+        {show && <CSVLink data={friends_csv} headers={headers_csv} filename={"Contacts.csv"} >export contacts</CSVLink>}
         </div>
         <RequestReceived />
         <RequestSent />

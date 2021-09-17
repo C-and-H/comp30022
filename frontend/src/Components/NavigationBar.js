@@ -42,10 +42,10 @@ class NavigationBar extends Component {
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
-          {this.props.user.icon ? (
+          {(this.props.user && this.props.user.icon) ? (
             <i className={this.props.user.icon}></i>
           ) : (
-            <i className={this.state.defaultIcon}></i>
+            <i className="fa fa-user fa-fw"></i>
           )}
           
           {this.props.user.first_name}

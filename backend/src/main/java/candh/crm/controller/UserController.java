@@ -173,16 +173,15 @@ public class UserController
     @PostMapping("/user/changeIcon")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changeIcon(
-            @Valid @RequestBody ChangeIconRequest changeIconRequest) {
-        Optional<User> user = userRepository.findById(changeIconRequest.getId());
-        if (user.isPresent()) {
-            user.get().setIcon(changeIconRequest.getIcon());
-
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your icon");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ChangeIconRequest changeIconRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setIcon(changeIconRequest.getIcon());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your icon.");
     }
 
     /**

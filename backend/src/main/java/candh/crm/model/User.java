@@ -153,14 +153,13 @@ public class User implements UserDetails
         return personalSummary;
     }
 
-    public String getSignupConfirmPath() {
-        return signupConfirmPath;
-    }
-
     public String getIcon() {
         return icon;
     }
 
+    public String getSignupConfirmPath() {
+        return signupConfirmPath;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -178,10 +177,6 @@ public class User implements UserDetails
         this.phone = phone;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public void setAreaOrRegion(String areaOrRegion) {
         this.areaOrRegion = areaOrRegion;
     }
@@ -196,6 +191,10 @@ public class User implements UserDetails
 
     public void setPersonalSummary(String personalSummary) {
         this.personalSummary = personalSummary;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public void setEnabled(boolean enabled) {

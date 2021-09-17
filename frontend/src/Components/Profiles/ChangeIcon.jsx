@@ -36,7 +36,7 @@ export default class ChangeIcon extends Component{
   }
 
 
-  async changeIcon(id, newIcon) {
+  async changeIcon(newIcon) {
     const user = AuthService.getBasicInfo();
     if (user && user.token) {
       const token = user.token;
@@ -46,7 +46,6 @@ export default class ChangeIcon extends Component{
       const response = await axios.post (
         API_URL + "/user/changeIcon", 
         {
-          id: id,
           icon: newIcon
         },
         {
@@ -74,7 +73,7 @@ export default class ChangeIcon extends Component{
   async handleSubmit() {
     let basic = AuthService.getBasicInfo();
     
-    let newIcon = await this.changeIcon(this.state.userID, this.state.chosen);
+    let newIcon = await this.changeIcon(this.state.chosen);
     console.log(this.newIcon);
     if (newIcon !== "An error has occured") {
       alert("Changes saved !");

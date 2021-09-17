@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /logout.
+ * Request body parameters for /unsubscribe.
  */
 public class UnsubscribeRequest
 {
