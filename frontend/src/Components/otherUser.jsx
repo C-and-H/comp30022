@@ -116,7 +116,7 @@ class OtherUser extends Component {
     } else {
       const response = await axios.post(
         API_URL + "/friend/changeNotes",
-        { userId: basic.id, friendId: id, notes: note },
+        { id: id, notes: note },
         {
           headers: {
             Authorization: "Bearer " + basic.token,
