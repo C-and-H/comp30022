@@ -76,14 +76,12 @@ class App extends Component {
   }
 
   connect(notificationPath) {
-    console.log("notificationPath: " + notificationPath);
     this.setState({ notificationPath: notificationPath });
-    console.log("logout noti path: " + this.state.notificationPath);
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
     self.stompClient.connect(
-      { id: AuthService.getBasicInfo().id },
+      {},
       function (frame) {
         console.log("Connected: ");
         console.log(frame);
@@ -125,7 +123,7 @@ class App extends Component {
   disconnect() {
     var self = this;
     if (self.stompClient !== null) {
-      self.stompClient.disconnect({}, { id: AuthService.getBasicInfo().id });
+      self.stompClient.disconnect();
     }
     self.setState({ isConnected: false });
     console.log("Disconnected");
@@ -193,12 +191,13 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, redirect } = this.state;
+    const { currentUser, redirect, basic } = this.state;
     return (
       <div className="App">
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
           <NavigationBar
+            basic={basic}
             user={currentUser}
             onLogOut={this.handleLogOut}
             notifications={this.state.notifications}

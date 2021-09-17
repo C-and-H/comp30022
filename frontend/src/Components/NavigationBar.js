@@ -14,12 +14,13 @@ class NavigationBar extends Component {
       >
         <p className="notify-dropdown dropdown-text">
           {notification.message}
-          <div className="dropdown-time dropdown-text">
+          <br />
+          <span className="dropdown-time dropdown-text">
             {new Date(notification.when).toLocaleDateString([], {
               hour: "2-digit",
               minute: "2-digit",
             })}
-          </div>
+          </span>
         </p>
       </NavDropdown.Item>
     );
@@ -88,7 +89,7 @@ class NavigationBar extends Component {
                   </Button>
                 </NavDropdown.Item>
               ) : (
-                <NavDropdown.ItemText classname="dropdown-text">
+                <NavDropdown.ItemText className="dropdown-text">
                   loading...
                 </NavDropdown.ItemText>
               )}
@@ -152,7 +153,7 @@ class NavigationBar extends Component {
           <Navbar.Brand href="/">
             <i className="fas fa-users-cog"></i> CRM Application
           </Navbar.Brand>
-          {this.props.user ? this.logIn() : this.notLogIn()}
+          {(this.props.user && this.props.basic) ? this.logIn() : this.notLogIn()}
         </Container>
       </Navbar>
     );
