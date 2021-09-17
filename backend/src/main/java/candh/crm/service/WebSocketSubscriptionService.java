@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class WebSocketSubscriptionService
 {
-    private final Map<String,List<String>> chatMap = new ConcurrentHashMap<>();
-    private final Map<String,List<String>> notificationMap = new ConcurrentHashMap<>();
+    private final Map<String, List<String>> chatMap = new ConcurrentHashMap<>();
+    private final Map<String, List<String>> notificationMap = new ConcurrentHashMap<>();
 
     // for random string generator
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
@@ -23,12 +23,13 @@ public class WebSocketSubscriptionService
     private static SecureRandom random = new SecureRandom();   // alphanumeric string of length 20-30
 
     /**
-     * Clear all subscriptions of a user.
+     * Remove a subscription from map provided with user id.
      *
-     * @param id  id of a user
+     * @param id  id of the user
+     * @param path  the notification subscription path
      */
-    public void clear(String id) {
-        notificationMap.remove(id);
+    public void removeNotification(String id, String path) {
+        notificationMap.get(id).remove(path);
     }
 
     /**

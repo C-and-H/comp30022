@@ -187,7 +187,7 @@ public class UserController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
 
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         Method[] methods = SearchRequest.class.getMethods();
         for (Method m: methods) {
             if (m.getName().startsWith("get") &&
@@ -259,7 +259,7 @@ public class UserController
         boolean add = true;
         for (int i = 0; i < users.size(); i++) {
             add = true;
-            for (int j = 0; j<i; j++) {
+            for (int j = 0; j < i; j++) {
                 if (users.get(i).getId().equals(users.get(j).getId())) {
                     add = false;
                     break;

@@ -156,11 +156,13 @@ public class AuthController
     @GetMapping("/logout")
     @PreAuthorize("hasRole('USER')")
     public void logout(
-            @RequestHeader("Authorization") String headerAuth)
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody UnsubscribeRequest unsubscribeRequest)
     {
         String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
-        webSocketSubscriptionService.clear(id);
+        webSocketSubscriptionService.removeNotification(id,
+                unsubscribeRequest.getNotificationPath());
     }
 }

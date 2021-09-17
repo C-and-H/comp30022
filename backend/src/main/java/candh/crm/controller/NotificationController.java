@@ -61,9 +61,9 @@ public class NotificationController
      * Handles Http Get for random notification subscription path allocation
      * for the new connection of socket clients.
      */
-    @GetMapping("/notification/connect")
+    @GetMapping("/notification/register")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> connect(
+    public ResponseEntity<?> register(
             @RequestHeader("Authorization") String headerAuth)
     {
         String id = userRepository.findByEmail(

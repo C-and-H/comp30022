@@ -104,10 +104,10 @@ public class NotificationService
      * Count the number of (unread) notifications given user id.
      * @return  {"count": number of notifications}, or null
      */
-    public Map<String,Object> count(String id) {
+    public Map<String, Object> count(String id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            return new ConcurrentHashMap<String,Object>() {{
+            return new ConcurrentHashMap<String, Object>() {{
                 put("count", notificationRepository.findByUserId(id).size());
             }};
         }
@@ -115,12 +115,13 @@ public class NotificationService
     }
 
     /**
-     * Actively push the map that contains the number of (unread) notifications,
+     * Actively push the number of (unread) notifications,
      * as long as the channel to a receiver is open, using socket.
      *
      * @param userId  id of the user
      */
-    public void pushTo(String userId) {
+    public void pushTo(String userId)
+    {
         Map<String, List<String>> map =
                 webSocketSubscriptionService.getNotificationMap();
         if (map.containsKey(userId)) {
