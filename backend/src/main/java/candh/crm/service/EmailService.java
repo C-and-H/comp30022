@@ -54,7 +54,7 @@ public class EmailService
     }
 
     public void sendEmail(String receiver, String sender, String title,
-                                String content) throws MessagingException
+                                String content, String email) throws MessagingException
     {
         MimeMessage message = javaMailSender.createMimeMessage();
         message.setFrom(new InternetAddress(from));
@@ -63,7 +63,8 @@ public class EmailService
         message.setSubject(title);
 
         // message body
-        String messageBody = content + "\n\nSend from: " + sender;
+        String messageBody = content + "\n\nSend from: " + sender
+                            + "\nSender's email: " + email;
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setText(messageBody);
