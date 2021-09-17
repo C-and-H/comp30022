@@ -74,28 +74,23 @@ class AuthService {
   async logout() {
     const notiPath = JSON.parse(localStorage.getItem("notificationPath"));
     const token = this.getBasicInfo().token;
-    await axios.post(API_URL + "/logout",
-      {
-        notificationPath : notiPath
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + token,
+    localStorage.removeItem("user");
+    localStorage.removeItem("notifications");
+    localStorage.removeItem("notificationPath");
+    localStorage.removeItem("basic");
+    await axios
+      .post(
+        API_URL + "/unsubscribe",
+        {
+          notificationPath: notiPath,
         },
-      }
-    ).catch(
-      (err) => alert("This is error: " + err.message)
-    );
-
-    console.log("logout finish");
-    //alert("This is reponse: " + response.data);
-    
-    // localStorage.removeItem("user");
-    // localStorage.removeItem("notifications");
-    // localStorage.removeItem("notificationPath");
-    // localStorage.removeItem("basic");
-
-    
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .catch((err) => alert("This is error: " + err.message));
   }
 
   register(username, email, password) {
@@ -116,19 +111,18 @@ class AuthService {
 
   getNotificationPath() {
     const token = this.getBasicInfo().token;
-    axios.get(
-      API_URL + "/notification/register",
-      {
+    axios
+      .get(API_URL + "/notification/register", {
         headers: {
           Authorization: "Bearer " + token,
         },
-      }
-    ).then(
-      (response) => localStorage.setItem("notificationPath", JSON.stringify(response.data))
-    ).catch(
-      (err) => {
-        alert("get noti path failed.")}
-    );
+      })
+      .then((response) =>
+        localStorage.setItem("notificationPath", JSON.stringify(response.data))
+      )
+      .catch((err) => {
+        alert("get noti path failed.");
+      });
   }
 }
 

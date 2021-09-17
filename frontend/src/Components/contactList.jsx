@@ -12,7 +12,7 @@ class ContactList extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-    
+
     // friends => friend id and note tuple
     // friendList => friend user information
     this.state = {
@@ -30,7 +30,7 @@ class ContactList extends Component {
     const basic = AuthService.getBasicInfo();
 
     if (!currentUser) {
-      alert("Login required to access the page.");
+      alert("Login required to access the page contact.");
       this.props.history.push("/");
       window.location.reload();
     } else {
@@ -48,14 +48,11 @@ class ContactList extends Component {
    */
   async getFriends() {
     const { basic } = this.state;
-    const response = await axios.get(
-      API_URL + "/friend/listFriends",
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const response = await axios.get(API_URL + "/friend/listFriends", {
+      headers: {
+        Authorization: "Bearer " + basic.token,
+      },
+    });
 
     if (response.data) {
       let { friends } = this.state;

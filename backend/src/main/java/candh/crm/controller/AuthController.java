@@ -156,18 +156,16 @@ public class AuthController
     /**
      * Handles Http Post for subscription removal when user logs out.
      */
-    @PostMapping("/logout")
+    @PostMapping("/unsubscribe")
     @PreAuthorize("hasRole('USER')")
-    public void logout(
+    public void unsubscribe(
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody UnsubscribeRequest unsubscribeRequest)
     {
-        System.out.println("hhhhh");
         String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         webSocketSubscriptionService.removeNotification(id,
                 unsubscribeRequest.getNotificationPath());
-        // return ResponseEntity.ok("fwefgwegw");
     }
 }

@@ -23,7 +23,7 @@ class RequestSent extends Component {
     const basic = AuthService.getBasicInfo();
 
     if (!basic) {
-      alert("Login required to access the page.");
+      alert("Login required to access the page. sent");
       this.props.history.push("/");
       window.location.reload();
     }
@@ -37,14 +37,11 @@ class RequestSent extends Component {
 
   async getRequests() {
     const { basic } = this.state;
-    const response = await axios.get(
-      API_URL + "/friend/listSentRequests",
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const response = await axios.get(API_URL + "/friend/listSentRequests", {
+      headers: {
+        Authorization: "Bearer " + basic.token,
+      },
+    });
 
     if (response.data) {
       for (let i = 0; i < response.data.length; i++) {

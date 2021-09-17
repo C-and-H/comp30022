@@ -1,33 +1,35 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
-import '../App.css'
+import "../App.css";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
-  
   /** helper function: get one notification as a dropdown item */
   getNotificationDropDownItem(notification) {
     return (
-      <NavDropdown.Item key={notification.id} onClick={() => this.props.removeNotification(notification.id)}>
+      <NavDropdown.Item
+        key={notification.id}
+        onClick={() => this.props.removeNotification(notification.id)}
+      >
         <p className="notify-dropdown dropdown-text">
           {notification.message}
           <div className="dropdown-time dropdown-text">
-            {new Date(notification.when).toLocaleDateString([], {hour: '2-digit', minute:'2-digit'})}
+            {new Date(notification.when).toLocaleDateString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </div>
         </p>
-        
       </NavDropdown.Item>
     );
   }
 
   /** get all notifications as dropdown items */
-  getAllNotificationDropDownItem (notifications) {
+  getAllNotificationDropDownItem(notifications) {
     if (notifications) {
-      return (
-        notifications.map((notification) =>
-          this.getNotificationDropDownItem(notification)
-        )
+      return notifications.map((notification) =>
+        this.getNotificationDropDownItem(notification)
       );
     } else {
       return null;
@@ -58,49 +60,46 @@ class NavigationBar extends Component {
             <span>
               <i className="fa fa-rocket"></i>
               Inbox
-              {
-                this.props.notificationNumber !== 0 &&
+              {this.props.notificationNumber !== 0 && (
                 <span className="badge badge-warning notification-badge">
                   {" "}
                   {this.props.notificationNumber}{" "}
                 </span>
-              }
+              )}
             </span>
           }
           id="basic-nav-dropdown"
           onClick={this.props.onGetNotification}
         >
-          { this.props.notificationNumber === 0 ? 
+          {this.props.notificationNumber === 0 ? (
             <NavDropdown.ItemText className="dropdown-text">
               No new message
             </NavDropdown.ItemText>
-          : 
+          ) : (
             <div>
-              {
-                (notifications !== null && notifications.length !== 0) ?
-                  <NavDropdown.Item>
-                    <Button variant="outline-danger" size="sm" 
-                            onClick={this.props.removeAllNotifications}> 
-                            mark all as read 
-                    </Button>
-                  </NavDropdown.Item>
-                :
-                  <NavDropdown.ItemText classname="dropdown-text">
-                    loading...
-                  </NavDropdown.ItemText>
-              }
+              {notifications !== null && notifications.length !== 0 ? (
+                <NavDropdown.Item>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={this.props.removeAllNotifications}
+                  >
+                    mark all as read
+                  </Button>
+                </NavDropdown.Item>
+              ) : (
+                <NavDropdown.ItemText classname="dropdown-text">
+                  loading...
+                </NavDropdown.ItemText>
+              )}
 
               <NavDropdown.Divider />
-              { this.getAllNotificationDropDownItem (notifications) }
+              {this.getAllNotificationDropDownItem(notifications)}
             </div>
-          }
+          )}
         </NavDropdown>
 
-        <Nav.Link
-          //href="/login"
-          className={"navbar_nav"}
-          onClick={this.props.onLogOut}
-        >
+        <Nav.Link className={"navbar_nav"} onClick={this.props.onLogOut}>
           LogOut
         </Nav.Link>
         <NavDropdown

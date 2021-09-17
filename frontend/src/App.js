@@ -32,7 +32,7 @@ class App extends Component {
       notificationNumber: 0,
       stompClient: null,
       notifications: [],
-      notificationCounter: 0 // help adding unique id to each notification
+      notificationCounter: 0, // help adding unique id to each notification
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -71,11 +71,13 @@ class App extends Component {
 
   async handleLogOut() {
     await AuthService.logout();
+    this.setState({ redirect: "/" });
+    window.location.reload();
   }
 
   connect(notificationPath) {
     console.log("notificationPath: " + notificationPath);
-    this.setState({notificationPath : notificationPath});
+    this.setState({ notificationPath: notificationPath });
     console.log("logout noti path: " + this.state.notificationPath);
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
@@ -101,13 +103,13 @@ class App extends Component {
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       const notificationNumber = JSON.parse(numNotification.body).count;
-      this.setState({ notificationNumber : notificationNumber});
+      this.setState({ notificationNumber: notificationNumber });
     } else {
       console.log(notifications);
       const notificationNumber =
         JSON.parse(numNotification.body).count +
         JSON.parse(notifications).length;
-      this.setState({ notificationNumber : notificationNumber});
+      this.setState({ notificationNumber: notificationNumber });
     }
   }
 
@@ -131,54 +133,63 @@ class App extends Component {
 
   async getNotifications() {
     const token = AuthService.getBasicInfo().token;
-    const response = await axios.get(
-      API_URL + "/notification/fetch",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+    const response = await axios.get(API_URL + "/notification/fetch", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
 
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       notifications = [];
       for (let i = 0; i < response.data.length; i++) {
-        notifications.push({id:this.state.notificationCounter, ...response.data[i]});
-        this.setState({notificationCounter : this.state.notificationCounter+1});
+        notifications.push({
+          id: this.state.notificationCounter,
+          ...response.data[i],
+        });
+        this.setState({
+          notificationCounter: this.state.notificationCounter + 1,
+        });
       }
     } else {
       notifications = JSON.parse(notifications);
       if (!this.state.notificationCounter) {
-        this.setState({notificationCounter : notifications.length}) // avoid resetting to zero after refresh
+        this.setState({ notificationCounter: notifications.length }); // avoid resetting to zero after refresh
       }
       for (let i = 0; i < response.data.length; i++) {
-        notifications.push({id:this.state.notificationCounter, ...response.data[i]});
-        this.setState({notificationCounter : this.state.notificationCounter+1});
+        notifications.push({
+          id: this.state.notificationCounter,
+          ...response.data[i],
+        });
+        this.setState({
+          notificationCounter: this.state.notificationCounter + 1,
+        });
       }
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
     this.setState({ notifications });
     console.log("Num notifications: ");
     console.log(this.state.notifications.length);
-    this.setState({ notificationNumber: this.state.notifications.length});
+    this.setState({ notificationNumber: this.state.notifications.length });
   }
 
   removeNotification(notificationID) {
     console.log("Removing notification :" + notificationID);
     let notifications = JSON.parse(localStorage.getItem("notifications"));
     if (notificationID > -1) {
-      notifications = notifications.filter(noti => noti.id !== notificationID);
-      this.setState({notificationNumber : this.state.notificationNumber-1});
+      notifications = notifications.filter(
+        (noti) => noti.id !== notificationID
+      );
+      this.setState({ notificationNumber: this.state.notificationNumber - 1 });
     }
-    localStorage.setItem("notifications", JSON.stringify(notifications)); 
+    localStorage.setItem("notifications", JSON.stringify(notifications));
   }
 
   removeAllNotifications() {
     console.log("Removing All notification");
     localStorage.removeItem("notifications");
-    this.setState({notificationNumber : 0});
-    this.setState({notificationCounter : 0})
+    this.setState({ notificationNumber: 0 });
+    this.setState({ notificationCounter: 0 });
   }
 
   render() {
