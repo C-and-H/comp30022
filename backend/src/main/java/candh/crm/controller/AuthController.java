@@ -153,7 +153,10 @@ public class AuthController
         return ResponseEntity.ok("You just successfully changed password.");
     }
 
-    @GetMapping("/logout")
+    /**
+     * Handles Http Post for subscription removal when user logs out.
+     */
+    @PostMapping("/logout")
     @PreAuthorize("hasRole('USER')")
     public void logout(
             @RequestHeader("Authorization") String headerAuth,
