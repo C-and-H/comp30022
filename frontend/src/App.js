@@ -173,8 +173,6 @@ class App extends Component {
     console.log("Num notifications: ");
     console.log(this.state.notifications.length);
     this.setState({ notificationNumber: this.state.notifications.length});
-    console.log(response.data);
-    console.log("local", JSON.parse(localStorage.getItem("notifications")));
   }
 
   removeNotification(notificationID) {
