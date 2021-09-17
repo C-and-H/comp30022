@@ -55,7 +55,8 @@ class LogIn extends Component {
         }
       })
       .catch((err) => {
-        alert("Login failed.");
+        alert("login failed");
+        console.log(err);
       });
   }
 

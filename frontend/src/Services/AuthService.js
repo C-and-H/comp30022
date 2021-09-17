@@ -43,6 +43,7 @@ class AuthService {
     });
     if (response.data.token) {
       localStorage.setItem("basic", JSON.stringify(response.data));
+      this.getNotificationPath();
     }
     return response.data;
   }
@@ -71,16 +72,24 @@ class AuthService {
   }
 
   logout() {
+    const notiPath = JSON.parse(localStorage.getItem("notificationPath"));
+    const token = this.getBasicInfo().token;
     localStorage.removeItem("basic");
     localStorage.removeItem("user");
     localStorage.removeItem("notifications");
-    const token = this.getBasicInfo().token;
-    axios.get(API_URL + "/logout",
+    localStorage.removeItem("notificationPath");
+
+    axios.post(API_URL + "/logout",
+      {
+        notificationPath : notiPath
+      },
       {
         headers: {
           Authorization: "Bearer " + token,
         },
       }
+    ).catch(
+      (err) => console.log(err)
     );
   }
 
@@ -98,6 +107,23 @@ class AuthService {
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
+  }
+
+  getNotificationPath() {
+    const token = this.getBasicInfo().token;
+    axios.get(
+      API_URL + "/notification/register",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then(
+      (response) => localStorage.setItem("notificationPath", JSON.stringify(response.data))
+    ).catch(
+      (err) => {
+        alert("get noti path failed.")}
+    );
   }
 }
 

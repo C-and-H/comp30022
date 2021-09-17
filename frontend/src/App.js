@@ -57,25 +57,11 @@ class App extends Component {
       this.setState({ basic, currentUser });
     }
 
-    if (basic) {
+    if (basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
-        this.getNotificationPath();
+        this.connect(JSON.parse(localStorage.getItem("notificationPath")));
       }
     }
-  }
-
-  async getNotificationPath() {
-    const token = AuthService.getBasicInfo().token;
-    await axios.get(
-      API_URL + "/notification/connect",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ).then(
-      (response) => this.connect(response.data)
-    );
   }
 
   componentWillUnmount() {
@@ -88,6 +74,8 @@ class App extends Component {
 
   connect(notificationPath) {
     console.log("notificationPath: " + notificationPath);
+    this.setState({notificationPath : notificationPath});
+    console.log("logout noti path: " + this.state.notificationPath);
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
@@ -132,10 +120,11 @@ class App extends Component {
   }
 
   disconnect() {
-    if (this.stompClient !== null) {
-      this.stompClient.disconnect({}, { id: AuthService.getBasicInfo().id });
+    var self = this;
+    if (self.stompClient !== null) {
+      self.stompClient.disconnect({}, { id: AuthService.getBasicInfo().id });
     }
-    this.setState({ isConnected: false });
+    self.setState({ isConnected: false });
     console.log("Disconnected");
   }
 
@@ -150,7 +139,6 @@ class App extends Component {
       }
     );
 
-    console.log(response.data);
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       notifications = [];
