@@ -90,7 +90,7 @@ class AuthService {
           },
         }
       )
-      .catch((err) => alert("This is error: " + err.message));
+      .catch();
   }
 
   register(username, email, password) {
