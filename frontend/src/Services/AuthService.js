@@ -22,6 +22,25 @@ class AuthService {
     );
     if (response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
+      //console.log(response.data);
+      return response.data;
+    }
+  }
+
+  async getOtherUser(token, id) {
+    const response = await axios.post(
+      API_URL + "/user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response.data) {
+      //localStorage.setItem("user", JSON.stringify(response.data));
+      //console.log(response.data);
+      return response.data;
     }
   }
 

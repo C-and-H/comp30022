@@ -387,6 +387,7 @@ footer {
   margin-right: 10px;
 }
 
+
 /*------------------ Contact Components end ---------------*/
 
 /*------------------ Email Components ---------------*/
@@ -540,6 +541,110 @@ footer {
 
 /*------------------ Chat Components end ---------------*/
 
+
+/*------------------ profileDisplay Components -------------*/
+.profile-display-line{
+  margin-top: 45px;
+	font-size: 28px;
+	text-align: left;
+	
+	
+}
+
+.profile-display-value{
+  margin-left: 30px;
+  margin-top: 45px;
+	font-size: 28px;
+	text-align : left;
+	
+	
+}
+
+.profile-display-bar{
+	text-align : left;
+	font-size : 28px;
+	background-color : skyblue;
+  margin-top: 40px;
+  
+
+}
+
+.profile-display-header{
+  text-align: left;
+  font-size: 72px;
+  margin-top: 10px;
+  font-family:"Comic Sans MS"
+}
+
+.profile-display-edit-btn{
+  border-radius: 20px;
+  
+  height: 42px;
+  float: right;
+  background-color: mediumslateblue;
+}
+
+.profile-display-inner-container{
+  margin-right: 20px;
+  
+}
+
+.profile-display-p{
+  margin-top: 40px;
+  text-align: justify;
+}
+
+.profile-display-contact-line{
+  margin-top: 45px;
+  font-size: 28px;
+  margin-left: 280px;
+}
+
+.profile-display-contact-value{
+  margin-top: 45px;
+  font-size: 28px;
+}
+.profile-display-icon-btn{
+  margin-left: 0px;
+  align-self: center;
+  border-radius: 20px ;
+  height: 32px;
+  text-align: justify;
+  background-color: mediumslateblue;
+}
+
+.profile-display-formgroup{
+  text-align: left;
+  padding-top: 10px;
+}
+
+.profile-display-note-input{
+  
+  height: 200px;
+ }
+
+/******************** ProfileDisplay Components END ********************/
+
+
+/******************** ChangeIcon Components  ********************/
+.change-icon-btn-frame{
+  margin-top: 40px;
+  height: 160px;
+  width: 160px;
+  align-items: justify;
+  background-color: skyblue;
+}
+
+.change-icon-btn-save{
+  height: 60px;
+  width: 140px;
+  text-align: justify;
+  background-color: mediumslateblue;
+}
+
+.change-icon-line{
+  margin-top: 40px;
+}
 /* 
 .App {
   text-align: center;
