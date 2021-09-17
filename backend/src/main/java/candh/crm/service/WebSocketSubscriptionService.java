@@ -29,7 +29,9 @@ public class WebSocketSubscriptionService
      * @param path  the notification subscription path
      */
     public void removeNotification(String id, String path) {
-        notificationMap.get(id).remove(path);
+        if (notificationMap.containsKey(id)) {
+            notificationMap.get(id).remove(path);
+        }
     }
 
     /**
