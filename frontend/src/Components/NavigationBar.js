@@ -1,68 +1,44 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
-import { API_URL } from "../constant";
+import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import "../App.css";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
 class NavigationBar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isConnected: false,
-      notificationNumber: 3,
-      stompClient: null,
-      defaultIcon: "fa fa-user fa-fw"
-    };
-
-    this.connectCallback = this.connectCallback.bind(this);
+  /** helper function: get one notification as a dropdown item */
+  getNotificationDropDownItem(notification) {
+    return (
+      <NavDropdown.Item
+        key={notification.id}
+        onClick={() => this.props.removeNotification(notification.id)}
+      >
+        <p className="notify-dropdown dropdown-text">
+          {notification.message}
+          <br />
+          <span className="dropdown-time dropdown-text">
+            {new Date(notification.when).toLocaleDateString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </span>
+        </p>
+      </NavDropdown.Item>
+    );
   }
 
-  componentDidMount() {
-    if (!this.state.isConnected) {
-      this.connect();
+  /** get all notifications as dropdown items */
+  getAllNotificationDropDownItem(notifications) {
+    if (notifications) {
+      return notifications.map((notification) =>
+        this.getNotificationDropDownItem(notification)
+      );
+    } else {
+      return null;
     }
-  }
-
-  componentWillUnmount() {
-    this.disconnect();
-  }
-
-  connect() {
-    var self = this;
-    var socket = new SockJS(API_URL + "/candh-crm-websocket");
-    self.stompClient = Stomp.over(socket);
-    // self.stompClient.connect({id : AuthService.getBasicInfo().id}, function (frame) {
-    //     console.log('Connected: ' );
-    //     console.log(frame);
-    //     self.setState({ isConnected : true});
-    //     self.stompClient.subscribe('/topic/notification', self.connectCallback);
-    //     self.sendUserId();
-    // });
-  }
-
-  connectCallback(numNotification) {
-    console.log("New push come!");
-    console.log(numNotification.body);
-    this.setState({ notificationNumber: numNotification.body });
-  }
-
-  sendUserId() {
-    // console.log("send user id " + AuthService.getBasicInfo().id);
-    // this.stompClient.send("/app/notification/unread", {}, JSON.stringify({'id': AuthService.getBasicInfo().id}));
-  }
-
-  disconnect() {
-    if (this.stompClient !== null) {
-      this.stompClient.disconnect();
-    }
-    this.setState({ isConnected: false });
-    console.log("Disconnected");
   }
 
   logIn() {
+    let notifications = JSON.parse(localStorage.getItem("notifications"));
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
@@ -83,42 +59,56 @@ class NavigationBar extends Component {
           Search
         </Nav.Link>
 
-        {this.state.notificationNumber !== 0 ? (
-          <NavDropdown
-            eventkey={this.state.notificationNumber}
-            title={
-              <span>
-                <i className="fa fa-rocket"></i>
-                Inbox
+        <NavDropdown
+          autoClose="outside"
+          eventkey={this.props.notificationNumber}
+          title={
+            <span>
+              <i className="fa fa-rocket"></i>
+              Inbox
+              {this.props.notificationNumber !== 0 && (
                 <span className="badge badge-warning notification-badge">
                   {" "}
-                  {this.state.notificationNumber}{" "}
+                  {this.props.notificationNumber}{" "}
                 </span>
-              </span>
-            }
-            id="collasible-nav-dropdown"
-          >
-            <NavDropdown.Item href="/profile">
-              <i className="fa fa-user fa-fw"></i>
-              {this.props.user.first_name}
-            </NavDropdown.Item>
-            <NavDropdown.Divider />
-          </NavDropdown>
-        ) : (
-          <Nav.Link className={"navbar_nav"}>
-            <i className="fa fa-rocket"></i>
-            Inbox
-          </Nav.Link>
-        )}
+              )}
+            </span>
+          }
+          id="basic-nav-dropdown"
+          onClick={this.props.onGetNotification}
+        >
+          {this.props.notificationNumber === 0 ? (
+            <NavDropdown.ItemText className="dropdown-text">
+              No new message
+            </NavDropdown.ItemText>
+          ) : (
+            <div>
+              {notifications !== null && notifications.length !== 0 ? (
+                <NavDropdown.Item>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={this.props.removeAllNotifications}
+                  >
+                    mark all as read
+                  </Button>
+                </NavDropdown.Item>
+              ) : (
+                <NavDropdown.ItemText className="dropdown-text">
+                  loading...
+                </NavDropdown.ItemText>
+              )}
+
+              <NavDropdown.Divider />
+              {this.getAllNotificationDropDownItem(notifications)}
+            </div>
+          )}
+        </NavDropdown>
         <Nav.Link href="/email" className={"navbar_nav"}>
           <i className="fa fa-mail-bulk"></i>
           Email
         </Nav.Link>
-        <Nav.Link
-          href="/login"
-          className={"navbar_nav"}
-          onClick={this.props.onLogOut}
-        >
+        <Nav.Link className={"navbar_nav"} onClick={this.props.onLogOut}>
           LogOut
         </Nav.Link>
         <NavDropdown
@@ -171,7 +161,7 @@ class NavigationBar extends Component {
           <Navbar.Brand href="/">
             <i className="fas fa-users-cog"></i> CRM Application
           </Navbar.Brand>
-          {this.props.user ? this.logIn() : this.notLogIn()}
+          {(this.props.user && this.props.basic) ? this.logIn() : this.notLogIn()}
         </Container>
       </Navbar>
     );

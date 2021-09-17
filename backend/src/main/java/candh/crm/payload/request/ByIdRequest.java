@@ -15,7 +15,7 @@ public class ByIdRequest
 
     public ByIdRequest() { }
 
-    public ByIdRequest(String userId) {
+    public ByIdRequest(String id) {
         this.id = id;
     }
 }

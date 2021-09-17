@@ -80,14 +80,15 @@ public class ContactRelationService
         if (u == null && f == null) {   // 7, send request
             contactRepository.save(new Contact(userId, friendId, true));
             contactRepository.save(new Contact(friendId, userId, false));
-            // TODO
-            notificationService.create(friendId, "TestTestTestTestTest");
-            notificationService.push(friendId);
+            notificationService
+                    .createReceiveFriendRequestNotification(friendId, userId);
         }
         else if (u.isAccepted() && !u.isIgnored() && !f.isAccepted()) {
             if (f.isIgnored()) {   // 5, resend declined request
                 f.setIgnored(false);
                 contactRepository.save(f);
+                notificationService
+                        .createReceiveFriendRequestNotification(friendId, userId);
             }
             // 2, pass
         }
@@ -95,11 +96,17 @@ public class ContactRelationService
             u.setAccepted(true);
             u.setIgnored(false);
             contactRepository.save(u);
+            notificationService
+                    .createAcceptFriendRequestNotification(friendId, userId);
+            notificationService
+                    .createAcceptFriendRequestNotification(userId, friendId);
         }
         else if (!u.isAccepted() && !u.isIgnored() && !f.isAccepted() &&
                 !f.isIgnored()) {   // 6, resend cancelled request
             u.setAccepted(true);
             contactRepository.save(u);
+            notificationService
+                    .createReceiveFriendRequestNotification(friendId, userId);
         }
         else {   // 1 or invalid
             throw new Exception("Operation refused.");
@@ -121,6 +128,8 @@ public class ContactRelationService
                 !f.isIgnored()) {   // 3
             u.setAccepted(true);
             contactRepository.save(u);
+            notificationService
+                    .createAcceptFriendRequestNotification(userId, friendId);
         }
         else {   // other or invalid
             throw new Exception("Operation refused.");
@@ -164,6 +173,10 @@ public class ContactRelationService
             f.setIgnored(false);
             contactRepository.save(u);
             contactRepository.save(f);
+            if (!f.isIgnored()) {   // delete notification
+                notificationService
+                        .deleteReceiveFriendRequestNotification(friendId, userId);
+            }
         }
         else {   // other or invalid
             throw new Exception("Operation refused.");

@@ -38,7 +38,7 @@ class ContactList extends Component {
     const basic = AuthService.getBasicInfo();
 
     if (!currentUser) {
-      alert("Login required to access the page.");
+      alert("Login required to access the page contact.");
       this.props.history.push("/");
       window.location.reload();
     } else {
@@ -55,16 +55,12 @@ class ContactList extends Component {
    * get contactRelation data from backend
    */
   async getFriends() {
-    const { basic, currentUser } = this.state;
-    const response = await axios.post(
-      API_URL + "/friend/listFriends",
-      { id: currentUser.id },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const { basic } = this.state;
+    const response = await axios.get(API_URL + "/friend/listFriends", {
+      headers: {
+        Authorization: "Bearer " + basic.token,
+      },
+    });
 
     if (response.data) {
       let { friends } = this.state;

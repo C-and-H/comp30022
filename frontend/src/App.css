@@ -56,6 +56,20 @@
   margin-left: 5px;
   margin-right: 0px;
 }
+
+.notify-dropdown {
+  width: 200px;
+}
+
+.dropdown-text {
+  text-align: left;
+  font-size: small;
+}
+
+.dropdown-time {
+  color: grey;
+}
+
 /*------------------ NavigationBar Components end---------------*/
 
 /*------------------ HomePage Components ---------------*/

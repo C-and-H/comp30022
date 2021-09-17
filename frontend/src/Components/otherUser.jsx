@@ -60,7 +60,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/sendRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -77,7 +77,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/delete",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -95,7 +95,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/verifyFriendship",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -110,7 +110,6 @@ class OtherUser extends Component {
 
   async editFriendNote() {
     const { basic, id, note, originalNote } = this.state;
-
     if (note === originalNote) {
       alert("Note same as original note.");
       this.setState({ edit: false });
@@ -169,14 +168,14 @@ class OtherUser extends Component {
           </Form>
         ) : (
           <div>
-            <h1>Note: {isFriend.first.notes}</h1>
+            <h1>Note: {isFriend.notes}</h1>
             <Button
               className="btn-search"
               onClick={() => {
                 this.setState({
                   edit: true,
-                  note: isFriend.first.notes,
-                  originalNote: isFriend.first.notes,
+                  note: isFriend.notes,
+                  originalNote: isFriend.notes,
                 });
               }}
             >

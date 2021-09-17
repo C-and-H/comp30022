@@ -12,7 +12,6 @@ class LogIn extends Component {
       message: "",
       input: {},
       msg: {},
-      redirect: null,
       showPassword: false,
     };
 
@@ -55,7 +54,8 @@ class LogIn extends Component {
         }
       })
       .catch((err) => {
-        alert("Login failed.");
+        alert("login failed");
+        console.log(err);
       });
   }
 

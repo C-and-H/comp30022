@@ -6,6 +6,7 @@ import candh.crm.payload.response.LoginResponse;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
 import candh.crm.service.AuthService;
+import candh.crm.service.WebSocketSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("${crm.app.frontend.host}")
 public class AuthController
 {
     @Autowired
@@ -28,7 +29,10 @@ public class AuthController
     private AuthService authService;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private WebSocketSubscriptionService webSocketSubscriptionService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     /**
      * Handles Http Post for login authentication.
@@ -119,15 +123,14 @@ public class AuthController
     @PostMapping("/changePassword")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(
-            @Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ChangePasswordRequest changePasswordRequest)
+    {
         String oldPassword = changePasswordRequest.getOldPassword();
         String newPassword = changePasswordRequest.getNewPassword();
+        String email = jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth));
+        User user = userRepository.findByEmail(email);
 
-        // email should be enabled, then authenticate by old password
-        User user = userRepository.findByEmail(changePasswordRequest.getEmail());
-        if (user == null || !user.isEnabled()) {
-            return ResponseEntity.ok("Account not found or not enabled.");
-        }
         if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
             return ResponseEntity.ok("Wrong old password.");
         }
@@ -148,5 +151,21 @@ public class AuthController
             return ResponseEntity.ok("Error during changing password.");
         }
         return ResponseEntity.ok("You just successfully changed password.");
+    }
+
+    /**
+     * Handles Http Post for subscription removal when user logs out.
+     */
+    @PostMapping("/unsubscribe")
+    @PreAuthorize("hasRole('USER')")
+    public void unsubscribe(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody UnsubscribeRequest unsubscribeRequest)
+    {
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        webSocketSubscriptionService.removeNotification(id,
+                unsubscribeRequest.getNotificationPath());
     }
 }
