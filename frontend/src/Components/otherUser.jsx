@@ -16,6 +16,7 @@ class OtherUser extends Component {
       isFriend: null,
       edit: false,
       note: "",
+      originalNote: "",
     };
 
     this.handleNote = this.handleNote.bind(this);
@@ -108,20 +109,26 @@ class OtherUser extends Component {
   }
 
   async editFriendNote() {
-    const { basic, id, note } = this.state;
-    const response = await axios.post(
-      API_URL + "/friend/changeNotes",
-      { userId: basic.id, friendId: id, notes: note },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const { basic, id, note, originalNote } = this.state;
 
-    if (response.data) {
-      alert(response.data);
-      window.location.reload();
+    if (note === originalNote) {
+      alert("Note same as original note.");
+      this.setState({ edit: false });
+    } else {
+      const response = await axios.post(
+        API_URL + "/friend/changeNotes",
+        { userId: basic.id, friendId: id, notes: note },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
+
+      if (response.data) {
+        alert(response.data);
+        window.location.reload();
+      }
     }
   }
 
@@ -166,7 +173,11 @@ class OtherUser extends Component {
             <Button
               className="btn-search"
               onClick={() => {
-                this.setState({ edit: true, note: isFriend.first.notes });
+                this.setState({
+                  edit: true,
+                  note: isFriend.first.notes,
+                  originalNote: isFriend.first.notes,
+                });
               }}
             >
               <i className="fas fa-pencil-alt" />
