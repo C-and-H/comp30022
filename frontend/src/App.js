@@ -15,6 +15,7 @@ import OtherUser from "./Components/otherUser";
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
+import Chat from "./Components/chat";
 
 class App extends Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class App extends Component {
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
+            <Route exact path="/chat" component={Chat} />
             <Route exact path={["/", "/home"]} component={HomePage} />
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/email" component={Email} />
