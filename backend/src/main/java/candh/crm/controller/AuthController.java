@@ -162,10 +162,12 @@ public class AuthController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody UnsubscribeRequest unsubscribeRequest)
     {
+        System.out.println("hhhhh");
         String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         webSocketSubscriptionService.removeNotification(id,
                 unsubscribeRequest.getNotificationPath());
+        // return ResponseEntity.ok("fwefgwegw");
     }
 }

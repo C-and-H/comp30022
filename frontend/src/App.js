@@ -39,6 +39,7 @@ class App extends Component {
     this.getNotifications = this.getNotifications.bind(this);
     this.removeAllNotifications = this.removeAllNotifications.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   async componentDidMount() {
@@ -68,8 +69,8 @@ class App extends Component {
     this.disconnect();
   }
 
-  handleLogOut() {
-    AuthService.logout();
+  async handleLogOut() {
+    await AuthService.logout();
   }
 
   connect(notificationPath) {

@@ -97,7 +97,7 @@ class NavigationBar extends Component {
         </NavDropdown>
 
         <Nav.Link
-          href="/login"
+          //href="/login"
           className={"navbar_nav"}
           onClick={this.props.onLogOut}
         >

@@ -12,7 +12,6 @@ class LogIn extends Component {
       message: "",
       input: {},
       msg: {},
-      redirect: null,
       showPassword: false,
     };
 

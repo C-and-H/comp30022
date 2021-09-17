@@ -31,7 +31,7 @@ class AuthService {
     });
 
     if (!response.data) {
-      this.logout();
+      await this.logout();
       alert("Login expired, please login again.");
     }
   }
@@ -71,15 +71,10 @@ class AuthService {
     }
   }
 
-  logout() {
+  async logout() {
     const notiPath = JSON.parse(localStorage.getItem("notificationPath"));
     const token = this.getBasicInfo().token;
-    localStorage.removeItem("basic");
-    localStorage.removeItem("user");
-    localStorage.removeItem("notifications");
-    localStorage.removeItem("notificationPath");
-
-    axios.post(API_URL + "/logout",
+    await axios.post(API_URL + "/logout",
       {
         notificationPath : notiPath
       },
@@ -89,8 +84,18 @@ class AuthService {
         },
       }
     ).catch(
-      (err) => console.log(err)
+      (err) => alert("This is error: " + err.message)
     );
+
+    console.log("logout finish");
+    //alert("This is reponse: " + response.data);
+    
+    // localStorage.removeItem("user");
+    // localStorage.removeItem("notifications");
+    // localStorage.removeItem("notificationPath");
+    // localStorage.removeItem("basic");
+
+    
   }
 
   register(username, email, password) {
