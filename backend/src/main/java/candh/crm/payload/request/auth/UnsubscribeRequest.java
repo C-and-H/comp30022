@@ -9,12 +9,10 @@ import javax.validation.constraints.NotBlank;
 @Setter
 
 /**
- * Request body parameters for /user/changePassword.
+ * Request body parameters for /unsubscribe.
  */
-public class ChangePasswordRequest
+public class UnsubscribeRequest
 {
     @NotBlank
-    private String oldPassword;
-    @NotBlank
-    private String newPassword;
+    private String notificationPath;
 }

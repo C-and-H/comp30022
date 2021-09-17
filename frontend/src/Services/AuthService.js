@@ -22,6 +22,25 @@ class AuthService {
     );
     if (response.data) {
       localStorage.setItem("user", JSON.stringify(response.data));
+      //console.log(response.data);
+      return response.data;
+    }
+  }
+
+  async getOtherUser(token, id) {
+    const response = await axios.post(
+      API_URL + "/user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response.data) {
+      //localStorage.setItem("user", JSON.stringify(response.data));
+      //console.log(response.data);
+      return response.data;
     }
   }
 
@@ -31,7 +50,7 @@ class AuthService {
     });
 
     if (!response.data) {
-      this.logout();
+      await this.logout();
       alert("Login expired, please login again.");
     }
   }
@@ -43,6 +62,7 @@ class AuthService {
     });
     if (response.data.token) {
       localStorage.setItem("basic", JSON.stringify(response.data));
+      this.getNotificationPath();
     }
     return response.data;
   }
@@ -51,12 +71,10 @@ class AuthService {
   async changePassword(oldPassword, newPassword) {
     const user = this.getBasicInfo();
     if (user && user.token) {
-      const email = user.email;
       const token = user.token;
       const response = await axios.post(
         API_URL + "/changePassword",
         {
-          email,
           oldPassword,
           newPassword,
         },
@@ -72,10 +90,26 @@ class AuthService {
     }
   }
 
-
-  logout() {
-    localStorage.removeItem("basic");
+  async logout() {
+    const notiPath = JSON.parse(localStorage.getItem("notificationPath"));
+    const token = this.getBasicInfo().token;
     localStorage.removeItem("user");
+    localStorage.removeItem("notifications");
+    localStorage.removeItem("notificationPath");
+    localStorage.removeItem("basic");
+    await axios
+      .post(
+        API_URL + "/unsubscribe",
+        {
+          notificationPath: notiPath,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
+      .catch();
   }
 
   register(username, email, password) {
@@ -92,6 +126,22 @@ class AuthService {
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
+  }
+
+  getNotificationPath() {
+    const token = this.getBasicInfo().token;
+    axios
+      .get(API_URL + "/notification/register", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) =>
+        localStorage.setItem("notificationPath", JSON.stringify(response.data))
+      )
+      .catch((err) => {
+        alert("get noti path failed.");
+      });
   }
 }
 

@@ -66,7 +66,7 @@ class SearchUser extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/user/sketchySearch",
-      { id: basic.id, searchKey: value },
+      { searchKey: value },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -99,7 +99,6 @@ class SearchUser extends Component {
       const response = await axios.post(
         API_URL + "/user/search",
         {
-          id: basic.id,
           email: email,
           first_name: firstName,
           last_name: lastName,
@@ -305,7 +304,7 @@ class SearchUser extends Component {
   }
 
   redirectUser(id) {
-    const redirect = "/user/" + id;
+    const redirect = "/profile/" + id;
     this.setState({ redirect });
   }
 

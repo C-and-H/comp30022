@@ -13,10 +13,8 @@ import javax.validation.constraints.NotBlank;
  */
 public class ChangeNotesRequest
 {
+    /** id of the friend to change notes */
     @NotBlank
-    private String userId;
-    @NotBlank
-    private String friendId;
-    @NotBlank
+    private String id;
     private String notes;
 }

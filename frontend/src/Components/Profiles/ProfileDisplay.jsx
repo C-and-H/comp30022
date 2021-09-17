@@ -1,37 +1,16 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-//import { Header } from 'react-native-elements';
-import {Button} from "reactstrap";
+import {
+  Button, Container, Row, Col, Label, Collapse, Form,
+  FormGroup, Input
+} from "reactstrap";
+import '../../App.css'
+
+import UserService  from "../../Services/UserService";
+
 //import ProfileSideBar from "./ProfileSideBar"
 
-
-const lineStyle = {
-	marginTop: 40,
-	padding : 10,
-	fontSize : 18,
-	textAlign : "left",
-	fontFamily:"Comic Sans MS"
-	//float:"right"
-	//paddingRight : 80
-	//padding-left// : 10
-}
-
-const valueStyle = {
-	//marginTop: 40,
-	//padding : 10,
-	marginRight: 270,
-	fontSize : 18,
-	textAlign : "left",
-	float : "right",
-	fontFamily:"Comic Sans MS"
-}
-
-const headerStyle = {
-	textAlign : "left",
-	fontSize : 28,
-	backgroundColor : "#F6FA83"
-}
 
 // const imgStyle = {
 // 	float: "left",
@@ -42,7 +21,11 @@ const headerStyle = {
 
 
 
-
+const iconStyle = {
+	marginTop: 40,
+	marginLeft: 50,
+	fontSize: 200
+}
 
 
 
@@ -53,40 +36,172 @@ export default class ProfileDisplay extends Component{
       this.state = {
         redirect: null,
         userReady: false,
-        currentUser: localStorage.getItem("user"),
+        //currentUser: localStorage.getItem("user"),
+				currentUser: null,
         basic: localStorage.getItem("basic"),
 				hasPhone: false,
 				hasIndustry: false,
 				hasRegion: false,
-				hasGender: false,
 				hasCompany: false,
 				hasSummary: false,
-				
+				myself: false,
+				isFriend: false,
+				icon: "fa fa-user fa-fw",
+        btnText: null,
+        disableBtn: false,
+        isOpen: false,
+        note: "",
+        noteEdit: ""
+	
   	  };
-
+    this.wrapper = React.createRef();
+    this.friendBtn = this.friendBtn.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCollapse = this.handleCollapse.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 	}
+
 
 	
 
 	// if current user is null, will go back to homepage
-  componentDidMount() {
-    const currentUser = AuthService.getCurrentUser();
+  async componentDidMount() {
+		
+		const basic = AuthService.getBasicInfo();
+		var currentUser;
+		//console.log(this.props.match.params.id);
+		if (this.props.match.params.id){
+			currentUser = await AuthService.getOtherUser(
+				basic.token, this.props.match.params.id
+			);
+
+      let friendship = await UserService.checkFriend(
+        basic.id,
+        this.props.match.params.id,
+        basic.token
+      );
+      this.setState({isFriend: friendship})
+			//this.setState({myself:false})
+			
+		}else{
+			//this.setState({currentUser: AuthService.getCurrentUser()});
+			currentUser = await AuthService.getCurrentUser();
+			this.setState({myself: true})
+		}
+		
+		if (this.state.isFriend){
+      this.setState({btnText: "Unfriend"});
+      this.setState({note: this.state.isFriend.first.notes})
+    } else {
+      this.setState({btnText: "Add friend"});
+    }
+		
+    //console.log(cur	rentUser);
     // if not login
 		
     if (!currentUser) this.setState({ redirect: "/home" });
-    this.setState({ currentUser: currentUser, userReady : true });
+    this.setState({
+										currentUser: currentUser, 
+										userReady : true,
+										id: currentUser.id
+									});	
 
 		// display following if they exist
-		if (currentUser.phone.length !== 0) this.setState({hasPhone : true});
+		if (currentUser.phone) this.setState({hasPhone : true});
 		if (currentUser.industry) this.setState({hasIndustry : true});
 		if (currentUser.company) this.setState({hasCompany : true});
 		if (currentUser.personalSummary) this.setState({hasSummary : true});
 		if (currentUser.areaOrRegion) this.setState({hasRegion : true});
+    if (currentUser.icon) this.setState({icon: currentUser.icon});
+    
+  }
+
+  handleChange(event) {
+    this.setState({noteEdit: event.target.value });
+  }
+
+  handleCancel() {
+    this.setState({isOpen: false})
+  }
+
+  handleCollapse() {
+    this.setState({isOpen: true})
+  }
+
+  async handleSubmit() {
+    const {noteEdit} = this.state;
+    alert("bruh");
+    const user = AuthService.getBasicInfo();
+    let res = await UserService.editFriendNote(
+      user.id,
+      this.props.match.params.id,
+      user.token,
+      noteEdit
+    );
+    alert("bruh");
+    if (res) {
+      alert("Changes saved!");
+      await AuthService.getUserDataFromBackend(user.token, user.id);
+    } else {
+      alert("Something went wrong");
+    }
+    this.setState({isOpen: false});
+  }
+
+
+  async handleClick() {
+    const {isFriend} = this.state;
+    const user = AuthService.getBasicInfo();
+    var res;
+    if (isFriend) {
+      // send delete friend request
+      res = await UserService.deleteFriend (
+        user.id,
+        this.props.match.params.id,
+        user.token
+      );
+      this.setState({btnText: "Add friend"})
+    } else {
+      // send friend request
+      res = await UserService.sentFriendRequest (
+        user.id,
+        this.props.match.params.id,
+        user.token
+      );
+      this.setState({btnText: "Request sent"});
+      //console.log("bruh")
+      this.setState({disableBtn: true});
+    }
+    
+    await AuthService.getUserDataFromBackend(user.token, user.id);
+  }
+
+	friendBtn(){
+    const {btnText, disableBtn} = this.state;
+    return (
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col xs="6">
+            <Button 
+              className="profile-display-icon-btn"
+              disabled={disableBtn}
+              onClick={() => this.handleClick()}
+            >
+              {btnText}
+            </Button>
+          </Col>
+
+          <Col></Col>
+        </Row>
+      </Container>
+    )
     
   }
 
 	
-
 	
 
 	render(){
@@ -94,127 +209,269 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary 
+       hasSummary, myself,  icon, isFriend, isOpen, note
 		} = this.state;
+    //console.log(currentUser);
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
-		const fullName = currentUser.first_name + " " + currentUser.last_name;
+		
+		//const fullName = currentUser.first_name + " " + currentUser.last_name;
 		// const mobiles = currentUser.mobiles;
 		//const mobiles = ["fda", "fa"];
 		if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-		return(
-				
-				<div className = "container">
-			
-					
-					<div style={{float: 'right'}}>
-            <Button color = "primary" href = "/setting">Edit</Button>
-        	</div>
-					<h1 style = {headerStyle}>
-						Basic Info 
-					</h1>
-				
-					<center>
-						<div>
-							<div>
-								<h1 style = {lineStyle}>Full Name: 
-									<span style = {valueStyle}>{fullName}</span>
-								</h1>
-								
-							</div>
-							
-							
-						{hasCompany ?(
-						<div>
-							<h1 style = {lineStyle}>Company: 
-								<span style = {valueStyle}>{currentUser.company}</span>
-							</h1>
-							
-						</div>
-						) : (
-							<></>
-						)}
 
-						{hasIndustry ?(
-							<div>
-								<h1 style = {lineStyle}>industry: 
-									<span style = {valueStyle}>{currentUser.industry}</span>
-								</h1>
-							
-							</div>
-						) : (
-							<></>
-						)}
-						{hasRegion ? (
-							<div>
-							<h1 style = {lineStyle}>Region: 
-								<span style = {valueStyle}>{currentUser.areaOrRegion}</span>
-							</h1>
-							
-						</div>
+		
+
+		if (!currentUser){
+			return <div></div>;
+		}
+		const fullName = currentUser.first_name + " " + currentUser.last_name;
+		// console.log(currentUser);
+		// console.log(fullName);
+		return(
+			<div ref={this.wrapper}>
+			<Container>
+				<Row className = "profile-display-header">
+					{fullName}
+				</Row>
+				<Row className="profile-display-bar">
+				
+					<Col>
+						Basic Info
+					</Col>
+					<Col></Col>
+					{myself ? (
+						<Col>
+							<Button className = "profile-display-edit-btn" href="/setting">
+								Edit My Profile!
+							</Button>
+						</Col>
 						) : (
 						<></>
-						)}
-						
-						{hasSummary ? (
-							<div>
-								<h1 style = {lineStyle}>Personal Summary: </h1>
-								<p style = {{textAlign:"left", marginLeft: 60 }}>
-									{currentUser.personalSummary}
-								</p>
-							</div>
-						) : (
-							<></>
-						)}
-						<h1 style = {lineStyle}> </h1>
-						<div style={{float: 'right'}}>
-            <Button color = "primary" href = "/setting">Edit</Button>
-        	</div>
-						<h1 style = {headerStyle}>
-							Contact details 
-						</h1>
-						{hasPhone ? (
-							<div>
-							<h1 style = {lineStyle}>bruh 
-              <span style = {valueStyle}>{currentUser.phone}</span>
-							{/* {
-								mobiles.map((element) => {
-									return (
-										<p style = {{textAlign :"right", marginRight: 270}}>
-										{element}
-										</p>
-										)
-								
-								}) */}
-							{/* } */}
-							</h1>
-							</div>
-						) : (
-							<></>
-						)}
-						
-						<div>
-								<h1 style = {lineStyle}>Email: 
-									<span style = {valueStyle}>{currentUser.email}</span>
-								</h1>
-								
-							</div>
-						
-					</div>
-					<div>
-						{/* <center> */}
+					)}
+					
+				</Row>
 
-							{/* <ContainedButtons />
-							{/* <Button className = {classes.root} variant="primary" size = "lg">
-								Edit my profile
-							</Button> */} 
-						{/* </center> */}
-					</div>
-				</center>
+				<Row className = "profile-display-inner-container">
+						<Col>
+							<Container>
+								<Row>
+									<i className={icon} style={iconStyle}></i>
+								</Row>
+								{myself ? (
+									<Row className="profile-display-line">
+										<Col></Col>
+										<Col xs="6">
+											<Button 
+                        className="profile-display-icon-btn"
+                        href="/changeIcon"
+                      >
+												Change Icon
+											</Button>
+										</Col>
+										
+										<Col></Col>
+									</Row>
+								) : (
+									<Row className="profile-display-line">
+                    {this.friendBtn()}
+                  </Row>
+								)}
+								
+							</Container>
+						
+						
+						</Col>
+						<Col xs="8">
+							<Container>
+								<Row> 
+									<Col>
+										<Label className="profile-display-line">
+											Industry: 
+										</Label>
+									</Col>
+
+									<Col>
+										{hasIndustry ? (
+											<Label className="profile-display-value">
+												{currentUser.industry}
+											</Label>
+										) : (
+											<Label className="profile-display-value">
+												Not set!
+											</Label>
+										)}
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<Label className="profile-display-line">
+											Company:
+										</Label>
+									</Col>
+									<Col>
+										{hasCompany ? (
+											<Label className="profile-display-value">
+												{currentUser.company}
+											</Label>
+										) : (
+											<Label className="profile-display-value">
+												Not set!
+											</Label>
+										)}
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<Label className="profile-display-line">
+											Region:
+										</Label>
+									</Col>
+									<Col>
+										{hasRegion ? (
+											<Label className="profile-display-value">
+												{currentUser.areaOrRegion}
+											</Label>
+										) : (
+											<Label className="profile-display-value">
+												Not set!
+											</Label>
+										)}
+									</Col>
+								</Row>
+								<Row>
+									{hasSummary ? (
+										<Col>
+											<Label className="profile-display-line">
+												Something About Me : 
+											</Label>
+											<p className = "profile-display-p">
+												{currentUser.personalSummary}
+											</p>
+										</Col>
+									) : (
+										<></>
+									)}
+								</Row>
+							</Container>
+						</Col>
+						
+				</Row>
+				
+				<Row className="profile-display-bar">
+				
+					<Col>
+						Contact Detail
+					</Col>
+					<Col></Col>
+					{myself ? (
+						<Col>
+							<Button className = "profile-display-edit-btn" href="/setting">
+								Edit My Profile!
+							</Button>
+						</Col>
+						) : (
+						<></>
+					)}
+					
+				</Row>
+				
+				<Row> 
+				 
+					<Col>
+						<Label className="profile-display-contact-line">
+							Email: 
+						</Label>
+					</Col>
+					<Col>
+						<Label className="profile-display-contact-value">
+							{currentUser.email}
+						</Label>
+					
+					</Col>
+				</Row>
+				{hasPhone ? (
+					<Row> 
+				 
+					<Col>
+						<Label className="profile-display-contact-line">
+							Phone Number: 
+						</Label>
+					</Col>
+					<Col>
+						<Label className="profile-display-contact-value">
+							{currentUser.phone}
+						</Label>
+					
+					</Col>
+				</Row>
+				) : (
+					<></>
+				)}
+
+        {isFriend ? (
+          <Container>
+            <Row className="profile-display-bar">
+              <Col>
+                Note On This Friend
+              </Col>
+              <Col></Col>
+              <Col>
+                <Button 
+                  className="profile-display-edit-btn"
+                  onClick={this.handleCollapse}
+                >
+                  Change Note
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+
+              <Collapse isOpen={isOpen}>
+                
+                  <Form onSubmit={this.handleSubmit}>
+                    <Row className="profile-display-line">
+                    <FormGroup className="profile-display-formgroup">
+                      <Input type="textarea" className="profile-display-note-input"
+                        placeholder={note}
+                        onChange={this.handleChange}
+                        defaultValue={note}
+                      >
+                      </Input>
+                    </FormGroup>
+                    </Row>
+                    <Row className="profile-display-line">
+                      <Col xs="4">
+                        <Button 
+                          className="profile-display-icon-btn"
+                          type="submit">
+                            Save Changes
+                        </Button>
+                      </Col>
+                      <Col xs="4">
+                        <Button
+                          className="profile-display-icon-btn"
+                          onClick={this.handleCancel}>
+                            Cancel
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+              </Collapse>
+            </Row>
+            <Row>
+              <p className="profile-display-p">
+                {note}
+              </p>
+            </Row>
+          </Container>
+        ) : (
+          <></>
+        )}
+			</Container>
 			</div>
-			
 			
 		);
 

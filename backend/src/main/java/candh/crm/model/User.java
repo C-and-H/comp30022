@@ -4,7 +4,6 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.util.Pair;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +32,7 @@ public class User implements UserDetails
     private String industry;
     private String company;
     private String personalSummary;
+    private String icon;
 
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
@@ -56,6 +56,7 @@ public class User implements UserDetails
         this.industry = "";
         this.company = "";
         this.personalSummary = "";
+        this.icon = "";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
     }
@@ -94,6 +95,7 @@ public class User implements UserDetails
     public String getUsername() {
         return this.email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -151,6 +153,10 @@ public class User implements UserDetails
         return personalSummary;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
     public String getSignupConfirmPath() {
         return signupConfirmPath;
     }
@@ -185,6 +191,10 @@ public class User implements UserDetails
 
     public void setPersonalSummary(String personalSummary) {
         this.personalSummary = personalSummary;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public void setEnabled(boolean enabled) {

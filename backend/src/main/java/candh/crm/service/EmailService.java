@@ -52,4 +52,26 @@ public class EmailService
 
         javaMailSender.send(message);
     }
+
+    public void sendEmail(String receiver, String sender, String title,
+                                String content, String email) throws MessagingException
+    {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        message.setFrom(new InternetAddress(from));
+        InternetAddress[] to = InternetAddress.parse(receiver);
+        message.addRecipients(MimeMessage.RecipientType.TO, to);
+        message.setSubject(title);
+
+        // message body
+        String messageBody = content + "\n\nSend from: " + sender
+                            + "\nSender's email: " + email;
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText(messageBody);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);
+
+        javaMailSender.send(message);
+    }
 }

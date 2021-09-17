@@ -23,7 +23,7 @@ class RequestReceived extends Component {
     const basic = AuthService.getBasicInfo();
 
     if (!basic) {
-      alert("Login required to access the page.");
+      alert("Login required to access the page. received");
       this.props.history.push("/");
       window.location.reload();
     }
@@ -37,15 +37,11 @@ class RequestReceived extends Component {
 
   async getRequests() {
     const { basic } = this.state;
-    const response = await axios.post(
-      API_URL + "/friend/listReceivedRequests",
-      { id: basic.id },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const response = await axios.get(API_URL + "/friend/listReceivedRequests", {
+      headers: {
+        Authorization: "Bearer " + basic.token,
+      },
+    });
 
     if (response.data) {
       for (let i = 0; i < response.data.length; i++) {
@@ -81,7 +77,7 @@ class RequestReceived extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/friend/confirmRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -98,7 +94,7 @@ class RequestReceived extends Component {
     const { basic } = this.state;
     const response = await axios.post(
       API_URL + "/friend/declineRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,

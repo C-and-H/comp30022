@@ -4,6 +4,7 @@ import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
 import candh.crm.payload.request.user.*;
 import candh.crm.repository.UserRepository;
+import candh.crm.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,11 +17,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("${crm.app.frontend.host}")
 public class UserController
 {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    // search fields
+    private static final String[] params = {"Email", "First_name", "Last_name",
+            "AreaOrRegion", "Industry", "Company"};
 
     /**
      * Handles Http Post for user information query by id.
@@ -43,7 +51,7 @@ public class UserController
 //    @PostMapping("/userMany")
 //    @PreAuthorize("hasRole('USER')")
 //    public ResponseEntity<?> findManyUsersByIds(
-//            @RequestBody ByManyIdsRequest byManyIdsRequest) {
+//            @Valid @RequestBody ByManyIdsRequest byManyIdsRequest) {
 //        List<User> users = new ArrayList<>();
 //        for (String id: byManyIdsRequest.getIds()) {
 //            Optional<User> user = userRepository.findById(id);
@@ -62,16 +70,16 @@ public class UserController
     @PostMapping("/user/changeRealName")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changeRealName(
-            @Valid @RequestBody ChangeRealNameRequest changeRealNameRequest) {
-        Optional<User> user = userRepository.findById(changeRealNameRequest.getId());
-        if (user.isPresent()) {
-            user.get().setFirst_name(changeRealNameRequest.getFirst_name());
-            user.get().setLast_name(changeRealNameRequest.getLast_name());
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your name.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ChangeRealNameRequest changeRealNameRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setFirst_name(changeRealNameRequest.getFirst_name());
+        user.setLast_name(changeRealNameRequest.getLast_name());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your name.");
     }
 
     /**
@@ -80,15 +88,15 @@ public class UserController
     @PostMapping("/user/changePhone")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePhone(
-            @Valid @RequestBody ChangePhoneRequest changePhoneRequest) {
-        Optional<User> user = userRepository.findById(changePhoneRequest.getId());
-        if (user.isPresent()) {
-            user.get().setPhone(changePhoneRequest.getMobileNumber());
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully change your phone number.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody ChangePhoneRequest changePhoneRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setPhone(changePhoneRequest.getMobileNumber());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully change your phone number.");
     }
 
     /**
@@ -97,15 +105,15 @@ public class UserController
     @PostMapping("/user/changeAreaOrRegion")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changeAreaOrRegion(
-            @Valid @RequestBody ChangeAreaOrRegionRequest changeAreaOrRegionRequest) {
-        Optional<User> user = userRepository.findById(changeAreaOrRegionRequest.getId());
-        if (user.isPresent()) {
-            user.get().setAreaOrRegion(changeAreaOrRegionRequest.getAreaOrRegion());
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your area/region.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody ChangeAreaOrRegionRequest changeAreaOrRegionRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setAreaOrRegion(changeAreaOrRegionRequest.getAreaOrRegion());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your area/region.");
     }
 
     /**
@@ -114,15 +122,15 @@ public class UserController
     @PostMapping("/user/changeIndustry")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changeIndustry(
-            @Valid @RequestBody ChangeIndustryRequest changeIndustryRequest) {
-        Optional<User> user = userRepository.findById(changeIndustryRequest.getId());
-        if (user.isPresent()) {
-            user.get().setIndustry(changeIndustryRequest.getIndustry());
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your industry.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody ChangeIndustryRequest changeIndustryRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setIndustry(changeIndustryRequest.getIndustry());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your industry.");
     }
 
     /**
@@ -131,15 +139,15 @@ public class UserController
     @PostMapping("/user/changeCompany")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changeCompany(
-            @Valid @RequestBody ChangeCompanyRequest changeCompanyRequest) {
-        Optional<User> user = userRepository.findById(changeCompanyRequest.getId());
-        if (user.isPresent()) {
-            user.get().setCompany(changeCompanyRequest.getCompany());
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your company.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody ChangeCompanyRequest changeCompanyRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setCompany(changeCompanyRequest.getCompany());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your company.");
     }
 
     /**
@@ -148,15 +156,32 @@ public class UserController
     @PostMapping("/user/changePersonalSummary")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePersonalSummary(
-            @Valid @RequestBody ChangePersonalSummaryRequest changePersonalSummaryRequest) {
-        Optional<User> user = userRepository.findById(changePersonalSummaryRequest.getId());
-        if (user.isPresent()) {
-            user.get().setPersonalSummary(changePersonalSummaryRequest.getPersonalSummary());
-            userRepository.save(user.get());
-            return ResponseEntity.ok("You just successfully changed your personal summary.");
-        } else {
-            return ResponseEntity.ok("Id not found.");
-        }
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody ChangePersonalSummaryRequest changePersonalSummaryRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setPersonalSummary(changePersonalSummaryRequest.getPersonalSummary());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your personal summary.");
+    }
+
+    /**
+     * Handles Http Post for user's icon change.
+     */
+    @PostMapping("/user/changeIcon")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changeIcon(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ChangeIconRequest changeIconRequest)
+    {
+        User user = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        user.setIcon(changeIconRequest.getIcon());
+        userRepository.save(user);
+        return ResponseEntity.ok(
+                "You just successfully changed your icon.");
     }
 
     /**
@@ -171,13 +196,16 @@ public class UserController
     @PostMapping("/user/search")
     @PreAuthorize("hasRole('USER')")
     public List<User> search(
-            @Valid @RequestBody SearchRequest searchRequest)
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        // request fields
-        Map<String,String> map = new HashMap<>();
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody SearchRequest searchRequest)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+    {
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+
+        Map<String, String> map = new HashMap<>();
         Method[] methods = SearchRequest.class.getMethods();
-        String[] params = {"Email", "First_name", "Last_name",
-                "AreaOrRegion", "Industry", "Company"};
         for (Method m: methods) {
             if (m.getName().startsWith("get") &&
                     Arrays.asList(params).contains(m.getName().substring(3))) {   // filter getters
@@ -208,7 +236,7 @@ public class UserController
         }
         // remove user self
         return users.stream()
-                .filter(u -> !u.getId().equals(searchRequest.getId()))
+                .filter(u -> !u.getId().equals(userId))
                 .collect(Collectors.toList());
     }
 
@@ -217,16 +245,18 @@ public class UserController
      * "AreaOrRegion", "Industry", "Company" fields to find regex.
      *
      * @param sketchySearchRequest  one input search key
-     *
      */
     @PostMapping("/user/sketchySearch")
     @PreAuthorize("hasRole('USER')")
     public List<User> sketchySearch(
-            @Valid @RequestBody SketchySearchRequest sketchySearchRequest)
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        // request fields
-        String[] params = {"Email", "First_name", "Last_name",
-                "AreaOrRegion", "Industry", "Company"};
+            @RequestHeader("Authorization") String headerAuth,
+            @RequestBody SketchySearchRequest sketchySearchRequest)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+    {
+        String userId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+
         ArrayList<User> users = new ArrayList<>();
         for (String field : params)
         {
@@ -246,7 +276,7 @@ public class UserController
         boolean add = true;
         for (int i = 0; i < users.size(); i++) {
             add = true;
-            for (int j = 0; j<i; j++) {
+            for (int j = 0; j < i; j++) {
                 if (users.get(i).getId().equals(users.get(j).getId())) {
                     add = false;
                     break;
@@ -258,7 +288,7 @@ public class UserController
         }
         // remove user self
         return results.stream()
-                .filter(u -> !u.getId().equals(sketchySearchRequest.getId()))
+                .filter(u -> !u.getId().equals(userId))
                 .collect(Collectors.toList());
     }
 }

@@ -16,6 +16,7 @@ class OtherUser extends Component {
       isFriend: null,
       edit: false,
       note: "",
+      originalNote: "",
     };
 
     this.handleNote = this.handleNote.bind(this);
@@ -59,7 +60,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/sendRequest",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -76,7 +77,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/delete",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -94,7 +95,7 @@ class OtherUser extends Component {
     const { basic, id } = this.state;
     const response = await axios.post(
       API_URL + "/friend/verifyFriendship",
-      { userId: basic.id, friendId: id },
+      { id: id },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -108,20 +109,25 @@ class OtherUser extends Component {
   }
 
   async editFriendNote() {
-    const { basic, id, note } = this.state;
-    const response = await axios.post(
-      API_URL + "/friend/changeNotes",
-      { userId: basic.id, friendId: id, notes: note },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const { basic, id, note, originalNote } = this.state;
+    if (note === originalNote) {
+      alert("Note same as original note.");
+      this.setState({ edit: false });
+    } else {
+      const response = await axios.post(
+        API_URL + "/friend/changeNotes",
+        { userId: basic.id, friendId: id, notes: note },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
 
-    if (response.data) {
-      alert(response.data);
-      window.location.reload();
+      if (response.data) {
+        alert(response.data);
+        window.location.reload();
+      }
     }
   }
 
@@ -162,11 +168,15 @@ class OtherUser extends Component {
           </Form>
         ) : (
           <div>
-            <h1>Note: {isFriend.first.notes}</h1>
+            <h1>Note: {isFriend.notes}</h1>
             <Button
               className="btn-search"
               onClick={() => {
-                this.setState({ edit: true, note: isFriend.first.notes });
+                this.setState({
+                  edit: true,
+                  note: isFriend.notes,
+                  originalNote: isFriend.notes,
+                });
               }}
             >
               <i className="fas fa-pencil-alt" />
