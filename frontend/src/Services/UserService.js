@@ -64,6 +64,23 @@ class UserService {
       return response.data;
     }
   }
+
+  async editFriendNote(my_id, their_id, token, note) {
+    
+    const response = await axios.post(
+      API_URL + "/friend/changeNotes",
+      { userId: my_id, friendId: their_id, notes: note },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    if (response.data) {
+      return response.data;
+    }
+  }
 }
 
 export default new UserService();

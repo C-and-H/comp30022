@@ -42,7 +42,6 @@ export default class ProfileDisplay extends Component{
 				hasPhone: false,
 				hasIndustry: false,
 				hasRegion: false,
-				hasGender: false,
 				hasCompany: false,
 				hasSummary: false,
 				myself: false,
@@ -50,14 +49,18 @@ export default class ProfileDisplay extends Component{
 				icon: "fa fa-user fa-fw",
         btnText: null,
         disableBtn: false,
-        isOpen: false
-				// fullName: 
-				// this.state.currentUser.first_name + " " +this.currentUser.last_name
-				//https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png
+        isOpen: false,
+        note: "",
+        noteEdit: ""
+	
   	  };
-    
+    this.wrapper = React.createRef();
     this.friendBtn = this.friendBtn.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCollapse = this.handleCollapse.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 	}
 
 
@@ -90,6 +93,7 @@ export default class ProfileDisplay extends Component{
 		
 		if (this.state.isFriend){
       this.setState({btnText: "Unfriend"});
+      this.setState({note: this.state.isFriend.first.notes})
     } else {
       this.setState({btnText: "Add friend"});
     }
@@ -113,6 +117,38 @@ export default class ProfileDisplay extends Component{
     if (currentUser.icon) this.setState({icon: currentUser.icon});
     
   }
+
+  handleChange(event) {
+    this.setState({noteEdit: event.target.value });
+  }
+
+  handleCancel() {
+    this.setState({isOpen: false})
+  }
+
+  handleCollapse() {
+    this.setState({isOpen: true})
+  }
+
+  async handleSubmit() {
+    const {noteEdit} = this.state;
+    const user = AuthService.getBasicInfo();
+    let res = await UserService.editFriendNote(
+      user.id,
+      this.props.match.params.id,
+      user.token,
+      noteEdit
+    );
+    alert("bruh");
+    if (res) {
+      alert("Changes saved!");
+      await AuthService.getUserDataFromBackend(user.token, user.id);
+    } else {
+      alert("Something went wrong");
+    }
+    this.setState({isOpen: false});
+  }
+
 
   async handleClick() {
     const {isFriend} = this.state;
@@ -172,9 +208,9 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary, myself,  icon, isFriend, isOpen
+       hasSummary, myself,  icon, isFriend, isOpen, note
 		} = this.state;
-    console.log(currentUser);
+    //console.log(currentUser);
 		//const classes = useStyles();
 		//console.log(this.state.hasPhone);
 		
@@ -194,7 +230,7 @@ export default class ProfileDisplay extends Component{
 		// console.log(currentUser);
 		// console.log(fullName);
 		return(
-				
+			<div ref={this.wrapper}>
 			<Container>
 				<Row className = "profile-display-header">
 					{fullName}
@@ -382,28 +418,59 @@ export default class ProfileDisplay extends Component{
               </Col>
               <Col></Col>
               <Col>
-                <Button className="profile-display-edit-btn">
+                <Button 
+                  className="profile-display-edit-btn"
+                  onClick={this.handleCollapse}
+                >
                   Change Note
                 </Button>
               </Col>
             </Row>
-            <Collapse isOpen={isOpen}>
-              <Form>
-                <FormGroup>
-
-                </FormGroup>
-              </Form>
-            </Collapse>
-            
             <Row>
-              <p className="profile-display-p"></p>
+
+              <Collapse isOpen={isOpen}>
+                
+                  <Form onSubmit={this.handleSubmit}>
+                    <Row className="profile-display-line">
+                    <FormGroup className="profile-display-formgroup">
+                      <Input type="textarea" className="profile-display-note-input"
+                        placeholder={note}
+                        onChange={this.handleChange}
+                        defaultValue={note}
+                      >
+                      </Input>
+                    </FormGroup>
+                    </Row>
+                    <Row className="profile-display-line">
+                      <Col xs="4">
+                        <Button 
+                          className="profile-display-icon-btn"
+                          type="submit">
+                            Save Changes
+                        </Button>
+                      </Col>
+                      <Col xs="4">
+                        <Button
+                          className="profile-display-icon-btn"
+                          onClick={this.handleCancel}>
+                            Cancel
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+              </Collapse>
+            </Row>
+            <Row>
+              <p className="profile-display-p">
+                {note}
+              </p>
             </Row>
           </Container>
         ) : (
           <></>
         )}
 			</Container>
-			
+			</div>
 			
 		);
 

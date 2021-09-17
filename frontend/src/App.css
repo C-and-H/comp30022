@@ -462,6 +462,16 @@ footer {
   background-color: mediumslateblue;
 }
 
+.profile-display-formgroup{
+  text-align: left;
+  padding-top: 10px;
+}
+
+.profile-display-note-input{
+  
+  height: 200px;
+ }
+
 /******************** ProfileDisplay Components END ********************/
 
 
