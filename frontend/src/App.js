@@ -6,7 +6,7 @@ import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
-import ProfileDisplay from "./Components/Profiles/ProfileDisplay"
+import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
 import AuthService from "./Services/AuthService";
 import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
@@ -14,12 +14,14 @@ import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
+import Email from "./Components/email";
+import Chat from "./Components/chat";
 
 class App extends Component {
   constructor(props) {
     super(props);
     //this.logOut = this.logOut.bind(this);
-    
+
     this.state = {
       currentUser: JSON.parse(localStorage.getItem("user")),
       basic: JSON.parse(localStorage.getItem("basic")),
@@ -63,8 +65,10 @@ class App extends Component {
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
+            <Route exact path="/chat" component={Chat} />
             <Route exact path={["/", "/home"]} component={HomePage} />
-            <Route exact path = "/profile" component = {ProfileDisplay} />
+            <Route exact path="/profile" component={ProfileDisplay} />
+            <Route exact path="/email" component={Email} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>

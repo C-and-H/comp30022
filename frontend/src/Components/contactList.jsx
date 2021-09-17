@@ -13,7 +13,7 @@ class ContactList extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-    
+
     // friends => friend id and note tuple
     // friendList => friend user information
     this.state = {
@@ -24,8 +24,11 @@ class ContactList extends Component {
       friends_csv:[],
       redirect: null,
       headers_csv:[],
-      show: false
+      show: false,
+      searchList: null,
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   
@@ -172,24 +175,107 @@ class ContactList extends Component {
     return "";
   }
 
+  /**
+   * automatically search when user enter or delete something
+   */
+  handleChange(event) {
+    if (!event.target.value || event.target.value === "") {
+      this._isMounted && this.setState({ searchList: null });
+    } else {
+      this.matchContacts(event.target.value);
+    }
+  }
+
+  /**
+   * prevent refresh page when "ENTER" hits
+   */
+  onKeyUp(event) {
+    if (event.charCode === 13) {
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * search friends' name, email, industry, company, areaOrRegion
+   * and friend notes
+   * @param {*} key search key
+   */
+  matchContacts(key) {
+    const { friendList } = this.state;
+    if (friendList.length > 0) {
+      const search = new RegExp(key, "i");
+      let searchList = [];
+      for (let i = 0; i < friendList.length; i++) {
+        if (search.test(friendList[i].name)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+        if (search.test(friendList[i].email)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+        if (search.test(friendList[i].industry)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+        if (search.test(friendList[i].company)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+        if (search.test(friendList[i].areaOrRegion)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+        if (search.test(this.friendNote(friendList[i].id))) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+      }
+      this._isMounted && this.setState({ searchList });
+    }
+  }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { friendList ,friends_csv, headers_csv, show } = this.state;
+    const { friendList ,friends_csv, headers_csv, show, searchList } = this.state;
     // console.log(friendList)
     return (
       <div className="div-contact">
         <div className="rectangle">
           {this.header()}
-          {friendList.map((friend) => (
-            <FriendDisplay
-              key={friend.id}
-              user={friend}
-              note={this.friendNote(friend.id)}
-              onClick={() => this.redirectFriend(friend.id)}
-            />
-          ))}
+          <input
+            type="text"
+            placeholder="Search"
+            className="search-contact"
+            name="search"
+            onChange={this.handleChange}
+            onKeyPress={this.onKeyUp}
+          />
+          {searchList ? (
+            searchList.length === 0 ? (
+              <h1>None match</h1>
+            ) : (
+              searchList.map((friend) => (
+                <FriendDisplay
+                  key={friend.id}
+                  user={friend}
+                  note={this.friendNote(friend.id)}
+                  onClick={() => this.redirectFriend(friend.id)}
+                />
+              ))
+            )
+          ) : (
+            friendList.map((friend) => (
+              <FriendDisplay
+                key={friend.id}
+                user={friend}
+                note={this.friendNote(friend.id)}
+                onClick={() => this.redirectFriend(friend.id)}
+              />
+            ))
+          )}
         </div>
         <div>
         {!show && <p>export contacts</p>}
