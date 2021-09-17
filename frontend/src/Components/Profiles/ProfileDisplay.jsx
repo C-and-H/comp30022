@@ -132,6 +132,7 @@ export default class ProfileDisplay extends Component{
 
   async handleSubmit() {
     const {noteEdit} = this.state;
+    alert("bruh");
     const user = AuthService.getBasicInfo();
     let res = await UserService.editFriendNote(
       user.id,
