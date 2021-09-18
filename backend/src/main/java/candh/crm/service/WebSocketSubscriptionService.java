@@ -15,6 +15,9 @@ public class WebSocketSubscriptionService
     private final Map<String, List<String>> chatMap = new ConcurrentHashMap<>();
     private final Map<String, List<String>> notificationMap = new ConcurrentHashMap<>();
 
+    // the maximal number of subscription paths of a client
+    public static final int MAX_N_PATH = 3;
+
     // for random string generator
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
@@ -28,7 +31,7 @@ public class WebSocketSubscriptionService
      * @param id  id of the user
      * @param path  the notification subscription path
      */
-    public void removeNotification(String id, String path) {
+    public void removeNotificationPath(String id, String path) {
         if (notificationMap.containsKey(id)) {
             notificationMap.get(id).remove(path);
         }
@@ -44,7 +47,9 @@ public class WebSocketSubscriptionService
     public String createNotificationPath(String id) {
         String toAdd = generateRandomString(random.nextInt(11)+20);
         if (notificationMap.containsKey(id)) {
-            notificationMap.get(id).add(toAdd);
+            List<String> paths = notificationMap.get(id);
+            if (paths.size() == MAX_N_PATH) paths.remove(0);   // remove the oldest
+            paths.add(toAdd);
         } else {
             notificationMap.put(id, new ArrayList<>(Collections.singletonList(toAdd)));
         }
