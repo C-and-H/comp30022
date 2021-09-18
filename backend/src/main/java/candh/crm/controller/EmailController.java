@@ -20,6 +20,9 @@ public class EmailController
     @Autowired
     private JwtUtils jwtUtils;
 
+    /**
+     * Handles Http Post for sending email between users.
+     */
     @PostMapping("/email/sendEmail")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sendEmail(

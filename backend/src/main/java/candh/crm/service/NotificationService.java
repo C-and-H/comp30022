@@ -9,11 +9,7 @@ import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -38,8 +34,7 @@ public class NotificationService
      * @param message  message content
      */
     private void create(String id, String message) {
-        notificationRepository.save(
-                new Notification(id, message, LocalDateTime.now().toString()));
+        notificationRepository.save(new Notification(id, message));
     }
 
     /**
@@ -67,21 +62,10 @@ public class NotificationService
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
         String message = "Friend request: " + senderName + ".";
-        List<Notification> sent = notificationRepository.findByUserIdAndMessage(receiverId, message);
-        if (!sent.isEmpty())
-        {
-            notificationRepository.delete(sent.stream()
-                    .max(new Comparator<Notification>() {
-                        @Override
-                        public int compare(Notification o1, Notification o2) {
-                            LocalDateTime t1 = LocalDateTime.parse(o1.getWhen());
-                            LocalDateTime t2 = LocalDateTime.parse(o2.getWhen());
-                            if (t1.isBefore(t2)) return -1;
-                            else if (t1.isAfter(t2)) return 1;
-                            else return 0;
-                        }
-                    }).get()
-            );
+        Notification to_remove = notificationRepository
+                .findMostRecentByUserIdAndMessage(receiverId, message);
+        if (to_remove != null) {
+            notificationRepository.delete(to_remove);
             pushTo(receiverId);
         }
     }
