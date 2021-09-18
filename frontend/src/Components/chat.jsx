@@ -11,6 +11,22 @@ class Chat extends Component {
       basic: JSON.parse(localStorage.getItem("basic")),
       currentUser: JSON.parse(localStorage.getItem("user")),
       textEnter: "",
+      friend: null,
+      // time, message, sender
+      message: [
+        ["10:10", "random message", "me"],
+        ["10:09", "random message", "friend"],
+        [
+          "10:02",
+          "some loooooooooooooooooooooooooooooooooooog loooooooooooooooooooooooooooooooooooog loooooooooooooooooooooooooooooooooooog message",
+          "friend",
+        ],
+        ["10:10", "random message", "me"],
+        ["10:10", "random message", "me"],
+        ["10:10", "random message", "me"],
+        ["10:10", "random message", "me"],
+        ["10:10", "random message", "me"],
+      ],
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -74,7 +90,55 @@ class Chat extends Component {
   }
 
   chatDisplay() {
-    return <div className="div-chat-display"></div>;
+    const { message } = this.state;
+    return (
+      <div className="div-chat-display">
+        {message &&
+          message.length > 0 &&
+          message.map((message) => this.messageDisplay(message))}
+      </div>
+    );
+  }
+
+  messageDisplay(message) {
+    if (message[2] === "me") {
+      return this.messageSentDisplay(message);
+    }
+    return this.messageReceivedDisplay(message);
+  }
+
+  messageReceivedDisplay(message) {
+    const { friend } = this.state;
+    return (
+      <div className="div-chat-message">
+        {friend && friend.icon ? (
+          <i className={friend.icon + " fa-2x chat-friend-icon"} />
+        ) : (
+          <i className="fas fa-user fa-2x chat-friend-icon" />
+        )}
+        <div className="div-message-received">
+          <div className="div-time-label">{message[0]}</div>
+          {message[1]}
+        </div>
+      </div>
+    );
+  }
+
+  messageSentDisplay(message) {
+    const { currentUser } = this.state;
+    return (
+      <div className="div-chat-message">
+        {currentUser && currentUser.icon ? (
+          <i className={currentUser.icon + " fa-2x chat-my-icon"} />
+        ) : (
+          <i className="fas fa-user fa-2x chat-my-icon" />
+        )}
+        <div className="div-message-sent">
+          <div className="div-time-label">{message[0]}</div>
+          {message[1]}
+        </div>
+      </div>
+    );
   }
 
   render() {
