@@ -61,6 +61,10 @@ class App extends Component {
       this.setState({ basic, currentUser });
     }
 
+    if (basic && !localStorage.getItem("notificationPath")) {
+      AuthService.getNotificationPath();
+    }
+
     if (basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
         this.connect(JSON.parse(localStorage.getItem("notificationPath")));
