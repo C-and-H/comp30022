@@ -56,7 +56,7 @@ public class EmailService
     /**
      * Send an email from a user to another user.
      *
-     * @param receiver  email address of the receiver
+     * @param receiver  email addresses of the receivers, separated by comma
      * @param sender  name of the sender
      * @param title  subject of the email
      * @param content  content of the email

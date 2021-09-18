@@ -82,8 +82,8 @@ class NavigationBar extends Component {
               No new message
             </NavDropdown.ItemText>
           ) : (
-            <div>
-              {notifications !== null && notifications.length !== 0 ? (
+            <div className="dropdown-notification" >
+              {(notifications !== null && notifications.length !== 0) ? (
                 <NavDropdown.Item>
                   <Button
                     variant="outline-danger"
@@ -101,6 +101,13 @@ class NavigationBar extends Component {
 
               <NavDropdown.Divider />
               {this.getAllNotificationDropDownItem(notifications)}
+              {
+                (notifications !== null && notifications.length !== 0) && this.props.notificationLoading && (
+                  <NavDropdown.ItemText className="dropdown-text">
+                    loading...
+                  </NavDropdown.ItemText>
+                )
+              }
             </div>
           )}
         </NavDropdown>
