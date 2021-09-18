@@ -530,6 +530,7 @@ footer {
 }
 
 .div-chat-display {
+  background-color: aliceblue;
   width: 80%;
   height: 60%;
   margin-left: 10%;
@@ -572,14 +573,29 @@ footer {
   padding-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
-  max-width: 60%;
+  max-width: 70%;
   border-radius: 10px;
-  background-color: chartreuse;
+  background-color:coral;
   float: right;
   font-size: large;
 }
 
-.div-time-label {
+.div-time-label-sent {
+  display: block;
+  position: relative;
+  text-align: left;
+  top: -15px;
+  height: fit-content;
+  width: fit-content;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: coral;
+  border-radius: 50px;
+  margin-bottom: -20px;
+  font-size: small;
+}
+
+.div-time-label-received {
   display: block;
   position: relative;
   text-align: left;
@@ -606,7 +622,7 @@ footer {
   padding-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
-  max-width: 60%;
+  max-width: 70%;
   border-radius: 10px;
   background-color: chartreuse;
   font-size: large;

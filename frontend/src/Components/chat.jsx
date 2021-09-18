@@ -116,10 +116,10 @@ class Chat extends Component {
         ) : (
           <i className="fas fa-user fa-2x chat-friend-icon" />
         )}
-        <div className="div-message-received">
-          <div className="div-time-label">{message[0]}</div>
+        <p className="div-message-received">
+          <div className="div-time-label-received">{message[0]}</div>
           {message[1]}
-        </div>
+        </p>
       </div>
     );
   }
@@ -134,7 +134,7 @@ class Chat extends Component {
           <i className="fas fa-user fa-2x chat-my-icon" />
         )}
         <div className="div-message-sent">
-          <div className="div-time-label">{message[0]}</div>
+          <div className="div-time-label-sent">{message[0]}</div>
           {message[1]}
         </div>
       </div>
