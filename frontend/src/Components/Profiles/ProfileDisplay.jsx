@@ -78,7 +78,6 @@ export default class ProfileDisplay extends Component{
 			);
 
       let friendship = await UserService.checkFriend(
-        basic.id,
         this.props.match.params.id,
         basic.token
       );
@@ -93,7 +92,7 @@ export default class ProfileDisplay extends Component{
 		
 		if (this.state.isFriend){
       this.setState({btnText: "Unfriend"});
-      this.setState({note: this.state.isFriend.first.notes})
+      this.setState({note: this.state.isFriend.notes})
     } else {
       this.setState({btnText: "Add friend"});
     }
@@ -132,10 +131,9 @@ export default class ProfileDisplay extends Component{
 
   async handleSubmit() {
     const {noteEdit} = this.state;
-    alert("bruh");
+    //alert("bruh");
     const user = AuthService.getBasicInfo();
     let res = await UserService.editFriendNote(
-      user.id,
       this.props.match.params.id,
       user.token,
       noteEdit
@@ -158,7 +156,6 @@ export default class ProfileDisplay extends Component{
     if (isFriend) {
       // send delete friend request
       res = await UserService.deleteFriend (
-        user.id,
         this.props.match.params.id,
         user.token
       );
@@ -166,7 +163,6 @@ export default class ProfileDisplay extends Component{
     } else {
       // send friend request
       res = await UserService.sentFriendRequest (
-        user.id,
         this.props.match.params.id,
         user.token
       );

@@ -76,7 +76,7 @@ export default class ChangeIcon extends Component{
     let newIcon = await this.changeIcon(this.state.chosen);
     console.log(this.newIcon);
     if (newIcon !== "An error has occured") {
-      alert("Changes saved !");
+      alert("Changes saved!");
 
     } else {
       alert(newIcon);

@@ -11,11 +11,11 @@ class UserService {
     return axios.get(API_URL + "/findAllUsers", { headers: authHeader() });
   }
 
-  async checkFriend(my_id, other_id, token) {
+  async checkFriend(other_id, token) {
     
     const response = await axios.post(
       API_URL + "/friend/verifyFriendship",
-      { userId: my_id, friendId: other_id },
+      { id: other_id },
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -30,10 +30,10 @@ class UserService {
   
   }
 
-  async sentFriendRequest(my_id, other_id, token) {
+  async sentFriendRequest(other_id, token) {
     const response = await axios.post(
       API_URL + "/friend/sendRequest",
-      { userId: my_id, friendId: other_id },
+      { id: other_id },
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -46,11 +46,11 @@ class UserService {
     }
   }
 
-  async deleteFriend(my_id, their_id, token) {
+  async deleteFriend(their_id, token) {
     
     const response = await axios.post(
       API_URL + "/friend/delete",
-      { userId: my_id, friendId: their_id },
+      { id: their_id },
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -65,11 +65,11 @@ class UserService {
     }
   }
 
-  async editFriendNote(my_id, their_id, token, note) {
+  async editFriendNote(their_id, token, note) {
     
     const response = await axios.post(
       API_URL + "/friend/changeNotes",
-      { userId: my_id, friendId: their_id, notes: note },
+      {id: their_id, notes: note },
       {
         headers: {
           Authorization: "Bearer " + token,
