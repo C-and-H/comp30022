@@ -53,6 +53,15 @@ public class EmailService
         javaMailSender.send(message);
     }
 
+    /**
+     * Send an email from a user to another user.
+     *
+     * @param receiver  email addresses of the receivers, separated by comma
+     * @param sender  name of the sender
+     * @param title  subject of the email
+     * @param content  content of the email
+     * @param email  email address of the sender
+     */
     public void sendEmail(String receiver, String sender, String title,
                                 String content, String email) throws MessagingException
     {

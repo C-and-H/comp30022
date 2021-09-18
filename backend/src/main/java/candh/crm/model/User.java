@@ -46,6 +46,8 @@ public class User implements UserDetails
     private static final String DATA_FOR_RANDOM_STRING = CHAR_LOWER + CHAR_UPPER + NUMBER;
     private static SecureRandom random = new SecureRandom();   // alphanumeric string of length 20-30
 
+    public User() { }
+
     public User(String email, String password, String first_name, String last_name) {
         this.email = email;
         this.password = password;
@@ -59,11 +61,6 @@ public class User implements UserDetails
         this.icon = "";
         this.enabled = false;
         this.signupConfirmPath = generateRandomString(random.nextInt(11)+20);
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     private static String generateRandomString(int length) {
@@ -92,10 +89,14 @@ public class User implements UserDetails
     }
 
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
     public String getUsername() {
         return this.email;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

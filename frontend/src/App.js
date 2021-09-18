@@ -34,7 +34,7 @@ class App extends Component {
       isConnected: false,
       notificationNumber: 0,
       stompClient: null,
-      notifications: [],
+      notificationLoading: false,
       notificationCounter: 0, // help adding unique id to each notification
     };
 
@@ -59,6 +59,10 @@ class App extends Component {
       await AuthService.getUserDataFromBackend(basic.token, basic.id);
       const currentUser = AuthService.getCurrentUser();
       this.setState({ basic, currentUser });
+    }
+
+    if (basic && !localStorage.getItem("notificationPath")) {
+      AuthService.getNotificationPath();
     }
 
     if (basic && localStorage.getItem("notificationPath")) {
@@ -133,6 +137,7 @@ class App extends Component {
   }
 
   async getNotifications() {
+    this.setState({notificationLoading: true});
     const token = AuthService.getBasicInfo().token;
     const response = await axios.get(API_URL + "/notification/fetch", {
       headers: {
@@ -168,10 +173,7 @@ class App extends Component {
       }
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
-    this.setState({ notifications });
-    console.log("Num notifications: ");
-    console.log(this.state.notifications.length);
-    this.setState({ notificationNumber: this.state.notifications.length });
+    this.setState({ notificationNumber: JSON.parse(localStorage.getItem("notifications")).length, notificationLoading: false });
   }
 
   removeNotification(notificationID) {
@@ -194,7 +196,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, redirect, basic } = this.state;
+    const { currentUser, redirect, basic, notificationLoading, notificationNumber } = this.state;
     return (
       <div className="App">
         <Router>
@@ -203,11 +205,11 @@ class App extends Component {
             basic={basic}
             user={currentUser}
             onLogOut={this.handleLogOut}
-            notifications={this.state.notifications}
-            notificationNumber={this.state.notificationNumber}
+            notificationNumber={notificationNumber}
             onGetNotification={this.getNotifications}
             removeNotification={this.removeNotification}
             removeAllNotifications={this.removeAllNotifications}
+            notificationLoading={notificationLoading}
           />
           <Switch>
             <Route exact path="/signup" component={SignUp} />

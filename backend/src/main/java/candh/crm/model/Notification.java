@@ -1,8 +1,14 @@
 package candh.crm.model;
 
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 @ToString
 
@@ -15,12 +21,16 @@ public class Notification
     /** message content */
     String message;
     /** when the notification was created */
-    String when;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "M-")
+    @CreatedDate
+    private Date when;
 
-    public Notification(String userId, String message, String when) {
+    public Notification() { }
+
+    public Notification(String userId, String message) {
         this.userId = userId;
         this.message = message;
-        this.when = when;
     }
 
     public String getUserId() {
@@ -31,19 +41,7 @@ public class Notification
         return message;
     }
 
-    public String getWhen() {
+    public Date getWhen() {
         return when;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setWhen(String when) {
-        this.when = when;
     }
 }
