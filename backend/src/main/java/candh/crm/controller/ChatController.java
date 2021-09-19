@@ -1,16 +1,20 @@
 package candh.crm.controller;
 
+import candh.crm.model.Chat;
 import candh.crm.model.User;
 import candh.crm.payload.request.chat.FetchReadRequest;
+import candh.crm.payload.request.chat.MarkAsReadRequest;
 import candh.crm.repository.ChatRepository;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
+import candh.crm.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +26,9 @@ public class ChatController
 
     @Autowired
     private ChatRepository chatRepository;
+
+    @Autowired
+    private ChatService chatService;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -66,5 +73,25 @@ public class ChatController
         return ResponseEntity.ok(
                 chatRepository.findNReadBySenderAndReceiverIdFromT(
                 senderId, receiverId, N_FETCHREAD, fetchReadRequest.getFrom()));
+    }
+
+    /**
+     * Handles Http Post for marking chat messages as read.
+     */
+    @PostMapping("/chat/markAsRead")
+    @PreAuthorize("hasRole('USER')")
+    public void markAsRead(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody MarkAsReadRequest markAsReadRequest)
+    {
+        String receiverId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        List<Chat> chats = chatRepository.findUnreadByIdsAndReceiverId(
+                markAsReadRequest.getIds(), receiverId);
+        for (Chat c: chats) {
+            c.setUnread(false);
+            chatRepository.save(c);
+        }
     }
 }

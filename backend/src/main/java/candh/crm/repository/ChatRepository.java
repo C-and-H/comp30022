@@ -15,6 +15,11 @@ public interface ChatRepository extends MongoRepository<Chat, String>
     @Query(value = "{$and: [{'receiverId': '?0'}, {'unread': true}]}")
     List<Chat> findUnreadByReceiverId(String receiverId);
 
+    @Query(value = "{$and: [{'receiverId': '?1'}," +
+                           "{'unread': true}," +
+                           "{'_id': {$in: '?0'}}]}")
+    List<Chat> findUnreadByIdsAndReceiverId(List<String> ids, String receiverId);
+
     @Aggregation(pipeline = {
             "{ $match : {$and: [{'senderId': '?0'}," +
                                "{'receiverId': '?1'}," +
