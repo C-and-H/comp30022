@@ -647,6 +647,44 @@ footer {
   opacity: 0;
 }
 
+.btn-chat-friend {
+  width: 100%;
+  height: 60px;
+}
+
+.chat-friendList-icon {
+  float: left;
+}
+
+.div-chat-friendList-name {
+  font-size: small;
+  font-weight: bolder;
+  float: left;
+  margin-left: 5%;
+}
+
+.div-chat-friendList-time {
+  font-size: small;
+  float: right;
+  opacity: 0.8;
+}
+
+.div-chat-friendList-recent-message {
+  font-size: small;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 80%;
+  margin-left: 25%;
+  text-align: left;
+}
+
+.div-chat-friendList-top {
+  width: 100%;
+  height: 20px;
+}
+
 /*------------------ Chat Components end ---------------*/
 
 /*------------------ profileDisplay Components -------------*/

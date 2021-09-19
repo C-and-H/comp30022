@@ -30,6 +30,32 @@ class Chat extends Component {
         ["06:10", "random message", "me"],
       ],
       isLoading: false,
+      friendList: [
+        {
+          id: "6124e4e79e3dd74065e23e51",
+          name: "User One",
+          email: "1@1.cn",
+          message: "some recent message",
+          time: "10:00",
+          note: "",
+        },
+        {
+          id: "6124e53b9e3dd74065e23e55",
+          name: "User Two",
+          email: "2@2.cn",
+          message: "some recent looooooooooooooooooooooooog message",
+          time: "9:00",
+          note: "",
+        },
+        {
+          id: "6124e5229e3dd74065e23e54",
+          name: "User Three",
+          email: "3@3.cn",
+          message: "some recent message",
+          time: "8:00",
+          note: "",
+        },
+      ],
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -50,6 +76,7 @@ class Chat extends Component {
   }
 
   friendList() {
+    const { friendList } = this.state;
     return (
       <div className="div-chat-friendList">
         <div className="div-chat-friendList-header"></div>
@@ -60,6 +87,29 @@ class Chat extends Component {
           name="search"
           //onChange={this.handleChange}
         />
+        {friendList.length > 0 &&
+          friendList.map((friend) => this.friendDisplay(friend))}
+      </div>
+    );
+  }
+
+  friendDisplay(friend) {
+    return (
+      <div key={friend.id}>
+        <Button className="btn-chat-friend" variant="outline-dark" size="lg">
+          {friend.icon ? (
+            <i className={friend.icon + " fa-2x chat-friendList-icon"} />
+          ) : (
+            <i className="fa fa-user fa-fw fa-2x chat-friendList-icon" />
+          )}
+          <div className="div-chat-friendList-top">
+            <div className="div-chat-friendList-name">{friend.name}</div>
+            <div className="div-chat-friendList-time">{friend.time}</div>
+          </div>
+          <div className="div-chat-friendList-recent-message">
+            {friend.message}
+          </div>
+        </Button>
       </div>
     );
   }
