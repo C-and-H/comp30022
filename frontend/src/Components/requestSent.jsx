@@ -91,7 +91,7 @@ class RequestSent extends Component {
   }
 
   redirect(id) {
-    const redirect = "/user/" + id;
+    const redirect = "/profile/" + id;
     this.setState({ redirect });
   }
 
