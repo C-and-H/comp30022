@@ -87,14 +87,7 @@ export default class ProfileDisplay extends Component {
       this.setState({ myself: true });
     }
 
-    if (this.state.isFriend) {
-      this.setState({ btnText: "Unfriend" });
-      this.setState({ note: this.state.isFriend.notes });
-    } else {
-      //this.setState({currentUser: AuthService.getCurrentUser()});
-      currentUser = await AuthService.getCurrentUser();
-      this.setState({ myself: true });
-    }
+    
 
     if (this.state.isFriend) {
       this.setState({ btnText: "Unfriend" });
@@ -159,7 +152,6 @@ export default class ProfileDisplay extends Component {
     if (isFriend) {
       // send delete friend request
       await UserService.deleteFriend(
-        user.id,
         this.props.match.params.id,
         user.token
       );
@@ -167,7 +159,6 @@ export default class ProfileDisplay extends Component {
     } else {
       // send friend request
       await UserService.sentFriendRequest(
-        user.id,
         this.props.match.params.id,
         user.token
       );
