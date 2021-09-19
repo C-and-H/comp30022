@@ -37,6 +37,7 @@ class Chat extends Component {
           email: "1@1.cn",
           message: "some recent message",
           time: "10:00",
+          unread: 0,
         },
         {
           id: "6124e53b9e3dd74065e23e55",
@@ -44,6 +45,7 @@ class Chat extends Component {
           email: "2@2.cn",
           message: "some recent looooooooooooooooooooooooog message",
           time: "9:00",
+          unread: 1,
         },
         {
           id: "6124e5229e3dd74065e23e54",
@@ -51,6 +53,7 @@ class Chat extends Component {
           email: "3@3.cn",
           message: "some recent message",
           time: "8:00",
+          unread: 2,
         },
       ],
       searchList: null,
@@ -107,6 +110,9 @@ class Chat extends Component {
             <i className={friend.icon + " fa-2x chat-friendList-icon"} />
           ) : (
             <i className="fa fa-user fa-fw fa-2x chat-friendList-icon" />
+          )}
+          {friend.unread > 0 && (
+            <div className="div-unread-message">{friend.unread}</div>
           )}
           <div className="div-chat-friendList-top">
             <div className="div-chat-friendList-name">{friend.name}</div>

@@ -675,7 +675,7 @@ footer {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  width: 80%;
+  width: 75%;
   margin-left: 25%;
   text-align: left;
 }
@@ -683,6 +683,20 @@ footer {
 .div-chat-friendList-top {
   width: 100%;
   height: 20px;
+}
+
+.div-unread-message {
+  position: absolute;
+  background-color: red;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  font-size: 13px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 11%;
+  margin-top: -1.5%;
 }
 
 /*------------------ Chat Components end ---------------*/
