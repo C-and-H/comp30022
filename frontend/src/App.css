@@ -666,7 +666,7 @@ footer {
 .div-chat-friendList-time {
   font-size: small;
   float: right;
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 .div-chat-friendList-recent-message {
@@ -678,6 +678,7 @@ footer {
   width: 75%;
   margin-left: 25%;
   text-align: left;
+  opacity: 0.75;
 }
 
 .div-chat-friendList-top {
@@ -695,7 +696,35 @@ footer {
   color: white;
   z-index: 1000;
   text-align: center;
-  margin-left: 11%;
+  margin-left: 10.5%;
+  margin-top: -1.5%;
+}
+
+.div-unread-message-10 {
+  position: absolute;
+  background-color: red;
+  border-radius: 10px;
+  width: 25px;
+  height: 20px;
+  font-size: 13px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 10.5%;
+  margin-top: -1.5%;
+}
+
+.div-unread-message-99 {
+  position: absolute;
+  background-color: red;
+  border-radius: 10px;
+  width: 30px;
+  height: 20px;
+  font-size: 13px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 10.5%;
   margin-top: -1.5%;
 }
 

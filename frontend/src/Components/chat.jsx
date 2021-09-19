@@ -37,7 +37,7 @@ class Chat extends Component {
           email: "1@1.cn",
           message: "some recent message",
           time: "10:00",
-          unread: 0,
+          unread: 30,
         },
         {
           id: "6124e53b9e3dd74065e23e55",
@@ -53,7 +53,7 @@ class Chat extends Component {
           email: "3@3.cn",
           message: "some recent message",
           time: "8:00",
-          unread: 2,
+          unread: 200,
         },
       ],
       searchList: null,
@@ -111,9 +111,16 @@ class Chat extends Component {
           ) : (
             <i className="fa fa-user fa-fw fa-2x chat-friendList-icon" />
           )}
-          {friend.unread > 0 && (
-            <div className="div-unread-message">{friend.unread}</div>
-          )}
+          {friend.unread > 0 &&
+            (friend.unread < 99 ? (
+              friend.unread > 9 ? (
+                <div className="div-unread-message-10">{friend.unread}</div>
+              ) : (
+                <div className="div-unread-message">{friend.unread}</div>
+              )
+            ) : (
+              <div className="div-unread-message-99">99+</div>
+            ))}
           <div className="div-chat-friendList-top">
             <div className="div-chat-friendList-name">{friend.name}</div>
             <div className="div-chat-friendList-time">{friend.time}</div>
