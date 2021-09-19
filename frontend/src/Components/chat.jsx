@@ -37,7 +37,6 @@ class Chat extends Component {
           email: "1@1.cn",
           message: "some recent message",
           time: "10:00",
-          note: "",
         },
         {
           id: "6124e53b9e3dd74065e23e55",
@@ -45,7 +44,6 @@ class Chat extends Component {
           email: "2@2.cn",
           message: "some recent looooooooooooooooooooooooog message",
           time: "9:00",
-          note: "",
         },
         {
           id: "6124e5229e3dd74065e23e54",
@@ -53,12 +51,13 @@ class Chat extends Component {
           email: "3@3.cn",
           message: "some recent message",
           time: "8:00",
-          note: "",
         },
       ],
+      searchList: null,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
+    this.handleChangeSearch = this.handleChangeSearch.bind(this);
     this.onChatScroll = this.onChatScroll.bind(this);
   }
 
@@ -76,7 +75,7 @@ class Chat extends Component {
   }
 
   friendList() {
-    const { friendList } = this.state;
+    const { friendList, searchList } = this.state;
     return (
       <div className="div-chat-friendList">
         <div className="div-chat-friendList-header"></div>
@@ -85,10 +84,17 @@ class Chat extends Component {
           placeholder="Search"
           className="search-contact"
           name="search"
-          //onChange={this.handleChange}
+          onChange={this.handleChangeSearch}
         />
-        {friendList.length > 0 &&
-          friendList.map((friend) => this.friendDisplay(friend))}
+        {searchList ? (
+          searchList.length === 0 ? (
+            <h1>None match</h1>
+          ) : (
+            searchList.map((friend) => this.friendDisplay(friend))
+          )
+        ) : (
+          friendList.map((friend) => this.friendDisplay(friend))
+        )}
       </div>
     );
   }
@@ -112,6 +118,32 @@ class Chat extends Component {
         </Button>
       </div>
     );
+  }
+
+  /**
+   * automatically search when user enter or delete something
+   */
+  handleChangeSearch(event) {
+    if (!event.target.value || event.target.value === "") {
+      this._isMounted && this.setState({ searchList: null });
+    } else {
+      this.matchContacts(event.target.value);
+    }
+  }
+
+  matchContacts(key) {
+    const { friendList } = this.state;
+    if (friendList.length > 0) {
+      const search = new RegExp(key, "i");
+      let searchList = [];
+      for (let i = 0; i < friendList.length; i++) {
+        if (search.test(friendList[i].name)) {
+          searchList.push(friendList[i]);
+          continue;
+        }
+      }
+      this._isMounted && this.setState({ searchList });
+    }
   }
 
   handleChangeText(event) {
