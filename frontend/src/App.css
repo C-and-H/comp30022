@@ -637,6 +637,16 @@ footer {
   margin-right: 15px;
 }
 
+.div-loading-top {
+  width: 100%;
+  text-align: center;
+}
+.div-loading-nothing {
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+}
+
 /*------------------ Chat Components end ---------------*/
 
 /*------------------ profileDisplay Components -------------*/

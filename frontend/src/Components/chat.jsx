@@ -21,15 +21,17 @@ class Chat extends Component {
           "some loooooooooooooooooooooooooooooooooooog loooooooooooooooooooooooooooooooooooog loooooooooooooooooooooooooooooooooooog message",
           "friend",
         ],
-        ["10:10", "random message", "me"],
-        ["10:10", "random message", "me"],
-        ["10:10", "random message", "me"],
-        ["10:10", "random message", "me"],
-        ["10:10", "random message", "me"],
+        ["10:01", "random message", "me"],
+        ["09:10", "random message", "me"],
+        ["08:10", "random message", "me"],
+        ["07:10", "random message", "me"],
+        ["06:10", "random message", "me"],
       ],
+      isLoading: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
+    this.onChatScroll = this.onChatScroll.bind(this);
   }
 
   componentDidMount() {
@@ -84,18 +86,29 @@ class Chat extends Component {
             onChange={this.handleChangeText}
           />
         </div>
-        <Button className="btn-send-text">Send</Button>
+        <Button className="btn-send-text" onClick={() => this.changeLoading()}>
+          Send
+        </Button>
       </div>
     );
   }
 
   chatDisplay() {
-    const { message } = this.state;
+    const { message, isLoading } = this.state;
+    let chatDisplay = document.getElementById("chat-display");
+    this._isMounted &&
+      chatDisplay &&
+      chatDisplay.addEventListener("mousewheel", this.onChatScroll, false);
     return (
-      <div className="div-chat-display">
+      <div id="chat-display" className="div-chat-display">
         {message &&
           message.length > 0 &&
           message.map((message) => this.messageDisplay(message))}
+        {isLoading ? (
+          <div className="div-loading-top">loading...</div>
+        ) : (
+          <div className="div-loading-nothing">.</div>
+        )}
       </div>
     );
   }
@@ -110,7 +123,7 @@ class Chat extends Component {
   messageReceivedDisplay(message) {
     const { friend } = this.state;
     return (
-      <div className="div-chat-message">
+      <div key={message} className="div-chat-message">
         {friend && friend.icon ? (
           <i className={friend.icon + " fa-2x chat-friend-icon"} />
         ) : (
@@ -127,7 +140,7 @@ class Chat extends Component {
   messageSentDisplay(message) {
     const { currentUser } = this.state;
     return (
-      <div className="div-chat-message">
+      <div key={message} className="div-chat-message">
         {currentUser && currentUser.icon ? (
           <i className={currentUser.icon + " fa-2x chat-my-icon"} />
         ) : (
@@ -139,6 +152,34 @@ class Chat extends Component {
         </div>
       </div>
     );
+  }
+
+  changeLoading() {
+    this.setState({ isLoading: !this.state.isLoading });
+  }
+
+  async onChatScroll(event) {
+    if (event.wheelDelta > 0) {
+      let chatDisplay = document.getElementById("chat-display");
+      if (
+        !this.state.isLoading &&
+        chatDisplay &&
+        chatDisplay.clientHeight -
+          chatDisplay.scrollHeight -
+          chatDisplay.scrollTop >
+          -3
+      ) {
+        this.setState({ isLoading: true });
+        let message = this.state.message;
+        message.push(["05:10", "addition message", "friend"]);
+        message.push(["04:10", "addition message", "friend"]);
+        message.push(["04:08", "addition message", "friend"]);
+        message.push(["04:09", "addition message", "friend"]);
+        message.push(["04:00", "addition message", "friend"]);
+        message.push(["04:00", "addition message", "me"]);
+        this.setState({ isLoading: false, message });
+      }
+    }
   }
 
   render() {
