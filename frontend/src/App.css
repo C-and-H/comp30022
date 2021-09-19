@@ -564,15 +564,15 @@ footer {
 
 .div-chat-message {
   width: 100%;
-  margin-top: 25px;
+  margin-top: 30px;
 }
 
 .div-message-sent {
   width: fit-content;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   max-width: 70%;
   border-radius: 10px;
   background-color: coral;
@@ -619,10 +619,10 @@ footer {
 
 .div-message-received {
   width: fit-content;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   max-width: 70%;
   border-radius: 10px;
   background-color: chartreuse;

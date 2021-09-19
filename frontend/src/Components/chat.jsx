@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { API_URL } from "../constant";
 
 class Chat extends Component {
   constructor(props) {
@@ -86,9 +88,7 @@ class Chat extends Component {
             onChange={this.handleChangeText}
           />
         </div>
-        <Button className="btn-send-text" onClick={() => this.changeLoading()}>
-          Send
-        </Button>
+        <Button className="btn-send-text">Send</Button>
       </div>
     );
   }
@@ -154,10 +154,6 @@ class Chat extends Component {
     );
   }
 
-  changeLoading() {
-    this.setState({ isLoading: !this.state.isLoading });
-  }
-
   async onChatScroll(event) {
     if (event.wheelDelta > 0) {
       let chatDisplay = document.getElementById("chat-display");
@@ -166,10 +162,19 @@ class Chat extends Component {
         chatDisplay &&
         chatDisplay.clientHeight -
           chatDisplay.scrollHeight -
-          chatDisplay.scrollTop >
-          -3
+          chatDisplay.scrollTop ===
+          0
       ) {
         this.setState({ isLoading: true });
+        const { basic } = this.state;
+
+        // simulate time for get backend data
+        await axios.get(API_URL + "/friend/listFriends", {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        });
+
         let message = this.state.message;
         message.push(["05:10", "addition message", "friend"]);
         message.push(["04:10", "addition message", "friend"]);
