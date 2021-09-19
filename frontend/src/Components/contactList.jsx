@@ -195,35 +195,39 @@ class ContactList extends Component {
   matchContacts(key) {
     const { friendList } = this.state;
     if (friendList.length > 0) {
-      const search = new RegExp(key, "i");
-      let searchList = [];
-      for (let i = 0; i < friendList.length; i++) {
-        if (search.test(friendList[i].name)) {
-          searchList.push(friendList[i]);
-          continue;
+      try {
+        const search = new RegExp(key, "i");
+        let searchList = [];
+        for (let i = 0; i < friendList.length; i++) {
+          if (search.test(friendList[i].name)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].email)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].industry)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].company)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].areaOrRegion)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(this.friendNote(friendList[i].id))) {
+            searchList.push(friendList[i]);
+            continue;
+          }
         }
-        if (search.test(friendList[i].email)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(friendList[i].industry)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(friendList[i].company)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(friendList[i].areaOrRegion)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(this.friendNote(friendList[i].id))) {
-          searchList.push(friendList[i]);
-          continue;
-        }
+        this._isMounted && this.setState({ searchList });
+      } catch (e) {
+        this._isMounted && this.setState({ searchList: [] });
       }
-      this._isMounted && this.setState({ searchList });
     }
   }
 
