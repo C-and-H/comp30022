@@ -16,7 +16,7 @@ class Chat extends Component {
       friend: null,
       // time, message, sender
       message: [
-        ["10:10", "random message", "me"],
+        ["10:10 2222/22/22", "r", "me"],
         ["10:09", "random message", "friend"],
         [
           "10:02",

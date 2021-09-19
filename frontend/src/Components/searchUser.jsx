@@ -21,6 +21,7 @@ class SearchUser extends Component {
       industry: "",
       company: "",
       redirect: null,
+      isEmpty: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -51,8 +52,9 @@ class SearchUser extends Component {
    */
   handleChange(event) {
     if (!event.target.value || event.target.value === "") {
-      this._isMounted && this.setState({ results: null });
+      this._isMounted && this.setState({ results: null, isEmpty: true });
     } else {
+      this._isMounted && this.setState({ isEmpty: false });
       this.getResults(event.target.value);
     }
   }
@@ -75,7 +77,8 @@ class SearchUser extends Component {
     );
 
     if (response.data) {
-      search === this.state.detailed &&
+      !this.state.isEmpty &&
+        search === this.state.detailed &&
         this._isMounted &&
         this.setState({ results: response.data });
     }
