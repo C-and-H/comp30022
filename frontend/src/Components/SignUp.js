@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
-import { withRouter } from "react-router-dom";
 import { API_URL } from "../constant";
 
 class SignUp extends Component {
@@ -68,10 +67,11 @@ class SignUp extends Component {
         first_name: this.state.userFirstName,
         last_name: this.state.userLastName,
         showPassword: false,
-        personalSummary : "我叫阿杰，他们都叫我杰哥。我一个人住，我房子还蛮大的，欢迎你们来我家玩。我常常帮助一些翘家的人，如果你们不要来的话，也没有关系；如果要来的话，我等一下可以带你们去超商，买一些好吃的喔。",
-        areaOrRegion : "台北",
-        company : "网吧",
-        industry: "登dua郎"
+        personalSummary:
+          "我叫阿杰，他们都叫我杰哥。我一个人住，我房子还蛮大的，欢迎你们来我家玩。我常常帮助一些翘家的人，如果你们不要来的话，也没有关系；如果要来的话，我等一下可以带你们去超商，买一些好吃的喔。",
+        areaOrRegion: "台北",
+        company: "网吧",
+        industry: "登dua郎",
       };
       await axios
         .post(API_URL + "/signup", user)
@@ -231,4 +231,4 @@ class SignUp extends Component {
   }
 }
 
-export default withRouter(SignUp);
+export default SignUp;

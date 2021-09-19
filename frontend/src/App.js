@@ -87,19 +87,16 @@ class App extends Component {
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
-    self.stompClient.connect(
-      {},
-      function (frame) {
-        console.log("Connected: ");
-        console.log(frame);
-        self.setState({ isConnected: true });
-        self.stompClient.subscribe(
-          "/topic/notification/" + notificationPath,
-          self.subscribeCallback
-        );
-        self.sendUserId();
-      }
-    );
+    self.stompClient.connect({}, function (frame) {
+      console.log("Connected: ");
+      console.log(frame);
+      self.setState({ isConnected: true });
+      self.stompClient.subscribe(
+        "/topic/notification/" + notificationPath,
+        self.subscribeCallback
+      );
+      self.sendUserId();
+    });
   }
 
   subscribeCallback(numNotification) {
@@ -137,7 +134,7 @@ class App extends Component {
   }
 
   async getNotifications() {
-    this.setState({notificationLoading: true});
+    this.setState({ notificationLoading: true });
     const token = AuthService.getBasicInfo().token;
     const response = await axios.get(API_URL + "/notification/fetch", {
       headers: {
@@ -173,7 +170,11 @@ class App extends Component {
       }
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
-    this.setState({ notificationNumber: JSON.parse(localStorage.getItem("notifications")).length, notificationLoading: false });
+    this.setState({
+      notificationNumber: JSON.parse(localStorage.getItem("notifications"))
+        .length,
+      notificationLoading: false,
+    });
   }
 
   removeNotification(notificationID) {
@@ -196,7 +197,13 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, redirect, basic, notificationLoading, notificationNumber } = this.state;
+    const {
+      currentUser,
+      redirect,
+      basic,
+      notificationLoading,
+      notificationNumber,
+    } = this.state;
     return (
       <div className="App">
         <Router>
@@ -220,16 +227,13 @@ class App extends Component {
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat" component={Chat} />
-            <Route exact path={["/", "/home"]} component={HomePage} />
             <Route exact path="/email" component={Email} />
-            <Route exact path = "/profile/:id" component = {ProfileDisplay} />
-            <Route exact path = "/changeIcon" component = {ChangeIcon} />
+            <Route exact path="/profile/:id" component={ProfileDisplay} />
+            <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
+            <Route path={["/", "/home"]} component={HomePage} />
             <Route path="/signup/:email/:code">
               <Verify />
-            </Route>
-            <Route path="/">
-              <HomePage />
             </Route>
           </Switch>
         </Router>

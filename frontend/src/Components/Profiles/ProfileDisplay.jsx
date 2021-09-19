@@ -98,7 +98,7 @@ export default class ProfileDisplay extends Component {
 
     if (this.state.isFriend) {
       this.setState({ btnText: "Unfriend" });
-      this.setState({ note: this.state.isFriend.first.notes });
+      this.setState({ note: this.state.isFriend.notes });
     } else {
       this.setState({ btnText: "Add friend" });
     }

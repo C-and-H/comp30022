@@ -575,9 +575,10 @@ footer {
   padding-bottom: 3px;
   max-width: 70%;
   border-radius: 10px;
-  background-color:coral;
+  background-color: coral;
   float: right;
   font-size: large;
+  word-wrap: break-word;
 }
 
 .div-time-label-sent {
@@ -627,6 +628,7 @@ footer {
   background-color: chartreuse;
   font-size: large;
   float: left;
+  word-wrap: break-word;
 }
 
 .chat-friend-icon {
