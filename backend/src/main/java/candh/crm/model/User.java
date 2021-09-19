@@ -26,14 +26,12 @@ public class User implements UserDetails
     private String password;
     private String first_name;
     private String last_name;
-
     private String phone;
     private String areaOrRegion;
     private String industry;
     private String company;
     private String personalSummary;
     private String icon;
-
     /** false by default, visiting the confirmation link will set this to true */
     private boolean enabled;
     /** random path of random length for the confirmation link */

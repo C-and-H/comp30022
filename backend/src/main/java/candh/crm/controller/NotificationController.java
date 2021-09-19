@@ -50,10 +50,10 @@ public class NotificationController
     @MessageMapping("/notification/unread")
     public void count(@Valid ByIdRequest byIdRequest)
     {
-        String userId = byIdRequest.getId();
-        Optional<User> user = userRepository.findById(userId);
+        String id = byIdRequest.getId();
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            notificationService.pushTo(userId);
+            notificationService.pushTo(id);
         }
     }
 
@@ -82,15 +82,15 @@ public class NotificationController
     public ResponseEntity<?> fetch(
             @RequestHeader("Authorization") String headerAuth)
     {
-        String userId = userRepository.findByEmail(
+        String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         // operate
         List<Notification> notifications = notificationRepository
-                .findByUserId(userId);
+                .findByUserId(id);
         notificationRepository.deleteAll(notifications);
         // push through socket
-        notificationService.pushTo(userId);
+        notificationService.pushTo(id);
         return ResponseEntity.ok(notifications);
     }
 }

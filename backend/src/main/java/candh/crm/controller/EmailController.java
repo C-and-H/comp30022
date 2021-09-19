@@ -1,6 +1,6 @@
 package candh.crm.controller;
 
-import candh.crm.payload.request.email.EmailRequest;
+import candh.crm.payload.request.email.SendEmailRequest;
 import candh.crm.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +27,12 @@ public class EmailController
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> sendEmail(
             @RequestHeader("Authorization") String headerAuth,
-            @Valid @RequestBody EmailRequest emailRequest)
+            @Valid @RequestBody SendEmailRequest sendEmailRequest)
     {
         try {
-            emailService.sendEmail(emailRequest.getReceiver(),
-                    emailRequest.getSender(), emailRequest.getTitle(),
-                    emailRequest.getContent(),
+            emailService.sendEmail(sendEmailRequest.getReceiver(),
+                    sendEmailRequest.getSender(), sendEmailRequest.getTitle(),
+                    sendEmailRequest.getContent(),
                     jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
             return ResponseEntity.ok("Email sent.");
         } catch(Exception e) {

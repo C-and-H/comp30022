@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * Request body parameters for /email/sendEmail.
  */
-public class EmailRequest
+public class SendEmailRequest
 {
     @NotBlank
     private String receiver;
