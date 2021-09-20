@@ -1,7 +1,9 @@
 package candh.crm.service;
 
+import candh.crm.model.Chat;
 import candh.crm.payload.response.ChatOverviewResponse;
 import candh.crm.repository.ChatRepository;
+import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 @Service
 public class ChatService
 {
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private ChatRepository chatRepository;
 
@@ -34,13 +39,7 @@ public class ChatService
     public List<ChatOverviewResponse> overview(String id)
     {
         return chatRepository.findEachLatestById(id).stream()
-                .map(c -> new ChatOverviewResponse(
-                        c.getSenderId().equals(id) ? c.getReceiverId() : c.getSenderId(),
-                        c.getMessage(),
-                        c.getWhen(),
-                        chatRepository.countUnread(
-                                c.getSenderId().equals(id) ? c.getReceiverId() : c.getSenderId(),
-                                id)))
+                .map(c -> createOverview(c, id))
                 .sorted(new Comparator<ChatOverviewResponse>() {
                     @Override
                     public int compare(ChatOverviewResponse o1, ChatOverviewResponse o2) {
@@ -50,6 +49,16 @@ public class ChatService
                     }
                 })
                 .collect(Collectors.toList());
+    }
+
+    private ChatOverviewResponse createOverview(Chat c, String userId) {
+        String friendId = c.getSenderId();
+        if (c.getSenderId().equals(userId)) friendId = c.getReceiverId();
+        return new ChatOverviewResponse(friendId,
+                userRepository.findById(friendId).get().getName(),
+                c.getMessage(),
+                c.getWhen(),
+                chatRepository.countUnread(friendId, userId));
     }
 
     /**

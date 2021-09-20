@@ -37,7 +37,7 @@ public class ChatController
     private JwtUtils jwtUtils;
 
     /** the number of messages to fetch once */
-    public static final int N_FETCH = 20;
+    public static final int N_FETCH = 10;
 
     /**
      * Responds with senders' first names (of new messages) using socket.
