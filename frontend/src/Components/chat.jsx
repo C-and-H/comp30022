@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { API_URL } from "../constant";
 import Picker from "emoji-picker-react";
+import moment from "moment";
 
 class Chat extends Component {
   constructor(props) {
@@ -59,6 +60,7 @@ class Chat extends Component {
       ],
       searchList: null,
       emojiVisible: false,
+      isSending: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -68,13 +70,14 @@ class Chat extends Component {
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._isMounted = true;
     if (!this.state.basic) {
       alert("Login required to access the page.");
       this.props.history.push("/");
       window.location.reload();
     }
+    this.fetchFriendList();
   }
 
   componentWillUnmount() {
@@ -142,6 +145,19 @@ class Chat extends Component {
     );
   }
 
+  async fetchFriendList() {
+    const { basic } = this.state;
+    const response = await axios.get(API_URL + "/chat/overview", {
+      headers: {
+        Authorization: "Bearer " + basic.token,
+      },
+    });
+
+    if (response.data) {
+      console.log(response.data);
+    }
+  }
+
   /**
    * automatically search when user enter or delete something
    */
@@ -184,8 +200,13 @@ class Chat extends Component {
     this.setState({ emojiVisible: !this.state.emojiVisible });
   }
 
-  onClickFriend(friend) {
-    this.setState({ friend, emojiVisible: false, textEnter: "" });
+  async onClickFriend(friend) {
+    await this.setState({ friend, emojiVisible: false, textEnter: "" });
+    await this.fetchChatHistory();
+    let chatDisplay = document.getElementById("chat-display");
+    this._isMounted &&
+      chatDisplay &&
+      chatDisplay.addEventListener("mousewheel", this.onChatScroll, false);
   }
 
   emojiList() {
@@ -197,7 +218,6 @@ class Chat extends Component {
   }
 
   onEmojiClick(event, emojiObject) {
-    console.log(event, emojiObject);
     this.setState({ textEnter: this.state.textEnter + emojiObject.emoji });
   }
 
@@ -214,7 +234,7 @@ class Chat extends Component {
   }
 
   chatBox() {
-    const { textEnter, emojiVisible, friend } = this.state;
+    const { textEnter, emojiVisible, friend, isSending } = this.state;
     return (
       <div className="div-chat-box">
         <div className="div-chat-opponent">
@@ -228,7 +248,7 @@ class Chat extends Component {
             <i className="fa fa-times" />
           </Button>
         </div>
-        {this.chatDisplay()}
+        {friend && this.chatDisplay()}
         {emojiVisible && this.emojiList()}
         {this.emojiButton()}
         <div className="div-text-enter ">
@@ -242,17 +262,19 @@ class Chat extends Component {
             onChange={this.handleChangeText}
           />
         </div>
-        <Button className="btn-send-text">Send</Button>
+        <Button
+          disabled={textEnter === "" || isSending}
+          className="btn-send-text"
+          onClick={() => this.sendText()}
+        >
+          Send
+        </Button>
       </div>
     );
   }
 
   chatDisplay() {
     const { message, isLoading } = this.state;
-    let chatDisplay = document.getElementById("chat-display");
-    this._isMounted &&
-      chatDisplay &&
-      chatDisplay.addEventListener("mousewheel", this.onChatScroll, false);
     return (
       <div id="chat-display" className="div-chat-display">
         {message &&
@@ -306,6 +328,44 @@ class Chat extends Component {
         </div>
       </div>
     );
+  }
+
+  async fetchChatHistory() {
+    const { basic, friend } = this.state;
+    const response = await axios.post(
+      API_URL + "/chat/fetch",
+      { id: friend.id, until: moment().format("YYYY-MM-DD HH:mm:ss") },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      console.log(response.data);
+    }
+  }
+
+  async sendText() {
+    const { basic, friend, textEnter } = this.state;
+    this.setState({ isSending: true });
+    const response = await axios.post(
+      API_URL + "/chat/sendText",
+      { id: friend.id, message: textEnter },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      console.log(response.data);
+      this.setState({ textEnter: "" });
+    }
+
+    this.setState({ isSending: false });
   }
 
   async onChatScroll(event) {
