@@ -43,9 +43,9 @@ public interface ChatRepository extends MongoRepository<Chat, String>
     @Aggregation(pipeline = {
             "{ $match : {$and: [{'senderId': '?0'}," +
                                "{'receiverId': '?1'}," +
-                               "{'when': {$lt: '?2'}}]} }",
+                               "{'when': {$lt: ?2}}]} }",
             "{ $sort : {'when': -1} }",
-            "{ $limit : '?3' }"
+            "{ $limit : ?3 }"
     })
     List<Chat> findNUntilT(String senderId, String receiverId, Date t, int n);
 

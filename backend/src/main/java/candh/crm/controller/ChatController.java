@@ -120,7 +120,7 @@ public class ChatController
 
         Date until;
         try {
-            until = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss")
+            until = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
                     .parse(fetchRequest.getUntil());
         } catch (ParseException e) {
             e.printStackTrace();
