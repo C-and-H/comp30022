@@ -135,6 +135,12 @@ class OtherUser extends Component {
     this.setState({ note: event.target.value });
   }
 
+  async startChat() {
+    await localStorage.setItem("chat", JSON.stringify(this.state.friend));
+    this.props.history.push("/chat");
+    window.location.reload();
+  }
+
   friendProfile() {
     const { friend, isFriend, edit, note } = this.state;
     return (
@@ -148,6 +154,7 @@ class OtherUser extends Component {
         >
           <i className="fas fa-minus" />
         </Button>
+        <Button onClick={() => this.startChat()}>Chat</Button>
         {edit ? (
           <Form>
             <Input

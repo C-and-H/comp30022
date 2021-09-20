@@ -77,11 +77,16 @@ class Chat extends Component {
       this.props.history.push("/");
       window.location.reload();
     }
+    if (localStorage.getItem("chat")) {
+      this._isMounted &&
+        this.onClickFriend(JSON.parse(localStorage.getItem("chat")));
+    }
     this.fetchFriendList();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+    localStorage.removeItem("chat");
   }
 
   friendList() {
@@ -201,12 +206,14 @@ class Chat extends Component {
   }
 
   async onClickFriend(friend) {
-    await this.setState({ friend, emojiVisible: false, textEnter: "" });
+    (await this._isMounted) &&
+      this.setState({ friend, emojiVisible: false, textEnter: "" });
     await this.fetchChatHistory();
     let chatDisplay = document.getElementById("chat-display");
     this._isMounted &&
       chatDisplay &&
       chatDisplay.addEventListener("mousewheel", this.onChatScroll, false);
+    localStorage.removeItem("chat");
   }
 
   emojiList() {
@@ -218,7 +225,8 @@ class Chat extends Component {
   }
 
   onEmojiClick(event, emojiObject) {
-    this.setState({ textEnter: this.state.textEnter + emojiObject.emoji });
+    this._isMounted &&
+      this.setState({ textEnter: this.state.textEnter + emojiObject.emoji });
   }
 
   emojiButton() {
@@ -242,7 +250,7 @@ class Chat extends Component {
           <Button
             className="btn-close-chat"
             onClick={() => {
-              this.setState({ friend: null });
+              this._isMounted && this.setState({ friend: null });
             }}
           >
             <i className="fa fa-times" />
@@ -334,7 +342,7 @@ class Chat extends Component {
     const { basic, friend } = this.state;
     const response = await axios.post(
       API_URL + "/chat/fetch",
-      { id: friend.id, until: moment().format("YYYY-MM-DD HH:mm:ss") },
+      { id: friend.id, until: moment().toISOString(true) },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -349,7 +357,7 @@ class Chat extends Component {
 
   async sendText() {
     const { basic, friend, textEnter } = this.state;
-    this.setState({ isSending: true });
+    this._isMounted && this.setState({ isSending: true });
     const response = await axios.post(
       API_URL + "/chat/sendText",
       { id: friend.id, message: textEnter },
@@ -362,10 +370,10 @@ class Chat extends Component {
 
     if (response.data) {
       console.log(response.data);
-      this.setState({ textEnter: "" });
+      this._isMounted && this.setState({ textEnter: "" });
     }
 
-    this.setState({ isSending: false });
+    this._isMounted && this.setState({ isSending: false });
   }
 
   async onChatScroll(event) {
@@ -379,7 +387,7 @@ class Chat extends Component {
           chatDisplay.scrollTop ===
           0
       ) {
-        this.setState({ isLoading: true });
+        this._isMounted && this.setState({ isLoading: true });
         const { basic } = this.state;
 
         // simulate time for get backend data
@@ -396,7 +404,7 @@ class Chat extends Component {
         message.push(["04:09", "addition message", "friend"]);
         message.push(["04:00", "addition message", "friend"]);
         message.push(["04:00", "addition message", "me"]);
-        this.setState({ isLoading: false, message });
+        this._isMounted && this.setState({ isLoading: false, message });
       }
     }
   }

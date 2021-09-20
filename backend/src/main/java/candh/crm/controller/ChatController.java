@@ -126,7 +126,7 @@ public class ChatController
             e.printStackTrace();
             return ResponseEntity.ok("Invalid time format.");
         }
-
+        System.out.println(fetchRequest.getUntil());
         List<Chat> to_fetch = chatRepository.findNUntilT(
                 senderId, receiverId, until, N_FETCH);
         // mark
