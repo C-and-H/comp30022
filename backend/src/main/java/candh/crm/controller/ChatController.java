@@ -3,7 +3,7 @@ package candh.crm.controller;
 import candh.crm.model.Chat;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
-import candh.crm.payload.request.chat.FetchReadRequest;
+import candh.crm.payload.request.chat.FetchRequest;
 import candh.crm.payload.request.chat.SendTextRequest;
 import candh.crm.payload.response.ChatOverviewResponse;
 import candh.crm.repository.ChatRepository;
@@ -17,6 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -106,17 +108,27 @@ public class ChatController
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> fetch(
             @RequestHeader("Authorization") String headerAuth,
-            @Valid @RequestBody FetchReadRequest fetchReadRequest)
+            @Valid @RequestBody FetchRequest fetchRequest)
     {
-        String senderId = fetchReadRequest.getId();
+        String senderId = fetchRequest.getId();
         String receiverId = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         if (!userRepository.findById(senderId).isPresent()) {
             return ResponseEntity.ok("Sender id not found.");
         }
-        List<Chat> to_fetch = chatRepository.findNUntilT(senderId, receiverId,
-                fetchReadRequest.getUntil(), N_FETCH);
+
+        Date until;
+        try {
+            until = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss")
+                    .parse(fetchRequest.getUntil());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return ResponseEntity.ok("Invalid time format.");
+        }
+
+        List<Chat> to_fetch = chatRepository.findNUntilT(
+                senderId, receiverId, until, N_FETCH);
         // mark
         List<Chat> chats = chatRepository.findUnread(senderId, receiverId);
         for (Chat c: chats) c.setUnread(false);

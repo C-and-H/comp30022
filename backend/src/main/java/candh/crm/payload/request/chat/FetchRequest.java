@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -12,11 +11,11 @@ import java.util.Date;
 /**
  * Request body parameters for /chat/fetch.
  */
-public class FetchReadRequest
+public class FetchRequest
 {
     /** id of the chat message sender */
     @NotBlank
     private String id;
     @NotBlank
-    private Date until;
+    private String until;
 }
