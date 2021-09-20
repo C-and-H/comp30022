@@ -92,7 +92,8 @@ public class NotificationService
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return new ConcurrentHashMap<String, Object>() {{
-                put("count", notificationRepository.findByUserId(id).size());
+                Long count = notificationRepository.countByUserId(id);
+                put("count", (count != null) ? count : 0);
             }};
         }
         return null;
@@ -107,7 +108,7 @@ public class NotificationService
     public void pushTo(String userId)
     {
         Map<String, List<String>> map =
-                webSocketSubscriptionService.getNotificationMap();
+                webSocketSubscriptionService.getPathMap();
         if (map.containsKey(userId)) {
             for (String path : map.get(userId)) {
                 path = "/topic/notification/" + path;

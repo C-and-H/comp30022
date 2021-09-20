@@ -45,7 +45,6 @@ public class NotificationController
      * If userId not valid, don't send.
      *
      * @param byIdRequest  contains the user id
-     * @return  {"count": number of notifications}.
      */
     @MessageMapping("/notification/unread")
     public void count(@Valid ByIdRequest byIdRequest)
@@ -70,7 +69,7 @@ public class NotificationController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         return ResponseEntity.ok(
-                webSocketSubscriptionService.createNotificationPath(id));
+                webSocketSubscriptionService.createPath(id));
     }
 
     /**
