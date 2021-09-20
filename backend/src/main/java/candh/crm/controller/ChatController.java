@@ -110,10 +110,9 @@ public class ChatController
     {
         String senderId = fetchReadRequest.getId();
         String receiverId = userRepository.findByEmail(
-                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
-        Optional<User> sender = userRepository.findById(senderId);
-        if (!sender.isPresent()) {
+        if (!userRepository.findById(senderId).isPresent()) {
             return ResponseEntity.ok("Sender id not found.");
         }
         List<Chat> to_fetch = chatRepository.findNUntilT(senderId, receiverId,
@@ -124,5 +123,35 @@ public class ChatController
         chatRepository.saveAll(chats);
 
         return ResponseEntity.ok(to_fetch);
+    }
+
+    /**
+     * Handles Http Post for a user marking the most recent incoming message
+     * received from another user, as unread.
+     *
+     * @param byIdRequest  contains id of the person whose message we mark
+     */
+    @PostMapping("/chat/markAsUnread")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> markAsUnread(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String senderId = byIdRequest.getId();
+        String receiverId = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        if (!userRepository.findById(senderId).isPresent()) {
+            return ResponseEntity.ok("Sender id not found.");
+        }
+        Chat latest = chatRepository.findLatest(senderId, receiverId);
+        if (latest != null) {
+            latest.setUnread(true);
+            chatRepository.save(latest);
+            return ResponseEntity.ok("Marking completed.");
+        }
+        else {
+            return ResponseEntity.ok("No chat found.");
+        }
     }
 }

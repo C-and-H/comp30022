@@ -51,4 +51,11 @@ public interface ChatRepository extends MongoRepository<Chat, String>
 
     @Query(value = "{$and: [{'senderId': '?0'}, {'receiverId': ?1}, {'unread': true}]}")
     List<Chat> findUnread(String senderId, String receiverId);
+
+    @Aggregation(pipeline = {
+            "{ $match : {$and: [{'senderId': '?0'}, {'receiverId': ?1}]} }",
+            "{ $sort : {'when': -1} }",
+            "{ $limit : 1 }"
+    })
+    Chat findLatest(String senderId, String receiverId);
 }
