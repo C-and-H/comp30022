@@ -92,7 +92,7 @@ export default class ProfileDisplay extends Component{
 		
 		if (this.state.isFriend){
       this.setState({btnText: "Unfriend"});
-      this.setState({note: this.state.isFriend.notes})
+      this.setState({note: this.state.isFriend.notes});
     } else {
       this.setState({btnText: "Add friend"});
     }
@@ -102,10 +102,10 @@ export default class ProfileDisplay extends Component{
 		
     if (!currentUser) this.setState({ redirect: "/home" });
     this.setState({
-										currentUser: currentUser, 
-										userReady : true,
-										id: currentUser.id
-									});	
+			currentUser: currentUser, 
+			userReady : true,
+			id: currentUser.id
+		});	
 
 		// display following if they exist
 		if (currentUser.phone) this.setState({hasPhone : true});
@@ -417,7 +417,7 @@ export default class ProfileDisplay extends Component{
               <Col>
                 <Button 
                   className="profile-display-edit-btn"
-                  onClick={this.handleCollapse}
+                  href={"/settingNote/" + this.props.match.params.id}
                 >
                   Change Note
                 </Button>

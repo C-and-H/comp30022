@@ -7,6 +7,7 @@ import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
+import SettingProfile from "./Components/Profiles/SettingProfile";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
 import Verify from "./Components/Verify";
@@ -21,6 +22,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { API_URL } from "./constant";
 import axios from "axios";
+import SettingNote from "./Components/Profiles/SettingNote";
 
 class App extends Component {
   constructor(props) {
@@ -225,6 +227,7 @@ class App extends Component {
             <Route exact path = "/profile/:id" component = {ProfileDisplay} />
             <Route exact path = "/changeIcon" component = {ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
+            <Route exact path="/settingNote/:id" component={SettingNote} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
