@@ -85,8 +85,7 @@ public class NotificationController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         // operate
-        List<Notification> notifications = notificationRepository
-                .findByUserId(id);
+        List<Notification> notifications = notificationRepository.findByUserId(id);
         notificationRepository.deleteAll(notifications);
         // push through socket
         notificationService.pushTo(id);

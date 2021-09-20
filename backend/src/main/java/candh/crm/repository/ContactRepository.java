@@ -17,6 +17,6 @@ public interface ContactRepository extends MongoRepository<Contact, String>
     List<Contact> findFriendsByUserId(String userId);
 
     @Query(value = "{$and: [{'userId': '?0'}, {'accepted': ?1}, {'ignored': ?2}]}")
-    List<Contact> findFriendsByUserIdAndAcceptedAndIgnored(
+    List<Contact> findFriendsByUserIdAsAcceptedAndIgnored(
             String userId, boolean accepted, boolean ignored);
 }
