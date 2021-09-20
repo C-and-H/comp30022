@@ -49,24 +49,16 @@ export default class ProfileDisplay extends Component{
 				icon: "fa fa-user fa-fw",
         btnText: null,
         disableBtn: false,
-        isOpen: false,
-        note: "",
-        noteEdit: ""
+        note: ""
+      
 	
   	  };
-    this.wrapper = React.createRef();
     this.friendBtn = this.friendBtn.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCollapse = this.handleCollapse.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    
 	}
 
 
-	
-
-	// if current user is null, will go back to homepage
   async componentDidMount() {
 		
 		const basic = AuthService.getBasicInfo();
@@ -117,36 +109,7 @@ export default class ProfileDisplay extends Component{
     
   }
 
-  handleChange(event) {
-    this.setState({noteEdit: event.target.value });
-  }
-
-  handleCancel() {
-    this.setState({isOpen: false})
-  }
-
-  handleCollapse() {
-    this.setState({isOpen: true})
-  }
-
-  async handleSubmit() {
-    const {noteEdit} = this.state;
-    //alert("bruh");
-    const user = AuthService.getBasicInfo();
-    let res = await UserService.editFriendNote(
-      this.props.match.params.id,
-      user.token,
-      noteEdit
-    );
-    alert("bruh");
-    if (res) {
-      alert("Changes saved!");
-      await AuthService.getUserDataFromBackend(user.token, user.id);
-    } else {
-      alert("Something went wrong");
-    }
-    this.setState({isOpen: false});
-  }
+  
 
 
   async handleClick() {
@@ -205,15 +168,9 @@ export default class ProfileDisplay extends Component{
 		const {
 			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
 			// hasGender,
-       hasSummary, myself,  icon, isFriend, isOpen, note
+       hasSummary, myself,  icon, isFriend, note
 		} = this.state;
-    //console.log(currentUser);
-		//const classes = useStyles();
-		//console.log(this.state.hasPhone);
-		
-		//const fullName = currentUser.first_name + " " + currentUser.last_name;
-		// const mobiles = currentUser.mobiles;
-		//const mobiles = ["fda", "fa"];
+
 		if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
@@ -423,40 +380,7 @@ export default class ProfileDisplay extends Component{
                 </Button>
               </Col>
             </Row>
-            <Row>
-
-              <Collapse isOpen={isOpen}>
-                
-                  <Form onSubmit={this.handleSubmit}>
-                    <Row className="profile-display-line">
-                    <FormGroup className="profile-display-formgroup">
-                      <Input type="textarea" className="profile-display-note-input"
-                        placeholder={note}
-                        onChange={this.handleChange}
-                        defaultValue={note}
-                      >
-                      </Input>
-                    </FormGroup>
-                    </Row>
-                    <Row className="profile-display-line">
-                      <Col xs="4">
-                        <Button 
-                          className="profile-display-icon-btn"
-                          type="submit">
-                            Save Changes
-                        </Button>
-                      </Col>
-                      <Col xs="4">
-                        <Button
-                          className="profile-display-icon-btn"
-                          onClick={this.handleCancel}>
-                            Cancel
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Form>
-              </Collapse>
-            </Row>
+            
             <Row>
               <p className="profile-display-p">
                 {note}
