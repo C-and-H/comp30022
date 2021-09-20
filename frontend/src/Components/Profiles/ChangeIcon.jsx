@@ -98,9 +98,9 @@ export default class ChangeIcon extends Component{
           <Col>
             <Button 
               className = "change-icon-btn-frame" 
-              onClick={() => this.handleClick("fas fa-blind")}
+              onClick={() => this.handleClick("fas fa-cat")}
             >
-              <i  className="fas fa-blind" style={iconStyle}></i>
+              <i  className="fas fa-cat" style={iconStyle}></i>
             </Button>
             
           </Col>
@@ -116,17 +116,17 @@ export default class ChangeIcon extends Component{
           <Col>
             <Button 
               className = "change-icon-btn-frame"
-              onClick={() => this.handleClick("	fas fa-wheelchair")}
+              onClick={() => this.handleClick("	fas fa-dog")}
             >
-              <i  className="	fas fa-wheelchair" style={iconStyle}></i>
+              <i  className="	fas fa-dog" style={iconStyle}></i>
             </Button>
           </Col>
           <Col>
             <Button 
               className = "change-icon-btn-frame"
-              onClick={() => this.handleClick("	fab fa-accessible-icon")}
+              onClick={() => this.handleClick("	fas fa-dragon")}
             >
-              <i  className="	fab fa-accessible-icon" style={iconStyle}></i>
+              <i  className="	fas fa-dragon" style={iconStyle}></i>
             </Button>
           </Col>
           <Col>
@@ -135,6 +135,94 @@ export default class ChangeIcon extends Component{
               onClick={() => this.handleClick("	far fa-question-circle")}
             >
               <i  className="	far fa-question-circle" style={iconStyle}></i>
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame" 
+              onClick={() => this.handleClick("fas fa-fish")}
+            >
+              <i  className="fas fa-fish" style={iconStyle}></i>
+            </Button>
+            
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("fa fa-hippo")}
+            >
+              <i  className="fa fa-hippo" style={iconStyle}></i>
+            </Button>
+
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	fas fa-paw")}
+            >
+              <i  className="	fas fa-paw" style={iconStyle}></i>
+            </Button>
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	fas fa-horse")}
+            >
+              <i  className="	fas fa-horse" style={iconStyle}></i>
+            </Button>
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	far fa-angry")}
+            >
+              <i  className="	far fa-angry" style={iconStyle}></i>
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame" 
+              onClick={() => this.handleClick("far fa-kiss-beam")}
+            >
+              <i  className="far fa-kiss-beam" style={iconStyle}></i>
+            </Button>
+            
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("far fa-grin-tongue-wink")}
+            >
+              <i  className="far fa-grin-tongue-wink" style={iconStyle}></i>
+            </Button>
+
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	far fa-grin-beam")}
+            >
+              <i  className="	far fa-grin-beam" style={iconStyle}></i>
+            </Button>
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	far fa-grin-tears")}
+            >
+              <i  className="	far fa-grin-tears" style={iconStyle}></i>
+            </Button>
+          </Col>
+          <Col>
+            <Button 
+              className = "change-icon-btn-frame"
+              onClick={() => this.handleClick("	far fa-grin-beam-sweat")}
+            >
+              <i  className="	far fa-grin-beam-sweat" style={iconStyle}></i>
             </Button>
           </Col>
         </Row>
