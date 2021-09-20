@@ -23,5 +23,5 @@ public interface NotificationRepository extends MongoRepository<Notification, St
             "{ $sort : {'when': -1} }",
             "{ $limit : 1 }"
     })
-    Notification findMostRecentByMessage(String useId, String message);
+    Notification findLatestByMessage(String useId, String message);
 }
