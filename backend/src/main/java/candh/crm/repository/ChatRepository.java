@@ -41,13 +41,14 @@ public interface ChatRepository extends MongoRepository<Chat, String>
     Long countUnread(String senderId, String receiverId);
 
     @Aggregation(pipeline = {
-            "{ $match : {$and: [{'senderId': '?0'}," +
-                               "{'receiverId': '?1'}," +
-                               "{'when': {$lt: ?2}}]} }",
+            "{ $match : {$and: [" +
+                    "{$or: [{$and: [{'senderId': '?0'}, {'receiverId': '?1'}]}," +
+                           "{$and: [{'senderId': '?1'}, {'receiverId': '?0'}]}]}," +
+                    "{'when': {$lt: ?2}}]} }",
             "{ $sort : {'when': -1} }",
             "{ $limit : ?3 }"
     })
-    List<Chat> findNUntilT(String senderId, String receiverId, Date t, int n);
+    List<Chat> findNUntilT(String userId, String friendId, Date t, int n);
 
     @Query(value = "{$and: [{'senderId': '?0'}, {'receiverId': ?1}, {'unread': true}]}")
     List<Chat> findUnread(String senderId, String receiverId);

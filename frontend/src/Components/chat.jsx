@@ -342,7 +342,7 @@ class Chat extends Component {
     const { basic, friend } = this.state;
     const response = await axios.post(
       API_URL + "/chat/fetch",
-      { id: friend.id, until: moment().toISOString(true) },
+      { id: friend.id, until: moment().toISOString() },
       {
         headers: {
           Authorization: "Bearer " + basic.token,

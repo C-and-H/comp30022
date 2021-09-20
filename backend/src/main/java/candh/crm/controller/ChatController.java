@@ -110,11 +110,11 @@ public class ChatController
             @RequestHeader("Authorization") String headerAuth,
             @Valid @RequestBody FetchRequest fetchRequest)
     {
-        String senderId = fetchRequest.getId();
-        String receiverId = userRepository.findByEmail(
+        String friendId = fetchRequest.getId();
+        String userId = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
-        if (!userRepository.findById(senderId).isPresent()) {
+        if (!userRepository.findById(friendId).isPresent()) {
             return ResponseEntity.ok("Sender id not found.");
         }
 
@@ -126,11 +126,10 @@ public class ChatController
             e.printStackTrace();
             return ResponseEntity.ok("Invalid time format.");
         }
-        System.out.println(fetchRequest.getUntil());
-        List<Chat> to_fetch = chatRepository.findNUntilT(
-                senderId, receiverId, until, N_FETCH);
+
+        List<Chat> to_fetch = chatRepository.findNUntilT(userId, friendId, until, N_FETCH);
         // mark
-        List<Chat> chats = chatRepository.findUnread(senderId, receiverId);
+        List<Chat> chats = chatRepository.findUnread(friendId, userId);
         for (Chat c: chats) c.setUnread(false);
         chatRepository.saveAll(chats);
 
