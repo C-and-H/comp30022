@@ -534,7 +534,6 @@ footer {
   width: 80%;
   height: 60%;
   margin-left: 10%;
-  margin-top: 5%;
   border-color: black;
   border-style: solid;
   border-width: 2px;
@@ -543,6 +542,19 @@ footer {
   display: flex;
   flex-direction: column-reverse;
   padding: 2%;
+}
+
+.div-chat-opponent {
+  height: 5%;
+  margin-left: 11%;
+  margin-top: 1%;
+}
+
+.btn-close-chat {
+  background-color: crimson;
+  border-color: crimson;
+  float: right;
+  margin-right: 1%;
 }
 
 .div-text-enter {

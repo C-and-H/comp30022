@@ -109,7 +109,12 @@ class Chat extends Component {
   friendDisplay(friend) {
     return (
       <div key={friend.id}>
-        <Button className="btn-chat-friend" variant="outline-dark" size="lg">
+        <Button
+          className="btn-chat-friend"
+          variant="outline-dark"
+          size="lg"
+          onClick={() => this.onClickFriend(friend)}
+        >
           {friend.icon ? (
             <i className={friend.icon + " fa-2x chat-friendList-icon"} />
           ) : (
@@ -179,6 +184,10 @@ class Chat extends Component {
     this.setState({ emojiVisible: !this.state.emojiVisible });
   }
 
+  onClickFriend(friend) {
+    this.setState({ friend, emojiVisible: false, textEnter: "" });
+  }
+
   emojiList() {
     return (
       <div className="div-emoji-list">
@@ -205,9 +214,20 @@ class Chat extends Component {
   }
 
   chatBox() {
-    const { textEnter, emojiVisible } = this.state;
+    const { textEnter, emojiVisible, friend } = this.state;
     return (
       <div className="div-chat-box">
+        <div className="div-chat-opponent">
+          {friend.name}
+          <Button
+            className="btn-close-chat"
+            onClick={() => {
+              this.setState({ friend: null });
+            }}
+          >
+            <i className="fa fa-times" />
+          </Button>
+        </div>
         {this.chatDisplay()}
         {emojiVisible && this.emojiList()}
         {this.emojiButton()}
@@ -322,10 +342,11 @@ class Chat extends Component {
   }
 
   render() {
+    const { friend } = this.state;
     return (
       <div>
         {this.friendList()}
-        {this.chatBox()}
+        {friend && this.chatBox()}
       </div>
     );
   }
