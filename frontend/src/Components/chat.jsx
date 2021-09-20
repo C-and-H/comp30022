@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { API_URL } from "../constant";
+import Picker from "emoji-picker-react";
 
 class Chat extends Component {
   constructor(props) {
@@ -57,11 +58,14 @@ class Chat extends Component {
         },
       ],
       searchList: null,
+      emojiVisible: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSearch = this.handleChangeSearch.bind(this);
     this.onChatScroll = this.onChatScroll.bind(this);
+    this.onEmojiClick = this.onEmojiClick.bind(this);
+    this.handleVisibleChange = this.handleVisibleChange.bind(this);
   }
 
   componentDidMount() {
@@ -171,11 +175,42 @@ class Chat extends Component {
     }
   }
 
+  handleVisibleChange() {
+    this.setState({ emojiVisible: !this.state.emojiVisible });
+  }
+
+  emojiList() {
+    return (
+      <div className="div-emoji-list">
+        <Picker onEmojiClick={this.onEmojiClick} />
+      </div>
+    );
+  }
+
+  onEmojiClick(event, emojiObject) {
+    console.log(event, emojiObject);
+    this.setState({ textEnter: this.state.textEnter + emojiObject.emoji });
+  }
+
+  emojiButton() {
+    return (
+      <Button
+        appearance="subtle"
+        className="btn-emoji"
+        onClick={this.handleVisibleChange}
+      >
+        😀
+      </Button>
+    );
+  }
+
   chatBox() {
-    const { textEnter } = this.state;
+    const { textEnter, emojiVisible } = this.state;
     return (
       <div className="div-chat-box">
         {this.chatDisplay()}
+        {emojiVisible && this.emojiList()}
+        {this.emojiButton()}
         <div className="div-text-enter ">
           <TextField
             id="text-enter"

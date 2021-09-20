@@ -548,7 +548,6 @@ footer {
 .div-text-enter {
   width: 80%;
   margin-left: 10%;
-  margin-top: 3%;
 }
 
 .text-enter {
@@ -726,6 +725,29 @@ footer {
   text-align: center;
   margin-left: 10.5%;
   margin-top: -1.5%;
+}
+
+.btn-emoji {
+  width: fit-content;
+  height: fit-content;
+  /* background color same as div-chat-box makes btn invisiable */
+  background-color: cornflowerblue;
+  border-color: cornflowerblue;
+  text-align: center;
+  margin-left: 11%;
+  margin-top: 0px;
+  margin-bottom: 3px;
+}
+
+.div-emoji-list {
+  position: absolute;
+  z-index: 1000;
+  width: fit-content;
+  height: fit-content;
+  background-color: brown;
+  border-radius: 5px;
+  margin-left: 5%;
+  margin-top: -325px;
 }
 
 /*------------------ Chat Components end ---------------*/
