@@ -31,11 +31,10 @@ public class Chat
 
     public Chat() { }
 
-    public Chat(String senderId, String receiverId, String message, Date when) {
+    public Chat(String senderId, String receiverId, String message) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.message = message;
-        this.when = when;
         this.unread = true;
     }
 
