@@ -142,24 +142,6 @@ class ContactList extends Component {
     this.setState({ redirect });
   }
 
-  /**
-   *
-   * @returns contact list header layout
-   */
-  header() {
-    return (
-      <div className="contact-header">
-        <Button className="minus">
-          <i className="fas fa-user-minus" />
-        </Button>
-        <Button className="plus" onClick={() => this.redirectSearch()}>
-          <i className="fas fa-user-plus" />
-        </Button>
-      </div>
-    );
-  }
-
-
 
   friendNote(id) {
     const { friends } = this.state;
@@ -231,6 +213,23 @@ class ContactList extends Component {
     }
   }
 
+    /**
+   *
+   * @returns contact list header layout
+   */
+     header() {
+      return (
+        <div className="contact-header">
+          <Button className="minus" title="delete friend">
+            <i className="fas fa-user-minus" />
+          </Button>
+          <Button className="plus" title="add friend" onClick={() => this.redirectSearch()}>
+            <i className="fas fa-user-plus" />
+          </Button>
+        </div>
+      );
+    }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -241,6 +240,7 @@ class ContactList extends Component {
       <div className="div-contact">
         <div className="rectangle">
           {this.header()}
+          <div className="serch-contact-background">
           <input
             type="text"
             placeholder="Search"
@@ -249,9 +249,11 @@ class ContactList extends Component {
             onChange={this.handleChange}
             onKeyPress={this.onKeyUp}
           />
+          </div>
+          {/* not null and true then */}
           {searchList ? (
             searchList.length === 0 ? (
-              <h1>None match</h1>
+              <p>No match</p>
             ) : (
               searchList.map((friend) => (
                 <FriendDisplay
@@ -272,11 +274,12 @@ class ContactList extends Component {
               />
             ))
           )}
-        </div>
-        <div>
+        <div className="export-contact">
         {!show && <p>export contacts</p>}
         {show && <CSVLink data={friends_csv} headers={headers_csv} filename={"Contacts.csv"} >export contacts</CSVLink>}
         </div>
+        </div>
+        
         <RequestReceived />
         <RequestSent />
       </div>

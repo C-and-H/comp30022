@@ -13,6 +13,7 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
+import Calendar from "./Components/calendar"
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
@@ -225,6 +226,7 @@ class App extends Component {
             <Route exact path = "/profile/:id" component = {ProfileDisplay} />
             <Route exact path = "/changeIcon" component = {ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
+            <Route exact path="/calendar" component={Calendar} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
