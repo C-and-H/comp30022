@@ -9,9 +9,7 @@ import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -68,7 +66,7 @@ public class ChatService
      * @param receiverId  id of the message receiver
      * @param senders  list of first names of message senders
      */
-    public void pushTo(String receiverId, List<String> senders)
+    public void pushTo(String receiverId, Collection<String> senders)
     {
         Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
         if (map.containsKey(receiverId)) {

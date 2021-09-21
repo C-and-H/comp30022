@@ -1,7 +1,6 @@
 package candh.crm.repository;
 
 import candh.crm.model.Chat;
-import candh.crm.model.User;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -9,16 +8,24 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface ChatRepository extends MongoRepository<Chat, String>
 {
     @Aggregation(pipeline = {
             "{ $match : {$and: [{'receiverId': '?0'}, {'unread': true}]} }",
-            "{ $project : {'_id': 0, 'senderId': '$_id'} }",
-            "{ $merge : {'into': 'user', 'whenMatched': 'replace'} }"
+            "{ $addFields : {'senderId': {$toObjectId: '$senderId'}} }",
+            "{ $lookup : {'from': 'user'," +
+                         "'localField': 'senderId'," +
+                         "'foreignField': '_id'," +
+                         "'as': 'senderInfo'} }",
+            "{ $replaceRoot : {'newRoot':" +
+                    "{$mergeObjects: [{$arrayElemAt: ['$senderInfo', 0]}," +
+                                     "'$$ROOT']}} }",
+            "{ $project : {'_id': 0, 'first_name': 1} }"
     })
-    List<User> findSendersOfUnread(String receiverId);
+    Set<String> findSendersOfUnread(String receiverId);
 
     @Aggregation(pipeline = {
             "{ $match : {$or: [{'senderId': '?0'}, {'receiverId': '?0'}]} }",

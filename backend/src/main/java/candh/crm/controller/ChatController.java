@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("${crm.app.frontend.host}")
@@ -54,8 +53,7 @@ public class ChatController
         Optional<User> receiver = userRepository.findById(receiverId);
         if (receiver.isPresent()) {
             chatService.pushTo(receiverId,
-                    chatRepository.findSendersOfUnread(receiverId).stream()
-                            .map(User::getFirst_name).collect(Collectors.toList()));
+                    chatRepository.findSendersOfUnread(receiverId));
         }
     }
 
