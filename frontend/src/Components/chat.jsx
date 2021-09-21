@@ -257,6 +257,7 @@ class Chat extends Component {
             onChange={this.handleChangeText}
           />
         </div>
+        <Button onClick={() => this.fetchNewMessage()}>Fetch</Button>
         <Button
           disabled={textEnter === "" || isSending}
           className="btn-send-text"
@@ -357,11 +358,42 @@ class Chat extends Component {
       for (let i = 0; i < friendList.length; i++) {
         if (friendList[i].id === friend.id) {
           friendList[i].unread = 0;
+          break;
         }
       }
       this._isMounted && this.setState({ message: response.data, friendList });
     }
     this._isMounted && this.setState({ isLoading: false });
+  }
+
+  async fetchNewMessage() {
+    const { basic, friend } = this.state;
+    this._isMounted && this.setState({ isReceiving: true });
+    const response = await axios.post(
+      API_URL + "/chat/fetchNew",
+      { id: friend.id },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data) {
+      const { friendList, message } = this.state;
+      for (let i = 0; i < friendList.length; i++) {
+        if (friendList[i].id === friend.id) {
+          friendList[i].unread = 0;
+          break;
+        }
+      }
+
+      for (let i = response.data.length - 1; i >= 0; i--) {
+        message.unshift(response.data[i]);
+      }
+      this._isMounted && this.setState({ message, friendList });
+    }
+    this._isMounted && this.setState({ isReceiving: false });
   }
 
   async sendText() {
@@ -392,6 +424,7 @@ class Chat extends Component {
         if (friendList[i].id === friend.id) {
           friendList[i].message = text;
           friendList[i].time = time;
+          break;
         }
       }
       friendList.sort(function (a, b) {
