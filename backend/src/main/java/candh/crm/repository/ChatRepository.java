@@ -3,7 +3,6 @@ package candh.crm.repository;
 import candh.crm.model.Chat;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -45,7 +44,12 @@ public interface ChatRepository extends MongoRepository<Chat, String>
     })
     List<Chat> findNUntilT(String userId, String friendId, Date t, int n);
 
-    @Query(value = "{$and: [{'senderId': '?0'}, {'receiverId': ?1}, {'unread': true}]}")
+    @Aggregation(pipeline = {
+            "{ $match : {$and: [{'senderId': '?0'}," +
+                    "{'receiverId': ?1}," +
+                    "{'unread': true}]} }",
+            "{ $sort : {'when': -1} }"
+    })
     List<Chat> findUnread(String senderId, String receiverId);
 
     @Aggregation(pipeline = {
