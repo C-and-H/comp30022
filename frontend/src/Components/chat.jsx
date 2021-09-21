@@ -55,6 +55,7 @@ class Chat extends Component {
       emojiVisible: false,
       isSending: false,
       messageSending: "",
+      isReceiving: true,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -283,9 +284,10 @@ class Chat extends Component {
   }
 
   chatDisplay() {
-    const { message, isLoading, isSending } = this.state;
+    const { message, isLoading, isSending, isReceiving } = this.state;
     return (
       <div id="chat-display" className="div-chat-display">
+        {isReceiving && this.messageReceiving()}
         {isSending && this.messageSending()}
         {message &&
           message.length > 0 &&
@@ -426,6 +428,22 @@ class Chat extends Component {
     );
   }
 
+  messageReceiving() {
+    const { friend } = this.state;
+    return (
+      <div className="div-chat-message">
+        {friend && friend.icon ? (
+          <i className={friend.icon + " fa-2x chat-friend-icon"} />
+        ) : (
+          <i className="fas fa-user fa-2x chat-friend-icon" />
+        )}
+        <div className="div-message-received">
+          <BallPulse loading={true} color="#000" center />
+        </div>
+      </div>
+    );
+  }
+
   async onChatScroll(event) {
     if (event.wheelDelta > 0) {
       let chatDisplay = document.getElementById("chat-display");
@@ -434,8 +452,8 @@ class Chat extends Component {
         chatDisplay &&
         chatDisplay.clientHeight -
           chatDisplay.scrollHeight -
-          chatDisplay.scrollTop ===
-          0
+          chatDisplay.scrollTop >=
+          -2
       ) {
         this._isMounted && this.setState({ isLoading: true });
         const { basic, friend, message } = this.state;
