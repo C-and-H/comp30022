@@ -28,18 +28,6 @@ public interface ChatRepository extends MongoRepository<Chat, String>
     Set<String> findSendersOfUnread(String receiverId);
 
     @Aggregation(pipeline = {
-            "{ $match : {$or: [{'senderId': '?0'}, {'receiverId': '?0'}]} }",
-            "{ $cond : {'if': {'senderId': '?0'}," +
-                       "'then': {$project: {'receiverId': '$friendId'}}," +
-                       "'else': {$project: {'senderId': '$friendId'}}} }",
-            "{ $sort : {'friendId': 1, 'when': -1} }",
-            "{ $group : {'_id': '$friendId', 'id': {$first: '$_id'}} }",
-            "{ $project : {'_id': 0, 'id': '$_id'} }",
-            "{ $merge : {'into': 'chatHistory', 'whenMatched': 'replace'} }"
-    })
-    List<Chat> findEachLatestById(String id);
-
-    @Aggregation(pipeline = {
             "{ $match : {$and: [{'senderId': '?0'}," +
                                "{'receiverId': ?1}," +
                                "{'unread': true}]} }",

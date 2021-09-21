@@ -128,7 +128,7 @@ public class ChatController
         List<Chat> to_fetch = chatRepository.findNUntilT(userId, friendId, until, N_FETCH);
         // mark
         List<Chat> chats = chatRepository.findUnread(friendId, userId);
-        for (Chat c: chats) c.setUnread(false);
+        for (Chat c : chats) c.setUnread(false);
         chatRepository.saveAll(chats);
 
         return ResponseEntity.ok(to_fetch);
