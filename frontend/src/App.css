@@ -769,6 +769,11 @@ footer {
   margin-right: 15px;
 }
 
+.div-message-on-top {
+  position: relative;
+  z-index: 200;
+}
+
 /*------------------ Chat Components end ---------------*/
 
 /*------------------ profileDisplay Components -------------*/

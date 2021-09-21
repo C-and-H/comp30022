@@ -31,7 +31,7 @@ class Chat extends Component {
       emojiVisible: false,
       isSending: false,
       messageSending: "",
-      isReceiving: true,
+      isReceiving: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -311,7 +311,7 @@ class Chat extends Component {
               minute: "2-digit",
             })}
           </div>
-          {message.message}
+          <div className="div-message-on-top">{message.message}</div>
         </div>
       </div>
     );
@@ -333,7 +333,7 @@ class Chat extends Component {
               minute: "2-digit",
             })}
           </div>
-          {message.message}
+          <div className="div-message-on-top">{message.message}</div>
         </div>
       </div>
     );
@@ -353,7 +353,13 @@ class Chat extends Component {
     );
 
     if (response.data) {
-      this._isMounted && this.setState({ message: response.data });
+      const { friendList } = this.state;
+      for (let i = 0; i < friendList.length; i++) {
+        if (friendList[i].id === friend.id) {
+          friendList[i].unread = 0;
+        }
+      }
+      this._isMounted && this.setState({ message: response.data, friendList });
     }
     this._isMounted && this.setState({ isLoading: false });
   }
@@ -361,6 +367,7 @@ class Chat extends Component {
   async sendText() {
     const { basic, friend } = this.state;
     const text = this.state.textEnter;
+    const time = moment().toISOString();
     this._isMounted &&
       this.setState({ isSending: true, textEnter: "", messageSending: text });
     const response = await axios.post(
@@ -374,13 +381,25 @@ class Chat extends Component {
     );
 
     if (response.data && response.data === "Message Sent.") {
-      const { message } = this.state;
+      const { message, friendList } = this.state;
       message.unshift({
         senderId: basic.id,
         message: text,
-        when: moment().toISOString(),
+        when: time,
       });
-      this._isMounted && this.setState({ message });
+
+      for (let i = 0; i < friendList.length; i++) {
+        if (friendList[i].id === friend.id) {
+          friendList[i].message = text;
+          friendList[i].time = time;
+        }
+      }
+      friendList.sort(function (a, b) {
+        var date1 = new Date(a.time);
+        var date2 = new Date(b.time);
+        return date1.getTime() < date2.getTime();
+      });
+      this._isMounted && this.setState({ message, friendList });
     } else {
       alert("Failed to sent message.");
     }
@@ -404,7 +423,7 @@ class Chat extends Component {
               minute: "2-digit",
             })}
           </div>
-          {messageSending}
+          <div className="div-message-on-top">{messageSending}</div>
         </div>
         <div className="loading-send">
           <BallClipRotate loading={true} color="#000" />

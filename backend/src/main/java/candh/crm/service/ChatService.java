@@ -2,6 +2,7 @@ package candh.crm.service;
 
 import candh.crm.model.Chat;
 import candh.crm.model.Contact;
+import candh.crm.model.User;
 import candh.crm.payload.response.ChatOverviewResponse;
 import candh.crm.repository.ChatRepository;
 import candh.crm.repository.UserRepository;
@@ -69,11 +70,13 @@ public class ChatService
         List<Chat> latest =
                 chatRepository.findNUntilT(userId, friendId, new Date(), 1);
         Long count = chatRepository.countUnread(friendId, userId);
+        User friend = userRepository.findById(friendId).get();
         return new ChatOverviewResponse(
                 friendId,
-                userRepository.findById(friendId).get().getName(),
+                friend.getName(),
                 latest.isEmpty() ? null : latest.get(0).getMessage(),
                 latest.isEmpty() ? null : latest.get(0).getWhen(),
+                friend.getIcon(),
                 count != null ? count : 0);
     }
 
