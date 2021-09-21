@@ -96,10 +96,36 @@ public class ChatController
     }
 
     /**
+     * Handles Http Post for fetching all new messages from a sender.
+     * Use descending sorting based on time.
+     * Then marks all receiving messages as read.
+     *
+     * @param byIdRequest  contains id of the friend
+     */
+    @PostMapping("/chat/fetchNew")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> fetchNew(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        String friendId = byIdRequest.getId();
+        String userId = userRepository.findByEmail(
+                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        if (!userRepository.findById(friendId).isPresent()) {
+            return ResponseEntity.ok("Friend id not found.");
+        }
+        List<Chat> to_fetch = chatRepository.findUnread(friendId, userId);
+        List<Chat> chats = new ArrayList<>(to_fetch);
+        for (Chat c : chats) c.setUnread(false);
+        chatRepository.saveAll(chats);
+        return ResponseEntity.ok(to_fetch);
+    }
+
+    /**
      * Handles Http Post for fetching a specified number of messages
      * between a pair of sender and receiver, earlier than a specific time.
      * Use descending sorting based on time.
-     *
      * Then marks all receiving messages as read.
      */
     @PostMapping("/chat/fetch")
@@ -113,7 +139,7 @@ public class ChatController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         if (!userRepository.findById(friendId).isPresent()) {
-            return ResponseEntity.ok("Sender id not found.");
+            return ResponseEntity.ok("Friend id not found.");
         }
 
         Date until;
