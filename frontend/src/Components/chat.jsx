@@ -54,6 +54,7 @@ class Chat extends Component {
       searchList: null,
       emojiVisible: false,
       isSending: false,
+      messageSending: "",
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -282,9 +283,10 @@ class Chat extends Component {
   }
 
   chatDisplay() {
-    const { message, isLoading } = this.state;
+    const { message, isLoading, isSending } = this.state;
     return (
       <div id="chat-display" className="div-chat-display">
+        {isSending && this.messageSending()}
         {message &&
           message.length > 0 &&
           message.map((message) => this.messageDisplay(message))}
@@ -370,11 +372,13 @@ class Chat extends Component {
   }
 
   async sendText() {
-    const { basic, friend, textEnter } = this.state;
-    this._isMounted && this.setState({ isSending: true });
+    const { basic, friend } = this.state;
+    const text = this.state.textEnter;
+    this._isMounted &&
+      this.setState({ isSending: true, textEnter: "", messageSending: text });
     const response = await axios.post(
       API_URL + "/chat/sendText",
-      { id: friend.id, message: textEnter },
+      { id: friend.id, message: text },
       {
         headers: {
           Authorization: "Bearer " + basic.token,
@@ -382,11 +386,44 @@ class Chat extends Component {
       }
     );
 
-    if (response.data) {
-      this._isMounted && this.setState({ textEnter: "" });
+    if (response.data && response.data === "Message Sent.") {
+      const { message } = this.state;
+      message.unshift({
+        senderId: basic.id,
+        message: text,
+        when: moment().toISOString(),
+      });
+      this._isMounted && this.setState({ message });
+    } else {
+      alert("Failed to sent message.");
     }
 
-    this._isMounted && this.setState({ isSending: false });
+    this._isMounted && this.setState({ isSending: false, messageSending: "" });
+  }
+
+  messageSending() {
+    const { currentUser, messageSending } = this.state;
+    return (
+      <div className="div-chat-message">
+        {currentUser && currentUser.icon ? (
+          <i className={currentUser.icon + " fa-2x chat-my-icon"} />
+        ) : (
+          <i className="fas fa-user fa-2x chat-my-icon" />
+        )}
+        <div className="div-message-sent">
+          <div className="div-time-label-sent">
+            {new Date(moment().toISOString()).toLocaleDateString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </div>
+          {messageSending}
+        </div>
+        <div className="loading-send">
+          <BallClipRotate loading={true} color="#000" />
+        </div>
+      </div>
+    );
   }
 
   async onChatScroll(event) {

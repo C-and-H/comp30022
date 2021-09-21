@@ -604,7 +604,7 @@ footer {
   background-color: coral;
   border-radius: 50px;
   margin-bottom: -20px;
-  font-size: small;
+  font-size: 9px;
 }
 
 .div-time-label-received {
@@ -619,7 +619,7 @@ footer {
   background-color: chartreuse;
   border-radius: 50px;
   margin-bottom: -20px;
-  font-size: small;
+  font-size: 9px;
 }
 
 .chat-my-icon {
@@ -762,6 +762,11 @@ footer {
   border-radius: 5px;
   margin-left: 5%;
   margin-top: -325px;
+}
+
+.loading-send {
+  float: right;
+  margin-right: 15px;
 }
 
 /*------------------ Chat Components end ---------------*/
