@@ -32,6 +32,7 @@ class Chat extends Component {
       isSending: false,
       messageSending: "",
       isReceiving: false,
+      chat: 1,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -48,16 +49,35 @@ class Chat extends Component {
       this.props.history.push("/");
       window.location.reload();
     }
+    await this.fetchFriendList();
     if (localStorage.getItem("chat")) {
       this._isMounted &&
         this.onClickFriend(JSON.parse(localStorage.getItem("chat")));
     }
-    this.fetchFriendList();
+    this.props.onChat();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
     localStorage.removeItem("chat");
+  }
+
+  async componentDidUpdate() {
+    if (this.props.chat > this.state.chat) {
+      await this.fetchFriendList();
+      const { friendList, friend } = this.state;
+      if (friend) {
+        for (let i = 0; i < friendList.length; i++) {
+          if (friendList[i].id === friend.id) {
+            if (friendList[i].unread > 0) {
+              this.fetchNewMessage();
+            }
+            break;
+          }
+        }
+      }
+      this._isMounted && this.setState({ chat: this.props.chat });
+    }
   }
 
   friendList() {
