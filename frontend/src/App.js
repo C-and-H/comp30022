@@ -21,6 +21,8 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { API_URL } from "./constant";
 import axios from "axios";
+import { Notification } from "rsuite";
+import Button from "react-bootstrap/Button";
 
 class App extends Component {
   constructor(props) {
@@ -36,6 +38,7 @@ class App extends Component {
       stompClient: null,
       notificationLoading: false,
       notificationCounter: 0, // help adding unique id to each notification
+      onChat: 0,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -43,6 +46,8 @@ class App extends Component {
     this.removeAllNotifications = this.removeAllNotifications.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleOnChat = this.handleOnChat.bind(this);
+    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
   }
 
   async componentDidMount() {
@@ -196,6 +201,40 @@ class App extends Component {
     this.setState({ notificationCounter: 0 });
   }
 
+  handleOnChat() {
+    this.setState({ onChat: this.state.onChat + 1 });
+  }
+
+  handleReceiveMessage(name) {
+    if (this.state.onChat) {
+      this.handleOnChat();
+    } else {
+      Notification.open({
+        title: "Message",
+        duration: 10000,
+        description: (
+          <div>
+            <p>You have received a new message from {name}</p>
+            <Button
+              onClick={() => {
+                this.setState({ redirect: "/chat" });
+              }}
+            >
+              Go
+            </Button>
+            <Button
+              onClick={() => {
+                Notification.close();
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        ),
+      });
+    }
+  }
+
   render() {
     const {
       currentUser,
@@ -203,6 +242,7 @@ class App extends Component {
       basic,
       notificationLoading,
       notificationNumber,
+      onChat,
     } = this.state;
     return (
       <div className="App">
@@ -226,7 +266,9 @@ class App extends Component {
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
-            <Route exact path="/chat" component={Chat} />
+            <Route exact path="/chat">
+              <Chat chat={onChat} onChat={this.handleOnChat} />
+            </Route>
             <Route exact path="/email" component={Email} />
             <Route exact path="/profile/:id" component={ProfileDisplay} />
             <Route exact path="/changeIcon" component={ChangeIcon} />
