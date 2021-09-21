@@ -5,6 +5,12 @@ import axios from "axios";
 import { API_URL } from "../constant";
 import Picker from "emoji-picker-react";
 import moment from "moment";
+// https://52kpm06q2k.codesandbox.io for loading effects
+import {
+  BallRunningDots,
+  BallClipRotate,
+  BallPulse,
+} from "react-pretty-loading";
 
 class Chat extends Component {
   constructor(props) {
@@ -17,20 +23,7 @@ class Chat extends Component {
       textEnter: "",
       friend: null,
       // time, message, sender
-      message: [
-        ["10:10 2222/22/22", "r", "me"],
-        ["10:09", "random message", "friend"],
-        [
-          "10:02",
-          "some loooooooooooooooooooooooooooooooooooog loooooooooooooooooooooooooooooooooooog loooooooooooooooooooooooooooooooooooog message",
-          "friend",
-        ],
-        ["10:01", "random message", "me"],
-        ["09:10", "random message", "me"],
-        ["08:10", "random message", "me"],
-        ["07:10", "random message", "me"],
-        ["06:10", "random message", "me"],
-      ],
+      message: [],
       isLoading: false,
       friendList: [
         {
@@ -206,14 +199,21 @@ class Chat extends Component {
   }
 
   async onClickFriend(friend) {
-    (await this._isMounted) &&
-      this.setState({ friend, emojiVisible: false, textEnter: "" });
-    await this.fetchChatHistory();
-    let chatDisplay = document.getElementById("chat-display");
-    this._isMounted &&
-      chatDisplay &&
-      chatDisplay.addEventListener("mousewheel", this.onChatScroll, false);
-    localStorage.removeItem("chat");
+    if (friend !== this.state.friend) {
+      await (this._isMounted &&
+        this.setState({
+          friend,
+          emojiVisible: false,
+          textEnter: "",
+          message: [],
+        }));
+      await this.fetchChatHistory();
+      let chatDisplay = document.getElementById("chat-display");
+      this._isMounted &&
+        chatDisplay &&
+        chatDisplay.addEventListener("mousewheel", this.onChatScroll, false);
+      localStorage.removeItem("chat");
+    }
   }
 
   emojiList() {
@@ -289,7 +289,9 @@ class Chat extends Component {
           message.length > 0 &&
           message.map((message) => this.messageDisplay(message))}
         {isLoading ? (
-          <div className="div-loading-top">loading...</div>
+          <div className="div-loading-top">
+            <BallRunningDots loading={true} color="#000" center />
+          </div>
         ) : (
           <div className="div-loading-nothing">.</div>
         )}
@@ -298,7 +300,7 @@ class Chat extends Component {
   }
 
   messageDisplay(message) {
-    if (message[2] === "me") {
+    if (message.senderId === this.state.basic.id) {
       return this.messageSentDisplay(message);
     }
     return this.messageReceivedDisplay(message);
@@ -307,15 +309,20 @@ class Chat extends Component {
   messageReceivedDisplay(message) {
     const { friend } = this.state;
     return (
-      <div key={message} className="div-chat-message">
+      <div key={message.when} className="div-chat-message">
         {friend && friend.icon ? (
           <i className={friend.icon + " fa-2x chat-friend-icon"} />
         ) : (
           <i className="fas fa-user fa-2x chat-friend-icon" />
         )}
         <div className="div-message-received">
-          <div className="div-time-label-received">{message[0]}</div>
-          {message[1]}
+          <div className="div-time-label-received">
+            {new Date(message.when).toLocaleDateString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </div>
+          {message.message}
         </div>
       </div>
     );
@@ -324,15 +331,20 @@ class Chat extends Component {
   messageSentDisplay(message) {
     const { currentUser } = this.state;
     return (
-      <div key={message} className="div-chat-message">
+      <div key={message.when} className="div-chat-message">
         {currentUser && currentUser.icon ? (
           <i className={currentUser.icon + " fa-2x chat-my-icon"} />
         ) : (
           <i className="fas fa-user fa-2x chat-my-icon" />
         )}
         <div className="div-message-sent">
-          <div className="div-time-label-sent">{message[0]}</div>
-          {message[1]}
+          <div className="div-time-label-sent">
+            {new Date(message.when).toLocaleDateString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </div>
+          {message.message}
         </div>
       </div>
     );
@@ -340,6 +352,7 @@ class Chat extends Component {
 
   async fetchChatHistory() {
     const { basic, friend } = this.state;
+    this._isMounted && this.setState({ isLoading: true });
     const response = await axios.post(
       API_URL + "/chat/fetch",
       { id: friend.id, until: moment().toISOString() },
@@ -351,8 +364,9 @@ class Chat extends Component {
     );
 
     if (response.data) {
-      console.log(response.data);
+      this._isMounted && this.setState({ message: response.data });
     }
+    this._isMounted && this.setState({ isLoading: false });
   }
 
   async sendText() {
@@ -369,7 +383,6 @@ class Chat extends Component {
     );
 
     if (response.data) {
-      console.log(response.data);
       this._isMounted && this.setState({ textEnter: "" });
     }
 
@@ -388,23 +401,41 @@ class Chat extends Component {
           0
       ) {
         this._isMounted && this.setState({ isLoading: true });
-        const { basic } = this.state;
+        const { basic, friend, message } = this.state;
 
-        // simulate time for get backend data
-        await axios.get(API_URL + "/friend/listFriends", {
-          headers: {
-            Authorization: "Bearer " + basic.token,
-          },
-        });
+        if (message.length > 0) {
+          const response = await axios.post(
+            API_URL + "/chat/fetch",
+            { id: friend.id, until: message[message.length - 1].when },
+            {
+              headers: {
+                Authorization: "Bearer " + basic.token,
+              },
+            }
+          );
 
-        let message = this.state.message;
-        message.push(["05:10", "addition message", "friend"]);
-        message.push(["04:10", "addition message", "friend"]);
-        message.push(["04:08", "addition message", "friend"]);
-        message.push(["04:09", "addition message", "friend"]);
-        message.push(["04:00", "addition message", "friend"]);
-        message.push(["04:00", "addition message", "me"]);
-        this._isMounted && this.setState({ isLoading: false, message });
+          if (response.data) {
+            for (let i = 0; i < response.data.length; i++) {
+              message.push(response.data[i]);
+            }
+            this._isMounted && this.setState({ message });
+          }
+        } else {
+          const response = await axios.post(
+            API_URL + "/chat/fetch",
+            { id: friend.id, until: moment().toISOString() },
+            {
+              headers: {
+                Authorization: "Bearer " + basic.token,
+              },
+            }
+          );
+
+          if (response.data) {
+            this._isMounted && this.setState({ message: response.data });
+          }
+        }
+        this._isMounted && this.setState({ isLoading: false });
       }
     }
   }

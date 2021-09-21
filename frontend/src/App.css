@@ -651,7 +651,9 @@ footer {
 .div-loading-top {
   width: 100%;
   text-align: center;
+  padding-top: 3%;
 }
+
 .div-loading-nothing {
   width: 100%;
   text-align: center;

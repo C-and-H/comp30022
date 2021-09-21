@@ -22,6 +22,7 @@
     "react-native-elements": "^3.4.2",
     "react-native-linear-gradient": "^2.5.6",
     "react-phone-input-2": "^2.14.0",
+    "react-pretty-loading": "^1.0.9",
     "react-pro-sidebar": "^0.6.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",

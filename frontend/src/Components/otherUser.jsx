@@ -135,8 +135,8 @@ class OtherUser extends Component {
     this.setState({ note: event.target.value });
   }
 
-  async startChat() {
-    await localStorage.setItem("chat", JSON.stringify(this.state.friend));
+  startChat() {
+    localStorage.setItem("chat", JSON.stringify(this.state.friend));
     this.props.history.push("/chat");
     window.location.reload();
   }
