@@ -10,6 +10,7 @@ import {
   BallRunningDots,
   BallClipRotate,
   BallPulse,
+  BallFussion,
 } from "react-pretty-loading";
 
 class Chat extends Component {
@@ -56,6 +57,7 @@ class Chat extends Component {
       isSending: false,
       messageSending: "",
       isReceiving: true,
+      friendLoading: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -85,7 +87,7 @@ class Chat extends Component {
   }
 
   friendList() {
-    const { friendList, searchList } = this.state;
+    const { friendList, searchList, friendLoading } = this.state;
     return (
       <div className="div-chat-friendList">
         <div className="div-chat-friendList-header"></div>
@@ -96,7 +98,9 @@ class Chat extends Component {
           name="search"
           onChange={this.handleChangeSearch}
         />
-        {searchList ? (
+        {friendLoading ? (
+          <BallFussion loading={true} color="#000" center />
+        ) : searchList ? (
           searchList.length === 0 ? (
             <h1>None match</h1>
           ) : (
@@ -147,6 +151,7 @@ class Chat extends Component {
 
   async fetchFriendList() {
     const { basic } = this.state;
+    this._isMounted && this.setState({ friendLoading: true });
     const response = await axios.get(API_URL + "/chat/overview", {
       headers: {
         Authorization: "Bearer " + basic.token,
@@ -156,6 +161,7 @@ class Chat extends Component {
     if (response.data) {
       console.log(response.data);
     }
+    this._isMounted && this.setState({ friendLoading: false });
   }
 
   /**
