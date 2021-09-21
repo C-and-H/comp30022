@@ -26,38 +26,12 @@ class Chat extends Component {
       // time, message, sender
       message: [],
       isLoading: false,
-      friendList: [
-        {
-          id: "6124e4e79e3dd74065e23e51",
-          name: "User One",
-          email: "1@1.cn",
-          message: "some recent message",
-          time: "10:00",
-          unread: 30,
-        },
-        {
-          id: "6124e53b9e3dd74065e23e55",
-          name: "User Two",
-          email: "2@2.cn",
-          message: "some recent looooooooooooooooooooooooog message",
-          time: "9:00",
-          unread: 1,
-        },
-        {
-          id: "6124e5229e3dd74065e23e54",
-          name: "User Three",
-          email: "3@3.cn",
-          message: "some recent message",
-          time: "8:00",
-          unread: 200,
-        },
-      ],
+      friendList: null,
       searchList: null,
       emojiVisible: false,
       isSending: false,
       messageSending: "",
       isReceiving: true,
-      friendLoading: false,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -87,7 +61,7 @@ class Chat extends Component {
   }
 
   friendList() {
-    const { friendList, searchList, friendLoading } = this.state;
+    const { friendList, searchList } = this.state;
     return (
       <div className="div-chat-friendList">
         <div className="div-chat-friendList-header"></div>
@@ -98,16 +72,18 @@ class Chat extends Component {
           name="search"
           onChange={this.handleChangeSearch}
         />
-        {friendLoading ? (
-          <BallFussion loading={true} color="#000" center />
-        ) : searchList ? (
-          searchList.length === 0 ? (
-            <h1>None match</h1>
+        {friendList ? (
+          searchList ? (
+            searchList.length === 0 ? (
+              <h1>None match</h1>
+            ) : (
+              searchList.map((friend) => this.friendDisplay(friend))
+            )
           ) : (
-            searchList.map((friend) => this.friendDisplay(friend))
+            friendList.map((friend) => this.friendDisplay(friend))
           )
         ) : (
-          friendList.map((friend) => this.friendDisplay(friend))
+          <BallFussion loading={true} color="#000" center />
         )}
       </div>
     );
@@ -122,7 +98,7 @@ class Chat extends Component {
           size="lg"
           onClick={() => this.onClickFriend(friend)}
         >
-          {friend.icon ? (
+          {friend.icon && friend.icon !== "" ? (
             <i className={friend.icon + " fa-2x chat-friendList-icon"} />
           ) : (
             <i className="fa fa-user fa-fw fa-2x chat-friendList-icon" />
@@ -139,7 +115,12 @@ class Chat extends Component {
             ))}
           <div className="div-chat-friendList-top">
             <div className="div-chat-friendList-name">{friend.name}</div>
-            <div className="div-chat-friendList-time">{friend.time}</div>
+            <div className="div-chat-friendList-time">
+              {new Date(friend.time).toLocaleDateString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </div>
           </div>
           <div className="div-chat-friendList-recent-message">
             {friend.message}
@@ -151,7 +132,6 @@ class Chat extends Component {
 
   async fetchFriendList() {
     const { basic } = this.state;
-    this._isMounted && this.setState({ friendLoading: true });
     const response = await axios.get(API_URL + "/chat/overview", {
       headers: {
         Authorization: "Bearer " + basic.token,
@@ -159,9 +139,8 @@ class Chat extends Component {
     });
 
     if (response.data) {
-      console.log(response.data);
+      this._isMounted && this.setState({ friendList: response.data });
     }
-    this._isMounted && this.setState({ friendLoading: false });
   }
 
   /**
