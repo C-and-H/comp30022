@@ -50,12 +50,12 @@ class Chat extends Component {
       alert("Login required to access the page.");
       this.setState({ redirect: "/" });
     } else {
+      this.props.onChat();
       await this.fetchFriendList();
       if (localStorage.getItem("chat")) {
         this._isMounted &&
           this.onClickFriend(JSON.parse(localStorage.getItem("chat")));
       }
-      this.props.onChat();
     }
   }
 

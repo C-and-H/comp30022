@@ -774,6 +774,25 @@ footer {
   z-index: 200;
 }
 
+.div-chat-notification {
+  background-color: rgb(237, 85, 106);
+  width: 300px;
+  word-wrap: break-word;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1080;
+  padding: 10px;
+  top: 60px;
+  right: 5px;
+}
+
+.btn-chat-notification {
+  background-color: rgb(240, 161, 168);
+  width: 30%;
+  margin: 9%;
+  display: inline-block;
+}
+
 /*------------------ Chat Components end ---------------*/
 
 /*------------------ profileDisplay Components -------------*/
@@ -870,9 +889,10 @@ footer {
 .change-icon-line {
   margin-top: 40px;
 }
+
 /* 
 .App {
-  text-align: center;
+  position: relative;
 }
 
 .App-logo {

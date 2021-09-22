@@ -241,14 +241,16 @@ class App extends Component {
       this.handleOnChat();
     } else {
       const from = JSON.parse(name.body).from;
+      console.log(from);
       for (let i = 0; i < from.length; i++) {
         Notification.open({
-          title: "New message",
-          duration: 10000,
+          title: "",
+          duration: 20000,
           description: (
-            <div>
+            <div className="div-chat-notification">
               <p>You have received a new message from {from[i]}</p>
               <Button
+                className="btn-chat-notification"
                 onClick={() => {
                   this.setState({ redirect: "/chat" });
                 }}
@@ -256,11 +258,12 @@ class App extends Component {
                 Go
               </Button>
               <Button
+                className="btn-chat-notification"
                 onClick={() => {
                   Notification.close();
                 }}
               >
-                Cancel
+                Ignore
               </Button>
             </div>
           ),
