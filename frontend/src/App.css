@@ -523,7 +523,7 @@ footer {
   width: 60%;
   margin-top: 3%;
   margin-left: 30%;
-  background-color: cornflowerblue;
+  background-color: rgb(233, 204, 211);
   position: absolute;
   display: inline-block;
   border-radius: 5px;
@@ -745,8 +745,8 @@ footer {
   width: fit-content;
   height: fit-content;
   /* background color same as div-chat-box makes btn invisiable */
-  background-color: cornflowerblue;
-  border-color: cornflowerblue;
+  background-color: rgb(233, 204, 211);
+  border-color: rgb(233, 204, 211);
   text-align: center;
   margin-left: 11%;
   margin-top: 0px;
