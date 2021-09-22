@@ -57,8 +57,11 @@ public class ChatController
         Optional<User> receiver = userRepository.findById(receiverId);
         if (receiver.isPresent()) {
             chatService.pushTo(receiverId,
-                    chatRepository.findSendersOfUnread(receiverId));
+                    chatRepository.findSendersOfUnreadUnnotified(receiverId));
         }
+        List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
+        for (Chat c : unnotified) c.setNotified(true);
+        chatRepository.saveAll(unnotified);
     }
 
     /**

@@ -3,6 +3,7 @@ package candh.crm.repository;
 import candh.crm.model.Chat;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -13,7 +14,9 @@ import java.util.Set;
 public interface ChatRepository extends MongoRepository<Chat, String>
 {
     @Aggregation(pipeline = {
-            "{ $match : {$and: [{'receiverId': '?0'}, {'unread': true}]} }",
+            "{ $match : {$and: [{'receiverId': '?0'}," +
+                               "{'unread': true}," +
+                               "{'notified': false}]} }",
             "{ $addFields : {'senderId': {$toObjectId: '$senderId'}} }",
             "{ $lookup : {'from': 'user'," +
                          "'localField': 'senderId'," +
@@ -24,7 +27,10 @@ public interface ChatRepository extends MongoRepository<Chat, String>
                                      "'$$ROOT']}} }",
             "{ $project : {'_id': 0, 'first_name': 1} }"
     })
-    Set<String> findSendersOfUnread(String receiverId);
+    Set<String> findSendersOfUnreadUnnotified(String receiverId);
+
+    @Query(value = "{$and: [{'receiverId': '?0'}, {'notified': false}]}")
+    List<Chat> findUnnotified(String receiverId);
 
     @Aggregation(pipeline = {
             "{ $match : {$and: [{'senderId': '?0'}," +

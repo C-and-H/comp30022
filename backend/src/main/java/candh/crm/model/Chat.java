@@ -28,6 +28,8 @@ public class Chat
     private Date when;
     /** whether message is unread */
     private boolean unread;
+    /** whether message is notified */
+    private boolean notified;
 
     public Chat() { }
 
@@ -36,6 +38,7 @@ public class Chat
         this.receiverId = receiverId;
         this.message = message;
         this.unread = true;
+        this.notified = false;
     }
 
     public String getSenderId() {
@@ -58,7 +61,15 @@ public class Chat
         return unread;
     }
 
+    public boolean isNotified() {
+        return notified;
+    }
+
     public void setUnread(boolean unread) {
         this.unread = unread;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
     }
 }
