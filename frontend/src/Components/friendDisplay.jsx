@@ -11,10 +11,10 @@ class FriendDisplay extends Component {
           className="btn-friend"
           variant="outline-dark"
           size="lg"
-          data-tip={user.email + (note.length > 0 && "<br />" + note)}
+          data-tip={note.length > 0 ? user.email + "<br />" + note : user.email}
           onClick={this.props.onClick}
         >
-          <i className="fa fa-user-circle fa-fw"></i>
+          <i className="fa fa-user-circle fa-fw" />
           {" " + user.first_name + " " + user.last_name}
         </Button>
         <ReactTooltip place="right" type="info" html={true} />

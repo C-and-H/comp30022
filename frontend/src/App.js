@@ -21,6 +21,8 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { API_URL } from "./constant";
 import axios from "axios";
+import { Notification } from "rsuite";
+import Button from "react-bootstrap/Button";
 
 class App extends Component {
   constructor(props) {
@@ -34,15 +36,21 @@ class App extends Component {
       isConnected: false,
       notificationNumber: 0,
       stompClient: null,
+      chatClient: null,
       notificationLoading: false,
       notificationCounter: 0, // help adding unique id to each notification
+      onChat: 0,
+      chatPath: null,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
+    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
     this.getNotifications = this.getNotifications.bind(this);
     this.removeAllNotifications = this.removeAllNotifications.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleOnChat = this.handleOnChat.bind(this);
+    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
   }
 
   async componentDidMount() {
@@ -62,12 +70,20 @@ class App extends Component {
     }
 
     if (basic && !localStorage.getItem("notificationPath")) {
-      AuthService.getNotificationPath();
+      await AuthService.getNotificationPath();
+    }
+
+    if (basic && localStorage.getItem("notificationPath")) {
+      await this.connectChat(
+        JSON.parse(localStorage.getItem("notificationPath"))
+      );
     }
 
     if (basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
-        this.connect(JSON.parse(localStorage.getItem("notificationPath")));
+        await this.connect(
+          JSON.parse(localStorage.getItem("notificationPath"))
+        );
       }
     }
   }
@@ -82,35 +98,42 @@ class App extends Component {
     window.location.reload();
   }
 
-  connect(notificationPath) {
+  async connect(notificationPath) {
     this.setState({ notificationPath: notificationPath });
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
-    self.stompClient.connect(
-      {},
-      function (frame) {
-        console.log("Connected: ");
-        console.log(frame);
-        self.setState({ isConnected: true });
-        self.stompClient.subscribe(
-          "/topic/notification/" + notificationPath,
-          self.subscribeCallback
-        );
-        self.sendUserId();
-      }
-    );
+    self.stompClient.connect({}, function (frame) {
+      self.setState({ isConnected: true });
+      self.stompClient.subscribe(
+        "/topic/notification/" + notificationPath,
+        self.subscribeCallback
+      );
+      self.sendUserId();
+    });
+  }
+
+  async connectChat(notificationPath) {
+    this.setState({ chatPath: notificationPath });
+    var self = this;
+    var socket = new SockJS(API_URL + "/candh-crm-websocket");
+    self.chatClient = Stomp.over(socket);
+    self.chatClient.connect({}, function (frame) {
+      self.chatClient.subscribe(
+        "/topic/chat/" + notificationPath,
+        self.handleReceiveMessage
+      );
+      self.sendUserIdChat();
+    });
+    console.log("Chat connected", self.chatClient);
   }
 
   subscribeCallback(numNotification) {
-    console.log("New push come!");
-    console.log(JSON.parse(numNotification.body).count);
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       const notificationNumber = JSON.parse(numNotification.body).count;
       this.setState({ notificationNumber: notificationNumber });
     } else {
-      console.log(notifications);
       const notificationNumber =
         JSON.parse(numNotification.body).count +
         JSON.parse(notifications).length;
@@ -119,9 +142,16 @@ class App extends Component {
   }
 
   sendUserId() {
-    console.log("send user id " + AuthService.getBasicInfo().id);
     this.stompClient.send(
       "/app/notification/unread",
+      {},
+      JSON.stringify({ id: AuthService.getBasicInfo().id })
+    );
+  }
+
+  sendUserIdChat() {
+    this.chatClient.send(
+      "/app/chat/unread",
       {},
       JSON.stringify({ id: AuthService.getBasicInfo().id })
     );
@@ -132,12 +162,15 @@ class App extends Component {
     if (self.stompClient !== null) {
       self.stompClient.disconnect();
     }
+
+    if (self.chatClient !== null) {
+      self.chatClient.disconnect();
+    }
     self.setState({ isConnected: false });
-    console.log("Disconnected");
   }
 
   async getNotifications() {
-    this.setState({notificationLoading: true});
+    this.setState({ notificationLoading: true });
     const token = AuthService.getBasicInfo().token;
     const response = await axios.get(API_URL + "/notification/fetch", {
       headers: {
@@ -173,11 +206,14 @@ class App extends Component {
       }
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
-    this.setState({ notificationNumber: JSON.parse(localStorage.getItem("notifications")).length, notificationLoading: false });
+    this.setState({
+      notificationNumber: JSON.parse(localStorage.getItem("notifications"))
+        .length,
+      notificationLoading: false,
+    });
   }
 
   removeNotification(notificationID) {
-    console.log("Removing notification :" + notificationID);
     let notifications = JSON.parse(localStorage.getItem("notifications"));
     if (notificationID > -1) {
       notifications = notifications.filter(
@@ -189,14 +225,60 @@ class App extends Component {
   }
 
   removeAllNotifications() {
-    console.log("Removing All notification");
     localStorage.removeItem("notifications");
     this.setState({ notificationNumber: 0 });
     this.setState({ notificationCounter: 0 });
   }
 
+  handleOnChat() {
+    this.setState({ onChat: this.state.onChat + 1 });
+  }
+
+  handleReceiveMessage(name) {
+    if (this.state.onChat) {
+      this.handleOnChat();
+    } else {
+      const from = JSON.parse(name.body).from;
+      for (let i = 0; i < from.length; i++) {
+        Notification.open({
+          title: "",
+          duration: 20000,
+          description: (
+            <div className="div-chat-notification">
+              <p>You have received a new message from {from[i]}</p>
+              <Button
+                className="btn-chat-notification"
+                onClick={() => {
+                  Notification.close();
+                  this.setState({ redirect: "/chat" });
+                }}
+              >
+                Go
+              </Button>
+              <Button
+                className="btn-chat-notification"
+                onClick={() => {
+                  Notification.close();
+                }}
+              >
+                Ignore
+              </Button>
+            </div>
+          ),
+        });
+      }
+    }
+  }
+
   render() {
-    const { currentUser, redirect, basic, notificationLoading, notificationNumber } = this.state;
+    const {
+      currentUser,
+      redirect,
+      basic,
+      notificationLoading,
+      notificationNumber,
+      onChat,
+    } = this.state;
     return (
       <div className="App">
         <Router>
@@ -219,17 +301,16 @@ class App extends Component {
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
-            <Route exact path="/chat" component={Chat} />
-            <Route exact path={["/", "/home"]} component={HomePage} />
+            <Route exact path="/chat">
+              <Chat chat={onChat} onChat={this.handleOnChat} />
+            </Route>
             <Route exact path="/email" component={Email} />
-            <Route exact path = "/profile/:id" component = {ProfileDisplay} />
-            <Route exact path = "/changeIcon" component = {ChangeIcon} />
+            <Route exact path="/profile/:id" component={ProfileDisplay} />
+            <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
+            <Route path={["/", "/home"]} component={HomePage} />
             <Route path="/signup/:email/:code">
               <Verify />
-            </Route>
-            <Route path="/">
-              <HomePage />
             </Route>
           </Switch>
         </Router>

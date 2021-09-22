@@ -42,12 +42,12 @@ class NavigationBar extends Component {
     return (
       <Nav>
         <Nav.Link href="/profile" className={"navbar_nav"}>
-          {(this.props.user && this.props.user.icon) ? (
+          {this.props.user && this.props.user.icon ? (
             <i className={this.props.user.icon}></i>
           ) : (
             <i className="fa fa-user fa-fw"></i>
           )}
-          
+
           {this.props.user.first_name}
         </Nav.Link>
         <Nav.Link href="/contact" className={"navbar_nav"}>
@@ -82,8 +82,8 @@ class NavigationBar extends Component {
               No new message
             </NavDropdown.ItemText>
           ) : (
-            <div className="dropdown-notification" >
-              {(notifications !== null && notifications.length !== 0) ? (
+            <div className="dropdown-notification">
+              {notifications !== null && notifications.length !== 0 ? (
                 <NavDropdown.Item>
                   <Button
                     variant="outline-danger"
@@ -101,19 +101,22 @@ class NavigationBar extends Component {
 
               <NavDropdown.Divider />
               {this.getAllNotificationDropDownItem(notifications)}
-              {
-                (notifications !== null && notifications.length !== 0) && this.props.notificationLoading && (
+              {notifications !== null &&
+                notifications.length !== 0 &&
+                this.props.notificationLoading && (
                   <NavDropdown.ItemText className="dropdown-text">
                     loading...
                   </NavDropdown.ItemText>
-                )
-              }
+                )}
             </div>
           )}
         </NavDropdown>
         <Nav.Link href="/email" className={"navbar_nav"}>
           <i className="fa fa-mail-bulk"></i>
           Email
+        </Nav.Link>
+        <Nav.Link href="/chat" className={"navbar_nav"}>
+          Chat
         </Nav.Link>
         <Nav.Link className={"navbar_nav"} onClick={this.props.onLogOut}>
           LogOut
@@ -168,7 +171,7 @@ class NavigationBar extends Component {
           <Navbar.Brand href="/">
             <i className="fas fa-users-cog"></i> CRM Application
           </Navbar.Brand>
-          {(this.props.user && this.props.basic) ? this.logIn() : this.notLogIn()}
+          {this.props.user && this.props.basic ? this.logIn() : this.notLogIn()}
         </Container>
       </Navbar>
     );

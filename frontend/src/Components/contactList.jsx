@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import { API_URL } from "../constant";
 import RequestReceived from "./requestReceived";
 import RequestSent from "./requestSent";
-import {CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
 
 class ContactList extends Component {
   constructor(props) {
@@ -21,9 +21,9 @@ class ContactList extends Component {
       currentUser: JSON.parse(localStorage.getItem("user")),
       friends: [],
       friendList: [],
-      friends_csv:[],
+      friends_csv: [],
       redirect: null,
-      headers_csv:[],
+      headers_csv: [],
       show: false,
       searchList: null,
     };
@@ -31,7 +31,6 @@ class ContactList extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  
   async componentDidMount() {
     this._isMounted = true;
     const currentUser = AuthService.getCurrentUser();
@@ -68,15 +67,14 @@ class ContactList extends Component {
         await this.getFriendInfo(response.data[i].friendId);
         friends.push([response.data[i].friendId, response.data[i].notes]);
         this.setState({ friends });
-      
       }
-      
+
       // deal with export contacts data to csv
       let { friendList } = this.state;
-      let friend_csv = []
-      for(let i = 0; i < friendList.length; i++){
-        let friend = friendList[i]
-        
+      let friend_csv = [];
+      for (let i = 0; i < friendList.length; i++) {
+        let friend = friendList[i];
+
         let info = {
           email: friend.email,
           name: friend.name,
@@ -84,50 +82,50 @@ class ContactList extends Component {
           industry: friend.industry,
           personalSummary: friend.personalSummary,
           phone: friend.phone,
-          note: friends[i][1]
-        }
-        friend_csv.push(info)
+          note: friends[i][1],
+        };
+        friend_csv.push(info);
       }
-      
+
       // set the header of the csv file
       const headers_csv = [
-        {label: 'Email', key: 'email'},
-        {label: 'Full Name', key: 'name'},
-        {label: 'Company', key: 'company'},
-        {label: 'Industry', key: 'industry'},
-        {label: 'Description', key: 'personalSummary'},
-        {label: 'Phone Number', key: 'phone'},
-        {label: 'Note', key: 'note'},
-      ]
+        { label: "Email", key: "email" },
+        { label: "Full Name", key: "name" },
+        { label: "Company", key: "company" },
+        { label: "Industry", key: "industry" },
+        { label: "Description", key: "personalSummary" },
+        { label: "Phone Number", key: "phone" },
+        { label: "Note", key: "note" },
+      ];
 
-      this.setState({friends_csv: friend_csv})
-      this.setState({headers_csv: headers_csv})
-      this.setState({show: true})
+      this.setState({ friends_csv: friend_csv });
+      this.setState({ headers_csv: headers_csv });
+      this.setState({ show: true });
     }
   }
 
-    /**
+  /**
    * get friends' detailed info by their id
    * @param {*} id id of interested user
    */
-     async getFriendInfo(id) {
-      const response = await axios.post(
-        API_URL + "/user",
-        { id: id },
-        {
-          headers: {
-            Authorization: "Bearer " + this.state.basic.token,
-          },
-        }
-      );
-      if (response.data) {
-        // console.log(response.data)
-        let friendList = [...this.state.friendList];
-        friendList.push(response.data);
-        // console.log(friendList)
-        this._isMounted && this.setState({ friendList });
+  async getFriendInfo(id) {
+    const response = await axios.post(
+      API_URL + "/user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + this.state.basic.token,
+        },
       }
+    );
+    if (response.data) {
+      // console.log(response.data)
+      let friendList = [...this.state.friendList];
+      friendList.push(response.data);
+      // console.log(friendList)
+      this._isMounted && this.setState({ friendList });
     }
+  }
 
   /**
    * go to search page
@@ -158,8 +156,6 @@ class ContactList extends Component {
       </div>
     );
   }
-
-
 
   friendNote(id) {
     const { friends } = this.state;
@@ -199,35 +195,39 @@ class ContactList extends Component {
   matchContacts(key) {
     const { friendList } = this.state;
     if (friendList.length > 0) {
-      const search = new RegExp(key, "i");
-      let searchList = [];
-      for (let i = 0; i < friendList.length; i++) {
-        if (search.test(friendList[i].name)) {
-          searchList.push(friendList[i]);
-          continue;
+      try {
+        const search = new RegExp(key, "i");
+        let searchList = [];
+        for (let i = 0; i < friendList.length; i++) {
+          if (search.test(friendList[i].name)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].email)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].industry)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].company)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(friendList[i].areaOrRegion)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+          if (search.test(this.friendNote(friendList[i].id))) {
+            searchList.push(friendList[i]);
+            continue;
+          }
         }
-        if (search.test(friendList[i].email)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(friendList[i].industry)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(friendList[i].company)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(friendList[i].areaOrRegion)) {
-          searchList.push(friendList[i]);
-          continue;
-        }
-        if (search.test(this.friendNote(friendList[i].id))) {
-          searchList.push(friendList[i]);
-          continue;
-        }
+        this._isMounted && this.setState({ searchList });
+      } catch (e) {
+        this._isMounted && this.setState({ searchList: [] });
       }
-      this._isMounted && this.setState({ searchList });
     }
   }
 
@@ -235,7 +235,8 @@ class ContactList extends Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { friendList ,friends_csv, headers_csv, show, searchList } = this.state;
+    const { friendList, friends_csv, headers_csv, show, searchList } =
+      this.state;
     // console.log(friendList)
     return (
       <div className="div-contact">
@@ -274,8 +275,16 @@ class ContactList extends Component {
           )}
         </div>
         <div>
-        {!show && <p>export contacts</p>}
-        {show && <CSVLink data={friends_csv} headers={headers_csv} filename={"Contacts.csv"} >export contacts</CSVLink>}
+          {!show && <p>export contacts</p>}
+          {show && (
+            <CSVLink
+              data={friends_csv}
+              headers={headers_csv}
+              filename={"Contacts.csv"}
+            >
+              export contacts
+            </CSVLink>
+          )}
         </div>
         <RequestReceived />
         <RequestSent />

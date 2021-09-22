@@ -13,8 +13,15 @@ public interface NotificationRepository extends MongoRepository<Notification, St
     List<Notification> findByUserId(String userId);
 
     @Aggregation(pipeline = {
+            "{ $match : {'userId': '?0'} }",
+            "{ $count : 'count' }"
+    })
+    Long countByUserId(String userId);
+
+    @Aggregation(pipeline = {
             "{ $match : {$and: [{'userId': '?0'}, {'message': ?1}]} }",
             "{ $sort : {'when': -1} }",
-            "{ $limit : 1 }"})
-    Notification findMostRecentByUserIdAndMessage(String useId, String message);
+            "{ $limit : 1 }"
+    })
+    Notification findLatestByMessage(String useId, String message);
 }

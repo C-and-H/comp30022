@@ -165,7 +165,7 @@ public class AuthController
         String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
-        webSocketSubscriptionService.removeNotificationPath(id,
+        webSocketSubscriptionService.removePath(id,
                 unsubscribeRequest.getNotificationPath());
     }
 }

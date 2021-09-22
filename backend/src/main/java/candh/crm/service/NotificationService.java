@@ -63,7 +63,7 @@ public class NotificationService
         String senderName = userRepository.findById(senderId).get().getName();
         String message = "Friend request: " + senderName + ".";
         Notification to_remove = notificationRepository
-                .findMostRecentByUserIdAndMessage(receiverId, message);
+                .findLatestByMessage(receiverId, message);
         if (to_remove != null) {
             notificationRepository.delete(to_remove);
             pushTo(receiverId);
@@ -92,7 +92,8 @@ public class NotificationService
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return new ConcurrentHashMap<String, Object>() {{
-                put("count", notificationRepository.findByUserId(id).size());
+                Long count = notificationRepository.countByUserId(id);
+                put("count", (count != null) ? count : 0);
             }};
         }
         return null;
@@ -106,8 +107,7 @@ public class NotificationService
      */
     public void pushTo(String userId)
     {
-        Map<String, List<String>> map =
-                webSocketSubscriptionService.getNotificationMap();
+        Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
         if (map.containsKey(userId)) {
             for (String path : map.get(userId)) {
                 path = "/topic/notification/" + path;

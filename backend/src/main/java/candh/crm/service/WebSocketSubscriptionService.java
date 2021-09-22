@@ -1,19 +1,15 @@
 package candh.crm.service;
 
-import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Getter
-
 @Service
 public class WebSocketSubscriptionService
 {
-    private final Map<String, List<String>> chatMap = new ConcurrentHashMap<>();
-    private final Map<String, List<String>> notificationMap = new ConcurrentHashMap<>();
+    private final Map<String, List<String>> pathMap = new ConcurrentHashMap<>();
 
     // the maximal number of subscription paths of a client
     public static final int MAX_N_PATH = 3;
@@ -29,29 +25,27 @@ public class WebSocketSubscriptionService
      * Remove a subscription from map provided with user id.
      *
      * @param id  id of the user
-     * @param path  the notification subscription path
+     * @param path  the subscription path
      */
-    public void removeNotificationPath(String id, String path) {
-        if (notificationMap.containsKey(id)) {
-            notificationMap.get(id).remove(path);
-        }
+    public void removePath(String id, String path) {
+        if (pathMap.containsKey(id)) pathMap.get(id).remove(path);
     }
 
     /**
-     * Create a new random notification subscription path for a user,
+     * Create a new random subscription path for a user,
      * and then update the map.
      *
      * @param id  id of a user
      * @return  the generated path
      */
-    public String createNotificationPath(String id) {
+    public String createPath(String id) {
         String toAdd = generateRandomString(random.nextInt(11)+20);
-        if (notificationMap.containsKey(id)) {
-            List<String> paths = notificationMap.get(id);
+        if (pathMap.containsKey(id)) {
+            List<String> paths = pathMap.get(id);
             if (paths.size() == MAX_N_PATH) paths.remove(0);   // remove the oldest
             paths.add(toAdd);
         } else {
-            notificationMap.put(id, new ArrayList<>(Collections.singletonList(toAdd)));
+            pathMap.put(id, new ArrayList<>(Collections.singletonList(toAdd)));
         }
         return toAdd;
     }
@@ -64,5 +58,9 @@ public class WebSocketSubscriptionService
             sb.append(DATA_FOR_RANDOM_STRING.charAt(rndCharAt));
         }
         return sb.toString();
+    }
+
+    public Map<String, List<String>> getPathMap() {
+        return pathMap;
     }
 }

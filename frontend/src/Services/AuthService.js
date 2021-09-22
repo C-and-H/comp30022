@@ -128,9 +128,9 @@ class AuthService {
     return JSON.parse(localStorage.getItem("user"));
   }
 
-  getNotificationPath() {
+  async getNotificationPath() {
     const token = this.getBasicInfo().token;
-    axios
+    await axios
       .get(API_URL + "/notification/register", {
         headers: {
           Authorization: "Bearer " + token,

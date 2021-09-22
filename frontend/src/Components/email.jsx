@@ -176,20 +176,24 @@ class Email extends Component {
       alert("No email entered!");
     } else {
       // same valid email format as backend
-      const validEmail = new RegExp(
-        "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$"
-      );
-      if (validEmail.test(email)) {
-        let { toEmails } = this.state;
-        for (let i = 0; i < toEmails.length; i++) {
-          if (toEmails[i] === email) {
-            alert("Email already in list");
-            return;
+      try {
+        const validEmail = new RegExp(
+          "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$"
+        );
+        if (validEmail.test(email)) {
+          let { toEmails } = this.state;
+          for (let i = 0; i < toEmails.length; i++) {
+            if (toEmails[i] === email) {
+              alert("Email already in list");
+              return;
+            }
           }
+          toEmails.push(email);
+          this._isMounted && this.setState({ toEmails, email: "" });
+        } else {
+          alert("Email not valid");
         }
-        toEmails.push(email);
-        this._isMounted && this.setState({ toEmails, email: "" });
-      } else {
+      } catch (e) {
         alert("Email not valid");
       }
     }

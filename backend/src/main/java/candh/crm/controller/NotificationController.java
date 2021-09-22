@@ -45,15 +45,14 @@ public class NotificationController
      * If userId not valid, don't send.
      *
      * @param byIdRequest  contains the user id
-     * @return  {"count": number of notifications}.
      */
     @MessageMapping("/notification/unread")
     public void count(@Valid ByIdRequest byIdRequest)
     {
-        String userId = byIdRequest.getId();
-        Optional<User> user = userRepository.findById(userId);
+        String id = byIdRequest.getId();
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            notificationService.pushTo(userId);
+            notificationService.pushTo(id);
         }
     }
 
@@ -70,7 +69,7 @@ public class NotificationController
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         return ResponseEntity.ok(
-                webSocketSubscriptionService.createNotificationPath(id));
+                webSocketSubscriptionService.createPath(id));
     }
 
     /**
@@ -82,15 +81,14 @@ public class NotificationController
     public ResponseEntity<?> fetch(
             @RequestHeader("Authorization") String headerAuth)
     {
-        String userId = userRepository.findByEmail(
+        String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         // operate
-        List<Notification> notifications = notificationRepository
-                .findByUserId(userId);
+        List<Notification> notifications = notificationRepository.findByUserId(id);
         notificationRepository.deleteAll(notifications);
         // push through socket
-        notificationService.pushTo(userId);
+        notificationService.pushTo(id);
         return ResponseEntity.ok(notifications);
     }
 }

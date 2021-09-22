@@ -58,7 +58,7 @@ public class ContactRelationService
      */
     public List<String> findAllReceivedRequests(String userId) {
         List<Contact> _received = contactRepository
-                .findFriendsByUserIdAndAcceptedAndIgnored(userId, false, false);
+                .findFriendsByUserIdAsAcceptedAndIgnored(userId, false, false);
         return _received.stream()
                 .filter(c -> contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)

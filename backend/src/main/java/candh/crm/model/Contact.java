@@ -26,12 +26,11 @@ public class Contact
     private String id;
     private String userId;
     private String friendId;
-
     /** user accepts friend */
     private boolean accepted;
     /** user declines and hides the received friend request */
     private boolean ignored;
-
+    /** user writes notes on friend */
     private String notes;
 
     public Contact() { }

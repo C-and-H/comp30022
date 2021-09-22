@@ -406,7 +406,6 @@ footer {
   margin-right: 10px;
 }
 
-
 /*------------------ Contact Components end ---------------*/
 
 /*------------------ Email Components ---------------*/
@@ -524,27 +523,43 @@ footer {
   width: 60%;
   margin-top: 3%;
   margin-left: 30%;
-  background-color: cornflowerblue;
+  background-color: rgb(233, 204, 211);
   position: absolute;
   display: inline-block;
   border-radius: 5px;
 }
 
 .div-chat-display {
+  background-color: aliceblue;
   width: 80%;
   height: 60%;
   margin-left: 10%;
-  margin-top: 5%;
   border-color: black;
   border-style: solid;
   border-width: 2px;
   border-radius: 5px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 2%;
+}
+
+.div-chat-opponent {
+  height: 5%;
+  margin-left: 11%;
+  margin-top: 1%;
+}
+
+.btn-close-chat {
+  background-color: crimson;
+  border-color: crimson;
+  float: right;
+  margin-right: 1%;
 }
 
 .div-text-enter {
   width: 80%;
   margin-left: 10%;
-  margin-top: 3%;
 }
 
 .text-enter {
@@ -558,95 +573,312 @@ footer {
   background-color: darkorange;
 }
 
+.div-chat-message {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.div-message-sent {
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  max-width: 70%;
+  border-radius: 10px;
+  background-color: coral;
+  float: right;
+  font-size: large;
+  word-wrap: break-word;
+}
+
+.div-time-label-sent {
+  display: block;
+  position: relative;
+  text-align: left;
+  top: -15px;
+  height: fit-content;
+  width: fit-content;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: coral;
+  border-radius: 50px;
+  margin-bottom: -20px;
+  font-size: 9px;
+}
+
+.div-time-label-received {
+  display: block;
+  position: relative;
+  text-align: left;
+  top: -15px;
+  height: fit-content;
+  width: fit-content;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: chartreuse;
+  border-radius: 50px;
+  margin-bottom: -20px;
+  font-size: 9px;
+}
+
+.chat-my-icon {
+  float: right;
+  margin-top: -3px;
+  margin-left: 15px;
+}
+
+.div-message-received {
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  max-width: 70%;
+  border-radius: 10px;
+  background-color: chartreuse;
+  font-size: large;
+  float: left;
+  word-wrap: break-word;
+}
+
+.chat-friend-icon {
+  float: left;
+  margin-top: -3px;
+  margin-right: 15px;
+}
+
+.div-loading-top {
+  width: 100%;
+  text-align: center;
+  padding-top: 3%;
+}
+
+.div-loading-nothing {
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+}
+
+.btn-chat-friend {
+  width: 100%;
+  height: 60px;
+}
+
+.chat-friendList-icon {
+  float: left;
+}
+
+.div-chat-friendList-name {
+  font-size: small;
+  font-weight: bolder;
+  float: left;
+  width: 30%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.div-chat-friendList-time {
+  font-size: small;
+  float: right;
+  opacity: 0.75;
+  width: 45%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.div-chat-friendList-recent-message {
+  font-size: small;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 75%;
+  margin-left: 25%;
+  text-align: left;
+  opacity: 0.75;
+}
+
+.div-chat-friendList-top {
+  width: 100%;
+  height: 20px;
+}
+
+.div-unread-message {
+  position: absolute;
+  background-color: red;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  font-size: 13px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 10.5%;
+  margin-top: -1.5%;
+}
+
+.div-unread-message-10 {
+  position: absolute;
+  background-color: red;
+  border-radius: 10px;
+  width: 25px;
+  height: 20px;
+  font-size: 13px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 10.5%;
+  margin-top: -1.5%;
+}
+
+.div-unread-message-99 {
+  position: absolute;
+  background-color: red;
+  border-radius: 10px;
+  width: 30px;
+  height: 20px;
+  font-size: 13px;
+  color: white;
+  z-index: 1000;
+  text-align: center;
+  margin-left: 10.5%;
+  margin-top: -1.5%;
+}
+
+.btn-emoji {
+  width: fit-content;
+  height: fit-content;
+  /* background color same as div-chat-box makes btn invisiable */
+  background-color: rgb(233, 204, 211);
+  border-color: rgb(233, 204, 211);
+  text-align: center;
+  margin-left: 11%;
+  margin-top: 0px;
+  margin-bottom: 3px;
+}
+
+.div-emoji-list {
+  position: absolute;
+  z-index: 1000;
+  width: fit-content;
+  height: fit-content;
+  background-color: brown;
+  border-radius: 5px;
+  margin-left: 5%;
+  margin-top: -325px;
+}
+
+.loading-send {
+  float: right;
+  margin-right: 15px;
+}
+
+.div-message-on-top {
+  position: relative;
+  z-index: 200;
+}
+
+.div-chat-notification {
+  background-color: rgb(237, 85, 106);
+  width: 300px;
+  word-wrap: break-word;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1080;
+  padding: 10px;
+  top: 60px;
+  right: 5px;
+}
+
+.btn-chat-notification {
+  background-color: rgb(240, 161, 168);
+  width: 30%;
+  margin: 9%;
+  display: inline-block;
+}
+
 /*------------------ Chat Components end ---------------*/
 
-
 /*------------------ profileDisplay Components -------------*/
-.profile-display-line{
+.profile-display-line {
   margin-top: 45px;
-	font-size: 28px;
-	text-align: left;
-	
-	
+  font-size: 28px;
+  text-align: left;
 }
 
-.profile-display-value{
+.profile-display-value {
   margin-left: 30px;
   margin-top: 45px;
-	font-size: 28px;
-	text-align : left;
-	
-	
+  font-size: 28px;
+  text-align: left;
 }
 
-.profile-display-bar{
-	text-align : left;
-	font-size : 28px;
-	background-color : skyblue;
+.profile-display-bar {
+  text-align: left;
+  font-size: 28px;
+  background-color: skyblue;
   margin-top: 40px;
-  
-
 }
 
-.profile-display-header{
+.profile-display-header {
   text-align: left;
   font-size: 72px;
   margin-top: 10px;
-  font-family:"Comic Sans MS"
+  font-family: "Comic Sans MS";
 }
 
-.profile-display-edit-btn{
+.profile-display-edit-btn {
   border-radius: 20px;
-  
+
   height: 42px;
   float: right;
   background-color: mediumslateblue;
 }
 
-.profile-display-inner-container{
+.profile-display-inner-container {
   margin-right: 20px;
-  
 }
 
-.profile-display-p{
+.profile-display-p {
   margin-top: 40px;
   text-align: justify;
 }
 
-.profile-display-contact-line{
+.profile-display-contact-line {
   margin-top: 45px;
   font-size: 28px;
   margin-left: 280px;
 }
 
-.profile-display-contact-value{
+.profile-display-contact-value {
   margin-top: 45px;
   font-size: 28px;
 }
-.profile-display-icon-btn{
+.profile-display-icon-btn {
   margin-left: 0px;
   align-self: center;
-  border-radius: 20px ;
+  border-radius: 20px;
   height: 32px;
   text-align: justify;
   background-color: mediumslateblue;
 }
 
-.profile-display-formgroup{
+.profile-display-formgroup {
   text-align: left;
   padding-top: 10px;
 }
 
-.profile-display-note-input{
-  
+.profile-display-note-input {
   height: 200px;
- }
+}
 
 /******************** ProfileDisplay Components END ********************/
 
-
 /******************** ChangeIcon Components  ********************/
-.change-icon-btn-frame{
+.change-icon-btn-frame {
   margin-top: 40px;
   height: 160px;
   width: 160px;
@@ -654,19 +886,20 @@ footer {
   background-color: skyblue;
 }
 
-.change-icon-btn-save{
+.change-icon-btn-save {
   height: 60px;
   width: 140px;
   text-align: justify;
   background-color: mediumslateblue;
 }
 
-.change-icon-line{
+.change-icon-line {
   margin-top: 40px;
 }
+
 /* 
 .App {
-  text-align: center;
+  position: relative;
 }
 
 .App-logo {
