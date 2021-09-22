@@ -128,9 +128,9 @@ class AuthService {
     return JSON.parse(localStorage.getItem("user"));
   }
 
-  getNotificationPath() {
+  async getNotificationPath() {
     const token = this.getBasicInfo().token;
-    axios
+    await axios
       .get(API_URL + "/notification/register", {
         headers: {
           Authorization: "Bearer " + token,
@@ -141,6 +141,22 @@ class AuthService {
       )
       .catch((err) => {
         alert("get noti path failed.");
+      });
+  }
+
+  async getChatPath() {
+    const token = this.getBasicInfo().token;
+    await axios
+      .get(API_URL + "/chat/register", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) =>
+        localStorage.setItem("chatPath", JSON.stringify(response.data))
+      )
+      .catch((err) => {
+        alert("get chat path failed.");
       });
   }
 }

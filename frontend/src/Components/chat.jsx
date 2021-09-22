@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { API_URL } from "../constant";
 import Picker from "emoji-picker-react";
+import { Redirect } from "react-router-dom";
 import moment from "moment";
 // https://52kpm06q2k.codesandbox.io for loading effects
 import {
@@ -33,6 +34,7 @@ class Chat extends Component {
       messageSending: "",
       isReceiving: false,
       chat: 1,
+      redirect: null,
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);
@@ -46,15 +48,15 @@ class Chat extends Component {
     this._isMounted = true;
     if (!this.state.basic) {
       alert("Login required to access the page.");
-      this.props.history.push("/");
-      window.location.reload();
+      this.setState({ redirect: "/" });
+    } else {
+      await this.fetchFriendList();
+      if (localStorage.getItem("chat")) {
+        this._isMounted &&
+          this.onClickFriend(JSON.parse(localStorage.getItem("chat")));
+      }
+      this.props.onChat();
     }
-    await this.fetchFriendList();
-    if (localStorage.getItem("chat")) {
-      this._isMounted &&
-        this.onClickFriend(JSON.parse(localStorage.getItem("chat")));
-    }
-    this.props.onChat();
   }
 
   componentWillUnmount() {
@@ -277,7 +279,6 @@ class Chat extends Component {
             onChange={this.handleChangeText}
           />
         </div>
-        <Button onClick={() => this.fetchNewMessage()}>Fetch</Button>
         <Button
           disabled={textEnter === "" || isSending}
           className="btn-send-text"
@@ -553,6 +554,9 @@ class Chat extends Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     const { friend } = this.state;
     return (
       <div>

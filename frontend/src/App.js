@@ -36,12 +36,15 @@ class App extends Component {
       isConnected: false,
       notificationNumber: 0,
       stompClient: null,
+      chatClient: null,
       notificationLoading: false,
       notificationCounter: 0, // help adding unique id to each notification
       onChat: 0,
+      chatPath: null,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
+    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
     this.getNotifications = this.getNotifications.bind(this);
     this.removeAllNotifications = this.removeAllNotifications.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
@@ -66,13 +69,23 @@ class App extends Component {
       this.setState({ basic, currentUser });
     }
 
+    if (basic && !localStorage.getItem("chatPath")) {
+      await AuthService.getChatPath();
+    }
+
     if (basic && !localStorage.getItem("notificationPath")) {
-      AuthService.getNotificationPath();
+      await AuthService.getNotificationPath();
+    }
+
+    if (basic && localStorage.getItem("chatPath")) {
+      await this.connectChat(JSON.parse(localStorage.getItem("chatPath")));
     }
 
     if (basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
-        this.connect(JSON.parse(localStorage.getItem("notificationPath")));
+        await this.connect(
+          JSON.parse(localStorage.getItem("notificationPath"))
+        );
       }
     }
   }
@@ -87,14 +100,12 @@ class App extends Component {
     window.location.reload();
   }
 
-  connect(notificationPath) {
+  async connect(notificationPath) {
     this.setState({ notificationPath: notificationPath });
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
     self.stompClient.connect({}, function (frame) {
-      console.log("Connected: ");
-      console.log(frame);
       self.setState({ isConnected: true });
       self.stompClient.subscribe(
         "/topic/notification/" + notificationPath,
@@ -104,15 +115,27 @@ class App extends Component {
     });
   }
 
+  async connectChat(chatPath) {
+    this.setState({ chatPath: chatPath });
+    var self = this;
+    var socket = new SockJS(API_URL + "/candh-crm-websocket");
+    self.chatClient = Stomp.over(socket);
+    self.chatClient.connect({}, function (frame) {
+      self.chatClient.subscribe(
+        "/topic/chat/" + chatPath,
+        self.handleReceiveMessage
+      );
+      self.sendUserIdChat();
+    });
+    console.log("Chat connected", self.chatClient);
+  }
+
   subscribeCallback(numNotification) {
-    console.log("New push come!");
-    console.log(JSON.parse(numNotification.body).count);
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       const notificationNumber = JSON.parse(numNotification.body).count;
       this.setState({ notificationNumber: notificationNumber });
     } else {
-      console.log(notifications);
       const notificationNumber =
         JSON.parse(numNotification.body).count +
         JSON.parse(notifications).length;
@@ -121,9 +144,16 @@ class App extends Component {
   }
 
   sendUserId() {
-    console.log("send user id " + AuthService.getBasicInfo().id);
     this.stompClient.send(
       "/app/notification/unread",
+      {},
+      JSON.stringify({ id: AuthService.getBasicInfo().id })
+    );
+  }
+
+  sendUserIdChat() {
+    this.chatClient.send(
+      "/app/chat/unread",
       {},
       JSON.stringify({ id: AuthService.getBasicInfo().id })
     );
@@ -134,8 +164,11 @@ class App extends Component {
     if (self.stompClient !== null) {
       self.stompClient.disconnect();
     }
+
+    if (self.chatClient !== null) {
+      self.chatClient.disconnect();
+    }
     self.setState({ isConnected: false });
-    console.log("Disconnected");
   }
 
   async getNotifications() {
@@ -183,7 +216,6 @@ class App extends Component {
   }
 
   removeNotification(notificationID) {
-    console.log("Removing notification :" + notificationID);
     let notifications = JSON.parse(localStorage.getItem("notifications"));
     if (notificationID > -1) {
       notifications = notifications.filter(
@@ -195,7 +227,6 @@ class App extends Component {
   }
 
   removeAllNotifications() {
-    console.log("Removing All notification");
     localStorage.removeItem("notifications");
     this.setState({ notificationNumber: 0 });
     this.setState({ notificationCounter: 0 });
@@ -209,29 +240,32 @@ class App extends Component {
     if (this.state.onChat) {
       this.handleOnChat();
     } else {
-      Notification.open({
-        title: "Message",
-        duration: 10000,
-        description: (
-          <div>
-            <p>You have received a new message from {name}</p>
-            <Button
-              onClick={() => {
-                this.setState({ redirect: "/chat" });
-              }}
-            >
-              Go
-            </Button>
-            <Button
-              onClick={() => {
-                Notification.close();
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
-        ),
-      });
+      const from = JSON.parse(name.body).from;
+      for (let i = 0; i < from.length; i++) {
+        Notification.open({
+          title: "New message",
+          duration: 10000,
+          description: (
+            <div>
+              <p>You have received a new message from {from[i]}</p>
+              <Button
+                onClick={() => {
+                  this.setState({ redirect: "/chat" });
+                }}
+              >
+                Go
+              </Button>
+              <Button
+                onClick={() => {
+                  Notification.close();
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          ),
+        });
+      }
     }
   }
 
