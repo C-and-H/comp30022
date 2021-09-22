@@ -2,32 +2,51 @@ import React, { Component, useState } from "react";
 // import {Inject, Day, Week, WorkWeek, Month, Agenda, ScheduleComponent} from "@syncfusion/ej2-react-schedule";
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
-import CalendarSidebar from './CalendarSidebar';
-import { Popover } from "reactstrap";
-import { OverlayTrigger, Button } from "react-bootstrap";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import '../../App.css'
 import {
   Scheduler,
   WeekView,
   Appointments,
   MonthView,
-  ViewSwitcher,
   Toolbar,
   // AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
 import Popup from "./Popup";
-import { CSSTransition } from "react-transition-group";
+
+const ExternalViewSwitcher = ({
+  currentViewName,
+  onChange,
+}) => (
+  <RadioGroup
+    aria-label="Views"
+    style={{ flexDirection: 'row' }}
+    name="views"
+    value={currentViewName}
+    onChange={onChange}
+  >
+    <FormControlLabel value="Week" control={<Radio />} label="Week" />
+    {/* <FormControlLabel value="Work Week" control={<Radio />} label="Work Week" /> */}
+    <FormControlLabel value="Month" control={<Radio />} label="Month" />
+  </RadioGroup>
+);
+
 class Calendar extends Component {
-  
   constructor(props) {
     super(props)
-
+    this.buttonRef = React.createRef()
     this.state = {
       seen: false,
       data: "",
+      currentViewName: 'Month',
+    };
+
+    this.currentViewNameChange = (e) => {
+      this.setState({ currentViewName: e.target.value });
     };
   }
-
 
   handleOnClick(event) {
     console.log(new Date(2018, 6, 25, 12, 0))
@@ -56,7 +75,8 @@ class Calendar extends Component {
   }
 
   render(){
-    // const nodeRef = React.createRef(null);
+    const { currentViewName } = this.state;
+
     const currentDate = '2018-07-17';
     const appointments = [
       {
@@ -154,12 +174,18 @@ class Calendar extends Component {
     ];
     
     return (
+      <React.Fragment>
+        <ExternalViewSwitcher
+          currentViewName={currentViewName}
+          onChange={this.currentViewNameChange}
+        />
 
       <Paper >
         <Scheduler data={appointments} >
         <ViewState
             defaultCurrentDate={currentDate}
-            defaultCurrentViewName="Week"
+            currentViewName={currentViewName}
+            // defaultCurrentViewName="Week"
           />
           <MonthView
             startDayHour={9}
@@ -170,7 +196,6 @@ class Calendar extends Component {
             endDayHour={21}
           />
           <Toolbar  />
-          <ViewSwitcher  />
           <Appointments
             appointmentComponent={this.Appointment}
           />
@@ -180,11 +205,13 @@ class Calendar extends Component {
             <h2>Title: {this.state.data.title}</h2>
           </Popup>
       </Paper>
-      /* // <ScheduleComponent currentView='Week'>
-      //   <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
-      // </ScheduleComponent> */
+      </React.Fragment>
 
     );
   }
 }
 export default Calendar;
+      // <CSSTransition nodeRef={this.buttonRef} in timeout={200} classNames="fade">
+        // <div ref={this.buttonRef}>
+              // </div>
+      // </CSSTransition>
