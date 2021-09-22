@@ -143,22 +143,6 @@ class AuthService {
         alert("get noti path failed.");
       });
   }
-
-  async getChatPath() {
-    const token = this.getBasicInfo().token;
-    await axios
-      .get(API_URL + "/chat/register", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((response) =>
-        localStorage.setItem("chatPath", JSON.stringify(response.data))
-      )
-      .catch((err) => {
-        alert("get chat path failed.");
-      });
-  }
 }
 
 export default new AuthService();

@@ -69,16 +69,14 @@ class App extends Component {
       this.setState({ basic, currentUser });
     }
 
-    if (basic && !localStorage.getItem("chatPath")) {
-      await AuthService.getChatPath();
-    }
-
     if (basic && !localStorage.getItem("notificationPath")) {
       await AuthService.getNotificationPath();
     }
 
-    if (basic && localStorage.getItem("chatPath")) {
-      await this.connectChat(JSON.parse(localStorage.getItem("chatPath")));
+    if (basic && localStorage.getItem("notificationPath")) {
+      await this.connectChat(
+        JSON.parse(localStorage.getItem("notificationPath"))
+      );
     }
 
     if (basic && localStorage.getItem("notificationPath")) {
@@ -115,14 +113,14 @@ class App extends Component {
     });
   }
 
-  async connectChat(chatPath) {
-    this.setState({ chatPath: chatPath });
+  async connectChat(notificationPath) {
+    this.setState({ chatPath: notificationPath });
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.chatClient = Stomp.over(socket);
     self.chatClient.connect({}, function (frame) {
       self.chatClient.subscribe(
-        "/topic/chat/" + chatPath,
+        "/topic/chat/" + notificationPath,
         self.handleReceiveMessage
       );
       self.sendUserIdChat();
