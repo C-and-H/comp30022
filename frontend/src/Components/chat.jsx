@@ -66,6 +66,7 @@ class Chat extends Component {
 
   async componentDidUpdate() {
     if (this.props.chat > this.state.chat) {
+      this._isMounted && this.setState({ chat: this.props.chat });
       await this.fetchFriendList();
       const { friendList, friend } = this.state;
       if (friend) {
@@ -78,7 +79,6 @@ class Chat extends Component {
           }
         }
       }
-      this._isMounted && this.setState({ chat: this.props.chat });
     }
   }
 
