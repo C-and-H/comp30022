@@ -180,6 +180,8 @@ export default class ProfileDisplay extends Component{
 		if (!currentUser){
 			return <div></div>;
 		}
+
+		if (!currentUser.first_name) return(<div>User does not exist</div>);
 		const fullName = currentUser.first_name + " " + currentUser.last_name;
 		// console.log(currentUser);
 		// console.log(fullName);
