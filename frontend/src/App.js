@@ -14,7 +14,7 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
-import Calendar from "./Components/calendar"
+import CalendarHomePage from "./Components/Calendar/CalendarHomePage"
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
@@ -229,7 +229,7 @@ class App extends Component {
             <Route exact path = "/changeIcon" component = {ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/settingNote/:id" component={SettingNote} />
-            <Route exact path="/calendar" component={Calendar} />
+            <Route exact path="/calendar" component={CalendarHomePage} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>

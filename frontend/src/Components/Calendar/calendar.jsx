@@ -1,29 +1,56 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 // import {Inject, Day, Week, WorkWeek, Month, Agenda, ScheduleComponent} from "@syncfusion/ej2-react-schedule";
 import Paper from '@material-ui/core/Paper';
-import { alpha } from '@material-ui/core/styles';
 import { ViewState } from '@devexpress/dx-react-scheduler';
+import CalendarSidebar from './CalendarSidebar';
+import { Popover } from "reactstrap";
+import { OverlayTrigger, Button } from "react-bootstrap";
+import PopUpEvent from "./PopUpEvent"
+import '../../App.css'
 import {
   Scheduler,
-  MonthView,
+  WeekView,
   Appointments,
-  AppointmentForm,
-  AppointmentProps
+  // AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { AppointmentTooltip } from "@devexpress/dx-react-scheduler";
-
-const Appointment = ({children, style, ...restProps}) => {
-  return (
-  <Appointments.Appointment 
-    onClick={() => console.log("haha")}
-    {...restProps}
-  >
-    {children}
-  </Appointments.Appointment>
-  )
-}
+import Popup from "./Popup";
 
 class Calendar extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      seen: false,
+      data: "",
+    };
+  }
+
+
+  handleOnClick(event) {
+    this.setState({
+      data: event.data,
+      seen: true
+    });
+  }
+  //use arrow functions, 
+  //as arrow functions point to parent scope and this will be available. 
+  //(substitute of bind technique)
+  setTrigger = () => {
+    this.setState({seen: false});
+  }
+
+  Appointment = ({children, style, ...restProps}) => {
+    return (
+    <Appointments.Appointment 
+      onClick={(event) =>
+        this.handleOnClick(event)}
+      {...restProps}
+    >
+      {children}
+    </Appointments.Appointment>
+    )
+  }
+
   render(){
     const currentDate = '2018-07-17';
     const appointments = [
@@ -59,19 +86,7 @@ class Calendar extends Component {
         title: 'Approve New Online Marketing Strategy',
         startDate: new Date(2018, 6, 25, 12, 0),
         endDate: new Date(2018, 6, 25, 14, 0),
-      }, {
-        title: 'Upgrade Personal Computers',
-        startDate: new Date(2018, 6, 25, 15, 15),
-        endDate: new Date(2018, 6, 25, 16, 30),
-      }, {
-        title: 'Customer Workshop',
-        startDate: new Date(2018, 6, 26, 11, 0),
-        endDate: new Date(2018, 6, 26, 12, 0),
-      }, {
-        title: 'Prepare 2015 Marketing Plan',
-        startDate: new Date(2018, 6, 26, 11, 0),
-        endDate: new Date(2018, 6, 26, 13, 30),
-      }, {
+      },  {
         title: 'Brochure Design Review',
         startDate: new Date(2018, 6, 26, 14, 0),
         endDate: new Date(2018, 6, 26, 15, 30),
@@ -131,19 +146,24 @@ class Calendar extends Component {
     ];
     
     return (
+      
       <Paper>
-        <Scheduler
-          data={appointments}
-          
-        >
+        <Scheduler data={appointments}>
           <ViewState
             currentDate={currentDate}
           />
-          <MonthView />
-          <Appointments
-            appointmentComponent={Appointment}
+          <WeekView 
+            startDayHour={9}
+            endDayHour={21}
           />
-          
+          <Appointments
+            appointmentComponent={this.Appointment}
+          />
+          <Popup trigger={this.state.seen} setTriggerBtn={this.setTrigger}>
+            <h2>{this.state.data.title}</h2>
+          </Popup>
+
+          {/* <AppointmentTooltip/> */}
         </Scheduler>
       </Paper>
       // <ScheduleComponent currentView='Week'>
