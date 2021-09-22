@@ -5,17 +5,20 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import CalendarSidebar from './CalendarSidebar';
 import { Popover } from "reactstrap";
 import { OverlayTrigger, Button } from "react-bootstrap";
-import PopUpEvent from "./PopUpEvent"
 import '../../App.css'
 import {
   Scheduler,
   WeekView,
   Appointments,
+  MonthView,
+  ViewSwitcher,
+  Toolbar,
   // AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
 import Popup from "./Popup";
-
+import { CSSTransition } from "react-transition-group";
 class Calendar extends Component {
+  
   constructor(props) {
     super(props)
 
@@ -27,6 +30,7 @@ class Calendar extends Component {
 
 
   handleOnClick(event) {
+    console.log(new Date(2018, 6, 25, 12, 0))
     this.setState({
       data: event.data,
       seen: true
@@ -52,6 +56,7 @@ class Calendar extends Component {
   }
 
   render(){
+    // const nodeRef = React.createRef(null);
     const currentDate = '2018-07-17';
     const appointments = [
       {
@@ -83,6 +88,7 @@ class Calendar extends Component {
         startDate: new Date(2018, 6, 25, 9, 45),
         endDate: new Date(2018, 6, 25, 11, 15),
       }, {
+        id:"ajkdsfopwjeiofjs;djj;kca",
         title: 'Approve New Online Marketing Strategy',
         startDate: new Date(2018, 6, 25, 12, 0),
         endDate: new Date(2018, 6, 25, 14, 0),
@@ -115,10 +121,12 @@ class Calendar extends Component {
         startDate: new Date(2018, 6, 16, 12, 0),
         endDate: new Date(2018, 6, 16, 13, 0),
       }, {
+        id:15,
         title: 'Install New Database',
         startDate: new Date(2018, 6, 17, 15, 45),
         endDate: new Date(2018, 6, 18, 12, 15),
       }, {
+        id: "123psad9okajsdnfkasj",
         title: 'Approve New Online Marketing Strategy',
         startDate: new Date(2018, 6, 18, 12, 35),
         endDate: new Date(2018, 6, 18, 14, 15),
@@ -146,29 +154,36 @@ class Calendar extends Component {
     ];
     
     return (
-      
-      <Paper>
-        <Scheduler data={appointments}>
-          <ViewState
-            currentDate={currentDate}
+
+      <Paper >
+        <Scheduler data={appointments} >
+        <ViewState
+            defaultCurrentDate={currentDate}
+            defaultCurrentViewName="Week"
+          />
+          <MonthView
+            startDayHour={9}
+            endDayHour={18}
           />
           <WeekView 
             startDayHour={9}
             endDayHour={21}
           />
+          <Toolbar  />
+          <ViewSwitcher  />
           <Appointments
             appointmentComponent={this.Appointment}
           />
-          <Popup trigger={this.state.seen} setTriggerBtn={this.setTrigger}>
-            <h2>{this.state.data.title}</h2>
-          </Popup>
-
           {/* <AppointmentTooltip/> */}
         </Scheduler>
+        <Popup trigger={this.state.seen} setTriggerBtn={this.setTrigger}>
+            <h2>Title: {this.state.data.title}</h2>
+          </Popup>
       </Paper>
-      // <ScheduleComponent currentView='Week'>
+      /* // <ScheduleComponent currentView='Week'>
       //   <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
-      // </ScheduleComponent>
+      // </ScheduleComponent> */
+
     );
   }
 }
