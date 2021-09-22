@@ -65,22 +65,6 @@ public class ChatController
     }
 
     /**
-     * Handles Http Get for random chat subscription path allocation
-     * for the new connection of socket clients.
-     */
-    @GetMapping("/chat/register")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> register(
-            @RequestHeader("Authorization") String headerAuth)
-    {
-        String id = userRepository.findByEmail(
-                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
-                .getId();
-        return ResponseEntity.ok(
-                webSocketSubscriptionService.createPath(id));
-    }
-
-    /**
      * Handles Http Post for sending a chat message.
      */
     @PostMapping("/chat/sendText")
