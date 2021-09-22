@@ -241,7 +241,6 @@ class App extends Component {
       this.handleOnChat();
     } else {
       const from = JSON.parse(name.body).from;
-      console.log(from);
       for (let i = 0; i < from.length; i++) {
         Notification.open({
           title: "",
@@ -252,6 +251,7 @@ class App extends Component {
               <Button
                 className="btn-chat-notification"
                 onClick={() => {
+                  Notification.close();
                   this.setState({ redirect: "/chat" });
                 }}
               >

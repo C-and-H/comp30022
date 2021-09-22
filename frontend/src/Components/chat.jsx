@@ -33,7 +33,7 @@ class Chat extends Component {
       isSending: false,
       messageSending: "",
       isReceiving: false,
-      chat: 1,
+      chat: 2,
       redirect: null,
     };
 

@@ -673,13 +673,20 @@ footer {
   font-size: small;
   font-weight: bolder;
   float: left;
-  margin-left: 5%;
+  width: 30%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .div-chat-friendList-time {
   font-size: small;
   float: right;
   opacity: 0.75;
+  width: 45%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .div-chat-friendList-recent-message {
