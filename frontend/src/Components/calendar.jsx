@@ -1,12 +1,28 @@
 import React, { Component } from "react";
 // import {Inject, Day, Week, WorkWeek, Month, Agenda, ScheduleComponent} from "@syncfusion/ej2-react-schedule";
 import Paper from '@material-ui/core/Paper';
+import { alpha } from '@material-ui/core/styles';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   MonthView,
   Appointments,
+  AppointmentForm,
+  AppointmentProps
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { AppointmentTooltip } from "@devexpress/dx-react-scheduler";
+
+const Appointment = ({children, style, ...restProps}) => {
+  return (
+  <Appointments.Appointment 
+    onClick={() => console.log("haha")}
+    {...restProps}
+  >
+    {children}
+  </Appointments.Appointment>
+  )
+}
+
 class Calendar extends Component {
   render(){
     const currentDate = '2018-07-17';
@@ -118,12 +134,16 @@ class Calendar extends Component {
       <Paper>
         <Scheduler
           data={appointments}
+          
         >
           <ViewState
             currentDate={currentDate}
           />
           <MonthView />
-          <Appointments />
+          <Appointments
+            appointmentComponent={Appointment}
+          />
+          
         </Scheduler>
       </Paper>
       // <ScheduleComponent currentView='Week'>
