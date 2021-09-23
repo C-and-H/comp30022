@@ -14,7 +14,7 @@ export default class SettingNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      basic: localStorage.getItem("basic"),
+      basic: AuthService.getBasicInfo(),
       friend: null,
       redirect: false,
       noteEdit: "",

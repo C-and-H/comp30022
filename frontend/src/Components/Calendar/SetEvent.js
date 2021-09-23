@@ -3,6 +3,11 @@ import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import { Row, Col, Container } from 'reactstrap';
 import DateTimePicker from 'react-datetime-picker';
 import '../../App.css';
+import AuthService from "../../Services/AuthService";
+import UserService from "../../Services/UserService";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
+import { API_URL } from "../../constant";
 
 class SetEvent extends Component {
   
@@ -11,7 +16,11 @@ class SetEvent extends Component {
     this.state = {
       startTime: new Date(),
       title: "",
-      endTime: new Date()
+      endTime: new Date(),
+      basic: AuthService.getBasicInfo(),
+      redirect: false,
+      friendList: [],
+      friends: []
     }
     this.handleStartTime = this.handleStartTime.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -19,6 +28,56 @@ class SetEvent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  async componentDidMount() {
+    const { basic } = this.state;
+    if (!basic) {
+      this.setState({ redirect: true});
+    } else {
+      await this.getFriendList();
+    } 
+
+  }
+
+  async getFriendList() {
+    const { basic, friends } = this.state;
+    const response = await axios.get(API_URL + "/friend/listFriends", {
+      headers: {
+        Authorization: "Bearer " + basic.token,
+      },
+    });
+    
+    if (response) {
+      for (var i = 0; i < response.data.length; i++) {
+        await this.getFriendInfo(response.data[i].friendId);
+        friends.push(response.data[i].friendId);
+        this.setState({ friends });
+      }
+    }
+  }
+
+  /**
+   * get friends' detailed info by their id
+   * @param {*} id id of interested user
+   */
+   async getFriendInfo(id) {
+    
+    const response = await axios.post(
+      API_URL + "/user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + this.state.basic.token,
+        },
+      }
+    );
+    if (response.data) {
+      //console.log(response.data)
+      let friendList = [...this.state.friendList];
+      friendList.push(response.data);
+      // console.log(friendList)
+      this.setState({ friendList });
+    } 
+  }
 
   handleTitle(event) {
     this.setState({title: event.target.value});
@@ -39,8 +98,26 @@ class SetEvent extends Component {
 
   }
 
+
+  friendGroup() {
+    const { friendList} = this.state;
+
+    return (
+      <Container>
+        
+      </Container>
+    )
+  }
+
   render(){
-    const { startTime, endTime } = this.state;
+    const { 
+      startTime, endTime, redirect, friendList
+     } = this.state;
+
+    if (redirect) {
+      return (<Redirect to="/" />);
+    }
+    //console.log(friendList);
     return (
       <Container>
         {/* <DateTimePicker
@@ -80,6 +157,9 @@ class SetEvent extends Component {
                   value = {endTime}
                 />
             </Col>
+          </Row>
+          <Row className="set-event-line">
+            {this.friendGroup()}
           </Row>
         </Form>
         
