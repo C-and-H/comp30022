@@ -32,6 +32,7 @@
     "react-tooltip": "^3.9.2",
     "react-transition-group": "^4.4.2",
     "reactstrap": "^8.10.0",
+    "rsuite": "^4.10.3",
     "scheduler-react": "^2.0.20",
     "sockjs-client": "^1.5.2",
     "start": "^5.1.0",
