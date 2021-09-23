@@ -42,21 +42,22 @@ export default class CalendarHomePage extends Component {
     const { currentUser } = this.state;
 
     return (
+      alert("good")
       <div className="container">
         {this.state.userReady ? (
         <div>
-          {/* <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Here is your Calendar!</h1> */}
+          <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Here is your Calendar!</h1>
           <Row>
           <Router>
-            {/* <Col xs="3" style={{textAlign:"center"}}>
+            <Col xs="3" style={{textAlign:"center"}}>
               <CalendarSidebar/>
-            </Col> */}
-            {/* <Col style={{textAlign:"center" }}> */}
+            </Col>
+            <Col xs="9"  style={{textAlign:"center" }}>
               <Switch>
               <Route exact path = "/calendar" component = {Calendar} />
               <Route exact path = "/setEvent" component = {SetEvent} />
               </Switch>
-            {/* </Col> */}
+            </Col>
           </Router>
           </Row>
           </div>
