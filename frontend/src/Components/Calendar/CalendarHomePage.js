@@ -34,6 +34,7 @@ export default class CalendarHomePage extends Component {
   }
 
   render() {
+    alert("here is the calendar")
     // if redict is not null imply user is not login, then go to home page
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -42,7 +43,6 @@ export default class CalendarHomePage extends Component {
     const { currentUser } = this.state;
 
     return (
-      alert("good")
       <div className="container">
         {this.state.userReady ? (
         <div>
