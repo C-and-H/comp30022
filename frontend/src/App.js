@@ -7,12 +7,14 @@ import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
+import SettingProfile from "./Components/Profiles/SettingProfile";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
 import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
+import CalendarHomePage from "./Components/Calendar/CalendarHomePage"
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
@@ -23,6 +25,7 @@ import { API_URL } from "./constant";
 import axios from "axios";
 import { Notification } from "rsuite";
 import Button from "react-bootstrap/Button";
+import SettingNote from "./Components/Profiles/SettingNote";
 
 class App extends Component {
   constructor(props) {
@@ -309,6 +312,8 @@ class App extends Component {
             <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route path={["/", "/home"]} component={HomePage} />
+            <Route exact path="/settingNote/:id" component={SettingNote} />
+            <Route exact path="/calendar" component={CalendarHomePage} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
