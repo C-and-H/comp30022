@@ -28,19 +28,24 @@ export default class SettingNote extends React.Component {
 
   async componentDidMount() {
     const { basic } = this.state;
-    const friendship = await UserService.checkFriend(
+    if (!basic) {
+      this.setState({ redirect: true });
+    } else {
+      const friendship = await UserService.checkFriend(
       this.props.match.params.id,
       basic.token
-    );
-
-    if (!basic || !friendship){
-      this.setState({ redirect: true });
+      
+      );
+      if (!friendship) {
+        this.setState({ redirect: true });
+      } else {
+        this.setState ({
+          friend: friendship,
+          note: friendship.notes
+        });
+      }
     }
-
-    this.setState ({
-      friend: friendship,
-      note: friendship.notes
-    });
+    
   }
 
   async handleSubmit(event) {
