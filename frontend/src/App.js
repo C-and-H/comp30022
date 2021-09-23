@@ -14,7 +14,7 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
-import CalendarHomePage from "./Components/Calendar/CalendarHomePage"
+import CalendarHomePage from "./Components/Calendar/calendar"
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
@@ -26,6 +26,7 @@ import axios from "axios";
 import { Notification } from "rsuite";
 import Button from "react-bootstrap/Button";
 import SettingNote from "./Components/Profiles/SettingNote";
+import SetEvent from "./Components/Calendar/SetEvent";
 
 class App extends Component {
   constructor(props) {
@@ -311,12 +312,15 @@ class App extends Component {
             <Route exact path="/profile/:id" component={ProfileDisplay} />
             <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
-            <Route path={["/", "/home"]} component={HomePage} />
-            <Route exact path="/settingNote/:id" component={SettingNote} />
             <Route exact path="/calendar" component={CalendarHomePage} />
+           
+            <Route exact path="/settingNote/:id" component={SettingNote} />
+            
+            {/* <Route exact path="/setEvent" component={SetEvent} /> */}
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
+            <Route path={["/", "/home"]} component={HomePage} />
           </Switch>
         </Router>
       </div>

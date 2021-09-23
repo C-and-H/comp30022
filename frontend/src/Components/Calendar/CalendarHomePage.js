@@ -34,7 +34,7 @@ export default class CalendarHomePage extends Component {
   }
 
   render() {
-    alert("here is the calendar")
+   
     // if redict is not null imply user is not login, then go to home page
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -54,7 +54,7 @@ export default class CalendarHomePage extends Component {
             </Col>
             <Col xs="9"  style={{textAlign:"center" }}>
               <Switch>
-              <Route exact path = "/calendar" component = {Calendar} />
+              <Route exact path = "/calendar2" component = {Calendar} />
               <Route exact path = "/setEvent" component = {SetEvent} />
               </Switch>
             </Col>

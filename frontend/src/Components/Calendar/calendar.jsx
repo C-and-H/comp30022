@@ -128,6 +128,7 @@ class Calendar extends Component {
     return time;
   }
   render(){
+    
     const { currentViewName } = this.state;
 
     const currentDate = new Date();
