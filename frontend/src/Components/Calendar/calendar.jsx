@@ -5,16 +5,20 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-import '../../App.css'
+import "./Popup.css"
 import {
   Scheduler,
   WeekView,
   Appointments,
   MonthView,
   Toolbar,
+  DateNavigator,
+  TodayButton,
+  CurrentTimeIndicator
   // AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
 import Popup from "./Popup";
+import { BorderBottom } from "@material-ui/icons";
 
 const ExternalViewSwitcher = ({
   currentViewName,
@@ -36,11 +40,13 @@ const ExternalViewSwitcher = ({
 class Calendar extends Component {
   constructor(props) {
     super(props)
-    this.buttonRef = React.createRef()
+    this.myRef = React.createRef();
     this.state = {
       seen: false,
+      startTime: "",
+      endTime: "",
       data: "",
-      currentViewName: 'Month',
+      currentViewName: 'Week',
     };
 
     this.currentViewNameChange = (e) => {
@@ -49,8 +55,18 @@ class Calendar extends Component {
   }
 
   handleOnClick(event) {
-    console.log(new Date(2018, 6, 25, 12, 0))
+    var data = event.data
+    var startTime = event.data.startDate
+    var endTime = event.data.endDate
+    console.log(data)
+    var startTimeArray = startTime.toDateString().split(" ");
+    var endTimeArray = endTime.toDateString().split(" ");
+    var startTimeString = startTimeArray[2] + " " + startTimeArray[1] + " " + startTimeArray[3] + '\xa0\xa0' + startTime.getHours() + ':' + startTime.getMinutes();
+    var endTimeString = endTimeArray[2] + " " + endTimeArray[1] + " " + endTimeArray[3] + '\xa0\xa0'+ endTime.getHours() + ':' + endTime.getMinutes();
+    // var endTimeString = endTime.getFullYear() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getDate() + ' ' + endTime.getHours() + ':' + endTime.getMinutes();
     this.setState({
+      startTime: startTimeString,
+      endTime: endTimeString,
       data: event.data,
       seen: true
     });
@@ -62,9 +78,39 @@ class Calendar extends Component {
     this.setState({seen: false});
   }
 
-  Appointment = ({children, style, ...restProps}) => {
+  handleOnClickCalendar(event) {
+    console.log("do nothing")
+  }
+
+  disableShow = ({children, style, ...restProps}) => {
+    return (
+      <DateNavigator.OpenButton
+      onClick={(event) =>
+        this.handleOnClickCalendar(event)}
+        {...restProps}
+      >
+      {children}
+      </DateNavigator.OpenButton>
+    )
+  }
+
+  try = ({children, style, ...restProps}) => {
+    return (
+      <DateNavigator.Root
+      rootRef={this.myRef}
+        {...restProps}
+      >
+      {children}
+      </DateNavigator.Root>
+    )
+  }
+  appointment = ({children, style, ...restProps}) => {
     return (
     <Appointments.Appointment 
+    // onVisibilityToggle={
+    //   () => {}
+    // }
+    // visible={false}
       onClick={(event) =>
         this.handleOnClick(event)}
       {...restProps}
@@ -74,136 +120,58 @@ class Calendar extends Component {
     )
   }
 
+
+  dateToString = (date) => {
+    // var newDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
+    // var year_month_day = date.toISOString().split('T')[0];
+    var time = date.toISOString().split('T')[1].split('.')[0]
+    return time;
+  }
   render(){
     const { currentViewName } = this.state;
 
-    const currentDate = '2018-07-17';
+    const currentDate = new Date();
     const appointments = [
-      {
-        title: 'Website Re-Design Plan',
-        startDate: new Date(2018, 6, 23, 9, 30),
-        endDate: new Date(2018, 6, 23, 11, 30),
-      }, {
-        title: 'Book Flights to San Fran for Sales Trip',
-        startDate: new Date(2018, 6, 23, 12, 0),
-        endDate: new Date(2018, 6, 23, 13, 0),
-      }, {
-        title: 'Install New Router in Dev Room',
-        startDate: new Date(2018, 6, 23, 14, 30),
-        endDate: new Date(2018, 6, 23, 15, 30),
-      }, {
-        title: 'Approve Personal Computer Upgrade Plan',
-        startDate: new Date(2018, 6, 24, 10, 0),
-        endDate: new Date(2018, 6, 24, 11, 0),
-      }, {
-        title: 'Final Budget Review',
-        startDate: new Date(2018, 6, 24, 12, 0),
-        endDate: new Date(2018, 6, 24, 13, 35),
-      }, {
-        title: 'New Brochures',
-        startDate: new Date(2018, 6, 24, 14, 30),
-        endDate: new Date(2018, 6, 24, 15, 45),
-      }, {
-        title: 'Install New Database',
-        startDate: new Date(2018, 6, 25, 9, 45),
-        endDate: new Date(2018, 6, 25, 11, 15),
-      }, {
-        id:"ajkdsfopwjeiofjs;djj;kca",
-        title: 'Approve New Online Marketing Strategy',
-        startDate: new Date(2018, 6, 25, 12, 0),
-        endDate: new Date(2018, 6, 25, 14, 0),
-      },  {
-        title: 'Brochure Design Review',
-        startDate: new Date(2018, 6, 26, 14, 0),
-        endDate: new Date(2018, 6, 26, 15, 30),
-      }, {
-        title: 'Create Icons for Website',
-        startDate: new Date(2018, 6, 27, 10, 0),
-        endDate: new Date(2018, 6, 27, 11, 30),
-      }, {
-        title: 'Upgrade Server Hardware',
-        startDate: new Date(2018, 6, 27, 14, 30),
-        endDate: new Date(2018, 6, 27, 16, 0),
-      }, {
-        title: 'Submit New Website Design',
-        startDate: new Date(2018, 6, 27, 16, 30),
-        endDate: new Date(2018, 6, 27, 18, 0),
-      }, {
-        title: 'Launch New Website',
-        startDate: new Date(2018, 6, 26, 12, 20),
-        endDate: new Date(2018, 6, 26, 14, 0),
-      }, {
-        title: 'Website Re-Design Plan',
-        startDate: new Date(2018, 6, 16, 9, 30),
-        endDate: new Date(2018, 6, 16, 15, 30),
-      }, {
-        title: 'Book Flights to San Fran for Sales Trip',
-        startDate: new Date(2018, 6, 16, 12, 0),
-        endDate: new Date(2018, 6, 16, 13, 0),
-      }, {
-        id:15,
-        title: 'Install New Database',
-        startDate: new Date(2018, 6, 17, 15, 45),
-        endDate: new Date(2018, 6, 18, 12, 15),
-      }, {
-        id: "123psad9okajsdnfkasj",
-        title: 'Approve New Online Marketing Strategy',
-        startDate: new Date(2018, 6, 18, 12, 35),
-        endDate: new Date(2018, 6, 18, 14, 15),
-      }, {
-        title: 'Upgrade Personal Computers',
-        startDate: new Date(2018, 6, 19, 15, 15),
-        endDate: new Date(2018, 6, 20, 20, 30),
-      }, {
-        title: 'Prepare 2015 Marketing Plan',
-        startDate: new Date(2018, 6, 20, 20, 0),
-        endDate: new Date(2018, 6, 20, 13, 30),
-      }, {
-        title: 'Brochure Design Review',
-        startDate: new Date(2018, 6, 20, 14, 10),
-        endDate: new Date(2018, 6, 20, 15, 30),
-      }, {
-        title: 'Vacation',
-        startDate: new Date(2018, 5, 22),
-        endDate: new Date(2018, 6, 1),
-      }, {
-        title: 'Vacation',
-        startDate: new Date(2018, 6, 28),
-        endDate: new Date(2018, 7, 7),
-      },
-    ];
-    
+            {
+            id: "123psad9okajsdnfkasj",
+            title: 'Approve New Online Marketing Strategy',
+            startDate: new Date(2021, 8, 23, 12, 35),
+            endDate: new Date(2021, 8, 23, 14, 15),
+            description:"yu wen michael zhang is inviting you to a scheduled Zoom meeting Topic: yu wen michael zhang's Personal Meeting RoomJoin Zoom Meeting https://us05web.zoom.us/j/2314700834?pwd=b0RWQldGNWgwMmp1bmNUNmNaQWNhQT09"
+            
+          },
+          {
+            id: "123psaddq98390q2okajsdnfkasj",
+            title: 'Sprint 2 meeting',
+            startDate: new Date(2021, 8, 23, 14, 35),
+            endDate: new Date(2021, 8, 23, 15, 15),
+            description:"yu wen michael zhang is inviting you to a scheduled Zoom meeting Topic: yu wen michael zhang's Personal Meeting RoomJoin Zoom Meeting https://us05web.zoom.us/j/2314700834?pwd=b0RWQldGNWgwMmp1bmNUNmNaQWNhQT09"
+            
+          },
+    ]
     return (
       <React.Fragment>
-        <ExternalViewSwitcher
-          currentViewName={currentViewName}
-          onChange={this.currentViewNameChange}
-        />
-
+        <ExternalViewSwitcher currentViewName={currentViewName} onChange={this.currentViewNameChange}/>
       <Paper >
         <Scheduler data={appointments} >
-        <ViewState
-            defaultCurrentDate={currentDate}
-            currentViewName={currentViewName}
-            // defaultCurrentViewName="Week"
-          />
-          <MonthView
-            startDayHour={9}
-            endDayHour={18}
-          />
-          <WeekView 
-            startDayHour={9}
-            endDayHour={21}
-          />
-          <Toolbar  />
-          <Appointments
-            appointmentComponent={this.Appointment}
-          />
-          {/* <AppointmentTooltip/> */}
+          <ViewState defaultCurrentDate={currentDate} currentViewName={currentViewName}/>
+          <MonthView/>
+          <WeekView startDayHour={9} endDayHour={21}/>
+          <Toolbar/>
+          <DateNavigator openButtonComponent={this.disableShow}/>
+          <TodayButton />
+          <Appointments appointmentComponent={this.appointment}/>
+          <CurrentTimeIndicator/>
         </Scheduler>
         <Popup trigger={this.state.seen} setTriggerBtn={this.setTrigger}>
-            <h2>Title: {this.state.data.title}</h2>
-          </Popup>
+          <div>
+              <h2 className="popup-header">Title: {this.state.data.title}</h2>
+              <div className="show-time">
+                <p><span style={{fontSize:23}}>Time:</span><br /> {this.state.startTime} — {this.state.endTime}</p>  
+              </div>
+              <p className="description"><span style={{fontSize:23}}>Description:</span> <br /> {this.state.data.description}</p>
+          </div>
+      </Popup>
       </Paper>
       </React.Fragment>
 
