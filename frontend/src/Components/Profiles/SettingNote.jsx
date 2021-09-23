@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 import {
-  Button, Container, Row, Col, Label, Collapse, Form,
-  FormGroup, Input
+  Button,
+  Container,
+  Row,
+  Col,
+  Label,
+  Collapse,
+  Form,
+  FormGroup,
+  Input,
 } from "reactstrap";
-import '../../App.css'
+import "../../App.css";
 
-import UserService  from "../../Services/UserService";
+import UserService from "../../Services/UserService";
 import OtherUser from "../otherUser";
 
 export default class SettingNote extends React.Component {
@@ -18,13 +25,12 @@ export default class SettingNote extends React.Component {
       friend: null,
       redirect: false,
       noteEdit: "",
-      note: ""
-    }
+      note: "",
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
-
 
   async componentDidMount() {
     const { basic } = this.state;
@@ -33,13 +39,13 @@ export default class SettingNote extends React.Component {
       basic.token
     );
 
-    if (!basic || !friendship){
+    if (!basic || !friendship) {
       this.setState({ redirect: true });
     }
 
-    this.setState ({
+    this.setState({
       friend: friendship,
-      note: friendship.notes
+      note: friendship.notes,
     });
   }
 
@@ -61,53 +67,51 @@ export default class SettingNote extends React.Component {
     } else {
       alert("Something went wrong");
     }
-    
   }
 
   handleChange(event) {
-    this.setState({noteEdit: event.target.value });
+    this.setState({ noteEdit: event.target.value });
   }
 
   handleCancel() {
     window.location = "/profile/" + this.props.match.params.id;
   }
 
-  form () {
+  form() {
     const { note } = this.state;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Row className="profile-display-line">
           <FormGroup className="profile-display-formgroup">
-            <Input type="textarea" className="profile-display-note-input"
+            <Input
+              type="textarea"
+              className="profile-display-note-input"
               placeholder={note}
               onChange={this.handleChange}
               defaultValue={note}
-            >
-            </Input>
+            ></Input>
           </FormGroup>
         </Row>
         <Row className="profile-display-line">
           <Col xs="4">
-            <Button 
-              className="profile-display-icon-btn"
-              type="submit">
-                Save Changes
+            <Button className="profile-display-icon-btn" type="submit">
+              Save Changes
             </Button>
           </Col>
           <Col xs="4">
             <Button
               className="profile-display-icon-btn"
-              onClick={this.handleCancel}>
-                Cancel
+              onClick={this.handleCancel}
+            >
+              Cancel
             </Button>
           </Col>
         </Row>
       </Form>
-    )
+    );
   }
 
   render() {
-    
     const { redirect } = this.state;
 
     if (redirect) {
@@ -116,11 +120,9 @@ export default class SettingNote extends React.Component {
 
     return (
       <Container>
-        <Row className="profile-display-bar"> 
-          Edit note on this friend
-        </Row>
+        <Row className="profile-display-bar">Edit note on this friend</Row>
         {this.form()}
       </Container>
-    )
+    );
   }
 }

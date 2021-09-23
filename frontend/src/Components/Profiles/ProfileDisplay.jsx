@@ -26,42 +26,36 @@ import UserService from "../../Services/UserService";
 // }
 
 const iconStyle = {
-	marginTop: 40,
-	marginLeft: 50,
-	fontSize: 200
-}
+  marginTop: 40,
+  marginLeft: 50,
+  fontSize: 200,
+};
 
+export default class ProfileDisplay extends Component {
+  constructor(props) {
+    super(props);
 
-
-export default class ProfileDisplay extends Component{
-	constructor(props) {
-		super(props);
-
-      this.state = {
-        redirect: null,
-        userReady: false,
-        //currentUser: localStorage.getItem("user"),
-				currentUser: null,
-        basic: localStorage.getItem("basic"),
-				hasPhone: false,
-				hasIndustry: false,
-				hasRegion: false,
-				hasCompany: false,
-				hasSummary: false,
-				myself: false,
-				isFriend: false,
-				icon: "fa fa-user fa-fw",
-        btnText: null,
-        disableBtn: false,
-        note: ""
-      
-	
-  	  };
+    this.state = {
+      redirect: null,
+      userReady: false,
+      //currentUser: localStorage.getItem("user"),
+      currentUser: null,
+      basic: localStorage.getItem("basic"),
+      hasPhone: false,
+      hasIndustry: false,
+      hasRegion: false,
+      hasCompany: false,
+      hasSummary: false,
+      myself: false,
+      isFriend: false,
+      icon: "fa fa-user fa-fw",
+      btnText: null,
+      disableBtn: false,
+      note: "",
+    };
     this.friendBtn = this.friendBtn.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    
-	}
-
+  }
 
   async componentDidMount() {
     const basic = AuthService.getBasicInfo();
@@ -77,18 +71,17 @@ export default class ProfileDisplay extends Component{
         this.props.match.params.id,
         basic.token
       );
-      this.setState({isFriend: friendship})
-			//this.setState({myself:false})
-			
-		}else{
-			//this.setState({currentUser: AuthService.getCurrentUser()});
-			currentUser = await AuthService.getCurrentUser();
-			this.setState({myself: true})
-		}
-		
-		if (this.state.isFriend){
-      this.setState({btnText: "Unfriend"});
-      this.setState({note: this.state.isFriend.notes});
+      this.setState({ isFriend: friendship });
+      //this.setState({myself:false})
+    } else {
+      //this.setState({currentUser: AuthService.getCurrentUser()});
+      currentUser = await AuthService.getCurrentUser();
+      this.setState({ myself: true });
+    }
+
+    if (this.state.isFriend) {
+      this.setState({ btnText: "Unfriend" });
+      this.setState({ note: this.state.isFriend.notes });
     } else {
       this.setState({ btnText: "Add friend" });
     }
@@ -96,35 +89,30 @@ export default class ProfileDisplay extends Component{
     //console.log(cur	rentUser);
     // if not login
 
-    if (!currentUser){
+    if (!currentUser) {
       this.setState({ redirect: "/home" });
-    } else{
+    } else {
       this.setState({
-        currentUser: currentUser, 
-        userReady : true,
-        id: currentUser.id
-      });	
-      		// display following if they exist
-      if (currentUser.phone) this.setState({hasPhone : true});
-      if (currentUser.industry) this.setState({hasIndustry : true});
-      if (currentUser.company) this.setState({hasCompany : true});
-      if (currentUser.personalSummary) this.setState({hasSummary : true});
-      if (currentUser.areaOrRegion) this.setState({hasRegion : true});
-      if (currentUser.icon) this.setState({icon: currentUser.icon});
+        currentUser: currentUser,
+        userReady: true,
+        id: currentUser.id,
+      });
+      // display following if they exist
+      if (currentUser.phone) this.setState({ hasPhone: true });
+      if (currentUser.industry) this.setState({ hasIndustry: true });
+      if (currentUser.company) this.setState({ hasCompany: true });
+      if (currentUser.personalSummary) this.setState({ hasSummary: true });
+      if (currentUser.areaOrRegion) this.setState({ hasRegion: true });
+      if (currentUser.icon) this.setState({ icon: currentUser.icon });
     }
   }
-
-  
 
   async handleClick() {
     const { isFriend } = this.state;
     const user = AuthService.getBasicInfo();
     if (isFriend) {
       // send delete friend request
-      await UserService.deleteFriend(
-        this.props.match.params.id,
-        user.token
-      );
+      await UserService.deleteFriend(this.props.match.params.id, user.token);
       this.setState({ btnText: "Add friend" });
     } else {
       // send friend request
@@ -162,66 +150,62 @@ export default class ProfileDisplay extends Component{
     );
   }
 
-	
-	
+  render() {
+    const {
+      currentUser,
+      hasIndustry,
+      hasPhone,
+      hasRegion,
+      hasCompany,
+      // hasGender,
+      hasSummary,
+      myself,
+      icon,
+      isFriend,
+      note,
+    } = this.state;
 
-	render(){
-		
-		const {
-			currentUser, hasIndustry, hasPhone, hasRegion, hasCompany,
-			// hasGender,
-       hasSummary, myself,  icon, isFriend, note
-		} = this.state;
-
-		if (this.state.redirect) {
+    if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
 
-		
+    if (!currentUser) {
+      return <div></div>;
+    }
 
-		if (!currentUser){
-			return <div></div>;
-		}
+    if (!currentUser.first_name) return <div>User does not exist</div>;
+    const fullName = currentUser.first_name + " " + currentUser.last_name;
+    // console.log(currentUser);
+    // console.log(fullName);
+    return (
+      <div ref={this.wrapper}>
+        <Container>
+          <Row className="profile-display-header">{fullName}</Row>
+          <Row className="profile-display-bar">
+            <Col>Basic Info</Col>
+            <Col></Col>
+            {myself ? (
+              <Col>
+                <Button className="profile-display-edit-btn" href="/setting">
+                  Edit My Profile!
+                </Button>
+              </Col>
+            ) : (
+              <></>
+            )}
+          </Row>
 
-		if (!currentUser.first_name) return(<div>User does not exist</div>);
-		const fullName = currentUser.first_name + " " + currentUser.last_name;
-		// console.log(currentUser);
-		// console.log(fullName);
-		return(
-			<div ref={this.wrapper}>
-			<Container>
-				<Row className = "profile-display-header">
-					{fullName}
-				</Row>
-				<Row className="profile-display-bar">
-				
-					<Col>
-						Basic Info
-					</Col>
-					<Col></Col>
-					{myself ? (
-						<Col>
-							<Button className = "profile-display-edit-btn" href="/setting">
-								Edit My Profile!
-							</Button>
-						</Col>
-						) : (
-						<></>
-					)}
-					
-				</Row>
-
-				<Row className = "profile-display-inner-container">
-						<Col>
-							<Container>
-								<Row>
-									<i className={icon} style={iconStyle}></i>
-								</Row>
-								{myself ? (
-									<Row className="profile-display-line">
-										<Col></Col>
-										<Col xs="6">
-											<Button 
+          <Row className="profile-display-inner-container">
+            <Col>
+              <Container>
+                <Row>
+                  <i className={icon} style={iconStyle}></i>
+                </Row>
+                {myself ? (
+                  <Row className="profile-display-line">
+                    <Col></Col>
+                    <Col xs="6">
+                      <Button
                         className="profile-display-icon-btn"
                         href="/changeIcon"
                       >
@@ -346,12 +330,12 @@ export default class ProfileDisplay extends Component{
                 <Col>Note On This Friend</Col>
                 <Col></Col>
                 <Col>
-                <Button 
-                  className="profile-display-edit-btn"
-                  href={"/settingNote/" + this.props.match.params.id}
-                >
-                  Change Note
-                </Button>
+                  <Button
+                    className="profile-display-edit-btn"
+                    href={"/settingNote/" + this.props.match.params.id}
+                  >
+                    Change Note
+                  </Button>
                 </Col>
               </Row>
               <Row>
