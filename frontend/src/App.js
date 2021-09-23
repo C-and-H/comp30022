@@ -319,7 +319,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={LogIn} />
-            <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />

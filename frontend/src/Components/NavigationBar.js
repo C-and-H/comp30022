@@ -157,7 +157,7 @@ class NavigationBar extends Component {
         <Nav.Link href="/signup" className={"navbar_nav"}>
           <i className="fas fa-user-plus"></i> Register
         </Nav.Link>
-        <Nav.Link href="login" className={"navbar_nav"}>
+        <Nav.Link href="/login" className={"navbar_nav"}>
           <i className="fas fa-sign-in-alt"></i> Login
         </Nav.Link>
       </Nav>
