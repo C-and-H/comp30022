@@ -927,6 +927,32 @@ footer {
   margin-top: 40px;
 }
 
+/************************** ChangeIcon Components END***************************/
+.set-event-formgroup {
+  text-align: left;
+  padding-top: 10px;
+}
+
+.set-event-line {
+  margin-top: 45px;
+  font-size: 28px;
+  margin-left: 40px;
+}
+
+.set-event-bar {
+  text-align: left;
+  font-size: 28px;
+  background-color: skyblue;
+  margin-top: 40px;
+}
+
+.set-event-label{
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-right: 20px;
+}
+
+/************************** setEvent Components ***************************/
 
 /* 
 .App {
