@@ -17,16 +17,21 @@ class SetEvent extends Component {
     this.state = {
       startTime: new Date(),
       title: "",
+      description: "",
       endTime: new Date(),
       basic: AuthService.getBasicInfo(),
       redirect: false,
       friendList: [],
-      friends: []
+      friends: [],
+      chosenParticipants: []
     }
     this.handleStartTime = this.handleStartTime.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleEndTime = this.handleEndTime.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCallBack = this.handleCallBack.bind(this);
+    this.handleDescription = this.handleDescription.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   async componentDidMount() {
@@ -80,8 +85,20 @@ class SetEvent extends Component {
     } 
   }
 
+  handleCallBack(id, isSelect) {
+    const { chosenParticipants } = this.state;
+    if (isSelect) {
+      // a participant is selected
+      chosenParticipants.push(id);
+    } else {
+      // deselected
+      chosenParticipants.pop(id);
+    }
+    this.setState({ chosenParticipants });
+  }
+
   handleTitle(event) {
-    this.setState({title: event.target.value});
+    this.setState({ title: event.target.value });
   }
 
   handleStartTime(value) {
@@ -95,14 +112,29 @@ class SetEvent extends Component {
     console.log(this.state.endTime);
   }
 
-  async handleSubmit() {
+  handleDescription(event) {
+    this.setState({ description: event.target.value});
+  }
 
+  async handleSubmit(event) {
+    event.preventDefault();
+    const { title, description, chosenParticipants, basic,
+            startTime, endTime 
+          } = this.state;
+          
+    /* TODO: Call backend API */
+    
+
+  }
+
+  handleCancel() {
+    window.location = "/calendar";
   }
 
 
   friendGroup() {
-    const { friendList} = this.state;
-
+    const { friendList, chosenParticipants} = this.state;
+    //console.log(chosenParticipants);
     return (
       <Container>
         <Label className="set-event-label">Choose participants:</Label>
@@ -114,14 +146,15 @@ class SetEvent extends Component {
               <FriendBtn 
                 friend={friend}
                 key={friend.id}
-                
+                callBack = {this.handleCallBack}
               />
             ))
             
           ) : (
-            <></>
+            <span>Not Avaliable</span>
           )}
         </div>
+        
       </Container>
     )
   }
@@ -138,7 +171,7 @@ class SetEvent extends Component {
     }
     //console.log(friendList);
     return (
-      <Container>
+      <Container className="set-event-container">
         {/* <DateTimePicker
           onChange={(value) => this.handleDateSelection(value)}
           value={value}
@@ -178,7 +211,39 @@ class SetEvent extends Component {
             </Col>
           </Row>
           <Row className="set-event-line">
+        
             {this.friendGroup()}
+
+            <Col></Col>
+          </Row>
+
+          <Row className="set-event-description">
+            <Col>
+              <Label className="set-event-lable"> Description: </Label>
+              <FormGroup className="set-event-formgroup">
+                <Input
+                  className="set-event-textarea"
+                  type="textarea"
+                  onChange={this.handleDescription}
+                ></Input>
+              </FormGroup>
+            </Col>
+            <Col></Col>
+          </Row>
+
+          <Row className="set-event-line">
+            <Col>
+              <Button className="set-event-save" type="submit">
+                Save
+              </Button>
+            </Col>
+            <Col>
+              <Button className="set-event-cancel" onClick={this.handleCancel}>
+                Cancel
+              </Button>
+            </Col>
+            <Col></Col>
+            <Col></Col>
           </Row>
         </Form>
         

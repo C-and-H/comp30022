@@ -5,20 +5,40 @@ class FriendBtn extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      checked: false
+      checked: false,
+      btnText: ""
     }
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(value) {
-    this.setState({ checked: value});
+    const { checked } = this.state;
+    const { friend } = this.props;
+    if (checked){
+      this.setState({
+         checked: false,
+         btnText: friend.first_name + " " + friend.last_name
+      });
+      this.props.callBack(friend.id, false);
+    } else {
+      this.setState ({ 
+        checked: true,
+        btnText: friend.first_name + " " + friend.last_name + " (Selected)"
+      });
+      this.props.callBack(friend.id, true);
+    }
+  }
+
+  componentDidMount() {
+    const { friend } = this.props;
+    this.setState( { btnText: friend.first_name + " " + friend.last_name});
   }
 
   
 
   render() {
 
-    const { checked } = this.state;
+    const { checked, btnText } = this.state;
     const { friend } = this.props;
     return (
     <ToggleButton 
@@ -27,15 +47,11 @@ class FriendBtn extends React.Component {
       size="lg"
       variant="outline-info"
       checked={checked}
-      onChange={ () => {
-        if (checked) {
-          this.setState({ checked: false});
-        } else {
-          this.setState( { checked: true});
-        }
+      onChange={ (id) => {
+        this.handleChange(id);
       }}
     >
-      {friend.first_name + " " + friend.last_name}
+      {btnText}
     </ToggleButton>
     )
   }
