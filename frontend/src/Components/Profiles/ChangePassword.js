@@ -69,6 +69,7 @@ class ChangePassword extends React.Component {
             window.location.reload();
           } else {
             alert("You have successfully changed your password!");
+            this.props.history.push("/profile");
             window.location.reload();
           }
         })
