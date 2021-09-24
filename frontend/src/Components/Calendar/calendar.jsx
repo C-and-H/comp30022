@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import "./Popup.css"
+
 import Button from "react-bootstrap/Button";
 import {
   Scheduler,
@@ -21,6 +22,8 @@ import {
 import Popup from "./Popup";
 import Confirm from "./Confirm";
 import AutoLinkText from 'react-autolink-text2';
+import AuthService from "../../Services/AuthService";
+import { Redirect } from "react-router";
 
 // handle the view switcher
 const ExternalViewSwitcher = ({
@@ -44,6 +47,8 @@ class Calendar extends Component {
     super(props)
     this.myRef = React.createRef();
     this.state = {
+      basic: AuthService.getBasicInfo(),
+      redirect: false,
       onClickDelete: false,
       seen: false,
       startTime: "",
@@ -55,6 +60,13 @@ class Calendar extends Component {
     this.currentViewNameChange = (e) => {
       this.setState({ currentViewName: e.target.value });
     };
+  }
+
+  componentDidMount() {
+    const { basic } = this.state;
+    if (!basic) {
+      this.setState({ redirect: true});
+    }
   }
 
 
@@ -148,9 +160,12 @@ class Calendar extends Component {
   setButton = ({children, style, ...restProps}) =>{
     return (
       <Toolbar.FlexibleSpace>
-         <button className="MuiButtonBase-root MuiButton-root calendar-btn" onClick={this.clickAddEvent}> 
+         <a
+          className="MuiButtonBase-root MuiButton-root calendar-btn"
+          href="/setEvent">
+          
           <span class="MuiButton-label">Add Event</span>
-         </button>
+         </a>
         {children}
       </Toolbar.FlexibleSpace>
     )
@@ -163,7 +178,7 @@ class Calendar extends Component {
     return time;
   }
   render(){
-    const { currentViewName } = this.state;
+    const { currentViewName, redirect } = this.state;
     const currentDate = new Date();
     const appointments = [
             {
@@ -183,6 +198,8 @@ class Calendar extends Component {
             
           },
     ]
+
+    if (redirect) return <Redirect to="/" />
     return (
       <React.Fragment>
         <ExternalViewSwitcher currentViewName={currentViewName} onChange={this.currentViewNameChange}/>
