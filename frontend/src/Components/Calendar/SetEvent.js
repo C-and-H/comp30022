@@ -8,9 +8,6 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import FriendBtn from "./friendBtn";
-// import './Sample.less';
-
-// import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle';
 
 class SetEvent extends Component {
   
@@ -123,7 +120,6 @@ class SetEvent extends Component {
     const { title, description, chosenParticipants, basic,
             startTime, endTime 
           } = this.state;
-
     /* TODO: Call backend API */
     
 
@@ -132,19 +128,17 @@ class SetEvent extends Component {
   handleCancel() {
     window.location = "/calendar";
   }
-
-
+  
   friendGroup() {
     const { friendList, chosenParticipants} = this.state;
     //console.log(chosenParticipants);
     return (
-      <Container>
-        <Label className="set-event-label">Choose participants:</Label>
+      <div className="friend-box">
+      <Container >
+        <Label className="set-event-label">Participants:</Label>
         <div className="set-event-friends">
           {friendList ? (
-           
             friendList.map((friend) => (
-              
               <FriendBtn 
                 friend={friend}
                 key={friend.id}
@@ -156,17 +150,12 @@ class SetEvent extends Component {
             <span>Not Avaliable</span>
           )}
         </div>
-        
       </Container>
+      </div>
     )
   }
-
-
   render(){
-    const { 
-      startTime, endTime, redirect, friendList
-     } = this.state;
-
+    const { startTime, endTime, redirect, friendList} = this.state;
 
     if (redirect) {
       return (<Redirect to="/" />);
@@ -174,15 +163,10 @@ class SetEvent extends Component {
     //console.log(this.state.chosenParticipants);
     return (
       <Container className="set-event-container">
-        {/* <DateTimePicker
-          onChange={(value) => this.handleDateSelection(value)}
-          value={value}
-        /> */}
-        <Row className="set-event-bar"> Create a new event </Row>
-        
+        <Row className="set-event-bar"> Create a new event </Row>        
         <Form onSubmit={this.handleSubmit}>
           <Row className="set-event-line">
-            <Col>
+            <Col xs="5">
               <FormGroup className="set-event-formgroup">
                 <Label className="set-event-label">Meeting title:</Label>
                 <Input 
@@ -191,37 +175,22 @@ class SetEvent extends Component {
                   required
                 ></Input>
               </FormGroup>
-            </Col>
-            <Col></Col>
-          </Row>
-
-          <Row>
-            <Col>
               <Label className="set-event-label">Start time:</Label>
+              <br/>
               <DateTimePicker
                 onChange= {(value) => this.handleStartTime(value)}
                 disableClock={true}
                 value = {startTime}
               />
-
-            </Col>
-          </Row>
-          <Row className="set-event-line">
-          <Col>
+              <br/>
               <Label className="set-event-label">End time:</Label>
+              <br/>
                 <DateTimePicker
                   onChange= {(value) => this.handleEndTime(value)}
                   value = {endTime}
                 />
-            </Col>
-            {this.friendGroup()}
-
-            <Col></Col>
-          </Row>
-
-          <Row className="set-event-description">
-            <Col>
-              <Label className="set-event-lable"> Description: </Label>
+              
+              <Label className="set-event-label"> Description: </Label>
               <FormGroup className="set-event-formgroup">
                 <Input
                   className="set-event-textarea"
@@ -230,22 +199,29 @@ class SetEvent extends Component {
                 ></Input>
               </FormGroup>
             </Col>
-            <Col></Col>
+            <Col xs="7">
+              <center>
+            {this.friendGroup()}
+              </center>
+            </Col>
           </Row>
 
-          <Row className="set-event-line">
-            <Col>
-              <Button className="set-event-save" type="submit">
-                Save
+          <Row className="save-and-cancel">
+            <Col xs="2">
+              <Button
+                type="submit"
+                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left">
+                Save Event
               </Button>
             </Col>
-            <Col>
-              <Button className="set-event-cancel" onClick={this.handleCancel}>
+            <Col xs="3">
+              <Button
+                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-right"
+                onClick={this.handleCancel}
+              >
                 Cancel
               </Button>
             </Col>
-            <Col></Col>
-            <Col></Col>
           </Row>
         </Form>
         

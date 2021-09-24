@@ -1,5 +1,6 @@
 import React from "react";
 import { ToggleButton } from 'react-bootstrap';
+import './SetEvent.css';
 
 class FriendBtn extends React.Component {
   constructor(props){
@@ -41,7 +42,7 @@ class FriendBtn extends React.Component {
     const { checked, btnText } = this.state;
     const { friend } = this.props;
     return (
-    <ToggleButton 
+    <ToggleButton
       type="checkbox"
       id={friend.id}
       size="lg"
