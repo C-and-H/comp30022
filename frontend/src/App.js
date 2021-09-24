@@ -332,6 +332,7 @@ class App extends Component {
             <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/calendar" component={CalendarHomePage} />
+            <Route exact path="/setEvent" component={SetEvent} />
 
             <Route exact path="/settingNote/:id" component={SettingNote} />
 

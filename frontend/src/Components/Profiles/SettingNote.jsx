@@ -1,27 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 import {
-  Button,
-  Container,
-  Row,
-  Col,
-  Label,
-  Collapse,
-  Form,
-  FormGroup,
-  Input,
+  Button, Container, Row, Col, Form,
+  FormGroup, Input
 } from "reactstrap";
 import "../../App.css";
 
-import UserService from "../../Services/UserService";
-import OtherUser from "../otherUser";
+import UserService  from "../../Services/UserService";
+
 
 export default class SettingNote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      basic: localStorage.getItem("basic"),
+      basic: AuthService.getBasicInfo(),
       friend: null,
       redirect: false,
       noteEdit: "",
@@ -34,19 +27,24 @@ export default class SettingNote extends React.Component {
 
   async componentDidMount() {
     const { basic } = this.state;
-    const friendship = await UserService.checkFriend(
+    if (!basic) {
+      this.setState({ redirect: true });
+    } else {
+      const friendship = await UserService.checkFriend(
       this.props.match.params.id,
       basic.token
-    );
-
-    if (!basic || !friendship) {
-      this.setState({ redirect: true });
+      
+      );
+      if (!friendship) {
+        this.setState({ redirect: true });
+      } else {
+        this.setState ({
+          friend: friendship,
+          note: friendship.notes
+        });
+      }
     }
-
-    this.setState({
-      friend: friendship,
-      note: friendship.notes,
-    });
+    
   }
 
   async handleSubmit(event) {

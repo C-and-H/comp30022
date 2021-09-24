@@ -1,0 +1,123 @@
+
+.set-event-formgroup {
+  text-align: left;
+  padding-top: 10px;
+}
+
+.set-event-line {
+  margin-top: 45px;
+  font-size: 28px;
+  margin-left: 40px;
+}
+.save-and-cancel {
+  margin-left: 40px;
+}
+.set-event-bar {
+  text-align: left;
+  font-size: 28px;
+  background-color: skyblue;
+  margin-top: 40px;
+}
+
+.set-event-label{
+  font-size: 20px;
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-right: 5px;
+}
+
+.set-event-friends {
+  background-color: white;
+  width: 45%;
+  height: 400px;
+  margin-left: 1%;
+  /* margin-top: 10px; */
+  /* border-radius: 15px; */
+  border: 2px solid grey;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.3);
+  
+}
+
+.react-datetime-picker__wrapper{
+  height: 40px;
+  width: 400px;
+  font-size: 18px;
+  background-color: white;
+  border-radius: .25rem;
+  /* border-color: gray; */
+}
+.react-datetime-picker__calendar .react-calendar{
+  font-size: 16px;
+}
+.btn-group-lg>.btn, .btn-lg{
+  background-color: white;
+  border-width: 0px;
+  color: black;
+  border-bottom: 1px solid grey;
+  margin-top: 0px;
+  border-radius: 0px;
+  font-size: 18px;
+}
+
+.set-event-friend-btn {
+  width: 100%;
+}
+.btn-check:active+.btn-outline-info:focus, 
+.btn-check:checked+.btn-outline-info:focus, 
+.btn-outline-info.active:focus, 
+.btn-outline-info.dropdown-toggle.show:focus, 
+.btn-outline-info:active:focus{
+  box-shadow:none;
+}
+.btn-check:focus+.btn-outline-info, .btn-outline-info:focus{
+  box-shadow:none;
+  /* transition: none; */
+}
+
+.set-event-description {
+  margin-top: 80px;
+  font-size: 28px;
+  margin-left: 40px;
+  /* margin-bottom: 80px; */
+}
+
+.set-event-textarea {
+  height: 150px;
+}
+
+.set-event-container {
+  margin-bottom: 40px;
+}
+
+.set-event-save {
+  height: 60px;
+  width: 140px;
+  text-align: center;
+  font-size: 26px;
+  background-color: mediumslateblue;
+}
+
+.set-event-cancel {
+  height: 60px;
+  width: 140px;
+  text-align: center;
+  font-size: 26px;
+  background-color: gray;
+}
+
+.setting-profile-submit-btn-left {
+  float: left;
+  border-radius: 8px;
+  background-color: green;
+  color: white;
+  margin-bottom: 50px;
+}
+.setting-profile-submit-btn-right {
+  float: right;
+  border-radius: 8px;
+  background-color: grey;
+  margin-bottom: 50px;
+}
