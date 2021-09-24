@@ -97,19 +97,25 @@ class AuthService {
     localStorage.removeItem("notifications");
     localStorage.removeItem("notificationPath");
     localStorage.removeItem("basic");
-    await axios
-      .post(
-        API_URL + "/unsubscribe",
-        {
-          notificationPath: notiPath,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
+    const response = await axios.post(API_URL + "/jwt/checkExpired", {
+      authToken: token,
+    });
+
+    if (response.data) {
+      await axios
+        .post(
+          API_URL + "/unsubscribe",
+          {
+            notificationPath: notiPath,
           },
-        }
-      )
-      .catch();
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
+        .catch();
+    }
   }
 
   register(username, email, password) {
