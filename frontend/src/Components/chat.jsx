@@ -335,7 +335,9 @@ class Chat extends Component {
           </div>
           <div className="div-message-on-top">
             {message.message.split("\n").map((str) => (
-              <p className="p-no-margin">{str}</p>
+              <p key={new Date() + Math.random()} className="p-no-margin">
+                {str}
+              </p>
             ))}
           </div>
         </div>
@@ -361,7 +363,9 @@ class Chat extends Component {
           </div>
           <div className="div-message-on-top">
             {message.message.split("\n").map((str) => (
-              <p className="p-no-margin">{str}</p>
+              <p key={new Date() + Math.random()} className="p-no-margin">
+                {str}
+              </p>
             ))}
           </div>
         </div>
@@ -494,7 +498,9 @@ class Chat extends Component {
           </div>
           <div className="div-message-on-top">
             {messageSending.split("\n").map((str) => (
-              <p className="p-no-margin">{str}</p>
+              <p key={new Date() + Math.random()} className="p-no-margin">
+                {str}
+              </p>
             ))}
           </div>
         </div>
