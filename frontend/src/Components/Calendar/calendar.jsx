@@ -1,12 +1,12 @@
-import React, { Component, useState } from "react";
-// import {Inject, Day, Week, WorkWeek, Month, Agenda, ScheduleComponent} from "@syncfusion/ej2-react-schedule";
+import React, { Component } from "react";
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
-import "./Popup.css"
-import Button from "react-bootstrap/Button";
+import "./Popup.css";
+import AuthService from "../../Services/AuthService";
+import { Redirect } from "react-router-dom";
 import {
   Scheduler,
   WeekView,
@@ -44,18 +44,32 @@ class Calendar extends Component {
     super(props)
     this.myRef = React.createRef();
     this.state = {
+      redirect: null,
+      userReady: false,
+      currentUser: localStorage.getItem("user"),
+      basic: localStorage.getItem("basic"),
       onClickDelete: false,
       seen: false,
       startTime: "",
       endTime: "",
       data: "",
       currentViewName: 'Week',
+
     };
 
     this.currentViewNameChange = (e) => {
       this.setState({ currentViewName: e.target.value });
     };
   }
+
+    // if current user is null, will go back to homepage
+    componentDidMount() {
+      const currentUser = AuthService.getCurrentUser();
+      // if not login
+      if (!currentUser) this.setState({ redirect: "/home" });
+      this.setState({ currentUser: currentUser, userReady: true });
+      // console.log(this.state.currentUser, this.state.basic)
+    }
 
 
   handleOnClick(event) {
@@ -135,6 +149,8 @@ class Calendar extends Component {
 
   clickAddEvent = () =>{
     alert("you have click the add event button")
+    const redirect = "/setEvent";
+    this.setState({ redirect });
   }
 
   deleteEvent = () =>{
@@ -163,6 +179,10 @@ class Calendar extends Component {
     return time;
   }
   render(){
+        // if redict is not null imply user is not login, then go to home page
+        if (this.state.redirect) {
+          return <Redirect to={this.state.redirect} />;
+        }
     const { currentViewName } = this.state;
     const currentDate = new Date();
     const appointments = [
