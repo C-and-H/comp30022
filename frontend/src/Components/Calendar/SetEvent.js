@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { Form, Input, Button, FormGroup, Label } from "reactstrap";
-import { Row, Col, Container } from 'reactstrap';
+import { Form, Input, FormGroup, Label } from "reactstrap";
+import { Row, Col, Container, Button, ToggleButton, ButtonGroup, ToggleButtonGroup } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 import '../../App.css';
 import AuthService from "../../Services/AuthService";
-import UserService from "../../Services/UserService";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
+import FriendBtn from "./friendBtn";
+
 
 class SetEvent extends Component {
   
@@ -104,15 +105,33 @@ class SetEvent extends Component {
 
     return (
       <Container>
-        
+        <Label className="set-event-label">Choose participants:</Label>
+        <div className="set-event-friends">
+          {friendList ? (
+           
+            friendList.map((friend) => (
+              
+              <FriendBtn 
+                friend={friend}
+                key={friend.id}
+                
+              />
+            ))
+            
+          ) : (
+            <></>
+          )}
+        </div>
       </Container>
     )
   }
+
 
   render(){
     const { 
       startTime, endTime, redirect, friendList
      } = this.state;
+
 
     if (redirect) {
       return (<Redirect to="/" />);

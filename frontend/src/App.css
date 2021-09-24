@@ -952,6 +952,27 @@ footer {
   margin-right: 20px;
 }
 
+.set-event-friends {
+  background-color: aliceblue;
+  width: 30%;
+  height: 120%;
+  margin-left: 1%;
+  margin-top: 10px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.set-event-friend-btn {
+  width: 100%;
+  
+}
+
 /************************** setEvent Components ***************************/
 
 /* 
