@@ -11,7 +11,7 @@ class FriendBtn extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(value) {
+  handleChange() {
     const { checked } = this.state;
     const { friend } = this.props;
     if (checked){
@@ -48,7 +48,7 @@ class FriendBtn extends React.Component {
       variant="outline-info"
       checked={checked}
       onChange={ (id) => {
-        this.handleChange(id);
+        this.handleChange();
       }}
     >
       {btnText}
