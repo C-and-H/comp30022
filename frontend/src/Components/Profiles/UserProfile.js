@@ -5,11 +5,11 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-import ProfileSideBar from "./ProfileSideBar"
+import ProfileSideBar from "./ProfileSideBar";
 import SettingProfile from "./SettingProfile";
-import {Row, Col } from 'reactstrap';
+import { Row, Col } from "reactstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ChangePassword from './ChangePassword'
+import ChangePassword from "./ChangePassword";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class Profile extends Component {
       redirect: null,
       userReady: false,
       currentUser: localStorage.getItem("user"),
-      basic: localStorage.getItem("basic")
+      basic: localStorage.getItem("basic"),
     };
   }
 
@@ -43,30 +43,32 @@ export default class Profile extends Component {
     return (
       <div className="container">
         {this.state.userReady ? (
-        <div>
-          <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Welcome back, {currentUser.first_name}!</h1>
-          <Row>
-          <Router>
-            <Col xs="3" style={{textAlign:"center"}}>
-              <ProfileSideBar/>
-            </Col>
-            <Col xs="9" style={{textAlign:"center"}}>
-              <Switch>
-              <Route exact path = "/setting" component = {SettingProfile} />
+          <div>
+            <h1 style={{ marginTop: 40, marginLeft: 0, marginBottom: 40 }}>
+              Welcome back, {currentUser.first_name}!
+            </h1>
+            <Row>
+              <Router>
+                <Col xs="3" style={{ textAlign: "center" }}>
+                  <ProfileSideBar />
+                </Col>
+                <Col xs="9" style={{ textAlign: "center" }}>
+                  <Switch>
+                    <Route exact path="/setting" component={SettingProfile} />
 
-              <Route exact path = "/setting/change-password" component = {ChangePassword} />
+                    <Route
+                      exact
+                      path="/setting/change-password"
+                      component={ChangePassword}
+                    />
+                  </Switch>
+                </Col>
+              </Router>
+            </Row>
 
-                
-              </Switch>
-            </Col>
-          </Router>
-          </Row>
-            
-            
-              {/* <h3>
+            {/* <h3>
                 <strong>{currentUser.username}</strong> Profile
               </h3> */}
-
 
             {/* <p>
               <strong>Token:</strong> 
@@ -85,7 +87,6 @@ export default class Profile extends Component {
                   <li key={index}>{role}</li>
                 ))}
             </ul> */}
-            
           </div>
         ) : null}
       </div>

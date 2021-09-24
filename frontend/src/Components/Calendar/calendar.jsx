@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import "./Popup.css"
+import Button from "react-bootstrap/Button";
 import {
   Scheduler,
   WeekView,
@@ -18,8 +19,10 @@ import {
   // AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
 import Popup from "./Popup";
-import { BorderBottom } from "@material-ui/icons";
+import Confirm from "./Confirm";
+import AutoLinkText from 'react-autolink-text2';
 
+// handle the view switcher
 const ExternalViewSwitcher = ({
   currentViewName,
   onChange,
@@ -32,7 +35,6 @@ const ExternalViewSwitcher = ({
     onChange={onChange}
   >
     <FormControlLabel value="Week" control={<Radio />} label="Week" />
-    {/* <FormControlLabel value="Work Week" control={<Radio />} label="Work Week" /> */}
     <FormControlLabel value="Month" control={<Radio />} label="Month" />
   </RadioGroup>
 );
@@ -42,6 +44,7 @@ class Calendar extends Component {
     super(props)
     this.myRef = React.createRef();
     this.state = {
+      onClickDelete: false,
       seen: false,
       startTime: "",
       endTime: "",
@@ -54,11 +57,12 @@ class Calendar extends Component {
     };
   }
 
+
   handleOnClick(event) {
-    var data = event.data
+    // var data = event.data
     var startTime = event.data.startDate
     var endTime = event.data.endDate
-    console.log(data)
+    // console.log(data)
     var startTimeArray = startTime.toDateString().split(" ");
     var endTimeArray = endTime.toDateString().split(" ");
     var startTimeString = startTimeArray[2] + " " + startTimeArray[1] + " " + startTimeArray[3] + '\xa0\xa0' + startTime.getHours() + ':' + startTime.getMinutes();
@@ -74,8 +78,21 @@ class Calendar extends Component {
   //use arrow functions, 
   //as arrow functions point to parent scope and this will be available. 
   //(substitute of bind technique)
-  setTrigger = () => {
+  setTriggerClose = () => {
     this.setState({seen: false});
+  }
+
+  clickDismiss = () => {
+    this.setState({
+      onClickDelete: false,
+      seen: false
+    });
+  }
+
+  activateDelete = () =>{
+    this.setState({
+      onClickDelete: true
+    });
   }
 
   handleOnClickCalendar(event) {
@@ -107,10 +124,6 @@ class Calendar extends Component {
   appointment = ({children, style, ...restProps}) => {
     return (
     <Appointments.Appointment 
-    // onVisibilityToggle={
-    //   () => {}
-    // }
-    // visible={false}
       onClick={(event) =>
         this.handleOnClick(event)}
       {...restProps}
@@ -120,6 +133,28 @@ class Calendar extends Component {
     )
   }
 
+  clickAddEvent = () =>{
+    alert("you have click the add event button")
+  }
+
+  deleteEvent = () =>{
+    alert("you have click the delete event button")
+    this.setState({
+      onClickDelete: false,
+      seen: false
+    });
+  }
+
+  setButton = ({children, style, ...restProps}) =>{
+    return (
+      <Toolbar.FlexibleSpace>
+         <button className="MuiButtonBase-root MuiButton-root calendar-btn" onClick={this.clickAddEvent}> 
+          <span class="MuiButton-label">Add Event</span>
+         </button>
+        {children}
+      </Toolbar.FlexibleSpace>
+    )
+  }
 
   dateToString = (date) => {
     // var newDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
@@ -128,9 +163,7 @@ class Calendar extends Component {
     return time;
   }
   render(){
-    
     const { currentViewName } = this.state;
-
     const currentDate = new Date();
     const appointments = [
             {
@@ -146,41 +179,56 @@ class Calendar extends Component {
             title: 'Sprint 2 meeting',
             startDate: new Date(2021, 8, 23, 14, 35),
             endDate: new Date(2021, 8, 23, 15, 15),
-            description:"yu wen michael zhang is inviting you to a scheduled Zoom meeting Topic: yu wen michael zhang's Personal Meeting RoomJoin Zoom Meeting https://us05web.zoom.us/j/2314700834?pwd=b0RWQldGNWgwMmp1bmNUNmNaQWNhQT09"
+            description:"yu wen michael zhang is inviting you to a scheduled Zoom meeting Topic: yu wen michael zhang's Personal Meeting RoomJoin Zoom Meeting https://us05web.zoom.us/j/2314700834?pwd=b0RWQldGNWgwMmp1bmNUNmNaQWNhQT09 https://stackoverflow.com/questions/44212713/styling-webkit-scrollbar-track-not-working"
             
           },
     ]
     return (
       <React.Fragment>
         <ExternalViewSwitcher currentViewName={currentViewName} onChange={this.currentViewNameChange}/>
+        {/* <Button class="calendar-btn">hello</Button> */}
+      <div className="calendar">
       <Paper >
         <Scheduler data={appointments} >
           <ViewState defaultCurrentDate={currentDate} currentViewName={currentViewName}/>
           <MonthView/>
           <WeekView startDayHour={9} endDayHour={21}/>
-          <Toolbar/>
+          <Toolbar flexibleSpaceComponent={this.setButton}/>
           <DateNavigator openButtonComponent={this.disableShow}/>
           <TodayButton />
           <Appointments appointmentComponent={this.appointment}/>
           <CurrentTimeIndicator/>
         </Scheduler>
-        <Popup trigger={this.state.seen} setTriggerBtn={this.setTrigger}>
+
+        <Popup trigger={this.state.seen} activateDelete={this.activateDelete} setTriggerClose={this.setTriggerClose} >
           <div>
               <h2 className="popup-header">Title: {this.state.data.title}</h2>
               <div className="show-time">
-                <p><span style={{fontSize:23}}>Time:</span><br /> {this.state.startTime} — {this.state.endTime}</p>  
+                <p>
+                  <span style={{fontSize:23, fontWeight:600}}>Time:</span>
+                  <br /> 
+                  {this.state.startTime} — {this.state.endTime}
+                </p>  
               </div>
-              <p className="description"><span style={{fontSize:23}}>Description:</span> <br /> {this.state.data.description}</p>
+              <p className="description">
+                <span style={{fontSize:23, fontWeight:600}}>Description:</span>
+                 <br />
+                 
+                 <div className="div-description">
+                 <AutoLinkText text={this.state.data.description}/>
+                 </div>  
+              </p>
           </div>
-      </Popup>
+        </Popup>
+
+        <Confirm triggerClickDelete={this.state.onClickDelete} clickDismiss={this.clickDismiss} deleteEvent={this.deleteEvent}>
+          <h2 style={{textAlign:"center",fontSize:20}}>Are you sure you want to delete this event?</h2>
+        </Confirm>
       </Paper>
+      </div>
       </React.Fragment>
 
     );
   }
 }
 export default Calendar;
-      // <CSSTransition nodeRef={this.buttonRef} in timeout={200} classNames="fade">
-        // <div ref={this.buttonRef}>
-              // </div>
-      // </CSSTransition>

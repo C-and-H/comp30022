@@ -54,7 +54,7 @@ export default class CalendarHomePage extends Component {
             </Col>
             <Col xs="9"  style={{textAlign:"center" }}>
               <Switch>
-              <Route exact path = "/calendar2" component = {Calendar} />
+              <Route exact path = "/calendar" component = {Calendar} />
               <Route exact path = "/setEvent" component = {SetEvent} />
               </Switch>
             </Col>

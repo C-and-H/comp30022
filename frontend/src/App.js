@@ -14,7 +14,7 @@ import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
-import CalendarHomePage from "./Components/Calendar/calendar"
+import CalendarHomePage from "./Components/Calendar/calendar";
 import { Redirect } from "react-router-dom";
 import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
@@ -31,6 +31,9 @@ import SetEvent from "./Components/Calendar/SetEvent";
 class App extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
+    this._chatConnected = false;
+    this._notiConnected = false;
     //this.logOut = this.logOut.bind(this);
 
     this.state = {
@@ -58,77 +61,84 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     let basic = AuthService.getBasicInfo();
     if (basic) {
       await AuthService.validToken(basic.token);
       basic = AuthService.getBasicInfo();
       if (!basic) {
-        this.setState({ redirect: "/login", basic: null, currentUser: null });
+        this._isMounted &&
+          this.setState({ redirect: "/login", basic: null, currentUser: null });
       }
     }
 
     if (basic) {
       await AuthService.getUserDataFromBackend(basic.token, basic.id);
       const currentUser = AuthService.getCurrentUser();
-      this.setState({ basic, currentUser });
+      this._isMounted && this.setState({ basic, currentUser });
     }
 
     if (basic && !localStorage.getItem("notificationPath")) {
       await AuthService.getNotificationPath();
     }
 
-    if (basic && localStorage.getItem("notificationPath")) {
+    if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
       await this.connectChat(
         JSON.parse(localStorage.getItem("notificationPath"))
       );
+      this._chatConnected = true;
     }
 
-    if (basic && localStorage.getItem("notificationPath")) {
+    if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
         await this.connect(
           JSON.parse(localStorage.getItem("notificationPath"))
         );
+        this._notiConnected = true;
       }
     }
   }
 
   componentWillUnmount() {
     this.disconnect();
+    this._isMounted = false;
   }
 
   async handleLogOut() {
     await AuthService.logout();
-    this.setState({ redirect: "/" });
+    this._isMounted && this.setState({ redirect: "/" });
     window.location.reload();
   }
 
   async connect(notificationPath) {
-    this.setState({ notificationPath: notificationPath });
+    this._isMounted && this.setState({ notificationPath: notificationPath });
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.stompClient = Stomp.over(socket);
-    self.stompClient.connect({}, function (frame) {
-      self.setState({ isConnected: true });
-      self.stompClient.subscribe(
-        "/topic/notification/" + notificationPath,
-        self.subscribeCallback
-      );
-      self.sendUserId();
-    });
+    this._isMounted &&
+      self.stompClient.connect({}, function (frame) {
+        this._isMounted && self.setState({ isConnected: true });
+        self.stompClient.subscribe(
+          "/topic/notification/" + notificationPath,
+          self.subscribeCallback
+        );
+        self.sendUserId();
+      });
   }
 
   async connectChat(notificationPath) {
-    this.setState({ chatPath: notificationPath });
+    this._isMounted && this.setState({ chatPath: notificationPath });
     var self = this;
     var socket = new SockJS(API_URL + "/candh-crm-websocket");
     self.chatClient = Stomp.over(socket);
-    self.chatClient.connect({}, function (frame) {
-      self.chatClient.subscribe(
-        "/topic/chat/" + notificationPath,
-        self.handleReceiveMessage
-      );
-      self.sendUserIdChat();
-    });
+    this._isMounted &&
+      self.chatClient.connect({}, function (frame) {
+        self.chatClient.subscribe(
+          "/topic/chat/" + notificationPath,
+          self.handleReceiveMessage
+        );
+        self.sendUserIdChat();
+      });
     console.log("Chat connected", self.chatClient);
   }
 
@@ -136,12 +146,14 @@ class App extends Component {
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
       const notificationNumber = JSON.parse(numNotification.body).count;
-      this.setState({ notificationNumber: notificationNumber });
+      this._isMounted &&
+        this.setState({ notificationNumber: notificationNumber });
     } else {
       const notificationNumber =
         JSON.parse(numNotification.body).count +
         JSON.parse(notifications).length;
-      this.setState({ notificationNumber: notificationNumber });
+      this._isMounted &&
+        this.setState({ notificationNumber: notificationNumber });
     }
   }
 
@@ -163,18 +175,18 @@ class App extends Component {
 
   disconnect() {
     var self = this;
-    if (self.stompClient !== null) {
+    if (self.stompClient !== null && this._notiConnected) {
       self.stompClient.disconnect();
     }
 
-    if (self.chatClient !== null) {
+    if (self.chatClient !== null && this._chatConnected) {
       self.chatClient.disconnect();
     }
-    self.setState({ isConnected: false });
+    this._isMounted && self.setState({ isConnected: false });
   }
 
   async getNotifications() {
-    this.setState({ notificationLoading: true });
+    this._isMounted && this.setState({ notificationLoading: true });
     const token = AuthService.getBasicInfo().token;
     const response = await axios.get(API_URL + "/notification/fetch", {
       headers: {
@@ -190,31 +202,35 @@ class App extends Component {
           id: this.state.notificationCounter,
           ...response.data[i],
         });
-        this.setState({
-          notificationCounter: this.state.notificationCounter + 1,
-        });
+        this._isMounted &&
+          this.setState({
+            notificationCounter: this.state.notificationCounter + 1,
+          });
       }
     } else {
       notifications = JSON.parse(notifications);
       if (!this.state.notificationCounter) {
-        this.setState({ notificationCounter: notifications.length }); // avoid resetting to zero after refresh
+        this._isMounted &&
+          this.setState({ notificationCounter: notifications.length }); // avoid resetting to zero after refresh
       }
       for (let i = 0; i < response.data.length; i++) {
         notifications.push({
           id: this.state.notificationCounter,
           ...response.data[i],
         });
-        this.setState({
-          notificationCounter: this.state.notificationCounter + 1,
-        });
+        this._isMounted &&
+          this.setState({
+            notificationCounter: this.state.notificationCounter + 1,
+          });
       }
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
-    this.setState({
-      notificationNumber: JSON.parse(localStorage.getItem("notifications"))
-        .length,
-      notificationLoading: false,
-    });
+    this._isMounted &&
+      this.setState({
+        notificationNumber: JSON.parse(localStorage.getItem("notifications"))
+          .length,
+        notificationLoading: false,
+      });
   }
 
   removeNotification(notificationID) {
@@ -223,19 +239,22 @@ class App extends Component {
       notifications = notifications.filter(
         (noti) => noti.id !== notificationID
       );
-      this.setState({ notificationNumber: this.state.notificationNumber - 1 });
+      this._isMounted &&
+        this.setState({
+          notificationNumber: this.state.notificationNumber - 1,
+        });
     }
     localStorage.setItem("notifications", JSON.stringify(notifications));
   }
 
   removeAllNotifications() {
     localStorage.removeItem("notifications");
-    this.setState({ notificationNumber: 0 });
-    this.setState({ notificationCounter: 0 });
+    this._isMounted && this.setState({ notificationNumber: 0 });
+    this._isMounted && this.setState({ notificationCounter: 0 });
   }
 
   handleOnChat() {
-    this.setState({ onChat: this.state.onChat + 1 });
+    this._isMounted && this.setState({ onChat: this.state.onChat + 1 });
   }
 
   handleReceiveMessage(name) {
@@ -254,7 +273,7 @@ class App extends Component {
                 className="btn-chat-notification"
                 onClick={() => {
                   Notification.close();
-                  this.setState({ redirect: "/chat" });
+                  this._isMounted && this.setState({ redirect: "/chat" });
                 }}
               >
                 Go
@@ -314,8 +333,9 @@ class App extends Component {
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/calendar" component={CalendarHomePage} />
             <Route exact path="/setEvent" component={SetEvent} />
+
             <Route exact path="/settingNote/:id" component={SettingNote} />
-            
+
             {/* <Route exact path="/setEvent" component={SetEvent} /> */}
             <Route path="/signup/:email/:code">
               <Verify />
