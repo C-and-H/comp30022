@@ -822,6 +822,10 @@ footer {
   display: inline-block;
 }
 
+.p-no-margin {
+  margin: 0px;
+}
+
 /*------------------ Chat Components end ---------------*/
 
 /*------------------ profileDisplay Components -------------*/

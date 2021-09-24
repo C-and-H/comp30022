@@ -19,16 +19,16 @@ class RequestSent extends Component {
   }
 
   async componentDidMount() {
-    this._isMounted = true;
     const basic = AuthService.getBasicInfo();
 
     if (!basic) {
-      alert("Login required to access the page. sent");
+      //alert("Login required to access the page. sent");
       this.props.history.push("/");
       window.location.reload();
+    } else {
+      this._isMounted = true;
+      await this.getRequests();
     }
-
-    await this.getRequests();
   }
 
   componentWillUnmount() {

@@ -17,7 +17,7 @@ class Email extends Component {
       mailTitle: "",
       toEmails: [],
       email: "",
-      fromName: JSON.parse(localStorage.getItem("user")).name,
+      fromName: "",
       searchEmails: null,
       sending: false,
     };
@@ -29,11 +29,16 @@ class Email extends Component {
   }
 
   componentDidMount() {
-    this._isMounted = true;
     if (!this.state.basic) {
       alert("Login required to access the page.");
       this.props.history.push("/");
       window.location.reload();
+    } else {
+      this._isMounted = true;
+      this._isMounted &&
+        this.setState({
+          fromName: JSON.parse(localStorage.getItem("user")).name,
+        });
     }
   }
 

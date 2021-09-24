@@ -16,7 +16,6 @@ import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
 import CalendarHomePage from "./Components/Calendar/calendar";
 import { Redirect } from "react-router-dom";
-import Inbox from "./Components/Inbox";
 import Email from "./Components/email";
 import Chat from "./Components/chat";
 import SockJS from "sockjs-client";
@@ -272,7 +271,8 @@ class App extends Component {
               <Button
                 className="btn-chat-notification"
                 onClick={() => {
-                  Notification.close();
+                  Notification.closeAll();
+                  this.handleOnChat();
                   this._isMounted && this.setState({ redirect: "/chat" });
                 }}
               >

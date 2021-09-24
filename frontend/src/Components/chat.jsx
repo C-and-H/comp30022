@@ -333,7 +333,11 @@ class Chat extends Component {
               minute: "2-digit",
             })}
           </div>
-          <div className="div-message-on-top">{message.message}</div>
+          <div className="div-message-on-top">
+            {message.message.split("\n").map((str) => (
+              <p className="p-no-margin">{str}</p>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -355,7 +359,11 @@ class Chat extends Component {
               minute: "2-digit",
             })}
           </div>
-          <div className="div-message-on-top">{message.message}</div>
+          <div className="div-message-on-top">
+            {message.message.split("\n").map((str) => (
+              <p className="p-no-margin">{str}</p>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -421,44 +429,51 @@ class Chat extends Component {
     const { basic, friend } = this.state;
     const text = this.state.textEnter;
     const time = moment().toISOString();
-    this._isMounted &&
-      this.setState({ isSending: true, textEnter: "", messageSending: text });
-    const response = await axios.post(
-      API_URL + "/chat/sendText",
-      { id: friend.id, message: text },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
-
-    if (response.data && response.data === "Message Sent.") {
-      const { message, friendList } = this.state;
-      message.unshift({
-        senderId: basic.id,
-        message: text,
-        when: time,
-      });
-
-      for (let i = 0; i < friendList.length; i++) {
-        if (friendList[i].id === friend.id) {
-          friendList[i].message = text;
-          friendList[i].time = time;
-          break;
-        }
-      }
-      friendList.sort(function (a, b) {
-        var date1 = new Date(a.time);
-        var date2 = new Date(b.time);
-        return date1.getTime() < date2.getTime();
-      });
-      this._isMounted && this.setState({ message, friendList });
+    const wordLimit = 500;
+    if (text.split("").length > wordLimit) {
+      alert("Exceeding word limit!");
     } else {
-      alert("Failed to sent message.");
-    }
+      this._isMounted &&
+        this.setState({ isSending: true, textEnter: "", messageSending: text });
+      const response = await axios.post(
+        API_URL + "/chat/sendText",
+        { id: friend.id, message: text },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
 
-    this._isMounted && this.setState({ isSending: false, messageSending: "" });
+      if (response.data && response.data === "Message Sent.") {
+        const { message, friendList } = this.state;
+        message.unshift({
+          senderId: basic.id,
+          message: text,
+          when: time,
+        });
+
+        for (let i = 0; i < friendList.length; i++) {
+          if (friendList[i].id === friend.id) {
+            friendList[i].message = text;
+            friendList[i].time = time;
+            break;
+          }
+        }
+        friendList.sort(function (a, b) {
+          var date1 = new Date(a.time);
+          var date2 = new Date(b.time);
+          return date1.getTime() < date2.getTime();
+        });
+        this._isMounted && this.setState({ message, friendList });
+      } else {
+        alert("Failed to sent message.");
+        this._isMounted && this.setState({ textEnter: text });
+      }
+
+      this._isMounted &&
+        this.setState({ isSending: false, messageSending: "" });
+    }
   }
 
   messageSending() {
@@ -477,7 +492,11 @@ class Chat extends Component {
               minute: "2-digit",
             })}
           </div>
-          <div className="div-message-on-top">{messageSending}</div>
+          <div className="div-message-on-top">
+            {messageSending.split("\n").map((str) => (
+              <p className="p-no-margin">{str}</p>
+            ))}
+          </div>
         </div>
         <div className="loading-send">
           <BallClipRotate loading={true} color="#000" />
