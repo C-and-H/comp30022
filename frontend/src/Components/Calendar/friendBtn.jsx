@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Row, Col, Container, Button, ToggleButton, ButtonGroup } from 'react-bootstrap';
+import React from "react";
+import { ToggleButton } from 'react-bootstrap';
 
 class FriendBtn extends React.Component {
   constructor(props){
@@ -47,9 +47,7 @@ class FriendBtn extends React.Component {
       size="lg"
       variant="outline-info"
       checked={checked}
-      onChange={ (id) => {
-        this.handleChange();
-      }}
+      onChange={this.handleChange}
     >
       {btnText}
     </ToggleButton>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Input, FormGroup, Label } from "reactstrap";
-import { Row, Col, Container, Button, ToggleButton, ButtonGroup, ToggleButtonGroup } from 'react-bootstrap';
+import { Row, Col, Container, Button } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 import '../../App.css';
 import AuthService from "../../Services/AuthService";
@@ -121,7 +121,7 @@ class SetEvent extends Component {
     const { title, description, chosenParticipants, basic,
             startTime, endTime 
           } = this.state;
-          
+
     /* TODO: Call backend API */
     
 
@@ -169,7 +169,7 @@ class SetEvent extends Component {
     if (redirect) {
       return (<Redirect to="/" />);
     }
-    //console.log(friendList);
+    //console.log(this.state.chosenParticipants);
     return (
       <Container className="set-event-container">
         {/* <DateTimePicker

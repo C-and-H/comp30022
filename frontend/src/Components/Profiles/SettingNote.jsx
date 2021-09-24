@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 import {
-  Button, Container, Row, Col, Label, Collapse, Form,
+  Button, Container, Row, Col, Form,
   FormGroup, Input
 } from "reactstrap";
 import '../../App.css'
 
 import UserService  from "../../Services/UserService";
-import OtherUser from "../otherUser";
+
 
 export default class SettingNote extends React.Component {
   constructor(props) {
