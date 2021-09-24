@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import AuthService from "../../Services/AuthService";
+import { Redirect } from "react-router-dom";
 
 class ChangePassword extends React.Component {
   /**
@@ -20,7 +21,15 @@ class ChangePassword extends React.Component {
     confirmNewPassword: "",
     oldPassword: "",
     showPassword: false,
+    redirect: null
   };
+
+  componentDidMount() {
+    if (AuthService.getBasicInfo() == null) {
+      alert("Login required to access the page.");
+      this.setState({ redirect: "/" });
+    }
+  }
 
   handleNewPassword(event) {
     this.setState({ newPassword: event.target.value });
@@ -57,12 +66,9 @@ class ChangePassword extends React.Component {
             response === "New password is same as the old one."
           ) {
             alert(response);
-            this.props.history.push("/profile/change-password");
             window.location.reload();
           } else {
-            console.log(response);
             alert("You have successfully changed your password!");
-            this.props.history.push("/profile");
             window.location.reload();
           }
         })
@@ -74,6 +80,9 @@ class ChangePassword extends React.Component {
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div>
         <Form className="signup-form" onSubmit={this.handleSubmit}>
@@ -100,6 +109,9 @@ class ChangePassword extends React.Component {
               pattern="[A-Za-z0-9]{5,10}"
               required
             />
+            <ul className="password-requirement">
+              <li>&nbsp;5-10 letters or numbers</li>
+            </ul>
           </FormGroup>
 
           <FormGroup>

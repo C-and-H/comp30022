@@ -322,6 +322,7 @@ class App extends Component {
             <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
+            <Route exact path="/setting/change-password" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat">
               <Chat chat={onChat} onChat={this.handleOnChat} />

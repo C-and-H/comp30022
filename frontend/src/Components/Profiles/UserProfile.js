@@ -54,13 +54,8 @@ export default class Profile extends Component {
                 </Col>
                 <Col xs="9" style={{ textAlign: "center" }}>
                   <Switch>
+                    <Route exact path="/setting/change-password" component={ChangePassword} />
                     <Route exact path="/setting" component={SettingProfile} />
-
-                    <Route
-                      exact
-                      path="/setting/change-password"
-                      component={ChangePassword}
-                    />
                   </Switch>
                 </Col>
               </Router>
