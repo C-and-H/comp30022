@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import { Form, Input, FormGroup, Label } from "reactstrap";
 import { Row, Col, Container, Button } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
-import '../../App.css';
+import './SetEvent.css';
 import AuthService from "../../Services/AuthService";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import FriendBtn from "./friendBtn";
+// import './Sample.less';
 
+// import DateTimePicker from 'react-datetime-picker/dist/entry.nostyle';
 
 class SetEvent extends Component {
   
@@ -193,25 +195,25 @@ class SetEvent extends Component {
             <Col></Col>
           </Row>
 
-          <Row className="set-event-line">
+          <Row>
             <Col>
               <Label className="set-event-label">Start time:</Label>
               <DateTimePicker
                 onChange= {(value) => this.handleStartTime(value)}
+                disableClock={true}
                 value = {startTime}
               />
 
             </Col>
-            <Col>
+          </Row>
+          <Row className="set-event-line">
+          <Col>
               <Label className="set-event-label">End time:</Label>
                 <DateTimePicker
                   onChange= {(value) => this.handleEndTime(value)}
                   value = {endTime}
                 />
             </Col>
-          </Row>
-          <Row className="set-event-line">
-        
             {this.friendGroup()}
 
             <Col></Col>

@@ -1,0 +1,77 @@
+
+.set-event-formgroup {
+  text-align: left;
+  padding-top: 10px;
+}
+
+.set-event-line {
+  margin-top: 45px;
+  font-size: 28px;
+  margin-left: 40px;
+}
+
+.set-event-bar {
+  text-align: left;
+  font-size: 28px;
+  background-color: skyblue;
+  margin-top: 40px;
+}
+
+.set-event-label{
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-right: 20px;
+}
+
+.set-event-friends {
+  background-color: aliceblue;
+  width: 30%;
+  height: 100%;
+  margin-left: 1%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.set-event-friend-btn {
+  width: 100%;
+}
+
+.set-event-description {
+  margin-top: 80px;
+  font-size: 28px;
+  margin-left: 40px;
+  /* margin-bottom: 80px; */
+}
+
+.set-event-textarea {
+  height: 150px;
+}
+
+.set-event-container {
+  margin-bottom: 40px;
+}
+
+.set-event-save {
+  height: 60px;
+  width: 140px;
+  text-align: center;
+  font-size: 26px;
+  background-color: mediumslateblue;
+}
+
+.set-event-cancel {
+  height: 60px;
+  width: 140px;
+  text-align: center;
+  font-size: 26px;
+  background-color: gray;
+}
+
