@@ -117,7 +117,7 @@ public class ChatController
     {
         String friendId = byIdRequest.getId();
         String userId = userRepository.findByEmail(
-                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         if (!userRepository.findById(friendId).isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
