@@ -29,7 +29,7 @@ export default class ProfileDisplay extends Component {
       userReady: false,
       //currentUser: localStorage.getItem("user"),
       currentUser: null,
-      basic: localStorage.getItem("basic"),
+      basic: AuthService.getBasicInfo(),
       hasPhone: false,
       hasIndustry: false,
       hasRegion: false,
@@ -48,14 +48,21 @@ export default class ProfileDisplay extends Component {
   }
 
   async componentDidMount() {
-    const basic = AuthService.getBasicInfo();
+    const { basic } = this.state;
+    const self = AuthService.getCurrentUser();
     var currentUser;
+    if (!basic) {
+      this.setState( {redirect: "/" });
+      return;
+    }
+    
     //console.log(this.props.match.params.id);
-    if (this.props.match.params.id) {
+    if (this.props.match.params.id && this.props.match.params.id != self.id) {
       currentUser = await AuthService.getOtherUser(
         basic.token,
         this.props.match.params.id
       );
+      
 
       let friendship = await UserService.checkFriend(
         this.props.match.params.id,

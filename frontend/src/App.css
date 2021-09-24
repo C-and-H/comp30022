@@ -867,6 +867,7 @@ footer {
 .profile-display-p {
   margin-top: 40px;
   text-align: justify;
+  white-space: pre-line;
 }
 
 .profile-display-contact-line {
@@ -896,6 +897,7 @@ footer {
 
 .profile-display-note-input {
   height: 200px;
+  white-space: pre-line;
 }
 
 .profile-display-change-btn {
