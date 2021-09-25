@@ -18,9 +18,10 @@ import {
   CurrentTimeIndicator
   // AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
-import Popup from "./Popup";
-import Confirm from "./Confirm";
+import Popup from "./PopUpWindow/Popup";
+import Confirm from "./PopUpWindow/Confirm";
 import AutoLinkText from 'react-autolink-text2';
+import DeleteSuccess from "./PopUpWindow/DeleteSuccess";
 
 // handle the view switcher
 const ExternalViewSwitcher = ({
@@ -50,6 +51,7 @@ class Calendar extends Component {
       basic: localStorage.getItem("basic"),
       onClickDelete: false,
       seen: false,
+      deleteSuccessPopUp: false,
       startTime: "",
       endTime: "",
       data: "",
@@ -103,6 +105,12 @@ class Calendar extends Component {
     });
   }
 
+  dismissSuccessPopUp = () =>{
+    this.setState({
+      deleteSuccessPopUp: false,
+    });
+  }
+
   activateDelete = () =>{
     this.setState({
       onClickDelete: true
@@ -124,17 +132,6 @@ class Calendar extends Component {
       </DateNavigator.OpenButton>
     )
   }
-
-  try = ({children, style, ...restProps}) => {
-    return (
-      <DateNavigator.Root
-      rootRef={this.myRef}
-        {...restProps}
-      >
-      {children}
-      </DateNavigator.Root>
-    )
-  }
   appointment = ({children, style, ...restProps}) => {
     return (
     <Appointments.Appointment 
@@ -148,16 +145,15 @@ class Calendar extends Component {
   }
 
   clickAddEvent = () =>{
-    alert("you have click the add event button")
     const redirect = "/setEvent";
     this.setState({ redirect });
   }
 
   deleteEvent = () =>{
-    alert("you have click the delete event button")
     this.setState({
       onClickDelete: false,
-      seen: false
+      seen: false,
+      deleteSuccessPopUp: true,
     });
   }
 
@@ -244,6 +240,11 @@ class Calendar extends Component {
         <Confirm triggerClickDelete={this.state.onClickDelete} clickDismiss={this.clickDismiss} deleteEvent={this.deleteEvent}>
           <h2 style={{textAlign:"center",fontSize:20}}>Are you sure you want to delete this event?</h2>
         </Confirm>
+
+        <DeleteSuccess trigger={this.state.deleteSuccessPopUp} dismissSuccessPopUp={this.dismissSuccessPopUp}>
+        <h2 style={{textAlign:"center",fontSize:20, paddingBottom:15}}>Delete event success.</h2>
+        </DeleteSuccess>
+
       </Paper>
       </div>
       </React.Fragment>
