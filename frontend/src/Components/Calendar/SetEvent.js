@@ -105,12 +105,12 @@ class SetEvent extends Component {
   handleStartTime(value) {
 
     this.setState({ startTime: new Date(value) });
-    console.log(this.state.startTime.toJSON());
+    //console.log(this.state.startTime.toJSON());
   }
 
   handleEndTime(value) {
     this.setState({ endTime: new Date(value) });
-    console.log(this.state.endTime);
+    //console.log(this.state.endTime);
   }
 
   handleDescription(event) {
@@ -124,7 +124,13 @@ class SetEvent extends Component {
             startTime, endTime 
           } = this.state;
     /* TODO: Call backend API */
+    //console.log(startTime.toJSON());
+    if (startTime > endTime) {
+      alert("Start time is invalid");
+      return;
+    }
     this.setState({ disabled: true });
+    
     const response = await axios.post (
       API_URL + "/meeting/createMeeting",
       {
@@ -190,7 +196,8 @@ class SetEvent extends Component {
     if (redirect) {
       return (<Redirect to="/" />);
     }
-    console.log(this.state.chosenParticipants);
+    //console.log(this.state.chosenParticipants);
+    //console.log(startTime + " " + endTime);
     return (
       <Container className="set-event-container">
         <Row className="set-event-bar"> Create a new event </Row>        
