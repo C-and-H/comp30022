@@ -60,10 +60,17 @@ public class MeetingService
                 meetingRepository.delete(event);
             // if participant cancels just remove the id from the list
             } else {
-                List<String> participants = Arrays.asList(event.getParticipantIds());
-                if (participants.contains(userId)) {
-                    participants.remove(userId);
-                    event.setParticipantIds(participants.toArray(new String[0]));
+                String[] participants = event.getParticipantIds();
+                if (containId(participants, userId)) {
+                    String[] newParticipants = new String[participants.length-1];
+                    int i = 0;
+                    for (String participantId : participants) {
+                        if (!participantId.equals(userId)) {
+                            newParticipants[i] = participantId;
+                            i++;
+                        }
+                    }
+                    event.setParticipantIds(newParticipants);
                     meetingRepository.save(event);
                 } else {
                     throw new Exception("User does not participant in the meeting.");
@@ -85,5 +92,18 @@ public class MeetingService
             }
         }
         return true;
+    }
+
+    /**
+     * Check whether id in array
+     */
+    private boolean containId (String[] participantIds, String Id)
+    {
+        for (String participantId : participantIds) {
+            if (participantId.equals(Id)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
