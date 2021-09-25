@@ -22,6 +22,8 @@ import Popup from "./PopUpWindow/Popup";
 import Confirm from "./PopUpWindow/Confirm";
 import AutoLinkText from 'react-autolink-text2';
 import DeleteSuccess from "./PopUpWindow/DeleteSuccess";
+import { API_URL } from "../../constant";
+import axios from "axios";
 
 // handle the view switcher
 const ExternalViewSwitcher = ({
@@ -48,7 +50,7 @@ class Calendar extends Component {
       redirect: null,
       userReady: false,
       currentUser: localStorage.getItem("user"),
-      basic: localStorage.getItem("basic"),
+      basic: AuthService.getBasicInfo(),
       onClickDelete: false,
       seen: false,
       deleteSuccessPopUp: false,
@@ -56,9 +58,9 @@ class Calendar extends Component {
       endTime: "",
       data: "",
       currentViewName: 'Week',
-
+      chosenId: ""
     };
-
+    this.deleteEvent = this.deleteEvent.bind(this);
     this.currentViewNameChange = (e) => {
       this.setState({ currentViewName: e.target.value });
     };
@@ -78,6 +80,7 @@ class Calendar extends Component {
     // var data = event.data
     var startTime = event.data.startDate
     var endTime = event.data.endDate
+    const id = event.data.id;
     // console.log(data)
     var startTimeArray = startTime.toDateString().split(" ");
     var endTimeArray = endTime.toDateString().split(" ");
@@ -88,6 +91,7 @@ class Calendar extends Component {
       startTime: startTimeString,
       endTime: endTimeString,
       data: event.data,
+      chosenId: id,
       seen: true
     });
   }
@@ -149,12 +153,33 @@ class Calendar extends Component {
     this.setState({ redirect });
   }
 
-  deleteEvent = () =>{
+  async deleteEvent (){
+    /*TODO  */
     this.setState({
       onClickDelete: false,
       seen: false,
-      deleteSuccessPopUp: true,
     });
+
+    const { chosenId, basic} = this.state;
+
+    const response = await axios.post (
+      API_URL + "/meeting/deleteMeeting",
+      {
+        id: chosenId
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+
+    if (response.data !== "Meeting not found.") {
+      this.setState({ deleteSuccessPopUp: true });
+      console.log(response.data);
+    } else {
+      alert(response.data);
+    }
   }
 
   setButton = ({children, style, ...restProps}) =>{
