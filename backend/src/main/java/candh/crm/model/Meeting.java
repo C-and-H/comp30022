@@ -22,11 +22,9 @@ public class Meeting
     private String[] participantIds;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
-    @CreatedDate
     private Date startTime;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
-    @CreatedDate
     private Date endTime;
     private String title;
     private String notes;
