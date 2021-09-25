@@ -4,6 +4,7 @@ import candh.crm.payload.request.ByIdRequest;
 import candh.crm.payload.request.meeting.CreateMeetingRequest;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
+import candh.crm.service.EmailService;
 import candh.crm.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

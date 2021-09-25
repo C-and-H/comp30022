@@ -18,6 +18,9 @@ public class MeetingService
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     /**
      * @param Id ID of user
      * @return All meetings in user's calendar
@@ -42,6 +45,10 @@ public class MeetingService
             set.remove(hostId);
             meetingRepository.save(new Meeting(hostId, set.toArray(new String[0]),
                     startTime, endTime, title, notes));
+            if (set.size() > 0) {
+                emailService.meetingInvitation(hostId, set.toArray(new String[0]),
+                        startTime, endTime, title, notes);
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package candh.crm.service;
 
+import candh.crm.model.User;
+import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,10 +14,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class EmailService
 {
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -74,6 +82,46 @@ public class EmailService
         // message body
         String messageBody = content + "\n\nSend from: " + sender
                             + "\nSender's email: " + email;
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText(messageBody);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        message.setContent(multipart);
+
+        javaMailSender.send(message);
+    }
+
+    public void meetingInvitation(String hostId, String[] participantIds, Date startTime,
+                                  Date endTime, String title, String notes) throws MessagingException
+    {
+        User host = userRepository.findById(hostId).get();
+        List<User> participants = new ArrayList<>();
+        for (String participantId : participantIds) {
+            participants.add(userRepository.findById(participantId).get());
+        }
+
+        String receiver = participants.get(0).getEmail();
+        if (participants.size() > 1) {
+            for (int i = 1; i < participants.size(); i++) {
+                receiver = receiver + ", " + participants.get(i).getEmail();
+            }
+        }
+
+        String pattern = "MM/dd/yyyy HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        message.setFrom(new InternetAddress(from));
+        InternetAddress[] to = InternetAddress.parse(receiver);
+        message.addRecipients(MimeMessage.RecipientType.TO, to);
+        message.setSubject("Meeting invitation");
+
+        // message body
+        String messageBody = host.getName() + " has invited you to a meeting. \nTitle: " + title
+                                + " \nTime: " + df.format(startTime) + " to "
+                                + df.format(endTime) + " \nNotes: " + notes;
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setText(messageBody);
