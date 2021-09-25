@@ -121,7 +121,7 @@ public class EmailService
         // message body
         String messageBody = host.getName() + " has invited you to a meeting. \nTitle: " + title
                                 + " \nTime: " + df.format(startTime) + " to "
-                                + df.format(endTime) + " \nNotes: " + notes;
+                                + df.format(endTime) + " GMT \nNotes: " + notes;
 
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setText(messageBody);
