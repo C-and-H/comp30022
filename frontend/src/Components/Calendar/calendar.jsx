@@ -25,7 +25,6 @@ import Popup from "./PopUpWindow/Popup";
 import Confirm from "./PopUpWindow/Confirm";
 import AutoLinkText from 'react-autolink-text2';
 import DeleteSuccess from "./PopUpWindow/DeleteSuccess";
-import axios from "axios";
 
 // handle the view switcher
 const ExternalViewSwitcher = ({
@@ -82,7 +81,7 @@ class Calendar extends Component {
     this.setState({ currentUser: currentUser, userReady: true });
     // get appointments from backend
     let data = await this.fetchAppointments();
-    console.log(data)
+    // console.log(data)
     let appointments = []
     for (var i = 0; i < data.length; i++) {
       var appointment = {
@@ -91,6 +90,7 @@ class Calendar extends Component {
         title: data[i].title,
         participantIds: data[i].participantIds,
         description: data[i].notes,
+        id: data[i].id
       }
       appointments.push(appointment)
     }
@@ -131,7 +131,6 @@ class Calendar extends Component {
       let participantInfos = [...this.state.participantInfos];
       participantInfos.push(response.data);
       this.setState({ participantInfos });
-      console.log(participantInfos)
     }else{
       return "Current user was not found. Please log in ";
     }
@@ -142,11 +141,10 @@ class Calendar extends Component {
     for(var i = 0; i < event.data.participantIds.length; i++ ){
       this.getParticipantInfo(event.data.participantIds[i])
     }
-    // var data = event.data
+    console.log(event.data)
     var startTime = event.data.startDate
     var endTime = event.data.endDate
     const id = event.data.id;
-    // console.log(data)
     var startTimeMinsInterval = ""
     var endTimeMinsInterval = ""
     var startTimeHourInterval = ""
@@ -224,6 +222,7 @@ class Calendar extends Component {
     this.setState({
       deleteSuccessPopUp: false,
     });
+    window.location.reload();
   }
 
   activateDelete = () =>{
@@ -233,7 +232,7 @@ class Calendar extends Component {
   }
 
   handleOnClickCalendar(event) {
-    console.log("do nothing")
+    // console.log("do nothing")
   }
 
   disableShow = ({children, style, ...restProps}) => {
@@ -264,8 +263,9 @@ class Calendar extends Component {
     this.setState({ redirect });
   }
 
-  async deleteEvent (){
+  async deleteEvent(){
     /*TODO  */
+    alert(this.state.chosenId)
     this.setState({
       onClickDelete: false,
       seen: false,
@@ -287,7 +287,7 @@ class Calendar extends Component {
 
     if (response.data !== "Meeting not found.") {
       this.setState({ deleteSuccessPopUp: true });
-      console.log(response.data);
+      // console.log(response.data);
     } else {
       alert(response.data);
     }
