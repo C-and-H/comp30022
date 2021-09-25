@@ -1,6 +1,5 @@
 package candh.crm.payload.request.meeting;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +8,12 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class CreateMeetingRequest {
 
+/**
+ * Request body parameters for /meeting/createMeeting.
+ */
+public class CreateMeetingRequest
+{
     @NotNull
     private String[] participantIds;
     @NotBlank

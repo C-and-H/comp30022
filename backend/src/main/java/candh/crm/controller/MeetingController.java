@@ -4,7 +4,6 @@ import candh.crm.payload.request.ByIdRequest;
 import candh.crm.payload.request.meeting.CreateMeetingRequest;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
-import candh.crm.service.EmailService;
 import candh.crm.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +17,16 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin("${crm.app.frontend.host}")
-public class MeetingController {
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
+public class MeetingController
+{
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private MeetingService meetingService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @PostMapping("/meeting/createMeeting")
     @PreAuthorize("hasRole('USER')")
@@ -36,7 +35,7 @@ public class MeetingController {
             @Valid @RequestBody CreateMeetingRequest createMeetingRequest)
     {
         String hostId = userRepository.findByEmail(
-                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
 
         Date startTime, endTime;
@@ -67,7 +66,7 @@ public class MeetingController {
             @Valid @RequestBody ByIdRequest byIdRequest)
     {
         String id = userRepository.findByEmail(
-                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         try {
             meetingService.deleteMeeting(byIdRequest.getId(), id);
@@ -80,14 +79,10 @@ public class MeetingController {
     @GetMapping("/meeting/listMeeting")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> listMeeting(
-            @RequestHeader("Authorization") String headerAuth)
-    {
+            @RequestHeader("Authorization") String headerAuth) {
         String id = userRepository.findByEmail(
-                        jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
         return ResponseEntity.ok(meetingService.meetingList(id));
     }
-
-
-
 }

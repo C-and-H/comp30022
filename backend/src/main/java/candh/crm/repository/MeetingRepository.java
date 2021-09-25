@@ -17,5 +17,4 @@ public interface MeetingRepository extends MongoRepository<Meeting, String>
 
     @Query(value = "{'participantIds': '?0'}")
     List<Meeting> findBy_participantId(String participantId);
-
 }
