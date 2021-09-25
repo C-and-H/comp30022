@@ -264,8 +264,6 @@ class Calendar extends Component {
   }
 
   async deleteEvent(){
-    /*TODO  */
-    alert(this.state.chosenId)
     this.setState({
       onClickDelete: false,
       seen: false,
