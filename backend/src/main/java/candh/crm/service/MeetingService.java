@@ -11,7 +11,6 @@ import java.util.*;
 @Service
 public class MeetingService
 {
-
     @Autowired
     private MeetingRepository meetingRepository;
 
@@ -22,13 +21,12 @@ public class MeetingService
     private EmailService emailService;
 
     /**
-     * @param Id ID of user
-     * @return All meetings in user's calendar
+     * @param id  id of the user
+     * @return  all meetings in user's calendar
      */
-    public List<Meeting> meetingList(String Id)
-    {
-        List<Meeting> meetings = meetingRepository.findByHostId(Id);
-        meetings.addAll(meetingRepository.findBy_participantId(Id));
+    public List<Meeting> meetingList(String id) {
+        List<Meeting> meetings = meetingRepository.findByHostId(id);
+        meetings.addAll(meetingRepository.findBy_participantId(id));
         return meetings;
     }
 
@@ -60,17 +58,23 @@ public class MeetingService
             // remove the meeting if host cancels it
             if (userId.equals(event.getHostId())) {
                 meetingRepository.delete(event);
-             // if participant cancels just remove the id from the list
+            // if participant cancels just remove the id from the list
             } else {
-                List<String> participants = Arrays.asList(event.getParticipantIds());
-                if (participants.contains(userId)) {
-                    participants.remove(userId);
-                    event.setParticipantIds(participants.toArray(new String[0]));
+                String[] participants = event.getParticipantIds();
+                if (containId(participants, userId)) {
+                    String[] newParticipants = new String[participants.length-1];
+                    int i = 0;
+                    for (String participantId : participants) {
+                        if (!participantId.equals(userId)) {
+                            newParticipants[i] = participantId;
+                            i++;
+                        }
+                    }
+                    event.setParticipantIds(newParticipants);
                     meetingRepository.save(event);
                 } else {
                     throw new Exception("User does not participant in the meeting.");
                 }
-
             }
         } else {
             throw new Exception("Meeting not found.");
@@ -78,7 +82,7 @@ public class MeetingService
     }
 
     /**
-     * check whether all ids in array present in user database
+     * Check whether all ids in array present in user database.
      */
     private boolean validIds (String[] participantIds)
     {
@@ -90,6 +94,16 @@ public class MeetingService
         return true;
     }
 
-
-
+    /**
+     * Check whether id in array
+     */
+    private boolean containId (String[] participantIds, String Id)
+    {
+        for (String participantId : participantIds) {
+            if (participantId.equals(Id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
