@@ -871,6 +871,7 @@ footer {
 .profile-display-p {
   margin-top: 40px;
   text-align: justify;
+  white-space: pre-line;
 }
 
 .profile-display-contact-line {
@@ -888,7 +889,8 @@ footer {
   align-self: center;
   border-radius: 20px;
   height: 32px;
-  text-align: justify;
+  width: 120px;
+  text-align: center;
   background-color: mediumslateblue;
 }
 
@@ -899,7 +901,19 @@ footer {
 
 .profile-display-note-input {
   height: 200px;
+  white-space: pre-line;
 }
+
+.profile-display-change-btn {
+  margin-left: 0px;
+  align-self: center;
+  border-radius: 20px;
+  height: 32px;
+  
+  text-align: center;
+  background-color: mediumslateblue;
+}
+
 
 /******************** ProfileDisplay Components END ********************/
 

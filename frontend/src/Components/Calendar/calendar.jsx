@@ -160,9 +160,12 @@ class Calendar extends Component {
   setButton = ({children, style, ...restProps}) =>{
     return (
       <Toolbar.FlexibleSpace>
-         <button className="MuiButtonBase-root MuiButton-root calendar-btn" onClick={this.clickAddEvent}> 
+         <a
+          className="MuiButtonBase-root MuiButton-root calendar-btn"
+          href="/setEvent">
+          
           <span class="MuiButton-label">Add Event</span>
-         </button>
+         </a>
         {children}
       </Toolbar.FlexibleSpace>
     )
@@ -199,6 +202,7 @@ class Calendar extends Component {
             
           },
     ]
+
     return (
       <React.Fragment>
         <ExternalViewSwitcher currentViewName={currentViewName} onChange={this.currentViewNameChange}/>
