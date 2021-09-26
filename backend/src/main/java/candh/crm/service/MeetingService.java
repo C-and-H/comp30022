@@ -18,6 +18,9 @@ public class MeetingService
     private UserRepository userRepository;
 
     @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
     private EmailService emailService;
 
     /**
@@ -35,17 +38,25 @@ public class MeetingService
     {
         if (!userRepository.findById(hostId).isPresent()) {
             throw new Exception("HostId not found.");
-        } else if (!validIds(participantIds)) {
+        }
+        else if (!validIds(participantIds)) {
             throw new Exception("ParticipantId not found.");
-        } else {
+        }
+        else {
             Set<String> set = new HashSet<>();
             Collections.addAll(set, participantIds);
             set.remove(hostId);
             meetingRepository.save(new Meeting(hostId, set.toArray(new String[0]),
                     startTime, endTime, title, notes));
             if (set.size() > 0) {
+                // send email
                 emailService.meetingInvitation(hostId, set.toArray(new String[0]),
                         startTime, endTime, title, notes);
+                // send notification
+                for (String participantId : set) {
+                    notificationService
+                            .createReceiveMeetingInvitationNotification(participantId, hostId);
+                }
             }
         }
     }
@@ -58,8 +69,9 @@ public class MeetingService
             // remove the meeting if host cancels it
             if (userId.equals(event.getHostId())) {
                 meetingRepository.delete(event);
+            }
             // if participant cancels just remove the id from the list
-            } else {
+            else {
                 String[] participants = event.getParticipantIds();
                 if (containId(participants, userId)) {
                     String[] newParticipants = new String[participants.length-1];
@@ -76,7 +88,8 @@ public class MeetingService
                     throw new Exception("User does not participant in the meeting.");
                 }
             }
-        } else {
+        }
+        else {
             throw new Exception("Meeting not found.");
         }
     }
