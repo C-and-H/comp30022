@@ -51,7 +51,7 @@ public class EmailService
                 "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:<br><br>" +
                 "<a target='_blank' style='color:#0041D3;text-decoration:underline' href='" +
                 confirmLink + "'>Click here to activate</a>" +
-                "<br><br><img src='cid:logo' width='500' height='500'/>";   // logo
+                "<br><img src='cid:logo' width='400' height='400'/>";   // logo
 
         helper.setText(messageBody, true);
         FileSystemResource resource = new FileSystemResource(new File("src/main/resources/logo.png"));
