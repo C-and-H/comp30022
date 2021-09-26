@@ -174,7 +174,7 @@ class SetEvent extends Component {
         <div className="set-event-friends">
           {friendList ? (
             friendList.map((friend) => (
-              <FriendBtn 
+              <FriendBtn
                 friend={friend}
                 key={friend.id}
                 callBack = {this.handleCallBack}

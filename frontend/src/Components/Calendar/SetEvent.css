@@ -52,7 +52,16 @@
 .react-datetime-picker__calendar .react-calendar{
   font-size: 16px;
 }
-.btn-group-lg>.btn, .btn-lg{
+/* .set-event-friends{
+  background-color: white;
+  border-width: 0px;
+  color: black;
+  border-bottom: 1px solid grey;
+  margin-top: 0px;
+  border-radius: 0px;
+  font-size: 18px;
+} */
+.set-event-friendBtn{
   background-color: white;
   border-width: 0px;
   color: black;
@@ -65,6 +74,7 @@
 .set-event-friend-btn {
   width: 100%;
 }
+
 .btn-check:active+.btn-outline-info:focus, 
 .btn-check:checked+.btn-outline-info:focus, 
 .btn-outline-info.active:focus, 
@@ -74,7 +84,7 @@
 }
 .btn-check:focus+.btn-outline-info, .btn-outline-info:focus{
   box-shadow:none;
-  /* transition: none; */
+  transition: none;
 }
 
 .set-event-description {
