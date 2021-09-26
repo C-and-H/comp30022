@@ -10,11 +10,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,8 +41,8 @@ public class EmailService
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setSubject("Confirm your signup for candhCRM");
-        helper.setFrom(new InternetAddress(from));
+        helper.setSubject("Confirm your signup for CandhCRM");
+        helper.setFrom(from);
         helper.setTo(to);
 
         // message body
@@ -76,21 +73,21 @@ public class EmailService
                                 String content, String email) throws MessagingException
     {
         MimeMessage message = javaMailSender.createMimeMessage();
-        message.setFrom(new InternetAddress(from));
-        InternetAddress[] to = InternetAddress.parse(receiver);
-        message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject(title);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setSubject(title);
+        helper.setFrom(from);
+        helper.setTo(InternetAddress.parse(receiver));
 
         // message body
-        String messageBody = content + "\n\nSend from: " + sender
-                            + "\nSender's email: " + email;
+        String messageBody = "Hello,\n\nI hope you are doing well.\n\n" +
+                content +
+                "\n\nKind regards,\n" + sender +
+                "\n\n==============================" +
+                "\nForwarded by CandhCRM" +
+                "\nFrom: " + email;
 
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(messageBody);
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
-        message.setContent(multipart);
-
+        helper.setText(messageBody, false);
         javaMailSender.send(message);
     }
 
@@ -113,24 +110,20 @@ public class EmailService
         String pattern = "MM/dd/yyyy HH:mm:ss";
         DateFormat df = new SimpleDateFormat(pattern);
 
-
         MimeMessage message = javaMailSender.createMimeMessage();
-        message.setFrom(new InternetAddress(from));
-        InternetAddress[] to = InternetAddress.parse(receiver);
-        message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("Meeting invitation");
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setSubject("Meeting invitation");
+        helper.setFrom(from);
+        helper.setTo(InternetAddress.parse(receiver));
 
         // message body
-        String messageBody = host.getName() + " has invited you to a meeting. \nTitle: " + title
-                                + " \nTime: " + df.format(startTime) + " to "
-                                + df.format(endTime) + " GMT \nNotes: " + notes;
+        String messageBody = host.getName() + " has invited you to a meeting.\n" +
+                "\nTitle: " + title +
+                "\nTime: " + df.format(startTime) + " to " + df.format(endTime) + " GMT\n" +
+                "\nNotes:\n" + notes;
 
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(messageBody);
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
-        message.setContent(multipart);
-
+        helper.setText(messageBody, false);
         javaMailSender.send(message);
     }
 }
