@@ -26,6 +26,7 @@ import { Notification } from "rsuite";
 import Button from "react-bootstrap/Button";
 import SettingNote from "./Components/Profiles/SettingNote";
 import SetEvent from "./Components/Calendar/SetEvent";
+import VideoCall from "./Components/videoCall";
 
 class App extends Component {
   constructor(props) {
@@ -47,6 +48,8 @@ class App extends Component {
       notificationCounter: 0, // help adding unique id to each notification
       onChat: 0,
       chatPath: null,
+      onCall: false,
+      myVideoStream: null,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -57,6 +60,8 @@ class App extends Component {
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleOnChat = this.handleOnChat.bind(this);
     this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
+    this.handleCall = this.handleCall.bind(this);
+    this.handleMyVideoStream = this.handleMyVideoStream.bind(this);
   }
 
   async componentDidMount() {
@@ -293,6 +298,14 @@ class App extends Component {
     }
   }
 
+  handleCall() {
+    this.setState({ onCall: !this.state.onCall });
+  }
+
+  handleMyVideoStream(stream) {
+    this.setState({ myVideoStream: stream });
+  }
+
   render() {
     const {
       currentUser,
@@ -301,9 +314,11 @@ class App extends Component {
       notificationLoading,
       notificationNumber,
       onChat,
+      onCall,
     } = this.state;
     return (
       <div className="App">
+        <Button onClick={this.handleCall} />
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
           <NavigationBar
@@ -315,6 +330,11 @@ class App extends Component {
             removeNotification={this.removeNotification}
             removeAllNotifications={this.removeAllNotifications}
             notificationLoading={notificationLoading}
+          />
+          <VideoCall
+            visible={onCall}
+            endCall={this.handleCall}
+            onStream={this.handleMyVideoStream}
           />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
