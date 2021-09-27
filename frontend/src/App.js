@@ -253,7 +253,7 @@ class App extends Component {
   }
 
   handleOnChat() {
-    this._isMounted && this.setState({ onChat: this.state.onChat + 1 });
+    this.setState({ onChat: this.state.onChat + 1 });
   }
 
   handleReceiveMessage(name) {
