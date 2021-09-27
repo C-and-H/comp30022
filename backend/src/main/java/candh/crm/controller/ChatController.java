@@ -38,9 +38,6 @@ public class ChatController
     @Autowired
     private JwtUtils jwtUtils;
 
-    @Autowired
-    private WebSocketSubscriptionService webSocketSubscriptionService;
-
     /** the number of messages to fetch once */
     public static final int N_FETCH = 10;
 
