@@ -6,6 +6,7 @@
 
 ### VS Code ###
 .vscode/
+frontend/.env
 
 ### MAC OS ###
 **/.DS_Store

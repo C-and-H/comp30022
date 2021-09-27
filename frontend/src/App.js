@@ -7,7 +7,7 @@ import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
-import SettingProfile from "./Components/Profiles/SettingProfile";
+// import SettingProfile from "./Components/Profiles/SettingProfile";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
 import Verify from "./Components/Verify";
