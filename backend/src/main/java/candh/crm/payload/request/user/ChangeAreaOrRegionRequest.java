@@ -3,8 +3,6 @@ package candh.crm.payload.request.user;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
 
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotNull;
  */
 public class ChangeAreaOrRegionRequest
 {
-    @NotNull
     private String areaOrRegion;
 
     public String getAreaOrRegion(){

@@ -94,8 +94,7 @@ public class AuthController
 
         // save to database
         try {
-            authService.updateUser(new User(user.getEmail(), user.getPassword(),
-                    user.getFirst_name(), user.getLast_name()), false);
+            authService.signupUser(user, false);
         } catch (Exception e) {
             return ResponseEntity.ok("Error during user signup.");
         }
@@ -147,7 +146,7 @@ public class AuthController
         // save to database
         try {
             user.setPassword(newPassword);
-            authService.updateUser(user, true);
+            authService.signupUser(user, true);
         } catch (Exception e) {
             return ResponseEntity.ok("Error during changing password.");
         }

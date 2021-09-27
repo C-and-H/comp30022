@@ -22,8 +22,7 @@ class SetEvent extends Component {
       redirect: false,
       friendList: [],
       friends: [],
-      chosenParticipants: new Array(),
-      disabled: false
+      chosenParticipants: []
     }
     this.handleStartTime = this.handleStartTime.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -99,23 +98,21 @@ class SetEvent extends Component {
 
   handleTitle(event) {
     this.setState({ title: event.target.value });
-    //console.log(this.state.title);
   }
 
   handleStartTime(value) {
 
     this.setState({ startTime: new Date(value) });
-    //console.log(this.state.startTime.toJSON());
+    console.log(this.state.startTime);
   }
 
   handleEndTime(value) {
     this.setState({ endTime: new Date(value) });
-    //console.log(this.state.endTime);
+    console.log(this.state.endTime);
   }
 
   handleDescription(event) {
     this.setState({ description: event.target.value});
-    //console.log(this.state.description);
   }
 
   async handleSubmit(event) {
@@ -124,48 +121,16 @@ class SetEvent extends Component {
             startTime, endTime 
           } = this.state;
     /* TODO: Call backend API */
-    //console.log(startTime.toJSON());
-    if (startTime > endTime) {
-      alert("Start time is invalid");
-      return;
-    }
-    this.setState({ disabled: true });
     
-    const response = await axios.post (
-      API_URL + "/meeting/createMeeting",
-      {
-        participantIds: chosenParticipants,
-        startTime: startTime.toJSON(),
-        endTime: endTime.toJSON(),
-        title: title,
-        notes: description
-      
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
-    if (response.data) {
-      alert("You have sucessfully created a new event!");
-      this.props.history.push("/calendar");
-      window.location.reload();
 
-    } else {
-      alert("an error has occured " + response);
-      this.setState({ disabled: false});
-    }
-    
   }
 
   handleCancel() {
-    this.props.history.push("/calendar");
-    window.location.reload();
+    window.location = "/calendar";
   }
   
   friendGroup() {
-    const { friendList} = this.state;
+    const { friendList, chosenParticipants} = this.state;
     //console.log(chosenParticipants);
     return (
       <div className="friend-box">
@@ -174,7 +139,7 @@ class SetEvent extends Component {
         <div className="set-event-friends">
           {friendList ? (
             friendList.map((friend) => (
-              <FriendBtn
+              <FriendBtn 
                 friend={friend}
                 key={friend.id}
                 callBack = {this.handleCallBack}
@@ -190,14 +155,12 @@ class SetEvent extends Component {
     )
   }
   render(){
-    const { startTime, endTime, redirect,
-            disabled} = this.state;
+    const { startTime, endTime, redirect, friendList} = this.state;
 
     if (redirect) {
       return (<Redirect to="/" />);
     }
     //console.log(this.state.chosenParticipants);
-    //console.log(startTime + " " + endTime);
     return (
       <Container className="set-event-container">
         <Row className="set-event-bar"> Create a new event </Row>        
@@ -247,8 +210,7 @@ class SetEvent extends Component {
             <Col xs="2">
               <Button
                 type="submit"
-                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
-                disabled={disabled}>
+                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left">
                 Save Event
               </Button>
             </Col>

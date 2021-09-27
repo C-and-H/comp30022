@@ -1,9 +1,9 @@
 import React from "react";
-import "../Popup.css"
+import "./Popup.css"
 function Confirm(props) {
   return (props.triggerClickDelete) ? (
-    <div className="popup-confirm">
-      <div className="popup-inner popup-inner-confirm" style={{opacity:1}}>
+    <div className="popup">
+      <div className="popup-inner" style={{opacity:1}}>
         {props.children}
         <center>
           <button className="dismiss-btn"

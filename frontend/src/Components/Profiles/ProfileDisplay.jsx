@@ -7,16 +7,27 @@ import {
   Row,
   Col,
   Label,
-  
+  Collapse,
+  Form,
+  FormGroup,
+  Input,
 } from "reactstrap";
 import "../../App.css";
 
 import UserService from "../../Services/UserService";
 
+//import ProfileSideBar from "./ProfileSideBar"
+
+// const imgStyle = {
+// 	float: "left",
+// 	height: "150px",
+// 	width: "180px",
+// 	marginRight : 50
+// }
 
 const iconStyle = {
   marginTop: 40,
-  marginLeft: 60,
+  marginLeft: 50,
   fontSize: 200,
 };
 
@@ -29,7 +40,7 @@ export default class ProfileDisplay extends Component {
       userReady: false,
       //currentUser: localStorage.getItem("user"),
       currentUser: null,
-      basic: AuthService.getBasicInfo(),
+      basic: localStorage.getItem("basic"),
       hasPhone: false,
       hasIndustry: false,
       hasRegion: false,
@@ -43,26 +54,18 @@ export default class ProfileDisplay extends Component {
       note: "",
     };
     this.friendBtn = this.friendBtn.bind(this);
-    this.startChat = this.startChat.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
-    const { basic } = this.state;
-    const self = AuthService.getCurrentUser();
+    const basic = AuthService.getBasicInfo();
     var currentUser;
-    if (!basic) {
-      this.setState( {redirect: "/" });
-      return;
-    }
-    
     //console.log(this.props.match.params.id);
-    if (this.props.match.params.id && this.props.match.params.id != self.id) {
+    if (this.props.match.params.id) {
       currentUser = await AuthService.getOtherUser(
         basic.token,
         this.props.match.params.id
       );
-      
 
       let friendship = await UserService.checkFriend(
         this.props.match.params.id,
@@ -147,35 +150,6 @@ export default class ProfileDisplay extends Component {
     );
   }
 
-  startChat() {
-    const { currentUser } = this.state;
-    
-    localStorage.setItem("chat", JSON.stringify(currentUser));
-    this.props.history.push("/chat");
-    window.location.reload();
-    //console.log(this.state.btnText);
-  }
-
-  chatBtn() {
-    return (
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col xs="6">
-            <Button
-              className="profile-display-icon-btn"
-              onClick={this.startChat}
-            >
-              Chat
-            </Button>
-          </Col>
-
-          <Col></Col>
-        </Row>
-      </Container>
-    );
-  }
-
   render() {
     const {
       currentUser,
@@ -201,7 +175,7 @@ export default class ProfileDisplay extends Component {
 
     if (!currentUser.first_name) return <div>User does not exist</div>;
     const fullName = currentUser.first_name + " " + currentUser.last_name;
-    console.log(currentUser);
+    // console.log(currentUser);
     // console.log(fullName);
     return (
       <div ref={this.wrapper}>
@@ -232,7 +206,7 @@ export default class ProfileDisplay extends Component {
                     <Col></Col>
                     <Col xs="6">
                       <Button
-                        className="profile-display-change-btn"
+                        className="profile-display-icon-btn"
                         href="/changeIcon"
                       >
                         Change Icon
@@ -242,25 +216,7 @@ export default class ProfileDisplay extends Component {
                     <Col></Col>
                   </Row>
                 ) : (
-                  <Container>
-
-                    <Row 
-                      className="profile-display-line"
-                    >
-                      {this.friendBtn()}
-                      
-                    </Row>
-                    { isFriend ? (
-                      <Row 
-                      className="profile-display-line"
-                      >
-                      {this.chatBtn()}
-                      </Row>
-                    ) : (
-                      <></>
-                    )}
-                    
-                  </Container>
+                  <Row className="profile-display-line">{this.friendBtn()}</Row>
                 )}
               </Container>
             </Col>

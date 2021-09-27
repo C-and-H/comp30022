@@ -14,5 +14,5 @@ import javax.validation.constraints.NotBlank;
 public class CheckExpirationRequest
 {
     @NotBlank
-    private String authToken;
+    String authToken;
 }

@@ -43,7 +43,6 @@ class FriendBtn extends React.Component {
     const { friend } = this.props;
     return (
     <ToggleButton
-      className="set-event-friendBtn"
       type="checkbox"
       id={friend.id}
       size="lg"

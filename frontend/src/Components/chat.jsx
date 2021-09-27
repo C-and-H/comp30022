@@ -436,8 +436,6 @@ class Chat extends Component {
     const wordLimit = 500;
     if (text.split("").length > wordLimit) {
       alert("Exceeding word limit!");
-    } else if (text.match(/^\s+$/)) {
-      alert("Empty input!");
     } else {
       this._isMounted &&
         this.setState({ isSending: true, textEnter: "", messageSending: text });

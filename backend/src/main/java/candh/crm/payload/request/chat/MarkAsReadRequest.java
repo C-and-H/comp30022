@@ -4,18 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @Setter
 
 /**
- * Request body parameters for /chat/sendText.
+ * Request body parameters for /chat/markAsRead.
  */
-public class SendTextRequest
+public class MarkAsReadRequest
 {
-    /** id of the receiver */
+    /** list of ids of messages to mark */
     @NotBlank
-    private String id;
-    @NotBlank
-    private String message;
+    List<String> ids;
 }

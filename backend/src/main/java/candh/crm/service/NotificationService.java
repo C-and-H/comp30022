@@ -79,16 +79,9 @@ public class NotificationService
      */
     public void createAcceptFriendRequestNotification(
             String acceptorId, String senderId) {
-        String acceptorName = userRepository.findById(acceptorId).get().getName();
-        create(senderId, "New friend: " + acceptorName + "!");
+        String acceptor = userRepository.findById(acceptorId).get().getName();
+        create(senderId, "New friend: " + acceptor + "!");
         pushTo(senderId);
-    }
-
-    public void createReceiveMeetingInvitationNotification(
-            String participantId, String hostId) {
-        String hostName = userRepository.findById(hostId).get().getName();
-        create(participantId, "Event invite: " + hostName + '.');
-        pushTo(participantId);
     }
 
     /**
