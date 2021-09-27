@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { createPortal } from "react-dom";
 import Button from "react-bootstrap/Button";
+import { BallSpinClockWise } from "react-pretty-loading";
 
 class VideoCall extends Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class VideoCall extends Component {
 
     this.state = {
       visible: this.props.visible,
+      myVideo: null,
+      friendVideo: this.props.friendVideo,
     };
 
     this.success = this.success.bind(this);
@@ -34,6 +37,17 @@ class VideoCall extends Component {
         );
       }
       this.setState({ visible: this.props.visible });
+    }
+
+    if (this.props.friendVideo !== this.state.friendVideo) {
+      let video = document.getElementById("friendVideo");
+      if ("srcObject" in video) {
+        video.srcObject = this.props.friendVideo;
+      } else {
+        let CompatiableURL = window.URL || window.webkitURL;
+        video.src = CompatiableURL.createObjectURL(this.props.friendVideo);
+      }
+      this.setState({ friendVideo: this.props.friendVideo });
     }
   }
 
@@ -67,22 +81,49 @@ class VideoCall extends Component {
       let CompatiableURL = window.URL || window.webkitURL;
       video.src = CompatiableURL.createObjectURL(stream);
     }
+    this.setState({ myVideo: stream });
   }
 
   error(error) {
     console.log("Fail to get media device", error);
   }
 
-  myVideo() {
+  videoDisplay() {
     return (
-      <video
-        id="myVideo"
-        playsInline
-        muted
-        autoPlay
-        className="video-call-video"
-      />
+      <div className="div-video-call-display">
+        <div className="div-my-video">
+          <video
+            id="myVideo"
+            playsInline
+            muted
+            autoPlay
+            className="video-call-video"
+          />
+        </div>
+        {this.state.friendVideo ? (
+          <div className="div-friend-video">
+            <video
+              id="friendVideo"
+              playsInline
+              autoPlay
+              className="video-call-video"
+            />
+          </div>
+        ) : (
+          <div className="div-loading-video">
+            <BallSpinClockWise loading={true} center />
+          </div>
+        )}
+      </div>
     );
+  }
+
+  hangUp() {
+    this.props.onStream(null);
+    this.state.myVideo.getTracks().forEach((track) => {
+      track.stop();
+    });
+    this.props.endCall();
   }
 
   render() {
@@ -90,18 +131,12 @@ class VideoCall extends Component {
       this.state.visible && (
         <div className="div-video-call">
           <div className="div-video-title">Video Chat</div>
-          {this.myVideo()}
-          <Button
-            onClick={() => {
-              let video = document.getElementById("myVideo");
-              this.props.onStream(null);
-              video.srcObject.getTracks().forEach((track) => {
-                track.stop();
-              });
-              video.srcObject = null;
-              this.props.endCall();
-            }}
-          />
+          {this.videoDisplay()}
+          <div className="div-video-button">
+            <Button onClick={() => this.hangUp()} className="btn-end-call">
+              <i className="fa fa-phone-slash" />
+            </Button>
+          </div>
         </div>
       ),
       this.node

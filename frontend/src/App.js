@@ -50,6 +50,7 @@ class App extends Component {
       chatPath: null,
       onCall: false,
       myVideoStream: null,
+      friendVideoStream: null,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -315,6 +316,7 @@ class App extends Component {
       notificationNumber,
       onChat,
       onCall,
+      friendVideoStream,
     } = this.state;
     return (
       <div className="App">
@@ -335,6 +337,7 @@ class App extends Component {
             visible={onCall}
             endCall={this.handleCall}
             onStream={this.handleMyVideoStream}
+            friendVideo={friendVideoStream}
           />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
