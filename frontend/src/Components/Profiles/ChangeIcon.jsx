@@ -77,6 +77,8 @@ export default class ChangeIcon extends Component {
     }
 
     await AuthService.getUserDataFromBackend(basic.token, basic.id);
+    this.props.history.push("/profile");
+    window.location.reload();
   }
 
   render() {

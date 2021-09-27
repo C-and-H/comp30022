@@ -183,7 +183,6 @@ class SettingProfile extends React.Component {
   /* post the data to backend to change area or origion */
   async changePhone(id, mobileNumber) {
     const user = AuthService.getBasicInfo();
-    console.log(mobileNumber);
     if (user && user.token) {
       const token = user.token;
       const response = await axios.post(

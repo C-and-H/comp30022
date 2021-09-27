@@ -38,11 +38,11 @@ public class AuthService implements UserDetailsService
 
     /**
      * Add a new user to database, with password encoded.
-     * Then send a confirmation email for account activation.
      *
      * @param user  a user object, that must contain email, password, first name, and last name
+     * @param isEnabled  send a confirmation email if account is not enabled
      */
-    public void signupUser(User user, boolean isEnabled) throws MessagingException {
+    public void updateUser(User user, boolean isEnabled) throws MessagingException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         if (!isEnabled) {
