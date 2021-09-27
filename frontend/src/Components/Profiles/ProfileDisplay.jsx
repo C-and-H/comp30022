@@ -250,11 +250,16 @@ export default class ProfileDisplay extends Component {
                       {this.friendBtn()}
                       
                     </Row>
-                    <Row 
+                    { isFriend ? (
+                      <Row 
                       className="profile-display-line"
-                    >
+                      >
                       {this.chatBtn()}
-                    </Row>
+                      </Row>
+                    ) : (
+                      <></>
+                    )}
+                    
                   </Container>
                 )}
               </Container>
