@@ -20,6 +20,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
                 .addEndpoint("/candh-crm-websocket")
-                .setAllowedOrigins(System.getenv("HOST_NAME")).withSockJS();
+                .setAllowedOrigins(System.getenv("APP_URL")).withSockJS();
     }
 }
