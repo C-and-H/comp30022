@@ -305,7 +305,7 @@ class Calendar extends Component {
     )
   }
 
-
+  // display the participants 
   displayParticipants = () =>{
     const { participantInfos } = this.state;
     var participants = []
@@ -327,6 +327,29 @@ class Calendar extends Component {
       </div>
       )
   }
+
+  //display the host name
+  // displayHost = () =>{
+  //   const { participantInfos } = this.state;
+  //   var participants = []
+  //   var participants_string = ""
+  //   for(var i = 0; i < participantInfos.length; i++){
+  //     var name = participantInfos[i].first_name + " " + participantInfos[i].last_name
+  //     participants.push(name)
+  //     participants_string = participants_string + name + ", "
+  //   }
+    
+  //   return(
+  //     <div>
+  //       {participants.length ? (
+  //       <p> {participants_string.slice(0, -2)}
+  //       </p>
+  //       ) : (
+  //         ""
+  //       )}
+  //     </div>
+  //     )
+  // }
   
   render(){
         // if redict is not null imply user is not login, then go to home page
@@ -339,7 +362,6 @@ class Calendar extends Component {
     return (
       <React.Fragment>
         <ExternalViewSwitcher currentViewName={currentViewName} onChange={this.currentViewNameChange}/>
-        {/* <Button class="calendar-btn">hello</Button> */}
       <div className="calendar">
       <Paper >
         <Scheduler data={appointments} >
@@ -371,6 +393,10 @@ class Calendar extends Component {
                    <AutoLinkText text ={this.state.data.description}/>
                  </div>  
               </div>
+              {/* <div className="pop-host">
+              <span style={{fontSize:23, fontWeight:600}}>Host Name:</span>
+              {(this.state.seen) ? this.displayParticipants() : ""}
+              </div>               */}
               <div className="pop-paticipants">
               <span style={{fontSize:23, fontWeight:600}}>Participants: ({this.state.participantInfos.length} in total)</span>
               {(this.state.seen) ? this.displayParticipants() : ""}
