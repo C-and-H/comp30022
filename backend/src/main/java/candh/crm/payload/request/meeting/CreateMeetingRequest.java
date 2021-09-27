@@ -22,6 +22,6 @@ public class CreateMeetingRequest
     private String endTime;
     @NotBlank
     private String title;
-    @NotBlank
+    @NotNull
     private String notes;
 }
