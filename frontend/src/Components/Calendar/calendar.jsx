@@ -309,14 +309,17 @@ class Calendar extends Component {
   displayParticipants = () =>{
     const { participantInfos } = this.state;
     var participants = []
+    var participants_string = ""
     for(var i = 0; i < participantInfos.length; i++){
       var name = participantInfos[i].first_name + " " + participantInfos[i].last_name
       participants.push(name)
+      participants_string = participants_string + name + ", "
     }
+    
     return(
       <div>
         {participants.length ? (
-        <p> {participants.toString()}
+        <p> {participants_string.slice(0, -2)}
         </p>
         ) : (
           ""
