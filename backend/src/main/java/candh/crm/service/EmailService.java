@@ -1,21 +1,28 @@
 package candh.crm.service;
 
+import candh.crm.model.User;
+import candh.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class EmailService
 {
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -32,23 +39,23 @@ public class EmailService
                                 String signupConfirmPath) throws MessagingException
     {
         MimeMessage message = javaMailSender.createMimeMessage();
-        message.setFrom(new InternetAddress(from));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        String subject = "Confirm your signup for candhCRM";
-        message.setSubject(subject);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setSubject("Confirm your signup for CandhCRM");
+        helper.setFrom(from);
+        helper.setTo(to);
 
         // message body
         String confirmLink = System.getenv("HOST_NAME") + "/signup/" + to + "/" + signupConfirmPath;
-        String messageBody = "Hi " + receiver + ", welcome to candhCRM.<br>You are nearly there!<br>" +
-                "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:<br>" +
+        String messageBody = "Hi " + receiver + ", welcome to candhCRM.<br><br>You are nearly there!<br><br>" +
+                "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:<br><br>" +
                 "<a target='_blank' style='color:#0041D3;text-decoration:underline' href='" +
-                confirmLink + "'>Click here to activate</a>";
+                confirmLink + "'>Click here to activate</a>" +
+                "<br><img src='cid:logo' width='400' height='400'/>";   // logo
 
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(messageBody,"UTF-8","html");
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
-        message.setContent(multipart);
+        helper.setText(messageBody, true);
+        FileSystemResource resource = new FileSystemResource(new File("src/main/resources/logo.png"));
+        helper.addInline("logo", resource);
 
         javaMailSender.send(message);
     }
@@ -66,21 +73,57 @@ public class EmailService
                                 String content, String email) throws MessagingException
     {
         MimeMessage message = javaMailSender.createMimeMessage();
-        message.setFrom(new InternetAddress(from));
-        InternetAddress[] to = InternetAddress.parse(receiver);
-        message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject(title);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setSubject(title);
+        helper.setFrom(from);
+        helper.setTo(InternetAddress.parse(receiver));
 
         // message body
-        String messageBody = content + "\n\nSend from: " + sender
-                            + "\nSender's email: " + email;
+        String messageBody = "Hello,\n\nI hope you are doing well.\n\n" +
+                content +
+                "\n\nKind regards,\n" + sender +
+                "\n\n==============================" +
+                "\nForwarded by CandhCRM" +
+                "\nFrom: " + email;
 
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(messageBody);
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
-        message.setContent(multipart);
+        helper.setText(messageBody, false);
+        javaMailSender.send(message);
+    }
 
+    public void meetingInvitation(String hostId, String[] participantIds, Date startTime,
+                                  Date endTime, String title, String notes) throws MessagingException
+    {
+        User host = userRepository.findById(hostId).get();
+        List<User> participants = new ArrayList<>();
+        for (String participantId : participantIds) {
+            participants.add(userRepository.findById(participantId).get());
+        }
+
+        String receiver = participants.get(0).getEmail();
+        if (participants.size() > 1) {
+            for (int i = 1; i < participants.size(); i++) {
+                receiver = receiver + ", " + participants.get(i).getEmail();
+            }
+        }
+
+        String pattern = "MM/dd/yyyy HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setSubject("Meeting invitation");
+        helper.setFrom(from);
+        helper.setTo(InternetAddress.parse(receiver));
+
+        // message body
+        String messageBody = host.getName() + " has invited you to a meeting.\n" +
+                "\nTitle: " + title +
+                "\nTime: " + df.format(startTime) + " to " + df.format(endTime) + " GMT\n" +
+                "\nNotes:\n" + notes;
+
+        helper.setText(messageBody, false);
         javaMailSender.send(message);
     }
 }

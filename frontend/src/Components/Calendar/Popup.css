@@ -9,7 +9,6 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 .popup{
-  
   font-family: var(--default-font);
   z-index: 1000;
   position: fixed;
@@ -17,23 +16,18 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  /* margin-left: 100px; */
-  /* background-color: rgba(0, 0, 0, 0.1); */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.popup{
   top:-400px;
   animation: drop 0.5s ease forwards;
-  /* background-color: rgba(0, 0, 0, 0.1); */
 }
+
 @keyframes drop{
   0%{}
   70%{transform: translateY(500px)}
   100%{transform: translateY(400px)}
 }
-
 .popup-inner {
   border: 3px solid black;
   z-index: 1000;
@@ -47,6 +41,31 @@
   opacity: 0.9;
   color: black;
   border-radius: 10px;
+}
+.popup-inner-confirm{
+  width: 450px;
+}
+.popup-confirm{
+  font-family: var(--default-font);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn{
+  0%{opacity: 0;}
+  100%{opacity: 1;}
+}
+
+.popup-success-inner{
+  width: 300px;
 }
 
 .popup-inner .close-btn {
@@ -104,10 +123,7 @@
   
 }
 .calendar-btn:hover{
-  
-  /* background-color: #3485f0 !important; */
   color: black !important;
-  /* color:black; */
 }
  .dismiss-btn {
   margin-right: 10px;
@@ -118,6 +134,9 @@
   background-color: #f50057 ; 
   border-width: 0px;
   opacity: 1 ;
+}
+.dismiss-btn-success{
+  background-color: rgb(100, 181, 246) ; 
 }
 .confirm-btn{
   margin-left: 10px;
@@ -139,4 +158,5 @@
   overflow-y: auto;
   border: 1px solid black;
   color: black;
+  margin-bottom: 10px;
 }

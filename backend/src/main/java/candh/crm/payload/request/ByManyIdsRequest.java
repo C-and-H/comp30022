@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Getter
 @Setter
@@ -12,5 +11,5 @@ import java.util.List;
 public class ByManyIdsRequest
 {
     @NotBlank
-    private List<String> ids;
+    private String[] ids;
 }
