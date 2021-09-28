@@ -884,14 +884,14 @@ footer {
 .div-video-button {
   margin-top: 5%;
   width: 100%;
-  background-color: yellow;
   text-align: center;
 }
 
 .btn-end-call {
   width: 60px;
   height: 60px;
-  background-color: red;
+  background-color: #f03752;
+  color: #c0c4c3;
   font-size: 25px;
 }
 

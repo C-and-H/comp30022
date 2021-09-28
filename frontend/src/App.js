@@ -32,7 +32,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-    this._chatConnected = false;
+    // this._chatConnected = false;
     this._notiConnected = false;
     //this.logOut = this.logOut.bind(this);
 
@@ -87,12 +87,12 @@ class App extends Component {
       await AuthService.getNotificationPath();
     }
 
-    if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
-      await this.connectChat(
-        JSON.parse(localStorage.getItem("notificationPath"))
-      );
-      this._chatConnected = true;
-    }
+    // if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
+    //   await this.connectChat(
+    //     JSON.parse(localStorage.getItem("notificationPath"))
+    //   );
+    //   this._chatConnected = true;
+    // }
 
     if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
@@ -124,6 +124,11 @@ class App extends Component {
       self.stompClient.connect({}, function (frame) {
         this._isMounted && self.setState({ isConnected: true });
         self.stompClient.subscribe(
+          "/topic/chat/" + notificationPath,
+          self.handleReceiveMessage
+        );
+        self.sendUserIdChat();
+        self.stompClient.subscribe(
           "/topic/notification/" + notificationPath,
           self.subscribeCallback
         );
@@ -131,21 +136,21 @@ class App extends Component {
       });
   }
 
-  async connectChat(notificationPath) {
-    this._isMounted && this.setState({ chatPath: notificationPath });
-    var self = this;
-    var socket = new SockJS(API_URL + "/candh-crm-websocket");
-    self.chatClient = Stomp.over(socket);
-    this._isMounted &&
-      self.chatClient.connect({}, function (frame) {
-        self.chatClient.subscribe(
-          "/topic/chat/" + notificationPath,
-          self.handleReceiveMessage
-        );
-        self.sendUserIdChat();
-      });
-    console.log("Chat connected", self.chatClient);
-  }
+  // async connectChat(notificationPath) {
+  //   this._isMounted && this.setState({ chatPath: notificationPath });
+  //   var self = this;
+  //   var socket = new SockJS(API_URL + "/candh-crm-websocket");
+  //   self.chatClient = Stomp.over(socket);
+  //   this._isMounted &&
+  //     self.chatClient.connect({}, function (frame) {
+  //       self.chatClient.subscribe(
+  //         "/topic/chat/" + notificationPath,
+  //         self.handleReceiveMessage
+  //       );
+  //       self.sendUserIdChat();
+  //     });
+  //   console.log("Chat connected", self.chatClient);
+  // }
 
   subscribeCallback(numNotification) {
     let notifications = localStorage.getItem("notifications");
@@ -171,7 +176,7 @@ class App extends Component {
   }
 
   sendUserIdChat() {
-    this.chatClient.send(
+    this.stompClient.send(
       "/app/chat/unread",
       {},
       JSON.stringify({ id: AuthService.getBasicInfo().id })
@@ -184,9 +189,9 @@ class App extends Component {
       self.stompClient.disconnect();
     }
 
-    if (self.chatClient !== null && this._chatConnected) {
-      self.chatClient.disconnect();
-    }
+    // if (self.chatClient !== null && this._chatConnected) {
+    //   self.chatClient.disconnect();
+    // }
     this._isMounted && self.setState({ isConnected: false });
   }
 
