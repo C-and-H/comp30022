@@ -40,7 +40,7 @@ class Chat extends Component {
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSearch = this.handleChangeSearch.bind(this);
     this.onChatScroll = this.onChatScroll.bind(this);
-    this.onEmojiClick = this.onEmojiClick.bind(this);
+    this.onsEmojiClick = this.onEmojiClick.bind(this);
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
   }
 
@@ -256,6 +256,13 @@ class Chat extends Component {
       <div className="div-chat-box">
         <div className="div-chat-opponent">
           {friend.name}
+          <Button
+            onClick={() => {
+              this.props.onCall(friend.id);
+            }}
+          >
+            <i className="fa fa-phone" />
+          </Button>
           <Button
             className="btn-close-chat"
             onClick={() => {

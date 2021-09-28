@@ -10,7 +10,6 @@ import candh.crm.repository.ChatRepository;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
 import candh.crm.service.ChatService;
-import candh.crm.service.WebSocketSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -37,9 +36,6 @@ public class ChatController
 
     @Autowired
     private JwtUtils jwtUtils;
-
-    @Autowired
-    private WebSocketSubscriptionService webSocketSubscriptionService;
 
     /** the number of messages to fetch once */
     public static final int N_FETCH = 10;

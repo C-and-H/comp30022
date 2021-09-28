@@ -828,6 +828,94 @@ footer {
 
 /*------------------ Chat Components end ---------------*/
 
+/*------------------ Video Components ---------------*/
+
+.div-video-call {
+  width: 100%;
+  height: 100%;
+  background-color: #475164;
+  z-index: 2000;
+  position: absolute;
+  top: 0;
+}
+
+.div-video-title {
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  color: #93b5cf;
+  margin-top: 2%;
+}
+
+.video-call-video {
+  width: 600px;
+  height: 500px;
+}
+
+.div-video-call-display {
+  width: 100%;
+  height: 500px;
+  margin-top: 3%;
+}
+
+.div-my-video {
+  width: 600px;
+  height: 500px;
+  display: inline-block;
+  margin-left: 12%;
+}
+
+.div-friend-video {
+  width: 600px;
+  height: 500px;
+  display: inline-block;
+  margin-left: 6%;
+}
+
+.div-loading-video {
+  margin-bottom: 0%;
+  display: inline-block;
+  width: 600px;
+  margin-left: 0px;
+  margin-top: 200px;
+  position: absolute;
+}
+
+.div-video-button {
+  margin-top: 5%;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-end-call {
+  width: 60px;
+  height: 60px;
+  background-color: #f03752;
+  color: #c0c4c3;
+  font-size: 25px;
+}
+
+.div-video-call-notification {
+  background-color: rgb(237, 85, 106);
+  width: 300px;
+  word-wrap: break-word;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1080;
+  padding: 10px;
+  top: 40vh;
+  right: 45vw;
+}
+
+.btn-video-call-notification {
+  background-color: rgb(240, 161, 168);
+  width: 30%;
+  margin: 9%;
+  display: inline-block;
+}
+
+/*------------------ Video Components end ---------------*/
+
 /*------------------ profileDisplay Components -------------*/
 .profile-display-line {
   margin-top: 45px;
@@ -938,8 +1026,6 @@ footer {
 }
 
 /************************** ChangeIcon Components END***************************/
-
-
 
 /* 
 .App {

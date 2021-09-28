@@ -26,12 +26,14 @@ import { Notification } from "rsuite";
 import Button from "react-bootstrap/Button";
 import SettingNote from "./Components/Profiles/SettingNote";
 import SetEvent from "./Components/Calendar/SetEvent";
+import VideoCall from "./Components/videoCall";
+import Peer from "simple-peer";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-    this._chatConnected = false;
+    // this._chatConnected = false;
     this._notiConnected = false;
     //this.logOut = this.logOut.bind(this);
 
@@ -47,6 +49,14 @@ class App extends Component {
       notificationCounter: 0, // help adding unique id to each notification
       onChat: 0,
       chatPath: null,
+      onCall: false,
+      myVideoStream: null,
+      friendVideoStream: null,
+      friendId: "",
+      friendName: "",
+      peerConnection: null,
+      receiveCall: false,
+      friendSignal: null,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -57,6 +67,14 @@ class App extends Component {
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleOnChat = this.handleOnChat.bind(this);
     this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
+    this.startCall = this.startCall.bind(this);
+    this.callUser = this.callUser.bind(this);
+    this.endCall = this.endCall.bind(this);
+    this.handleMyVideoStream = this.handleMyVideoStream.bind(this);
+    this.handleReceiveCall = this.handleReceiveCall.bind(this);
+    this.callAccepted = this.callAccepted.bind(this);
+    this.callRejected = this.callRejected.bind(this);
+    this.opponentEnded = this.opponentEnded.bind(this);
   }
 
   async componentDidMount() {
@@ -81,12 +99,12 @@ class App extends Component {
       await AuthService.getNotificationPath();
     }
 
-    if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
-      await this.connectChat(
-        JSON.parse(localStorage.getItem("notificationPath"))
-      );
-      this._chatConnected = true;
-    }
+    // if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
+    //   await this.connectChat(
+    //     JSON.parse(localStorage.getItem("notificationPath"))
+    //   );
+    //   this._chatConnected = true;
+    // }
 
     if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
@@ -99,6 +117,9 @@ class App extends Component {
   }
 
   componentWillUnmount() {
+    if (this.state.onCall) {
+      this.endCall();
+    }
     this.disconnect();
     this._isMounted = false;
   }
@@ -118,6 +139,27 @@ class App extends Component {
       self.stompClient.connect({}, function (frame) {
         this._isMounted && self.setState({ isConnected: true });
         self.stompClient.subscribe(
+          "/topic/othersCallingYou/" + notificationPath,
+          self.handleReceiveCall
+        );
+        self.stompClient.subscribe(
+          "/topic/othersAnswering/" + notificationPath,
+          self.callAccepted
+        );
+        self.stompClient.subscribe(
+          "/topic/othersReject/" + notificationPath,
+          self.callRejected
+        );
+        self.stompClient.subscribe(
+          "/topic/othersEnding/" + notificationPath,
+          self.opponentEnded
+        );
+        self.stompClient.subscribe(
+          "/topic/chat/" + notificationPath,
+          self.handleReceiveMessage
+        );
+        self.sendUserIdChat();
+        self.stompClient.subscribe(
           "/topic/notification/" + notificationPath,
           self.subscribeCallback
         );
@@ -125,21 +167,21 @@ class App extends Component {
       });
   }
 
-  async connectChat(notificationPath) {
-    this._isMounted && this.setState({ chatPath: notificationPath });
-    var self = this;
-    var socket = new SockJS(API_URL + "/candh-crm-websocket");
-    self.chatClient = Stomp.over(socket);
-    this._isMounted &&
-      self.chatClient.connect({}, function (frame) {
-        self.chatClient.subscribe(
-          "/topic/chat/" + notificationPath,
-          self.handleReceiveMessage
-        );
-        self.sendUserIdChat();
-      });
-    console.log("Chat connected", self.chatClient);
-  }
+  // async connectChat(notificationPath) {
+  //   this._isMounted && this.setState({ chatPath: notificationPath });
+  //   var self = this;
+  //   var socket = new SockJS(API_URL + "/candh-crm-websocket");
+  //   self.chatClient = Stomp.over(socket);
+  //   this._isMounted &&
+  //     self.chatClient.connect({}, function (frame) {
+  //       self.chatClient.subscribe(
+  //         "/topic/chat/" + notificationPath,
+  //         self.handleReceiveMessage
+  //       );
+  //       self.sendUserIdChat();
+  //     });
+  //   console.log("Chat connected", self.chatClient);
+  // }
 
   subscribeCallback(numNotification) {
     let notifications = localStorage.getItem("notifications");
@@ -165,7 +207,7 @@ class App extends Component {
   }
 
   sendUserIdChat() {
-    this.chatClient.send(
+    this.stompClient.send(
       "/app/chat/unread",
       {},
       JSON.stringify({ id: AuthService.getBasicInfo().id })
@@ -178,9 +220,9 @@ class App extends Component {
       self.stompClient.disconnect();
     }
 
-    if (self.chatClient !== null && this._chatConnected) {
-      self.chatClient.disconnect();
-    }
+    // if (self.chatClient !== null && this._chatConnected) {
+    //   self.chatClient.disconnect();
+    // }
     this._isMounted && self.setState({ isConnected: false });
   }
 
@@ -293,6 +335,198 @@ class App extends Component {
     }
   }
 
+  startCall(id) {
+    this.setState({ onCall: true, friendId: id });
+  }
+
+  callUser(stream) {
+    const { basic, friendId } = this.state;
+    const peer = new Peer({ initiator: true, trickle: false, stream });
+
+    peer.on("signal", (data) => {
+      axios.post(
+        API_URL + "/videoCall/callUser",
+        { id: friendId, signal: JSON.stringify(data) },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
+    });
+
+    peer.on("stream", (friendVideoStream) => {
+      this.setState({ friendVideoStream });
+    });
+
+    this.setState({ peerConnection: peer });
+  }
+
+  handleMyVideoStream(stream) {
+    this.setState({ myVideoStream: stream });
+    if (this.state.receiveCall) {
+      this.answerCall(stream);
+    } else {
+      this.callUser(stream);
+    }
+  }
+
+  handleReceiveCall(call) {
+    const message = JSON.parse(call.body);
+    Notification.open({
+      title: "",
+      duration: 0,
+      description: (
+        <div className="div-video-call-notification">
+          <p>You have received a new Call from {message.name}</p>
+          <Button
+            className="btn-video-call-notification"
+            onClick={() => {
+              Notification.close();
+              this._isMounted &&
+                this.setState({
+                  receiveCall: true,
+                  friendId: message.from,
+                  friendName: message.name,
+                  friendSignal: JSON.parse(message.signal),
+                  onCall: true,
+                });
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            className="btn-video-call-notification"
+            onClick={() => {
+              Notification.close();
+              axios.post(
+                API_URL + "/videoCall/rejectCall",
+                { id: message.from },
+                {
+                  headers: {
+                    Authorization: "Bearer " + this.state.basic.token,
+                  },
+                }
+              );
+            }}
+          >
+            Ignore
+          </Button>
+        </div>
+      ),
+    });
+  }
+
+  callAccepted(message) {
+    const info = JSON.parse(message.body);
+    this.state.peerConnection.signal(JSON.parse(info.signal));
+    this.setState({ friendName: info.name });
+  }
+
+  callRejected(message) {
+    const info = JSON.parse(message.body);
+    if (info.from === this.state.friendId) {
+      this.endCall();
+    }
+    alert("Opponent rejected your call.");
+  }
+
+  answerCall(stream) {
+    const { basic, friendId } = this.state;
+    const peer = new Peer({ initiator: false, trickle: false, stream });
+    peer.on("signal", (data) => {
+      axios.post(
+        API_URL + "/videoCall/answerCall",
+        { id: friendId, signal: JSON.stringify(data) },
+        {
+          headers: {
+            Authorization: "Bearer " + basic.token,
+          },
+        }
+      );
+    });
+
+    peer.on("stream", (friendVideoStream) => {
+      this.setState({ friendVideoStream });
+    });
+
+    peer.signal(this.state.friendSignal);
+
+    this.setState({ peerConnection: peer });
+  }
+
+  opponentEnded(message) {
+    if (this.state.onCall) {
+      //alert("Opponent ends the call.");
+      Notification.open({
+        title: "",
+        duration: 0,
+        description: (
+          <div className="div-video-call-notification">
+            <p>Opponent ends the call.</p>
+            <Button
+              className="btn-video-call-notification"
+              onClick={() => {
+                Notification.close();
+              }}
+            >
+              OK
+            </Button>
+          </div>
+        ),
+      });
+      this.setState({ onCall: false });
+      if (this.state.myVideoStream) {
+        this.state.myVideoStream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+      if (this.state.peerConnection) {
+        this.state.peerConnection.destroy();
+      }
+      this.setState({
+        peerConnection: null,
+        friendId: "",
+        friendName: "",
+        friendVideoStream: null,
+        myVideoStream: null,
+        receiveCall: false,
+        friendSignal: null,
+      });
+    }
+  }
+
+  endCall() {
+    this.setState({ onCall: false });
+    const { basic, friendId } = this.state;
+    axios.post(
+      API_URL + "/videoCall/endCall",
+      { id: friendId },
+      {
+        headers: {
+          Authorization: "Bearer " + basic.token,
+        },
+      }
+    );
+    if (this.state.myVideoStream) {
+      this.state.myVideoStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+    if (this.state.peerConnection) {
+      this.state.peerConnection.destroy();
+    }
+    this.setState({
+      peerConnection: null,
+      friendId: "",
+      friendName: "",
+      friendVideoStream: null,
+      myVideoStream: null,
+      receiveCall: false,
+      friendSignal: null,
+    });
+  }
+
   render() {
     const {
       currentUser,
@@ -301,9 +535,12 @@ class App extends Component {
       notificationLoading,
       notificationNumber,
       onChat,
+      onCall,
+      friendVideoStream,
     } = this.state;
     return (
       <div className="App">
+        {/* <Button onClick={() => this.startCall("111")} /> */}
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
           <NavigationBar
@@ -316,6 +553,12 @@ class App extends Component {
             removeAllNotifications={this.removeAllNotifications}
             notificationLoading={notificationLoading}
           />
+          <VideoCall
+            visible={onCall}
+            endCall={this.endCall}
+            onStream={this.handleMyVideoStream}
+            friendVideo={friendVideoStream}
+          />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={LogIn} />
@@ -325,7 +568,11 @@ class App extends Component {
             <Route exact path="/setting/change-password" component={Setting} />
             <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat">
-              <Chat chat={onChat} onChat={this.handleOnChat} />
+              <Chat
+                chat={onChat}
+                onChat={this.handleOnChat}
+                onCall={this.startCall}
+              />
             </Route>
             <Route exact path="/email" component={Email} />
             <Route exact path="/profile/:id" component={ProfileDisplay} />
