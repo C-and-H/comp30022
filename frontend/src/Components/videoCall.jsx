@@ -13,12 +13,20 @@ class VideoCall extends Component {
 
     this.state = {
       visible: this.props.visible,
-      myVideo: null,
+      myStream: null,
       friendVideo: this.props.friendVideo,
+      peer: this.props.peer,
+      videoOn: false,
+      voiceOn: false,
+      screenOn: false,
     };
 
     this.success = this.success.bind(this);
     this.error = this.error.bind(this);
+    this.switchToVoiceStream = this.switchToVoiceStream.bind(this);
+    this.switchToVideoStream = this.switchToVideoStream.bind(this);
+    this.switchToScreenStream = this.switchToScreenStream.bind(this);
+    this.removeCurrentStream = this.removeCurrentStream.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +39,6 @@ class VideoCall extends Component {
         this.getUserMedia(
           {
             audio: true,
-            video: { facingMode: "user" },
           },
           this.success,
           this.error
@@ -52,6 +59,10 @@ class VideoCall extends Component {
       }
 
       this.setState({ friendVideo: this.props.friendVideo });
+    }
+
+    if (this.props.peer !== this.state.peer) {
+      this.setState({ peer: this.props.peer });
     }
   }
 
@@ -85,7 +96,125 @@ class VideoCall extends Component {
       let CompatiableURL = window.URL || window.webkitURL;
       video.src = CompatiableURL.createObjectURL(stream);
     }
-    this.setState({ myVideo: stream });
+    this.setState({
+      myStream: stream,
+      videoOn: false,
+      voiceOn: true,
+      screenOn: false,
+    });
+  }
+
+  switchToVideoStream() {
+    try {
+      this.getUserMedia(
+        {
+          audio: true,
+          video: { facingMode: "user" },
+        },
+        (stream) => {
+          this.props.onSwitch(stream);
+          let video = document.getElementById("myVideo");
+          if ("srcObject" in video) {
+            video.srcObject = stream;
+          } else {
+            let CompatiableURL = window.URL || window.webkitURL;
+            video.src = CompatiableURL.createObjectURL(stream);
+          }
+          this.removeCurrentStream();
+          this.state.peer.addStream(stream);
+          this.setState({
+            myStream: stream,
+            videoOn: true,
+            voiceOn: false,
+            screenOn: false,
+          });
+        },
+        (error) => {
+          alert("Fail to get media device", error);
+        }
+      );
+    } catch (error) {
+      alert("Fail to switch media device", error);
+    }
+  }
+
+  switchToVoiceStream() {
+    try {
+      this.getUserMedia(
+        {
+          audio: true,
+        },
+        (stream) => {
+          this.props.onSwitch(stream);
+          let video = document.getElementById("myVideo");
+          if ("srcObject" in video) {
+            video.srcObject = stream;
+          } else {
+            let CompatiableURL = window.URL || window.webkitURL;
+            video.src = CompatiableURL.createObjectURL(stream);
+          }
+          this.removeCurrentStream();
+          this.state.peer.addStream(stream);
+          this.setState({
+            myStream: stream,
+            videoOn: false,
+            voiceOn: true,
+            screenOn: false,
+          });
+        },
+        (error) => {
+          alert("Fail to get media device", error);
+        }
+      );
+    } catch (error) {
+      alert("Fail to switch media device", error);
+    }
+  }
+
+  switchToScreenStream() {
+    try {
+      if (navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices
+          .getDisplayMedia({
+            video: {
+              cursor: "always",
+            },
+            audio: true,
+          })
+          .then((stream) => {
+            this.props.onSwitch(stream);
+            let video = document.getElementById("myVideo");
+            if ("srcObject" in video) {
+              video.srcObject = stream;
+            } else {
+              let CompatiableURL = window.URL || window.webkitURL;
+              video.src = CompatiableURL.createObjectURL(stream);
+            }
+            this.removeCurrentStream();
+            this.state.peer.addStream(stream);
+            this.setState({
+              myStream: stream,
+              videoOn: false,
+              voiceOn: false,
+              screenOn: true,
+            });
+          });
+      } else {
+        alert("Fail to switch media device");
+      }
+    } catch (error) {
+      alert("Fail to switch media device", error);
+    }
+  }
+
+  removeCurrentStream() {
+    const { myStream, peer } = this.state;
+    peer.removeStream(myStream);
+    try {
+      myStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    } catch (e) {}
   }
 
   error(error) {
@@ -137,6 +266,24 @@ class VideoCall extends Component {
           <div className="div-video-title">Video Chat</div>
           {this.videoDisplay()}
           <div className="div-video-button">
+            <Button
+              disabled={this.state.voiceOn || this.state.friendVideo === null}
+              onClick={this.switchToVoiceStream}
+            >
+              Voice only
+            </Button>
+            <Button
+              disabled={this.state.videoOn || this.state.friendVideo === null}
+              onClick={this.switchToVideoStream}
+            >
+              Video
+            </Button>
+            <Button
+              disabled={this.state.screenOn || this.state.friendVideo === null}
+              onClick={this.switchToScreenStream}
+            >
+              Share screen
+            </Button>
             <Button
               onClick={this.props.endCall}
               className="btn-end-call btn-outline-danger"

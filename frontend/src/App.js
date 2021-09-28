@@ -50,7 +50,7 @@ class App extends Component {
       onChat: 0,
       chatPath: null,
       onCall: false,
-      myVideoStream: null,
+      myStream: null,
       friendVideoStream: null,
       friendId: "",
       friendName: "",
@@ -70,11 +70,12 @@ class App extends Component {
     this.startCall = this.startCall.bind(this);
     this.callUser = this.callUser.bind(this);
     this.endCall = this.endCall.bind(this);
-    this.handleMyVideoStream = this.handleMyVideoStream.bind(this);
     this.handleReceiveCall = this.handleReceiveCall.bind(this);
     this.callAccepted = this.callAccepted.bind(this);
     this.callRejected = this.callRejected.bind(this);
     this.opponentEnded = this.opponentEnded.bind(this);
+    this.handleMyVoiceStream = this.handleMyVoiceStream.bind(this);
+    this.handleMyStream = this.handleMyStream.bind(this);
   }
 
   async componentDidMount() {
@@ -362,8 +363,8 @@ class App extends Component {
     this.setState({ peerConnection: peer });
   }
 
-  handleMyVideoStream(stream) {
-    this.setState({ myVideoStream: stream });
+  handleMyVoiceStream(stream) {
+    this.setState({ myStream: stream });
     if (this.state.receiveCall) {
       this.answerCall(stream);
     } else {
@@ -371,50 +372,58 @@ class App extends Component {
     }
   }
 
+  handleMyStream(stream) {
+    this.setState({ myStream: stream });
+  }
+
   handleReceiveCall(call) {
     const message = JSON.parse(call.body);
-    Notification.open({
-      title: "",
-      duration: 0,
-      description: (
-        <div className="div-video-call-notification">
-          <p>You have received a new Call from {message.name}</p>
-          <Button
-            className="btn-video-call-notification"
-            onClick={() => {
-              Notification.close();
-              this._isMounted &&
-                this.setState({
-                  receiveCall: true,
-                  friendId: message.from,
-                  friendName: message.name,
-                  friendSignal: JSON.parse(message.signal),
-                  onCall: true,
-                });
-            }}
-          >
-            Accept
-          </Button>
-          <Button
-            className="btn-video-call-notification"
-            onClick={() => {
-              Notification.close();
-              axios.post(
-                API_URL + "/videoCall/rejectCall",
-                { id: message.from },
-                {
-                  headers: {
-                    Authorization: "Bearer " + this.state.basic.token,
-                  },
-                }
-              );
-            }}
-          >
-            Ignore
-          </Button>
-        </div>
-      ),
-    });
+    if (message.from === this.state.friendId && this.state.onCall) {
+      this.state.peerConnection.signal(JSON.parse(message.signal));
+    } else {
+      Notification.open({
+        title: "",
+        duration: 0,
+        description: (
+          <div className="div-video-call-notification">
+            <p>You have received a new Call from {message.name}</p>
+            <Button
+              className="btn-video-call-notification"
+              onClick={() => {
+                Notification.close();
+                this._isMounted &&
+                  this.setState({
+                    receiveCall: true,
+                    friendId: message.from,
+                    friendName: message.name,
+                    friendSignal: JSON.parse(message.signal),
+                    onCall: true,
+                  });
+              }}
+            >
+              Accept
+            </Button>
+            <Button
+              className="btn-video-call-notification"
+              onClick={() => {
+                Notification.close();
+                axios.post(
+                  API_URL + "/videoCall/rejectCall",
+                  { id: message.from },
+                  {
+                    headers: {
+                      Authorization: "Bearer " + this.state.basic.token,
+                    },
+                  }
+                );
+              }}
+            >
+              Ignore
+            </Button>
+          </div>
+        ),
+      });
+    }
   }
 
   callAccepted(message) {
@@ -476,8 +485,8 @@ class App extends Component {
         ),
       });
       this.setState({ onCall: false });
-      if (this.state.myVideoStream) {
-        this.state.myVideoStream.getTracks().forEach((track) => {
+      if (this.state.myStream) {
+        this.state.myStream.getTracks().forEach((track) => {
           track.stop();
         });
       }
@@ -508,11 +517,13 @@ class App extends Component {
         },
       }
     );
-    if (this.state.myVideoStream) {
-      this.state.myVideoStream.getTracks().forEach((track) => {
+
+    if (this.state.myStream) {
+      this.state.myStream.getTracks().forEach((track) => {
         track.stop();
       });
     }
+
     if (this.state.peerConnection) {
       this.state.peerConnection.destroy();
     }
@@ -521,7 +532,9 @@ class App extends Component {
       friendId: "",
       friendName: "",
       friendVideoStream: null,
+      myVoiceStream: null,
       myVideoStream: null,
+      myScreenStream: null,
       receiveCall: false,
       friendSignal: null,
     });
@@ -537,6 +550,7 @@ class App extends Component {
       onChat,
       onCall,
       friendVideoStream,
+      peerConnection,
     } = this.state;
     return (
       <div className="App">
@@ -556,8 +570,10 @@ class App extends Component {
           <VideoCall
             visible={onCall}
             endCall={this.endCall}
-            onStream={this.handleMyVideoStream}
+            onStream={this.handleMyVoiceStream}
+            onSwitch={this.handleMyStream}
             friendVideo={friendVideoStream}
+            peer={peerConnection}
           />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
