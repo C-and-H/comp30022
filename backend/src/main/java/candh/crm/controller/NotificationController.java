@@ -3,6 +3,7 @@ package candh.crm.controller;
 import candh.crm.model.Notification;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
+import candh.crm.payload.request.auth.UnsubscribeRequest;
 import candh.crm.repository.NotificationRepository;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -90,5 +88,21 @@ public class NotificationController
         // push through socket
         notificationService.pushTo(id);
         return ResponseEntity.ok(notifications);
+    }
+
+    /**
+     * Handles Http Post for subscription removal when a user logs out.
+     */
+    @PostMapping("/unsubscribe")
+    @PreAuthorize("hasRole('USER')")
+    public void unsubscribe(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody UnsubscribeRequest unsubscribeRequest)
+    {
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        webSocketSubscriptionService.removePath(id,
+                unsubscribeRequest.getNotificationPath());
     }
 }

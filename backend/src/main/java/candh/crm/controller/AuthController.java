@@ -107,9 +107,11 @@ public class AuthController
      * By requesting this page, set a non-enabled user to enabled state.
      */
     @GetMapping("/signup/{email}/{signupConfirmPath}")
-    public ResponseEntity<?> confirmSignup(@PathVariable() String email) {
+    public ResponseEntity<?> confirmSignup(@PathVariable() String email,
+                                           @PathVariable() String signupConfirmPath) {
         User user = userRepository.findByEmail(email);
-        if (user != null && !user.isEnabled()) {
+        if (user != null && !user.isEnabled() &&
+                user.getSignupConfirmPath().equals(signupConfirmPath)) {
             user.setEnabled(true);   // confirm
             userRepository.save(user);
             return ResponseEntity.ok("Signup confirm success.");
@@ -152,21 +154,5 @@ public class AuthController
             return ResponseEntity.ok("Error during changing password.");
         }
         return ResponseEntity.ok("You just successfully changed password.");
-    }
-
-    /**
-     * Handles Http Post for subscription removal when user logs out.
-     */
-    @PostMapping("/unsubscribe")
-    @PreAuthorize("hasRole('USER')")
-    public void unsubscribe(
-            @RequestHeader("Authorization") String headerAuth,
-            @Valid @RequestBody UnsubscribeRequest unsubscribeRequest)
-    {
-        String id = userRepository.findByEmail(
-                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
-                .getId();
-        webSocketSubscriptionService.removePath(id,
-                unsubscribeRequest.getNotificationPath());
     }
 }
