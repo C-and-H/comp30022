@@ -48,6 +48,17 @@ public class VideoCallController {
         videoCallService.answer(callUserRequest.getId(), sender, callUserRequest.getSignal());
     }
 
+    @PostMapping("/videoCall/rejectCall")
+    @PreAuthorize("hasRole('USER')")
+    public void rejectCall(
+            @RequestHeader("Authorization") String headerAuth,
+            @Valid @RequestBody ByIdRequest byIdRequest)
+    {
+        User sender = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
+        videoCallService.reject(byIdRequest.getId(), sender);
+    }
+
     @PostMapping("/videoCall/endCall")
     @PreAuthorize("hasRole('USER')")
     public void endCall(

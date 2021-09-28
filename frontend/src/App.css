@@ -876,7 +876,7 @@ footer {
   margin-bottom: 0%;
   display: inline-block;
   width: 600px;
-  margin-left: 12%;
+  margin-left: 0px;
   margin-top: 200px;
   position: absolute;
 }
@@ -893,6 +893,25 @@ footer {
   background-color: #f03752;
   color: #c0c4c3;
   font-size: 25px;
+}
+
+.div-video-call-notification {
+  background-color: rgb(237, 85, 106);
+  width: 300px;
+  word-wrap: break-word;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1080;
+  padding: 10px;
+  top: 40vh;
+  right: 45vw;
+}
+
+.btn-video-call-notification {
+  background-color: rgb(240, 161, 168);
+  width: 30%;
+  margin: 9%;
+  display: inline-block;
 }
 
 /*------------------ Video Components end ---------------*/

@@ -49,9 +49,27 @@ public class VideoCallService
                 try {
                     template.convertAndSend(path,
                             new ConcurrentHashMap<String, Object>() {{
-                                put("from", sender.getId());
+                                //put("from", sender.getId());
                                 put("name", sender.getName());
                                 put("signal", signal);
+                            }});
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void reject(String receiverId, User sender)
+    {
+        Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
+        if (map.containsKey(receiverId)) {
+            for (String path : map.get(receiverId)) {
+                path = "/topic/othersReject/" + path;
+                try {
+                    template.convertAndSend(path,
+                            new ConcurrentHashMap<String, Object>() {{
+                                put("from", sender.getId());
                             }});
                 } catch (MessagingException e) {
                     e.printStackTrace();
