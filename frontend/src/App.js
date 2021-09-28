@@ -117,6 +117,9 @@ class App extends Component {
   }
 
   componentWillUnmount() {
+    if (this.state.onCall) {
+      this.endCall();
+    }
     this.disconnect();
     this._isMounted = false;
   }
