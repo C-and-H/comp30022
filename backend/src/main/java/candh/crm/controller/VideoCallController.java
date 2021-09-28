@@ -7,7 +7,6 @@ import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
 import candh.crm.service.VideoCallService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,8 @@ import javax.validation.Valid;
 
 @RestController
 @CrossOrigin("${crm.app.frontend.host}")
-public class VideoCallController {
-
+public class VideoCallController
+{
     @Autowired
     private UserRepository userRepository;
 
@@ -34,7 +33,8 @@ public class VideoCallController {
     {
         User sender = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
-        videoCallService.call(callUserRequest.getId(), sender, callUserRequest.getSignal());
+        videoCallService.call(callUserRequest.getId(), sender,
+                callUserRequest.getSignal());
     }
 
     @PostMapping("/videoCall/answerCall")
@@ -69,7 +69,4 @@ public class VideoCallController {
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)));
         videoCallService.end(byIdRequest.getId(), sender);
     }
-
-
-
 }

@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class VideoCallService
 {
-
     @Autowired
     private WebSocketSubscriptionService webSocketSubscriptionService;
 
@@ -49,7 +48,6 @@ public class VideoCallService
                 try {
                     template.convertAndSend(path,
                             new ConcurrentHashMap<String, Object>() {{
-                                //put("from", sender.getId());
                                 put("name", sender.getName());
                                 put("signal", signal);
                             }});
