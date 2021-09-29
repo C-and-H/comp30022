@@ -1,18 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-import {
-  Button,
-  Container,
-  Row,
-  Col,
-  Label,
-  
-} from "reactstrap";
+import { Button, Container, Row, Col, Label } from "reactstrap";
 import "../../App.css";
 
 import UserService from "../../Services/UserService";
-
 
 const iconStyle = {
   marginTop: 40,
@@ -52,17 +44,16 @@ export default class ProfileDisplay extends Component {
     const self = AuthService.getCurrentUser();
     var currentUser;
     if (!basic) {
-      this.setState( {redirect: "/" });
+      this.setState({ redirect: "/" });
       return;
     }
-    
+
     //console.log(this.props.match.params.id);
-    if (this.props.match.params.id && this.props.match.params.id != self.id) {
+    if (this.props.match.params.id && this.props.match.params.id !== self.id) {
       currentUser = await AuthService.getOtherUser(
         basic.token,
         this.props.match.params.id
       );
-      
 
       let friendship = await UserService.checkFriend(
         this.props.match.params.id,
@@ -149,7 +140,7 @@ export default class ProfileDisplay extends Component {
 
   startChat() {
     const { currentUser } = this.state;
-    
+
     localStorage.setItem("chat", JSON.stringify(currentUser));
     this.props.history.push("/chat");
     window.location.reload();
@@ -243,23 +234,16 @@ export default class ProfileDisplay extends Component {
                   </Row>
                 ) : (
                   <Container>
-
-                    <Row 
-                      className="profile-display-line"
-                    >
+                    <Row className="profile-display-line">
                       {this.friendBtn()}
-                      
                     </Row>
-                    { isFriend ? (
-                      <Row 
-                      className="profile-display-line"
-                      >
-                      {this.chatBtn()}
+                    {isFriend ? (
+                      <Row className="profile-display-line">
+                        {this.chatBtn()}
                       </Row>
                     ) : (
                       <></>
                     )}
-                    
                   </Container>
                 )}
               </Container>

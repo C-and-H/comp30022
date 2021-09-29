@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Form, Input, FormGroup, Label } from "reactstrap";
-import { Row, Col, Container, Button } from 'react-bootstrap';
-import DateTimePicker from 'react-datetime-picker';
-import './SetEvent.css';
+import { Row, Col, Container, Button } from "react-bootstrap";
+import DateTimePicker from "react-datetime-picker";
+import "./SetEvent.css";
 import AuthService from "../../Services/AuthService";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -10,7 +10,6 @@ import { API_URL } from "../../constant";
 import FriendBtn from "./friendBtn";
 
 class SetEvent extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -22,9 +21,9 @@ class SetEvent extends Component {
       redirect: false,
       friendList: [],
       friends: [],
-      chosenParticipants: new Array(),
-      disabled: false
-    }
+      chosenParticipants: [],
+      disabled: false,
+    };
     this.handleStartTime = this.handleStartTime.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
     this.handleEndTime = this.handleEndTime.bind(this);
@@ -37,11 +36,10 @@ class SetEvent extends Component {
   async componentDidMount() {
     const { basic } = this.state;
     if (!basic) {
-      this.setState({ redirect: true});
+      this.setState({ redirect: true });
     } else {
       await this.getFriendList();
-    } 
-
+    }
   }
 
   async getFriendList() {
@@ -51,7 +49,7 @@ class SetEvent extends Component {
         Authorization: "Bearer " + basic.token,
       },
     });
-    
+
     if (response) {
       for (var i = 0; i < response.data.length; i++) {
         await this.getFriendInfo(response.data[i].friendId);
@@ -65,8 +63,7 @@ class SetEvent extends Component {
    * get friends' detailed info by their id
    * @param {*} id id of interested user
    */
-   async getFriendInfo(id) {
-    
+  async getFriendInfo(id) {
     const response = await axios.post(
       API_URL + "/user",
       { id: id },
@@ -77,12 +74,10 @@ class SetEvent extends Component {
       }
     );
     if (response.data) {
-      //console.log(response.data)
       let friendList = [...this.state.friendList];
       friendList.push(response.data);
-      // console.log(friendList)
       this.setState({ friendList });
-    } 
+    }
   }
 
   handleCallBack(id, isSelect) {
@@ -99,47 +94,45 @@ class SetEvent extends Component {
 
   handleTitle(event) {
     this.setState({ title: event.target.value });
-    //console.log(this.state.title);
   }
 
   handleStartTime(value) {
-
     this.setState({ startTime: new Date(value) });
-    //console.log(this.state.startTime.toJSON());
   }
 
   handleEndTime(value) {
     this.setState({ endTime: new Date(value) });
-    //console.log(this.state.endTime);
   }
 
   handleDescription(event) {
-    this.setState({ description: event.target.value});
-    //console.log(this.state.description);
+    this.setState({ description: event.target.value });
   }
 
   async handleSubmit(event) {
     event.preventDefault();
-    const { title, description, chosenParticipants, basic,
-            startTime, endTime 
-          } = this.state;
+    const {
+      title,
+      description,
+      chosenParticipants,
+      basic,
+      startTime,
+      endTime,
+    } = this.state;
     /* TODO: Call backend API */
-    //console.log(startTime.toJSON());
     if (startTime > endTime) {
       alert("Start time is invalid");
       return;
     }
     this.setState({ disabled: true });
-    
-    const response = await axios.post (
+
+    const response = await axios.post(
       API_URL + "/meeting/createMeeting",
       {
         participantIds: chosenParticipants,
         startTime: startTime.toJSON(),
         endTime: endTime.toJSON(),
         title: title,
-        notes: description
-      
+        notes: description,
       },
       {
         headers: {
@@ -151,82 +144,72 @@ class SetEvent extends Component {
       alert("You have sucessfully created a new event!");
       this.props.history.push("/calendar");
       window.location.reload();
-
     } else {
       alert("an error has occured " + response);
-      this.setState({ disabled: false});
+      this.setState({ disabled: false });
     }
-    
   }
 
   handleCancel() {
     this.props.history.push("/calendar");
     window.location.reload();
   }
-  
+
   friendGroup() {
-    const { friendList} = this.state;
-    //console.log(chosenParticipants);
+    const { friendList } = this.state;
     return (
       <div className="friend-box">
-      <Container >
-        <Label className="set-event-label">Participants:</Label>
-        <div className="set-event-friends">
-          {friendList ? (
-            friendList.map((friend) => (
-              <FriendBtn
-                friend={friend}
-                key={friend.id}
-                callBack = {this.handleCallBack}
-              />
-            ))
-            
-          ) : (
-            <span>Not Avaliable</span>
-          )}
-        </div>
-      </Container>
+        <Container>
+          <Label className="set-event-label">Participants:</Label>
+          <div className="set-event-friends">
+            {friendList ? (
+              friendList.map((friend) => (
+                <FriendBtn
+                  friend={friend}
+                  key={friend.id}
+                  callBack={this.handleCallBack}
+                />
+              ))
+            ) : (
+              <span>Not Avaliable</span>
+            )}
+          </div>
+        </Container>
       </div>
-    )
+    );
   }
-  render(){
-    const { startTime, endTime, redirect,
-            disabled} = this.state;
+  render() {
+    const { startTime, endTime, redirect, disabled } = this.state;
 
     if (redirect) {
-      return (<Redirect to="/" />);
+      return <Redirect to="/" />;
     }
-    //console.log(this.state.chosenParticipants);
-    //console.log(startTime + " " + endTime);
+
     return (
       <Container className="set-event-container">
-        <Row className="set-event-bar"> Create a new event </Row>        
+        <Row className="set-event-bar"> Create a new event </Row>
         <Form onSubmit={this.handleSubmit}>
           <Row className="set-event-line">
             <Col xs="5">
               <FormGroup className="set-event-formgroup">
                 <Label className="set-event-label">Meeting title:</Label>
-                <Input 
-                  type="text"
-                  onChange={this.handleTitle}
-                  required
-                ></Input>
+                <Input type="text" onChange={this.handleTitle} required></Input>
               </FormGroup>
               <Label className="set-event-label">Start time:</Label>
-              <br/>
+              <br />
               <DateTimePicker
-                onChange= {(value) => this.handleStartTime(value)}
+                onChange={(value) => this.handleStartTime(value)}
                 disableClock={true}
-                value = {startTime}
+                value={startTime}
               />
-              <br/>
+              <br />
               <Label className="set-event-label">End time:</Label>
-              <br/>
-                <DateTimePicker
-                  onChange= {(value) => this.handleEndTime(value)}
-                  value = {endTime}
-                />
-              
+              <br />
+              <DateTimePicker
+                onChange={(value) => this.handleEndTime(value)}
+                value={endTime}
+              />
+
               <Label className="set-event-label"> Description: </Label>
               <FormGroup className="set-event-formgroup">
                 <Input
@@ -237,9 +220,7 @@ class SetEvent extends Component {
               </FormGroup>
             </Col>
             <Col xs="7">
-              <center>
-            {this.friendGroup()}
-              </center>
+              <center>{this.friendGroup()}</center>
             </Col>
           </Row>
 
@@ -248,7 +229,8 @@ class SetEvent extends Component {
               <Button
                 type="submit"
                 className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
-                disabled={disabled}>
+                disabled={disabled}
+              >
                 Save Event
               </Button>
             </Col>
@@ -262,8 +244,6 @@ class SetEvent extends Component {
             </Col>
           </Row>
         </Form>
-        
-
       </Container>
     );
   }

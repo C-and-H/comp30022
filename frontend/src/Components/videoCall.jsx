@@ -226,7 +226,7 @@ class VideoCall extends Component {
     return (
       <div className="div-video-call-display">
         <div className="div-my-video">
-          {this.props.myName}
+          {this.props.myName && this.props.myName.name}
           <video
             id="myVideo"
             playsInline

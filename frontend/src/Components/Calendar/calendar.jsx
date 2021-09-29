@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Paper from '@material-ui/core/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
+import Paper from "@material-ui/core/Paper";
+import { ViewState } from "@devexpress/dx-react-scheduler";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
 import "./Popup.css";
 import { API_URL } from "../../constant";
 import AuthService from "../../Services/AuthService";
@@ -17,23 +17,20 @@ import {
   Toolbar,
   DateNavigator,
   TodayButton,
-  CurrentTimeIndicator
+  CurrentTimeIndicator,
   // AppointmentTooltip
-} from '@devexpress/dx-react-scheduler-material-ui';
+} from "@devexpress/dx-react-scheduler-material-ui";
 import axios from "axios";
 import Popup from "./PopUpWindow/Popup";
 import Confirm from "./PopUpWindow/Confirm";
-import AutoLinkText from 'react-autolink-text2';
+import AutoLinkText from "react-autolink-text2";
 import DeleteSuccess from "./PopUpWindow/DeleteSuccess";
 
 // handle the view switcher
-const ExternalViewSwitcher = ({
-  currentViewName,
-  onChange,
-}) => (
+const ExternalViewSwitcher = ({ currentViewName, onChange }) => (
   <RadioGroup
     aria-label="Views"
-    style={{ flexDirection: 'row' }}
+    style={{ flexDirection: "row" }}
     name="views"
     value={currentViewName}
     onChange={onChange}
@@ -46,7 +43,7 @@ const ExternalViewSwitcher = ({
 
 class Calendar extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       redirect: null,
       userReady: false,
@@ -58,22 +55,22 @@ class Calendar extends Component {
       startTime: "",
       endTime: "",
       data: "",
-      currentViewName: 'Week',
+      currentViewName: "Week",
       chosenId: "",
-      appointments:[],
-      participantInfos:[],
-      participantNames:[],
-      participantEmail:[],
+      appointments: [],
+      participantInfos: [],
+      participantNames: [],
+      participantEmail: [],
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.currentViewNameChange = (e) => {
       this.setState({ currentViewName: e.target.value });
     };
-    this.fetchAppointments = this.fetchAppointments.bind(this)
-    this.getParticipantInfo = this.getParticipantInfo.bind(this)
+    this.fetchAppointments = this.fetchAppointments.bind(this);
+    this.getParticipantInfo = this.getParticipantInfo.bind(this);
   }
 
-    // if current user is null, will go back to homepage
+  // if current user is null, will go back to homepage
   async componentDidMount() {
     const currentUser = AuthService.getCurrentUser();
     // if not login
@@ -82,7 +79,7 @@ class Calendar extends Component {
     // get appointments from backend
     let data = await this.fetchAppointments();
     // console.log(data)
-    let appointments = []
+    let appointments = [];
     for (var i = 0; i < data.length; i++) {
       var appointment = {
         startDate: new Date(data[i].startTime),
@@ -90,27 +87,23 @@ class Calendar extends Component {
         title: data[i].title,
         participantIds: data[i].participantIds,
         description: data[i].notes,
-        id: data[i].id
-      }
-      appointments.push(appointment)
+        id: data[i].id,
+      };
+      appointments.push(appointment);
     }
-    this.setState({appointments: appointments})
+    this.setState({ appointments: appointments });
   }
 
-
   // fetch appointments from backend
-  async fetchAppointments(){
+  async fetchAppointments() {
     const user = AuthService.getBasicInfo();
     if (user && user.token) {
       const token = user.token;
-      const response = await axios.get(
-        API_URL + "/meeting/listMeeting",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await axios.get(API_URL + "/meeting/listMeeting", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
       return response.data;
     } else {
       return "Current user was not found. Please log in ";
@@ -131,150 +124,166 @@ class Calendar extends Component {
       let participantInfos = [...this.state.participantInfos];
       participantInfos.push(response.data);
       this.setState({ participantInfos });
-    }else{
+    } else {
       return "Current user was not found. Please log in ";
     }
   }
 
   handleOnClick(event) {
-    this.setState({ participantInfos: []});
-    for(var i = 0; i < event.data.participantIds.length; i++ ){
-      this.getParticipantInfo(event.data.participantIds[i])
+    this.setState({ participantInfos: [] });
+    for (var i = 0; i < event.data.participantIds.length; i++) {
+      this.getParticipantInfo(event.data.participantIds[i]);
     }
-    console.log(event.data)
-    var startTime = event.data.startDate
-    var endTime = event.data.endDate
+    console.log(event.data);
+    var startTime = event.data.startDate;
+    var endTime = event.data.endDate;
     const id = event.data.id;
-    var startTimeMinsInterval = ""
-    var endTimeMinsInterval = ""
-    var startTimeHourInterval = ""
-    var endTimeHourInterval = ""
+    var startTimeMinsInterval = "";
+    var endTimeMinsInterval = "";
+    var startTimeHourInterval = "";
+    var endTimeHourInterval = "";
     // a.m. or p.m.
-    var startTimeEndString = ""
-    var endTimeEndString = ""
+    var startTimeEndString = "";
+    var endTimeEndString = "";
     // var toiso = startTime.toISOString().split('T')[1].split('.')[0]
     var startTimeArray = startTime.toDateString().split(" ");
     var endTimeArray = endTime.toDateString().split(" ");
     // add a zero if minutes is less than 10
-    if(startTime.getMinutes() < 10){
-      startTimeMinsInterval = ":0"
-    }else{
-      startTimeMinsInterval = ":"
+    if (startTime.getMinutes() < 10) {
+      startTimeMinsInterval = ":0";
+    } else {
+      startTimeMinsInterval = ":";
     }
     // add a zero if minutes is less than 10
-    if(endTime.getMinutes() < 10){
-      endTimeMinsInterval = ":0"
-    }else{
-      endTimeMinsInterval = ":"
+    if (endTime.getMinutes() < 10) {
+      endTimeMinsInterval = ":0";
+    } else {
+      endTimeMinsInterval = ":";
     }
     // add a zero if hour is less than 10
-    if(startTime.getHours() < 10){
-      startTimeHourInterval = "0"
-    }else{
-      startTimeHourInterval = ""
+    if (startTime.getHours() < 10) {
+      startTimeHourInterval = "0";
+    } else {
+      startTimeHourInterval = "";
     }
-    if(endTime.getHours() < 10){
-      endTimeHourInterval = "0"
-    }else{
-      endTimeHourInterval = ""
+    if (endTime.getHours() < 10) {
+      endTimeHourInterval = "0";
+    } else {
+      endTimeHourInterval = "";
     }
     // set am or pm
-    if(startTime.getHours() < 12){
-      startTimeEndString = " AM"
-    }else{
-      startTimeEndString = " PM"
+    if (startTime.getHours() < 12) {
+      startTimeEndString = " AM";
+    } else {
+      startTimeEndString = " PM";
     }
-    if(endTime.getHours() < 12){
-      endTimeEndString = " AM"
-    }else{
-      endTimeEndString = " PM"
+    if (endTime.getHours() < 12) {
+      endTimeEndString = " AM";
+    } else {
+      endTimeEndString = " PM";
     }
-    var startTimeString = startTimeArray[2] + " " + startTimeArray[1] + " " + 
-    startTimeArray[3] + '\xa0\xa0' + startTimeHourInterval + startTime.getHours() + startTimeMinsInterval + 
-    startTime.getMinutes() + startTimeEndString;
+    var startTimeString =
+      startTimeArray[2] +
+      " " +
+      startTimeArray[1] +
+      " " +
+      startTimeArray[3] +
+      "\xa0\xa0" +
+      startTimeHourInterval +
+      startTime.getHours() +
+      startTimeMinsInterval +
+      startTime.getMinutes() +
+      startTimeEndString;
 
-    var endTimeString = endTimeArray[2] + " " + endTimeArray[1] + " " + 
-    endTimeArray[3] + '\xa0\xa0' + endTimeHourInterval + endTime.getHours() + endTimeMinsInterval + 
-    endTime.getMinutes() + endTimeEndString;
+    var endTimeString =
+      endTimeArray[2] +
+      " " +
+      endTimeArray[1] +
+      " " +
+      endTimeArray[3] +
+      "\xa0\xa0" +
+      endTimeHourInterval +
+      endTime.getHours() +
+      endTimeMinsInterval +
+      endTime.getMinutes() +
+      endTimeEndString;
     this.setState({
       startTime: startTimeString,
       endTime: endTimeString,
       data: event.data,
       chosenId: id,
-      seen: true
+      seen: true,
     });
   }
-  //use arrow functions, 
-  //as arrow functions point to parent scope and this will be available. 
+  //use arrow functions,
+  //as arrow functions point to parent scope and this will be available.
   //(substitute of bind technique)
   setTriggerClose = () => {
-    this.setState({seen: false});
-  }
+    this.setState({ seen: false });
+  };
 
   clickDismiss = () => {
     this.setState({
       onClickDelete: false,
-      seen: false
+      seen: false,
     });
-  }
+  };
 
-  dismissSuccessPopUp = () =>{
+  dismissSuccessPopUp = () => {
     this.setState({
       deleteSuccessPopUp: false,
     });
     window.location.reload();
-  }
+  };
 
-  activateDelete = () =>{
+  activateDelete = () => {
     this.setState({
-      onClickDelete: true
+      onClickDelete: true,
     });
-  }
+  };
 
   handleOnClickCalendar(event) {
     // console.log("do nothing")
   }
 
-  disableShow = ({children, style, ...restProps}) => {
+  disableShow = ({ children, style, ...restProps }) => {
     return (
       <DateNavigator.OpenButton
-      onClick={(event) =>
-        this.handleOnClickCalendar(event)}
+        onClick={(event) => this.handleOnClickCalendar(event)}
         {...restProps}
       >
-      {children}
+        {children}
       </DateNavigator.OpenButton>
-    )
-  }
-  appointment = ({children, style, ...restProps}) => {
+    );
+  };
+  appointment = ({ children, style, ...restProps }) => {
     return (
-    <Appointments.Appointment 
-      onClick={(event) =>
-        this.handleOnClick(event)}
-      {...restProps}
-    >
-      {children}
-    </Appointments.Appointment>
-    )
-  }
+      <Appointments.Appointment
+        onClick={(event) => this.handleOnClick(event)}
+        {...restProps}
+      >
+        {children}
+      </Appointments.Appointment>
+    );
+  };
 
-  clickAddEvent = () =>{
+  clickAddEvent = () => {
     const redirect = "/setEvent";
     this.setState({ redirect });
-  }
+  };
 
-  async deleteEvent(){
+  async deleteEvent() {
     this.setState({
       onClickDelete: false,
       seen: false,
     });
 
-    const { chosenId, basic} = this.state;
+    const { chosenId, basic } = this.state;
 
-    const response = await axios.post (
+    const response = await axios.post(
       API_URL + "/meeting/deleteMeeting",
       {
-        id: chosenId
+        id: chosenId,
       },
       {
         headers: {
@@ -291,42 +300,38 @@ class Calendar extends Component {
     }
   }
 
-  setButton = ({children, style, ...restProps}) =>{
+  setButton = ({ children, style, ...restProps }) => {
     return (
       <Toolbar.FlexibleSpace>
-         <a
+        <a
           className="MuiButtonBase-root MuiButton-root calendar-btn"
-          href="/setEvent">
-          
+          href="/setEvent"
+        >
           <span className="MuiButton-label">Add Event</span>
-         </a>
+        </a>
         {children}
       </Toolbar.FlexibleSpace>
-    )
-  }
+    );
+  };
 
-  // display the participants 
-  displayParticipants = () =>{
+  // display the participants
+  displayParticipants = () => {
     const { participantInfos } = this.state;
-    var participants = []
-    var participants_string = ""
-    for(var i = 0; i < participantInfos.length; i++){
-      var name = participantInfos[i].first_name + " " + participantInfos[i].last_name
-      participants.push(name)
-      participants_string = participants_string + name + ", "
+    var participants = [];
+    var participants_string = "";
+    for (var i = 0; i < participantInfos.length; i++) {
+      var name =
+        participantInfos[i].first_name + " " + participantInfos[i].last_name;
+      participants.push(name);
+      participants_string = participants_string + name + ", ";
     }
-    
-    return(
+
+    return (
       <div>
-        {participants.length ? (
-        <p> {participants_string.slice(0, -2)}
-        </p>
-        ) : (
-          ""
-        )}
+        {participants.length ? <p> {participants_string.slice(0, -2)}</p> : ""}
       </div>
-      )
-  }
+    );
+  };
 
   //display the host name
   // displayHost = () =>{
@@ -338,7 +343,7 @@ class Calendar extends Component {
   //     participants.push(name)
   //     participants_string = participants_string + name + ", "
   //   }
-    
+
   //   return(
   //     <div>
   //       {participants.length ? (
@@ -350,72 +355,98 @@ class Calendar extends Component {
   //     </div>
   //     )
   // }
-  
-  render(){
-        // if redict is not null imply user is not login, then go to home page
-        if (this.state.redirect) {
-          return <Redirect to={this.state.redirect} />;
-        }
+
+  render() {
+    // if redict is not null imply user is not login, then go to home page
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     const { currentViewName } = this.state;
     const currentDate = new Date();
     const appointments = this.state.appointments;
     return (
       <React.Fragment>
-        <ExternalViewSwitcher currentViewName={currentViewName} onChange={this.currentViewNameChange}/>
-      <div className="calendar">
-      <Paper >
-        <Scheduler data={appointments} >
-          <ViewState defaultCurrentDate={currentDate} currentViewName={currentViewName}/>
-          <DayView/>
-          <MonthView/>
-          <WeekView startDayHour={1} endDayHour={24}/>
-          <Toolbar flexibleSpaceComponent={this.setButton}/>
-          <DateNavigator openButtonComponent={this.disableShow}/>
-          <TodayButton />
-          <Appointments appointmentComponent={this.appointment}/>
-          <CurrentTimeIndicator/>
-        </Scheduler>
-        
-        <Popup trigger={this.state.seen} activateDelete={this.activateDelete} setTriggerClose={this.setTriggerClose}>
-          <div>
-              <h2 className="popup-header">Title: {this.state.data.title}</h2>
-              <div className="show-time">
-                <p>
-                  <span style={{fontSize:23, fontWeight:600}}>Time:</span>
-                  <br /> 
-                  {this.state.startTime} — {this.state.endTime}
-                </p>  
-              </div>
-              <div className="description">
-                <span style={{fontSize:23, fontWeight:600}}>Description:</span>
-                 <br />
-                 <div className="div-description">
-                   <AutoLinkText text ={this.state.data.description}/>
-                 </div>  
-              </div>
-              {/* <div className="pop-host">
+        <ExternalViewSwitcher
+          currentViewName={currentViewName}
+          onChange={this.currentViewNameChange}
+        />
+        <div className="calendar">
+          <Paper>
+            <Scheduler data={appointments}>
+              <ViewState
+                defaultCurrentDate={currentDate}
+                currentViewName={currentViewName}
+              />
+              <DayView />
+              <MonthView />
+              <WeekView startDayHour={1} endDayHour={24} />
+              <Toolbar flexibleSpaceComponent={this.setButton} />
+              <DateNavigator openButtonComponent={this.disableShow} />
+              <TodayButton />
+              <Appointments appointmentComponent={this.appointment} />
+              <CurrentTimeIndicator />
+            </Scheduler>
+
+            <Popup
+              trigger={this.state.seen}
+              activateDelete={this.activateDelete}
+              setTriggerClose={this.setTriggerClose}
+            >
+              <div>
+                <h2 className="popup-header">Title: {this.state.data.title}</h2>
+                <div className="show-time">
+                  <p>
+                    <span style={{ fontSize: 23, fontWeight: 600 }}>Time:</span>
+                    <br />
+                    {this.state.startTime} — {this.state.endTime}
+                  </p>
+                </div>
+                <div className="description">
+                  <span style={{ fontSize: 23, fontWeight: 600 }}>
+                    Description:
+                  </span>
+                  <br />
+                  <div className="div-description">
+                    <AutoLinkText text={this.state.data.description} />
+                  </div>
+                </div>
+                {/* <div className="pop-host">
               <span style={{fontSize:23, fontWeight:600}}>Host Name:</span>
               {(this.state.seen) ? this.displayParticipants() : ""}
               </div>               */}
-              <div className="pop-paticipants">
-              <span style={{fontSize:23, fontWeight:600}}>Participants: ({this.state.participantInfos.length} in total)</span>
-              {(this.state.seen) ? this.displayParticipants() : ""}
+                <div className="pop-paticipants">
+                  <span style={{ fontSize: 23, fontWeight: 600 }}>
+                    Participants: ({this.state.participantInfos.length} in
+                    total)
+                  </span>
+                  {this.state.seen ? this.displayParticipants() : ""}
+                </div>
               </div>
-          </div>
-        </Popup>
+            </Popup>
 
-        <Confirm triggerClickDelete={this.state.onClickDelete} clickDismiss={this.clickDismiss} deleteEvent={this.deleteEvent}>
-          <h2 style={{textAlign:"center",fontSize:20}}>Are you sure you want to delete this event?</h2>
-        </Confirm>
+            <Confirm
+              triggerClickDelete={this.state.onClickDelete}
+              clickDismiss={this.clickDismiss}
+              deleteEvent={this.deleteEvent}
+            >
+              <h2 style={{ textAlign: "center", fontSize: 20 }}>
+                Are you sure you want to delete this event?
+              </h2>
+            </Confirm>
 
-        <DeleteSuccess trigger={this.state.deleteSuccessPopUp} dismissSuccessPopUp={this.dismissSuccessPopUp}>
-        <h2 style={{textAlign:"center",fontSize:20, paddingBottom:15}}>Delete event success.</h2>
-        </DeleteSuccess>
-
-      </Paper>
-      </div>
+            <DeleteSuccess
+              trigger={this.state.deleteSuccessPopUp}
+              dismissSuccessPopUp={this.dismissSuccessPopUp}
+            >
+              <h2
+                style={{ textAlign: "center", fontSize: 20, paddingBottom: 15 }}
+              >
+                Delete event success.
+              </h2>
+            </DeleteSuccess>
+          </Paper>
+        </div>
       </React.Fragment>
-
     );
   }
 }

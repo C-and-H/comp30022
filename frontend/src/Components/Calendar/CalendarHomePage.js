@@ -5,10 +5,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-import CalendarSidebar from "./CalendarSidebar"
+import CalendarSidebar from "./CalendarSidebar";
 import SetEvent from "./SetEvent";
 import Calendar from "./calendar";
-import {Row, Col } from 'reactstrap';
+import { Row, Col } from "reactstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Height } from "@material-ui/icons";
 
@@ -20,7 +20,7 @@ export default class CalendarHomePage extends Component {
       redirect: null,
       userReady: false,
       currentUser: localStorage.getItem("user"),
-      basic: localStorage.getItem("basic")
+      basic: localStorage.getItem("basic"),
     };
   }
 
@@ -34,7 +34,6 @@ export default class CalendarHomePage extends Component {
   }
 
   render() {
-   
     // if redict is not null imply user is not login, then go to home page
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
@@ -45,21 +44,23 @@ export default class CalendarHomePage extends Component {
     return (
       <div className="container">
         {this.state.userReady ? (
-        <div>
-          <h1 style={{marginTop:40, marginLeft:0, marginBottom:40}}>Here is your Calendar!</h1>
-          <Row>
-          <Router>
-            <Col xs="3" style={{textAlign:"center"}}>
-              <CalendarSidebar/>
-            </Col>
-            <Col xs="9"  style={{textAlign:"center" }}>
-              <Switch>
-              <Route exact path = "/calendar" component = {Calendar} />
-              <Route exact path = "/setEvent" component = {SetEvent} />
-              </Switch>
-            </Col>
-          </Router>
-          </Row>
+          <div>
+            <h1 style={{ marginTop: 40, marginLeft: 0, marginBottom: 40 }}>
+              Here is your Calendar!
+            </h1>
+            <Row>
+              <Router>
+                <Col xs="3" style={{ textAlign: "center" }}>
+                  <CalendarSidebar />
+                </Col>
+                <Col xs="9" style={{ textAlign: "center" }}>
+                  <Switch>
+                    <Route exact path="/calendar" component={Calendar} />
+                    <Route exact path="/setEvent" component={SetEvent} />
+                  </Switch>
+                </Col>
+              </Router>
+            </Row>
           </div>
         ) : null}
       </div>

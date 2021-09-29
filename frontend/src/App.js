@@ -531,7 +531,6 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App">
-        {/* <Button onClick={() => this.startCall("111")} /> */}
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
           <NavigationBar
@@ -551,7 +550,7 @@ class App extends Component {
             onSwitch={this.handleMyStream}
             friendVideo={friendVideoStream}
             peer={peerConnection}
-            myName={currentUser.name}
+            myName={currentUser}
             friendName={friendName}
           />
           <Switch>
@@ -575,10 +574,7 @@ class App extends Component {
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/calendar" component={CalendarHomePage} />
             <Route exact path="/setEvent" component={SetEvent} />
-
             <Route exact path="/settingNote/:id" component={SettingNote} />
-
-            {/* <Route exact path="/setEvent" component={SetEvent} /> */}
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
