@@ -7,7 +7,6 @@ import HomePage from "./Components/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
-// import SettingProfile from "./Components/Profiles/SettingProfile";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
 import Verify from "./Components/Verify";
@@ -33,9 +32,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
-    // this._chatConnected = false;
     this._notiConnected = false;
-    //this.logOut = this.logOut.bind(this);
 
     this.state = {
       currentUser: JSON.parse(localStorage.getItem("user")),
@@ -100,13 +97,6 @@ class App extends Component {
       await AuthService.getNotificationPath();
     }
 
-    // if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
-    //   await this.connectChat(
-    //     JSON.parse(localStorage.getItem("notificationPath"))
-    //   );
-    //   this._chatConnected = true;
-    // }
-
     if (this._isMounted && basic && localStorage.getItem("notificationPath")) {
       if (!this.state.isConnected) {
         await this.connect(
@@ -168,22 +158,6 @@ class App extends Component {
       });
   }
 
-  // async connectChat(notificationPath) {
-  //   this._isMounted && this.setState({ chatPath: notificationPath });
-  //   var self = this;
-  //   var socket = new SockJS(API_URL + "/candh-crm-websocket");
-  //   self.chatClient = Stomp.over(socket);
-  //   this._isMounted &&
-  //     self.chatClient.connect({}, function (frame) {
-  //       self.chatClient.subscribe(
-  //         "/topic/chat/" + notificationPath,
-  //         self.handleReceiveMessage
-  //       );
-  //       self.sendUserIdChat();
-  //     });
-  //   console.log("Chat connected", self.chatClient);
-  // }
-
   subscribeCallback(numNotification) {
     let notifications = localStorage.getItem("notifications");
     if (!notifications) {
@@ -221,9 +195,6 @@ class App extends Component {
       self.stompClient.disconnect();
     }
 
-    // if (self.chatClient !== null && this._chatConnected) {
-    //   self.chatClient.disconnect();
-    // }
     this._isMounted && self.setState({ isConnected: false });
   }
 
@@ -382,6 +353,7 @@ class App extends Component {
       this.state.peerConnection.signal(JSON.parse(message.signal));
     } else {
       Notification.open({
+        key: message.from,
         title: "",
         duration: 0,
         description: (
@@ -465,8 +437,8 @@ class App extends Component {
   }
 
   opponentEnded(message) {
-    if (this.state.onCall) {
-      //alert("Opponent ends the call.");
+    const info = JSON.parse(message.body);
+    if (this.state.onCall && info.from === this.state.friendId) {
       Notification.open({
         title: "",
         duration: 0,
@@ -498,10 +470,14 @@ class App extends Component {
         friendId: "",
         friendName: "",
         friendVideoStream: null,
-        myVideoStream: null,
+        myStream: null,
         receiveCall: false,
         friendSignal: null,
       });
+    } else {
+      try {
+        Notification.close(info.from);
+      } catch (e) {}
     }
   }
 
@@ -532,9 +508,7 @@ class App extends Component {
       friendId: "",
       friendName: "",
       friendVideoStream: null,
-      myVoiceStream: null,
-      myVideoStream: null,
-      myScreenStream: null,
+      myStream: null,
       receiveCall: false,
       friendSignal: null,
     });
