@@ -8,6 +8,7 @@ import "./Popup.css";
 import { API_URL } from "../../constant";
 import AuthService from "../../Services/AuthService";
 import { Redirect } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import {
   Scheduler,
   WeekView,
@@ -61,6 +62,9 @@ class Calendar extends Component {
       participantInfos: [],
       participantNames: [],
       participantEmail: [],
+      hostId: "",
+      hostInfo: "",
+      loading: false,
     };
     this.deleteEvent = this.deleteEvent.bind(this);
     this.currentViewNameChange = (e) => {
@@ -68,6 +72,7 @@ class Calendar extends Component {
     };
     this.fetchAppointments = this.fetchAppointments.bind(this);
     this.getParticipantInfo = this.getParticipantInfo.bind(this);
+    this.getHostInfo = this.getHostInfo.bind(this);
   }
 
   // if current user is null, will go back to homepage
@@ -88,6 +93,7 @@ class Calendar extends Component {
         participantIds: data[i].participantIds,
         description: data[i].notes,
         id: data[i].id,
+        hostId: data[i].hostId
       };
       appointments.push(appointment);
     }
@@ -110,6 +116,7 @@ class Calendar extends Component {
     }
   }
 
+  // get the participant information
   async getParticipantInfo(id) {
     const response = await axios.post(
       API_URL + "/user",
@@ -124,17 +131,38 @@ class Calendar extends Component {
       let participantInfos = [...this.state.participantInfos];
       participantInfos.push(response.data);
       this.setState({ participantInfos });
+      
     } else {
       return "Current user was not found. Please log in ";
     }
   }
 
-  handleOnClick(event) {
+  // get the host information
+  async getHostInfo(id) {
+    const response = await axios.post(
+      API_URL + "/user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + this.state.basic.token,
+        },
+      }
+    );
+    if (response.data) {
+      this.setState({hostInfo:response.data})
+    } else {
+      return "Current user was not found. Please log in ";
+    }
+  }
+
+  async handleOnClick(event) {
+    
     this.setState({ participantInfos: [] });
     for (var i = 0; i < event.data.participantIds.length; i++) {
-      this.getParticipantInfo(event.data.participantIds[i]);
+      await this.getParticipantInfo(event.data.participantIds[i]);
     }
-    console.log(event.data);
+    
+    await this.getHostInfo(event.data.hostId)
     var startTime = event.data.startDate;
     var endTime = event.data.endDate;
     const id = event.data.id;
@@ -145,7 +173,7 @@ class Calendar extends Component {
     // a.m. or p.m.
     var startTimeEndString = "";
     var endTimeEndString = "";
-    // var toiso = startTime.toISOString().split('T')[1].split('.')[0]
+
     var startTimeArray = startTime.toDateString().split(" ");
     var endTimeArray = endTime.toDateString().split(" ");
     // add a zero if minutes is less than 10
@@ -214,6 +242,7 @@ class Calendar extends Component {
       chosenId: id,
       seen: true,
     });
+    this.setState({loading: true})
   }
   //use arrow functions,
   //as arrow functions point to parent scope and this will be available.
@@ -291,10 +320,8 @@ class Calendar extends Component {
         },
       }
     );
-
     if (response.data !== "Meeting not found.") {
       this.setState({ deleteSuccessPopUp: true });
-      // console.log(response.data);
     } else {
       alert(response.data);
     }
@@ -334,27 +361,13 @@ class Calendar extends Component {
   };
 
   //display the host name
-  // displayHost = () =>{
-  //   const { participantInfos } = this.state;
-  //   var participants = []
-  //   var participants_string = ""
-  //   for(var i = 0; i < participantInfos.length; i++){
-  //     var name = participantInfos[i].first_name + " " + participantInfos[i].last_name
-  //     participants.push(name)
-  //     participants_string = participants_string + name + ", "
-  //   }
-
-  //   return(
-  //     <div>
-  //       {participants.length ? (
-  //       <p> {participants_string.slice(0, -2)}
-  //       </p>
-  //       ) : (
-  //         ""
-  //       )}
-  //     </div>
-  //     )
-  // }
+  displayHost = () =>{
+    return(
+      <div>
+        {this.state.hostInfo.first_name} {this.state.hostInfo.last_name}
+      </div>
+      )
+  }
 
   render() {
     // if redict is not null imply user is not login, then go to home page
@@ -386,7 +399,6 @@ class Calendar extends Component {
               <Appointments appointmentComponent={this.appointment} />
               <CurrentTimeIndicator />
             </Scheduler>
-
             <Popup
               trigger={this.state.seen}
               activateDelete={this.activateDelete}
@@ -410,16 +422,19 @@ class Calendar extends Component {
                     <AutoLinkText text={this.state.data.description} />
                   </div>
                 </div>
-                {/* <div className="pop-host">
+                <div className="pop-host">
               <span style={{fontSize:23, fontWeight:600}}>Host Name:</span>
-              {(this.state.seen) ? this.displayParticipants() : ""}
-              </div>               */}
+              {(this.state.seen) ? this.displayHost() : ""}
+              </div>              
                 <div className="pop-paticipants">
                   <span style={{ fontSize: 23, fontWeight: 600 }}>
-                    Participants: ({this.state.participantInfos.length} in
-                    total)
+                    Participants: ({this.state.participantInfos.length} in total)
                   </span>
+                  {/* {this.state.seen ? 
+                  (this.state.loading ? this.displayParticipants() : <Spinner animation="border"/>) 
+                  : ""} */}
                   {this.state.seen ? this.displayParticipants() : ""}
+                  {/* {this.state.seen && this.state.loading ? this.displayParticipants() : <Spinner animation="border" />} */}
                 </div>
               </div>
             </Popup>

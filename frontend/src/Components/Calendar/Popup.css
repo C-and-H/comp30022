@@ -1,7 +1,7 @@
 :root {
   --button-font: "Montserrat", sans-serif;
   --default-font:"Roboto", "Helvetica", "Arial", sans-serif;
-  --median-font-size: 16px;
+  --median-font-size: 18px;
   --large-font-size: 30px;
   --small-font-size: 12px;
 }
@@ -10,6 +10,7 @@
 }
 .popup{
   font-family: var(--default-font);
+  font-size: var(--median-font-size);
   z-index: 1000;
   position: fixed;
   top: 0;
