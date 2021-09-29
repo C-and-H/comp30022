@@ -360,7 +360,7 @@ class App extends Component {
           <div className="div-video-call-notification">
             <p>You have received a new Call from {message.name}</p>
             <Button
-              className="btn-video-call-notification"
+              className="btn-video-call-notification btn-outline-success"
               onClick={() => {
                 Notification.close();
                 this._isMounted &&
@@ -376,7 +376,7 @@ class App extends Component {
               Accept
             </Button>
             <Button
-              className="btn-video-call-notification"
+              className="btn-video-call-notification btn-outline-warning"
               onClick={() => {
                 Notification.close();
                 axios.post(
@@ -400,16 +400,18 @@ class App extends Component {
 
   callAccepted(message) {
     const info = JSON.parse(message.body);
-    this.state.peerConnection.signal(JSON.parse(info.signal));
-    this.setState({ friendName: info.name });
+    if (this.state.onCall && this.state.peerConnection) {
+      this.state.peerConnection.signal(JSON.parse(info.signal));
+      this.setState({ friendName: info.name });
+    }
   }
 
   callRejected(message) {
     const info = JSON.parse(message.body);
-    if (info.from === this.state.friendId) {
+    if (this.state.onCall && info.from === this.state.friendId) {
       this.endCall();
+      alert("Opponent rejected your call.");
     }
-    alert("Opponent rejected your call.");
   }
 
   answerCall(stream) {
@@ -525,6 +527,7 @@ class App extends Component {
       onCall,
       friendVideoStream,
       peerConnection,
+      friendName,
     } = this.state;
     return (
       <div className="App">
@@ -548,6 +551,8 @@ class App extends Component {
             onSwitch={this.handleMyStream}
             friendVideo={friendVideoStream}
             peer={peerConnection}
+            myName={currentUser.name}
+            friendName={friendName}
           />
           <Switch>
             <Route exact path="/signup" component={SignUp} />

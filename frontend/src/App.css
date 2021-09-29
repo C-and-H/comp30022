@@ -863,6 +863,8 @@ footer {
   height: 500px;
   display: inline-block;
   margin-left: 12%;
+  color: #8fb2c9;
+  font-size: 20px;
 }
 
 .div-friend-video {
@@ -870,6 +872,8 @@ footer {
   height: 500px;
   display: inline-block;
   margin-left: 6%;
+  color: #8fb2c9;
+  font-size: 20px;
 }
 
 .div-loading-video {
@@ -896,7 +900,7 @@ footer {
 }
 
 .div-video-call-notification {
-  background-color: rgb(237, 85, 106);
+  background-color: #cc163a;
   width: 300px;
   word-wrap: break-word;
   border-radius: 5px;
@@ -904,13 +908,15 @@ footer {
   z-index: 1080;
   padding: 10px;
   top: 40vh;
-  right: 45vw;
+  left: 50%;
+  margin-left: -150px;
 }
 
 .btn-video-call-notification {
-  background-color: rgb(240, 161, 168);
-  width: 30%;
-  margin: 9%;
+  background-color: #ccccd6;
+  color: #142334;
+  width: 33%;
+  margin: 7%;
   display: inline-block;
 }
 
@@ -997,11 +1003,10 @@ footer {
   align-self: center;
   border-radius: 20px;
   height: 32px;
-  
+
   text-align: center;
   background-color: mediumslateblue;
 }
-
 
 /******************** ProfileDisplay Components END ********************/
 

@@ -226,6 +226,7 @@ class VideoCall extends Component {
     return (
       <div className="div-video-call-display">
         <div className="div-my-video">
+          {this.props.myName}
           <video
             id="myVideo"
             playsInline
@@ -235,6 +236,7 @@ class VideoCall extends Component {
           />
         </div>
         <div className="div-friend-video">
+          {this.props.friendName}
           <div className="div-loading-video">
             <BallSpinClockWise
               loading={this.state.friendVideo === null}
