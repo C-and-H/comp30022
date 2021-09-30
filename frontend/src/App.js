@@ -27,6 +27,7 @@ import SettingNote from "./Components/Profiles/SettingNote";
 import SetEvent from "./Components/Calendar/SetEvent";
 import VideoCall from "./Components/videoCall";
 import Peer from "simple-peer";
+import Loading from "./Logo/loading";
 
 class App extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class App extends Component {
       peerConnection: null,
       receiveCall: false,
       friendSignal: null,
+      onLoading: true,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
@@ -73,6 +75,7 @@ class App extends Component {
     this.opponentEnded = this.opponentEnded.bind(this);
     this.handleMyVoiceStream = this.handleMyVoiceStream.bind(this);
     this.handleMyStream = this.handleMyStream.bind(this);
+    this.handleLoading = this.handleLoading.bind(this);
   }
 
   async componentDidMount() {
@@ -516,6 +519,10 @@ class App extends Component {
     });
   }
 
+  handleLoading(boolean) {
+    this._isMounted && this.setState({ onLoading: boolean });
+  }
+
   render() {
     const {
       currentUser,
@@ -528,9 +535,11 @@ class App extends Component {
       friendVideoStream,
       peerConnection,
       friendName,
+      onLoading,
     } = this.state;
     return (
       <div className="App">
+        <Loading visible={onLoading} />
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
           <NavigationBar
