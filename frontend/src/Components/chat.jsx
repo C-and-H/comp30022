@@ -40,7 +40,7 @@ class Chat extends Component {
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleChangeSearch = this.handleChangeSearch.bind(this);
     this.onChatScroll = this.onChatScroll.bind(this);
-    this.onsEmojiClick = this.onEmojiClick.bind(this);
+    this.onEmojiClick = this.onEmojiClick.bind(this);
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
   }
 
