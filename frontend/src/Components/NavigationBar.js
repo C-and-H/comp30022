@@ -9,19 +9,29 @@ class NavigationBar extends Component {
   getNotificationDropDownItem(notification) {
     return (
       <NavDropdown.Item
+        href="/contact"
         key={notification.id}
-        onClick={() => this.props.removeNotification(notification.id)}
+        // onClick={() => this.props.removeNotification(notification.id)}
       >
-        <p className="notify-dropdown dropdown-text">
-          {notification.message}
-          <br />
-          <span className="dropdown-time dropdown-text">
-            {new Date(notification.when).toLocaleDateString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </span>
-        </p>
+        <div>
+          <p className="notify-dropdown dropdown-text">
+            {notification.message}
+            <Button 
+              className="notify-delete"
+              variant="outline-danger" 
+              size="sm"
+              onClick={() => this.props.removeNotification(notification.id)}>
+              x
+            </Button>
+            <br />
+            <span>
+              {new Date(notification.when).toLocaleDateString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+          </p>
+        </div>
       </NavDropdown.Item>
     );
   }

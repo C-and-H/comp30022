@@ -58,7 +58,11 @@
 }
 
 .notify-dropdown {
-  width: 200px;
+  width: 220px;
+}
+
+.notify-delete {
+  float: right;
 }
 
 .dropdown-text {
