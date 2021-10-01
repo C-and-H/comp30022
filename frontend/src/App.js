@@ -55,7 +55,7 @@ class App extends Component {
       peerConnection: null,
       receiveCall: false,
       friendSignal: null,
-      onLoading: true,
+      onLoading: false,
     };
 
     this.subscribeCallback = this.subscribeCallback.bind(this);
