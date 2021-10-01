@@ -95,9 +95,21 @@ public class MeetingService
     }
 
     /**
+     * Fetch all meetings from 12 hours ago to 12 hours ahead.
+     */
+    public List<Meeting> recent(String id) {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.add(Calendar.HOUR_OF_DAY, -12);
+        Date start = calendar.getTime();
+        calendar.add(Calendar.HOUR_OF_DAY, 24);
+        Date end = calendar.getTime();
+        return meetingRepository.findRecent(id, start, end);
+    }
+
+    /**
      * Check whether all ids in array present in user database.
      */
-    private boolean validIds (String[] participantIds)
+    private boolean validIds(String[] participantIds)
     {
         for (String participantId : participantIds) {
             if (!userRepository.findById(participantId).isPresent()) {
@@ -110,7 +122,7 @@ public class MeetingService
     /**
      * Check whether id in array
      */
-    private boolean containId (String[] participantIds, String Id)
+    private boolean containId(String[] participantIds, String Id)
     {
         for (String participantId : participantIds) {
             if (participantId.equals(Id)) {

@@ -85,4 +85,14 @@ public class MeetingController
                 .getId();
         return ResponseEntity.ok(meetingService.meetingList(id));
     }
+
+    @GetMapping("/meeting/recent")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> recent(
+            @RequestHeader("Authorization") String headerAuth) {
+        String id = userRepository.findByEmail(
+                jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
+                .getId();
+        return ResponseEntity.ok(meetingService.recent(id));
+    }
 }
