@@ -28,6 +28,7 @@ import SetEvent from "./Components/Calendar/SetEvent";
 import VideoCall from "./Components/videoCall";
 import Peer from "simple-peer";
 import Loading from "./Logo/loading";
+import EmailVerify from "./Components/emailVerify/emailVerify";
 
 class App extends Component {
   constructor(props) {
@@ -538,7 +539,7 @@ class App extends Component {
       onLoading,
     } = this.state;
     return (
-      <div className="App">
+      <div className="div-App-background">
         <Loading visible={onLoading} />
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
@@ -584,9 +585,7 @@ class App extends Component {
             <Route exact path="/calendar" component={CalendarHomePage} />
             <Route exact path="/setEvent" component={SetEvent} />
             <Route exact path="/settingNote/:id" component={SettingNote} />
-            <Route path="/signup/:email/:code">
-              <Verify />
-            </Route>
+            <Route path="/signup/:email/:code" component={EmailVerify} />
             <Route path={["/", "/home"]} component={HomePage} />
           </Switch>
         </Router>

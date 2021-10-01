@@ -1066,6 +1066,11 @@ footer {
   margin-left: -225px;
 }
 
+.div-App-background {
+  width: 100%;
+  height: 800px;
+}
+
 /* 
 .App {
   position: relative;
