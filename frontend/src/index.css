@@ -1,13 +1,13 @@
 body {
   margin: 0;
   /* font-family: 'Roboto', sans-serif; */
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:#F5F2ED;
+  background-color: #f5f2ed;
   /* background:linear-gradient(to bottom right,#ffffff,#8DE8F2); */
   /* background:linear-gradient(to bottom right,#00B8C9,#00D0A4); */
   /* background-image: linear-gradient(to right bottom, #1fc6b2, #46cebd, #61d6c8, #78ddd2, #8de5dc, #8ee6df, #8fe8e3, #90e9e6, #7ce5e4, #65e1e3, #47dce3, #07d8e3); */
@@ -17,8 +17,8 @@ body {
   /* background-image: linear-gradient(to right top, #6bd1c5, #1ec1cf, #00afd9, #009ae0, #0082dc, #0084e0, #0085e5, #0087e9, #00a5f7, #00c0f8, #00d8ee, #13eee0); */
   background-attachment: fixed;
 }
-:root{
-  font-family: 'Roboto', sans-serif;
+:root {
+  font-family: "Roboto", sans-serif;
 }
 
 /* code {

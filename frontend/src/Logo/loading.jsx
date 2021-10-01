@@ -32,9 +32,14 @@ class Loading extends Component {
       this.state.visible && (
         <div className="div-loading-background">
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ loop: Infinity, ease: "linear", duration: 4 }}
-            className="img-CandH-icon"
+            animate={{ rotate: -60 }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              repeatType: "reverse",
+              duration: 1.1,
+            }}
+            className="animate-CandH-icon"
           >
             <img alt="logo" src={logo} className="img-CandH-icon" />
           </motion.div>

@@ -1046,6 +1046,16 @@ footer {
   top: 0;
 }
 
+.animate-CandH-icon {
+  width: 450px;
+  height: 450px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  margin-top: -225px;
+  margin-left: -225px;
+}
+
 .img-CandH-icon {
   width: 450px;
   height: 450px;
