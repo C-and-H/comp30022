@@ -67,6 +67,10 @@ class EmailVerify extends Component {
     setTimeout(() => {
       this.setState({ welcome: true });
       fireworks.stop();
+      setTimeout(() => {
+        this.props.history.push("/");
+        window.location.reload();
+      }, 5000);
     }, 5000);
   }
 
