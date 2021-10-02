@@ -1,7 +1,7 @@
 .div-verify-background {
   background-color: black;
   width: 100%;
-  height: 100%;
+  height: 92%;
   color: white;
 }
 
@@ -39,7 +39,7 @@
 
 .p-click-instruction {
   position: absolute;
-  left: 35%;
+  left: 33%;
   top: 55%;
   font-size: 30px;
 }

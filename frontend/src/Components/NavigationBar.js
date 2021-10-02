@@ -16,11 +16,12 @@ class NavigationBar extends Component {
         <div>
           <p className="notify-dropdown dropdown-text">
             {notification.message}
-            <Button 
+            <Button
               className="notify-delete"
-              variant="outline-danger" 
+              variant="outline-danger"
               size="sm"
-              onClick={() => this.props.removeNotification(notification.id)}>
+              onClick={() => this.props.removeNotification(notification.id)}
+            >
               x
             </Button>
             <br />
@@ -176,7 +177,7 @@ class NavigationBar extends Component {
 
   render() {
     return (
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" className="nav-bar-78">
         <Container>
           <Navbar.Brand href="/">
             <i className="fas fa-users-cog"></i> CRM Application

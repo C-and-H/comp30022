@@ -57,6 +57,10 @@
   margin-right: 0px;
 }
 
+.nav-bar-78 {
+  height: 8%;
+}
+
 .notify-dropdown {
   width: 220px;
 }
@@ -904,23 +908,43 @@ footer {
 }
 
 .div-video-call-notification {
-  background-color: #cc163a;
-  width: 300px;
-  word-wrap: break-word;
-  border-radius: 5px;
+  background-color: #d8e3e7;
+  width: 500px;
+  height: 150px;
+  border-radius: 20px;
   position: absolute;
   z-index: 1080;
-  padding: 10px;
-  top: 40vh;
+  top: 50%;
   left: 50%;
-  margin-left: -150px;
+  margin-top: -100px;
+  margin-left: -250px;
+}
+
+.p-video-call-notification {
+  margin-left: 10px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  width: 480px;
+  word-wrap: break-word;
+  font-size: 30px;
+  text-align: center;
 }
 
 .btn-video-call-notification {
-  background-color: #ccccd6;
-  color: #142334;
-  width: 33%;
-  margin: 7%;
+  background-color: black;
+  color: #ccccd6;
+  border-color: black;
+  width: 25%;
+  margin-left: 20%;
+  display: inline-block;
+}
+
+.btn-video-call-notification-ignore {
+  background-color: red;
+  color: #ccccd6;
+  border-color: red;
+  width: 25%;
+  margin-left: 10%;
   display: inline-block;
 }
 
@@ -1068,7 +1092,7 @@ footer {
 
 .div-App-background {
   width: 100%;
-  height: 800px;
+  height: 100vh;
 }
 
 /* 

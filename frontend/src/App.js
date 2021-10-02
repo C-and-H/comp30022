@@ -28,6 +28,7 @@ import VideoCall from "./Components/videoCall";
 import Peer from "simple-peer";
 import Loading from "./Logo/loading";
 import EmailVerify from "./Components/emailVerify/emailVerify";
+import "animate.css";
 
 class App extends Component {
   constructor(props) {
@@ -360,8 +361,11 @@ class App extends Component {
         title: "",
         duration: 0,
         description: (
-          <div className="div-video-call-notification">
-            <p>You have received a new Call from {message.name}</p>
+          <div className="div-video-call-notification animate__animated animate__bounceIn">
+            <p className="p-video-call-notification">
+              <i className="fa fa-phone-alt" />
+              {"  " + message.name}
+            </p>
             <Button
               className="btn-video-call-notification btn-outline-success"
               onClick={() => {
@@ -379,7 +383,7 @@ class App extends Component {
               Accept
             </Button>
             <Button
-              className="btn-video-call-notification btn-outline-warning"
+              className="btn-video-call-notification-ignore btn-outline-danger"
               onClick={() => {
                 Notification.close();
                 axios.post(
