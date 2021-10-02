@@ -3,6 +3,8 @@ import "./emailVerify.css";
 import fireworks from "react-fireworks";
 import TweenOne from "rc-tween-one";
 import "animate.css";
+import { API_URL } from "../../constant";
+import axios from "axios";
 
 class EmailVerify extends Component {
   constructor(props) {
@@ -46,9 +48,9 @@ class EmailVerify extends Component {
     this.timer = setInterval(() => {
       var { opacity } = this.state;
       if (this.increase) {
-        opacity += 0.0025;
+        opacity += 0.0035;
       } else {
-        opacity -= 0.0025;
+        opacity -= 0.0035;
       }
       if (opacity > 0.99) {
         this.increase = false;
@@ -70,20 +72,31 @@ class EmailVerify extends Component {
       this.setState({ welcome: true });
       fireworks.stop();
       setTimeout(() => {
-        this.props.history.push("/");
+        this.props.history.push("/login");
         window.location.reload();
       }, 5000);
     }, 5000);
   }
 
-  verify() {
+  async verify() {
     this.setState({ click: false });
     this.startFlash();
-    setTimeout(() => {
+    const response = await axios
+      .get(API_URL + this.props.match.url)
+      .catch((error) => {
+        alert(error.message);
+        this.endFlash();
+      });
+    if (response && response.data) {
       this.endFlash();
-      this.setState({ waiting: true });
-      this.verifiedAnimation();
-    }, 2000);
+      if (response.data === "Signup confirm success.") {
+        this.setState({ waiting: true });
+        this.verifiedAnimation();
+      } else {
+        this.setState({ click: true });
+        alert(response.data);
+      }
+    }
   }
 
   render() {
