@@ -176,7 +176,7 @@ class NavigationBar extends Component {
 
   render() {
     return (
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" className="nav-bar-78">
         <Container>
           <Navbar.Brand href="/">
             <i className="fas fa-users-cog"></i> CRM Application

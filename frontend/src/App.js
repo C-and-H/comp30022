@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUp from "./Components/SignUp";
 import NavigationBar from "./Components/NavigationBar";
-import HomePage from "./Components/HomePage";
+import HomePage from "./Components//HomePage/HomePage";
 import LogIn from "./Components/LogIn";
 import Setting from "./Components/Profiles/UserProfile";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
@@ -538,7 +538,7 @@ class App extends Component {
       onLoading,
     } = this.state;
     return (
-      <div className="App">
+      <div className="div-App-background">
         <Loading visible={onLoading} />
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
