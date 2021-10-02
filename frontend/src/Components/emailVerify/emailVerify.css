@@ -21,6 +21,8 @@
   left: 60%;
   top: 45%;
   border-radius: 50%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .btn-verify {
@@ -39,4 +41,12 @@
   left: 35%;
   top: 55%;
   font-size: 30px;
+}
+
+.p-welcome {
+  position: absolute;
+  left: 35%;
+  top: 40%;
+  font-size: 100px;
+  color: red;
 }

@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "animate.css": "^4.1.1",
     "animated": "git+https://github.com/animatedjs/animated.git",
     "antd": "^4.16.13",
     "axios": "^0.21.4",
