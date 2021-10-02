@@ -28,6 +28,7 @@ import SetEvent from "./Components/Calendar/SetEvent";
 import VideoCall from "./Components/videoCall";
 import Peer from "simple-peer";
 import Loading from "./Logo/loading";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 class App extends Component {
   constructor(props) {
@@ -584,6 +585,7 @@ class App extends Component {
             <Route exact path="/calendar" component={CalendarHomePage} />
             <Route exact path="/setEvent" component={SetEvent} />
             <Route exact path="/settingNote/:id" component={SettingNote} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route path="/signup/:email/:code">
               <Verify />
             </Route>
