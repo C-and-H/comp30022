@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 
-public class CallUserRequest
+public class CallNotAnswerRequest
 {
     @NotBlank
     private String email;
@@ -16,6 +16,4 @@ public class CallUserRequest
     private String passwordEncoded;
     @NotBlank
     private String id;
-    @NotBlank
-    private String signal;
 }

@@ -41,7 +41,8 @@ public class AuthController
      */
     @PostMapping("/login")
     public ResponseEntity<?> loginAndGenerateJwtToken(
-            @Valid @RequestBody LoginRequest loginRequest) {
+            @Valid @RequestBody LoginRequest loginRequest)
+    {
         // check account status
         User user = userRepository.findByEmail(loginRequest.getUsername());
         if (user == null) return ResponseEntity.ok("Email not found.");
@@ -73,7 +74,8 @@ public class AuthController
      * Requires a form body specifying email, password, first_name, and last_name.
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody User user) {
+    public ResponseEntity<?> signup(@RequestBody User user)
+    {
         // validate email and password format
         if (!authService.validEmail(user.getEmail())) {
             return ResponseEntity.ok("Email is not valid.");
