@@ -14,7 +14,6 @@ class EmailVerify extends Component {
 
     this.state = {
       opacity: 0.9,
-      background: "div-verify-background",
       waiting: false,
       paused: true,
       click: true,
@@ -100,9 +99,9 @@ class EmailVerify extends Component {
   }
 
   render() {
-    const { waiting, background, opacity, paused, click, welcome } = this.state;
+    const { waiting, opacity, paused, click, welcome } = this.state;
     return (
-      <div className={background}>
+      <div className="div-verify-background">
         {!waiting && (
           <p className="p-click-instruction">Click Here to Verify ➜</p>
         )}
