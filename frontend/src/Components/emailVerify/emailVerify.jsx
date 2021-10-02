@@ -62,7 +62,9 @@ class EmailVerify extends Component {
 
   verifiedAnimation() {
     this.setState({ paused: false, opacity: 1 });
-    fireworks.init("root", {});
+    fireworks.init("root", {
+      explode_particles_resistance: 8,
+    });
     fireworks.start();
     setTimeout(() => {
       this.setState({ welcome: true });

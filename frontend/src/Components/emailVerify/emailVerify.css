@@ -23,6 +23,7 @@
   border-radius: 50%;
   max-width: 100%;
   max-height: 100%;
+  touch-action: none;
 }
 
 .btn-verify {
@@ -49,4 +50,5 @@
   top: 40%;
   font-size: 100px;
   color: red;
+  touch-action: none;
 }
