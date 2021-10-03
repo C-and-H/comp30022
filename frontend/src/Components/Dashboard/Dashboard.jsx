@@ -2,9 +2,13 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 import { Button, Container, Row, Col, Label } from "reactstrap";
+import Clock from 'react-live-clock';
 import "../../App.css";
+
 import RequestList from "./RequestList";
 import ReceivedList from "./ReceivedList";
+import Contacts from "./Contacts";
+import RecentEvents from "./RecentEvents";
 
 export default class Dashboard extends React.Component {
 
@@ -46,20 +50,28 @@ export default class Dashboard extends React.Component {
     )
   }
 
-  search() {
+  displayContacts() {
+    if (!this.state.basic) return (<div></div>);
     return (
-      <div></div>
+      <div>
+        <Contacts basic={this.state.basic} />
+      </div>
     )
   }
 
   displayEvents() {
-    
+    if (!this.state.basic) return (<div></div>);
+    return (
+      <div>
+        <RecentEvents basic={this.state.basic} />
+      </div>
+    )
   }
 
 
 
   render() {
-    const { redirect } = this.state;
+    const { redirect, currentUser } = this.state;
     if (redirect) return (<Redirect to="/" />);
     return (
       <Container>
@@ -76,20 +88,29 @@ export default class Dashboard extends React.Component {
           </Col>
             
           <Col>
-            {this.search()}
+            {this.displayContacts()}
           </Col>
           <Col>
             <Container>
               <Row>
-
+                <Label> {"Hi, " + currentUser.first_name}</Label>
               </Row>
               <Row>
                 {this.displayEvents()}
               </Row>
               <Row>
                 <Col>
+                  <Clock 
+                    format="HH:mm:ss" 
+                    interval={1000} 
+                    ticking={true} />
                 </Col>
                 <Col>
+                  <Clock 
+                    format="HH:mm:ss" 
+                    interval={1000}
+                    ticking={true} 
+                    timezone={'Etc/GMT'}/>
                 </Col>
               </Row>
             </Container>
