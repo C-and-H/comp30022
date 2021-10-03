@@ -86,6 +86,7 @@ public class Contact
         if (obj == null || getClass() != obj.getClass())
             return false;
         Contact contact = (Contact) obj;
-        return Objects.equals(id, contact.id);
+        return Objects.equals(userId, contact.userId) &&
+                Objects.equals(friendId, contact.friendId);
     }
 }

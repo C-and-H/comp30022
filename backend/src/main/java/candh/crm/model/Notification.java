@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.Objects;
 
 @ToString
 
@@ -43,5 +44,15 @@ public class Notification
 
     public Date getWhen() {
         return when;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Notification notification = (Notification) o;
+        return Objects.equals(id, notification.id);
     }
 }
