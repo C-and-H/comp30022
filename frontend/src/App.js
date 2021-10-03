@@ -315,19 +315,16 @@ class App extends Component {
   }
 
   callUser(stream) {
-    const { basic, friendId } = this.state;
+    const { currentUser, friendId } = this.state;
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     peer.on("signal", (data) => {
-      axios.post(
-        API_URL + "/videoCall/callUser",
-        { id: friendId, signal: JSON.stringify(data) },
-        {
-          headers: {
-            Authorization: "Bearer " + basic.token,
-          },
-        }
-      );
+      axios.post(API_URL + "/videoCall/callUser", {
+        email: currentUser.email,
+        passwordEncoded: currentUser.password,
+        id: friendId,
+        signal: JSON.stringify(data),
+      });
     });
 
     peer.on("stream", (friendVideoStream) => {
@@ -382,15 +379,11 @@ class App extends Component {
               className="btn-video-call-notification btn-outline-warning"
               onClick={() => {
                 Notification.close();
-                axios.post(
-                  API_URL + "/videoCall/rejectCall",
-                  { id: message.from },
-                  {
-                    headers: {
-                      Authorization: "Bearer " + this.state.basic.token,
-                    },
-                  }
-                );
+                axios.post(API_URL + "/videoCall/rejectCall", {
+                  email: this.state.currentUser.email,
+                  passwordEncoded: this.state.currentUser.password,
+                  id: message.from,
+                });
               }}
             >
               Ignore
@@ -418,18 +411,15 @@ class App extends Component {
   }
 
   answerCall(stream) {
-    const { basic, friendId } = this.state;
+    const { currentUser, friendId } = this.state;
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
-      axios.post(
-        API_URL + "/videoCall/answerCall",
-        { id: friendId, signal: JSON.stringify(data) },
-        {
-          headers: {
-            Authorization: "Bearer " + basic.token,
-          },
-        }
-      );
+      axios.post(API_URL + "/videoCall/answerCall", {
+        email: currentUser.email,
+        passwordEncoded: currentUser.password,
+        id: friendId,
+        signal: JSON.stringify(data),
+      });
     });
 
     peer.on("stream", (friendVideoStream) => {
@@ -488,16 +478,12 @@ class App extends Component {
 
   endCall() {
     this.setState({ onCall: false });
-    const { basic, friendId } = this.state;
-    axios.post(
-      API_URL + "/videoCall/endCall",
-      { id: friendId },
-      {
-        headers: {
-          Authorization: "Bearer " + basic.token,
-        },
-      }
-    );
+    const { currentUser, friendId } = this.state;
+    axios.post(API_URL + "/videoCall/endCall", {
+      email: currentUser.email,
+      passwordEncoded: currentUser.password,
+      id: friendId,
+    });
 
     if (this.state.myStream) {
       this.state.myStream.getTracks().forEach((track) => {

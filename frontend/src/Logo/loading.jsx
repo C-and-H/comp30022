@@ -27,7 +27,6 @@ class Loading extends Component {
   }
 
   render() {
-    console.log(this.state.visible);
     return createPortal(
       this.state.visible && (
         <div className="div-loading-background">
