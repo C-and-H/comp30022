@@ -44,10 +44,6 @@ public class AuthService implements UserDetailsService
      */
     public void updateUser(final User user, boolean isEnabled) throws MessagingException
     {
-        Thread updateDb = new Thread(() -> {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
-        });
         Thread sendEmail = new Thread(() -> {
             try {
                 EmailService.sendConfirmMail(user.getEmail(),
@@ -56,9 +52,12 @@ public class AuthService implements UserDetailsService
                 e.printStackTrace();
             }
         });
-        // run
-        updateDb.start();
         if (!isEnabled) sendEmail.start();
+        Thread updateDb = new Thread(() -> {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        });
+        updateDb.start();
     }
 
     @Override
