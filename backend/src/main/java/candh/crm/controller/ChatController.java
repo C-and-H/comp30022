@@ -115,10 +115,16 @@ public class ChatController
         if (!userRepository.findById(friendId).isPresent()) {
             return ResponseEntity.ok("Friend id not found.");
         }
+
         List<Chat> to_fetch = chatRepository.findUnread(friendId, userId);
-        List<Chat> chats = new ArrayList<>(to_fetch);
-        for (Chat c : chats) c.setUnread(false);
-        chatRepository.saveAll(chats);
+        // mark
+        Thread markAsRead = new Thread(() -> {
+            List<Chat> chats = new ArrayList<>(to_fetch);
+            for (Chat c : chats) c.setUnread(false);
+            chatRepository.saveAll(chats);
+        });
+        markAsRead.start();
+
         return ResponseEntity.ok(to_fetch);
     }
 
@@ -153,9 +159,12 @@ public class ChatController
 
         List<Chat> to_fetch = chatRepository.findNUntilT(userId, friendId, until, N_FETCH);
         // mark
-        List<Chat> chats = chatRepository.findUnread(friendId, userId);
-        for (Chat c : chats) c.setUnread(false);
-        chatRepository.saveAll(chats);
+        Thread markAsRead = new Thread(() -> {
+            List<Chat> chats = chatRepository.findUnread(friendId, userId);
+            for (Chat c : chats) c.setUnread(false);
+            chatRepository.saveAll(chats);
+        });
+        markAsRead.start();
 
         return ResponseEntity.ok(to_fetch);
     }
@@ -181,8 +190,12 @@ public class ChatController
 //        }
 //        Chat latest = chatRepository.findLatest(senderId, receiverId);
 //        if (latest != null) {
-//            latest.setUnread(true);
-//            chatRepository.save(latest);
+//            // mark
+//            Thread markAsUnread = new Thread(() -> {
+//                latest.setUnread(true);
+//                chatRepository.save(latest);
+//            });
+//            markAsUnread.start();
 //            return ResponseEntity.ok("Marking completed.");
 //        }
 //        else {

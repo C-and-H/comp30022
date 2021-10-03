@@ -3,6 +3,7 @@ package candh.crm.service;
 import candh.crm.model.User;
 import candh.crm.repository.UserRepository;
 import candh.crm.security.JwtUtils;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,23 +37,33 @@ public class AuthService implements UserDetailsService
     @Autowired
     JwtUtils jwtUtils;
 
+    interface EmailRunnable {
+        void run() throws MessagingException;
+    }
+
     /**
      * Update or add a user to database, with the password encoded.
      *
      * @param user  a user object, that must contain email, password, first name, and last name
      * @param isEnabled  send a confirmation email if account is not enabled
      */
-    public void updateUser(final User user, boolean isEnabled) throws MessagingException
+    public void updateUser(final User user, boolean isEnabled) throws RuntimeException
     {
-        Thread sendEmail = new Thread(() -> {
+        if (!isEnabled) {
             try {
-                EmailService.sendConfirmMail(user.getEmail(),
-                        user.getFirst_name(), user.getSignupConfirmPath());
-            } catch (MessagingException e) {
-                e.printStackTrace();
+                Thread sendEmail = new Thread(new Runnable() {
+                    @SneakyThrows
+                    @Override
+                    public void run() {
+                        EmailService.sendConfirmMail(user.getEmail(),
+                                user.getFirst_name(), user.getSignupConfirmPath());
+                    }
+                });
+                sendEmail.start();
+            } catch (RuntimeException e) {
+                throw e;
             }
-        });
-        if (!isEnabled) sendEmail.start();
+        }
         Thread updateDb = new Thread(() -> {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);

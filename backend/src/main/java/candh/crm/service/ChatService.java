@@ -47,20 +47,15 @@ public class ChatService
                         .map(Contact::getFriendId)
                         .collect(Collectors.toList());
         return friendIds.stream()
-                // create
                 .map(f -> createOverview(userId, f))
-                // sort
-                .sorted(new Comparator<ChatOverviewResponse>() {
-                    @Override
-                    public int compare(ChatOverviewResponse o1, ChatOverviewResponse o2) {
-                        Date t1 = o1.getTime(), t2 = o2.getTime();
-                        if (t1 == null && t2 != null) return 1;
-                        else if (t1 != null && t2 == null) return -1;
-                        else if (t1 == null && t2 == null) return 0;
-                        else if (t1.before(t2)) return 1;
-                        else if (t1.after(t2)) return -1;
-                        else return 0;
-                    }
+                .sorted((o1, o2) -> {
+                    Date t1 = o1.getTime(), t2 = o2.getTime();
+                    if (t1 == null && t2 != null) return 1;
+                    else if (t1 != null && t2 == null) return -1;
+                    else if (t1 == null && t2 == null) return 0;
+                    else if (t1.before(t2)) return 1;
+                    else if (t1.after(t2)) return -1;
+                    else return 0;
                 })
                 .collect(Collectors.toList());
     }
@@ -90,23 +85,26 @@ public class ChatService
     public void pushTo(String receiverId, Collection<String> senders)
     {
         Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
-        if (map.containsKey(receiverId)) {
-            // for each socket of that receiver
-            for (String path : map.get(receiverId)) {
-                path = "/topic/chat/" + path;
-                try {
-                    template.convertAndSend(path,
-                            new ConcurrentHashMap<String, Object>() {{
-                                put("from", senders);
-                            }});
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (map.containsKey(receiverId))
+        {
             // mark as pushed
             List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
             for (Chat c : unnotified) c.setNotified(true);
             chatRepository.saveAll(unnotified);
+            // push
+            for (String path : map.get(receiverId)) {
+                Thread pushSocket = new Thread(() -> {
+                    try {
+                        template.convertAndSend("/topic/chat/" + path,
+                                new ConcurrentHashMap<String, Object>() {{
+                                    put("from", senders);
+                        }});
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                });
+                pushSocket.start();
+            }
         }
     }
 }

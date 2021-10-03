@@ -132,11 +132,6 @@ public class AuthController
         String oldPassword = changePasswordRequest.getOldPassword();
         String newPassword = changePasswordRequest.getNewPassword();
         String email = jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth));
-        User user = userRepository.findByEmail(email);
-
-        if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
-            return ResponseEntity.ok("Wrong old password.");
-        }
 
         // validate new password format
         if (!authService.validPassword(newPassword)) {
@@ -144,6 +139,11 @@ public class AuthController
         }
         if (oldPassword.equals(newPassword)) {
             return ResponseEntity.ok("New password is same as the old one.");
+        }
+
+        User user = userRepository.findByEmail(email);
+        if (!bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+            return ResponseEntity.ok("Wrong old password.");
         }
 
         // save to database
