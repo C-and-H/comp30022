@@ -29,6 +29,9 @@ public class EmailService
     @Value("${spring.mail.username}")
     private String from;
 
+    @Value("${APP_URL}")
+    private String APP_URL;
+
     /**
      * Send signup confirmation email.
      *
@@ -46,7 +49,7 @@ public class EmailService
         helper.setTo(to);
 
         // message body
-        String confirmLink = System.getenv("HOST_NAME") + "/signup/" + to + "/" + signupConfirmPath;
+        String confirmLink = APP_URL + "/signup/" + to + "/" + signupConfirmPath;
         String messageBody = "Hi " + receiver + ", welcome to candhCRM.<br><br>You are nearly there!<br><br>" +
                 "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:<br><br>" +
                 "<a target='_blank' style='color:#0041D3;text-decoration:underline' href='" +
