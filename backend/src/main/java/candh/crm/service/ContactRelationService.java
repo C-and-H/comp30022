@@ -8,6 +8,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,13 +26,13 @@ public class ContactRelationService
      * @param userId  id of the user
      * @return  a list of contact relations that satisfy the conditions.
      */
-    public List<Contact> findAllFriends(String userId) {
+    public Set<Contact> findAllFriends(String userId) {
         List<Contact> _friends = contactRepository.findFriendsByUserId(userId);
         return _friends.stream()
                 .filter(c -> contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -40,14 +41,14 @@ public class ContactRelationService
      * @param userId  id of the user
      * @return  a list of ids
      */
-    public List<String> findAllSentRequests(String userId) {
+    public Set<String> findAllSentRequests(String userId) {
         List<Contact> _sent = contactRepository.findFriendsByUserId(userId);
         return _sent.stream()
                 .filter(c -> !contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
                 .map(c -> c.getFriendId())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     /**

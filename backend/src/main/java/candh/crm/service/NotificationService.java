@@ -62,11 +62,13 @@ public class NotificationService
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
         String message = "Friend request: " + senderName + ".";
-        Notification to_remove = notificationRepository
-                .findLatestByMessage(receiverId, message);
-        if (to_remove != null) {
-            notificationRepository.delete(to_remove);
-            pushTo(receiverId);
+        synchronized (this) {
+            Notification to_remove = notificationRepository
+                    .findLatestByMessage(receiverId, message);
+            if (to_remove != null) {
+                notificationRepository.delete(to_remove);
+                pushTo(receiverId);
+            }
         }
     }
 

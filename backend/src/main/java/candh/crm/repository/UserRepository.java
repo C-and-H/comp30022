@@ -1,6 +1,7 @@
 package candh.crm.repository;
 
 import candh.crm.model.User;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,11 @@ public interface UserRepository extends MongoRepository<User, String>
 {
     Optional<User> findById(String Id);
 
+    @Aggregation(pipeline = {
+            "{ $match : {'email': '?0'} }",
+            "{ $sort : {'when': -1} }",
+            "{ $limit : 1 }"
+    })
     User findByEmail(String email);
 
     @Query(value = "{'email': {$regex: '?0', $options: 'i'}}")

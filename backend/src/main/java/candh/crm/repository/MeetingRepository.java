@@ -8,13 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface MeetingRepository extends MongoRepository<Meeting, String>
 {
-    Optional<Meeting> findById(String Id);
-
     List<Meeting> findByHostId(String hostId);
 
     @Query(value = "{'participantIds': '?0'}")

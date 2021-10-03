@@ -27,7 +27,7 @@ public class WebSocketSubscriptionService
      * @param id  id of the user
      * @param path  the subscription path
      */
-    public void removePath(String id, String path) {
+    public synchronized void removePath(String id, String path) {
         if (pathMap.containsKey(id)) pathMap.get(id).remove(path);
     }
 
@@ -40,12 +40,14 @@ public class WebSocketSubscriptionService
      */
     public String createPath(String id) {
         String toAdd = generateRandomString(random.nextInt(11)+20);
-        if (pathMap.containsKey(id)) {
-            List<String> paths = pathMap.get(id);
-            if (paths.size() == MAX_N_PATH) paths.remove(0);   // remove the oldest
-            paths.add(toAdd);
-        } else {
-            pathMap.put(id, new ArrayList<>(Collections.singletonList(toAdd)));
+        synchronized (this) {
+            if (pathMap.containsKey(id)) {
+                List<String> paths = pathMap.get(id);
+                if (paths.size() == MAX_N_PATH) paths.remove(0);   // remove the oldest
+                paths.add(toAdd);
+            } else {
+                pathMap.put(id, new ArrayList<>(Collections.singletonList(toAdd)));
+            }
         }
         return toAdd;
     }
