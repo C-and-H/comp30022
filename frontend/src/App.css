@@ -812,22 +812,43 @@ footer {
 }
 
 .div-chat-notification {
-  background-color: rgb(237, 85, 106);
-  width: 300px;
-  word-wrap: break-word;
-  border-radius: 5px;
+  background-color: #fffefa;
+  width: 400px;
+  height: 130px;
+  border-radius: 15px;
   position: absolute;
   z-index: 1080;
-  padding: 10px;
-  top: 60px;
-  right: 5px;
+  top: 10vh;
+  right: 1.5vh;
+}
+
+.p-chat-notification {
+  width: 320px;
+  word-wrap: break-word;
+  margin-left: 40px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  font-size: 20px;
 }
 
 .btn-chat-notification {
-  background-color: rgb(240, 161, 168);
-  width: 30%;
-  margin: 9%;
+  background-color: black;
+  color: #fffefa;
+  border-color: black;
+  width: 25%;
+  margin-left: 30%;
   display: inline-block;
+  border-radius: 10px;
+}
+
+.btn-chat-notification-dismiss {
+  background-color: red;
+  color: #fffefa;
+  border-color: red;
+  width: 25%;
+  margin-left: 10%;
+  display: inline-block;
+  border-radius: 10px;
 }
 
 .p-no-margin {
@@ -908,10 +929,10 @@ footer {
 }
 
 .div-video-call-notification {
-  background-color: #d8e3e7;
+  background-color: #fffefa;
   width: 500px;
   height: 150px;
-  border-radius: 20px;
+  border-radius: 15px;
   position: absolute;
   z-index: 1080;
   top: 50%;
@@ -937,6 +958,7 @@ footer {
   width: 25%;
   margin-left: 20%;
   display: inline-block;
+  border-radius: 10px;
 }
 
 .btn-video-call-notification-ignore {
@@ -946,6 +968,7 @@ footer {
   width: 25%;
   margin-left: 10%;
   display: inline-block;
+  border-radius: 10px;
 }
 
 /*------------------ Video Components end ---------------*/

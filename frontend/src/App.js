@@ -284,25 +284,25 @@ class App extends Component {
           title: "",
           duration: 20000,
           description: (
-            <div className="div-chat-notification">
-              <p>You have received a new message from {from[i]}</p>
+            <div className="div-chat-notification animate__animated animate__slideInRight">
+              <p className="p-chat-notification">New message from {from[i]}</p>
               <Button
-                className="btn-chat-notification"
+                className="btn-chat-notification btn-outline-info"
                 onClick={() => {
                   Notification.closeAll();
                   this.handleOnChat();
                   this._isMounted && this.setState({ redirect: "/chat" });
                 }}
               >
-                Go
+                Go ➜
               </Button>
               <Button
-                className="btn-chat-notification"
+                className="btn-chat-notification-dismiss btn-outline-danger"
                 onClick={() => {
                   Notification.close();
                 }}
               >
-                Ignore
+                Dismiss
               </Button>
             </div>
           ),
