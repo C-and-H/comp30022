@@ -68,7 +68,7 @@ public class VideoCallService
                     template.convertAndSend(path,
                             new ConcurrentHashMap<String, Object>() {{
                                 put("from", sender.getId());
-                            }});
+                    }});
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }

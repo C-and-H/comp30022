@@ -29,7 +29,7 @@ public class AuthService implements UserDetailsService
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private EmailService EmailService;
+    private EmailService emailService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -55,7 +55,7 @@ public class AuthService implements UserDetailsService
                     @SneakyThrows
                     @Override
                     public void run() {
-                        EmailService.sendConfirmMail(user.getEmail(),
+                        emailService.sendConfirmMail(user.getEmail(),
                                 user.getFirst_name(), user.getSignupConfirmPath());
                     }
                 });
