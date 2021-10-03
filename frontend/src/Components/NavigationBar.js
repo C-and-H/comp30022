@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import { BallRunningDots } from "react-pretty-loading";
 import "../App.css";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
@@ -105,7 +106,7 @@ class NavigationBar extends Component {
                 </NavDropdown.ItemText>
               ) : (
                 <NavDropdown.ItemText className="dropdown-text">
-                  loading...
+                  <BallRunningDots loading={true} color="#000" center />
                 </NavDropdown.ItemText>
               )}
 
@@ -115,7 +116,7 @@ class NavigationBar extends Component {
                 notifications.length !== 0 &&
                 this.props.notificationLoading && (
                   <NavDropdown.ItemText className="dropdown-text">
-                    loading...
+                    <BallRunningDots loading={true} color="#000" center />
                   </NavDropdown.ItemText>
                 )}
             </div>

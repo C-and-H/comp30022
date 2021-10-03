@@ -288,6 +288,7 @@ class App extends Component {
               <p className="p-chat-notification">New message from {from[i]}</p>
               <Button
                 className="btn-chat-notification btn-outline-info"
+                size="sm"
                 onClick={() => {
                   Notification.closeAll();
                   this.handleOnChat();
@@ -298,6 +299,7 @@ class App extends Component {
               </Button>
               <Button
                 className="btn-chat-notification-dismiss btn-outline-danger"
+                size="sm"
                 onClick={() => {
                   Notification.close();
                 }}

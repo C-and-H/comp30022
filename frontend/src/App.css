@@ -814,7 +814,7 @@ footer {
 .div-chat-notification {
   background-color: #fffefa;
   width: 400px;
-  height: 130px;
+  height: 150px;
   border-radius: 15px;
   position: absolute;
   z-index: 1080;
@@ -837,6 +837,7 @@ footer {
   border-color: black;
   width: 25%;
   margin-left: 30%;
+  margin-top: 3%;
   display: inline-block;
   border-radius: 10px;
 }
@@ -847,6 +848,7 @@ footer {
   border-color: red;
   width: 25%;
   margin-left: 10%;
+  margin-top: 3%;
   display: inline-block;
   border-radius: 10px;
 }
@@ -931,7 +933,7 @@ footer {
 .div-video-call-notification {
   background-color: #fffefa;
   width: 500px;
-  height: 150px;
+  height: 170px;
   border-radius: 15px;
   position: absolute;
   z-index: 1080;
@@ -957,6 +959,7 @@ footer {
   border-color: black;
   width: 25%;
   margin-left: 20%;
+  margin-top: 3%;
   display: inline-block;
   border-radius: 10px;
 }
@@ -967,6 +970,7 @@ footer {
   border-color: red;
   width: 25%;
   margin-left: 10%;
+  margin-top: 3%;
   display: inline-block;
   border-radius: 10px;
 }
