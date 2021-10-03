@@ -8,8 +8,7 @@ class NavigationBar extends Component {
   /** helper function: get one notification as a dropdown item */
   getNotificationDropDownItem(notification) {
     return (
-      <NavDropdown.Item
-        href="/contact"
+      <NavDropdown.ItemText
         key={notification.id}
         // onClick={() => this.props.removeNotification(notification.id)}
       >
@@ -33,7 +32,7 @@ class NavigationBar extends Component {
             </span>
           </p>
         </div>
-      </NavDropdown.Item>
+      </NavDropdown.ItemText>
     );
   }
 
@@ -95,7 +94,7 @@ class NavigationBar extends Component {
           ) : (
             <div className="dropdown-notification">
               {notifications !== null && notifications.length !== 0 ? (
-                <NavDropdown.Item>
+                <NavDropdown.ItemText>
                   <Button
                     variant="outline-danger"
                     size="sm"
@@ -103,7 +102,7 @@ class NavigationBar extends Component {
                   >
                     mark all as read
                   </Button>
-                </NavDropdown.Item>
+                </NavDropdown.ItemText>
               ) : (
                 <NavDropdown.ItemText className="dropdown-text">
                   loading...

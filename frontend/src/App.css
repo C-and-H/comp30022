@@ -62,7 +62,7 @@
 }
 
 .notify-dropdown {
-  width: 220px;
+  width: 200px;
 }
 
 .notify-delete {
@@ -79,7 +79,7 @@
 }
 
 .dropdown-notification {
-  max-height: 200px;
+  max-height: 230px;
   overflow: scroll;
 }
 
