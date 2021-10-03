@@ -1,0 +1,12 @@
+.requests-list {
+    width: 90%;
+    background-color: white;
+    border-style: ridge;
+    height: calc(100vh - 400px);
+    overflow: auto;
+    text-align: center;
+    display: inline-block;
+    margin-top: 15%;
+    
+}
+

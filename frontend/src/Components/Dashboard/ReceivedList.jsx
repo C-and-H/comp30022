@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import ReactTooltip from "react-tooltip";
 import "../../App.css";
 import { Redirect } from "react-router-dom";
+import "./Dashboard.css"
 
 class ReceivedList extends React.Component {
   constructor(props) {
@@ -135,7 +136,7 @@ class ReceivedList extends React.Component {
     }
     const { requestList } = this.state;
     return (
-      <div className="requests-list-received">
+      <div className="requests-list">
         <h1>Received</h1>
         {requestList &&
           (requestList.length === 0 ? (

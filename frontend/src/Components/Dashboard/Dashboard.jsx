@@ -10,6 +10,7 @@ import ReceivedList from "./ReceivedList";
 import Contacts from "./Contacts";
 import RecentEvents from "./RecentEvents";
 
+
 export default class Dashboard extends React.Component {
 
   constructor(props) {
@@ -25,9 +26,9 @@ export default class Dashboard extends React.Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { basic, currentUser } = this.state;
-    if (!basic) this.setState({ redirect: true });
+    if (!basic || !currentUser) this.setState({ redirect: true });
 
   }
 
@@ -72,7 +73,9 @@ export default class Dashboard extends React.Component {
 
   render() {
     const { redirect, currentUser } = this.state;
-    if (redirect) return (<Redirect to="/" />);
+    //if (!currentUser) return (<div></div>);
+    if (redirect || !currentUser) return (<Redirect to="/" />);
+    
     return (
       <Container>
         <Row>

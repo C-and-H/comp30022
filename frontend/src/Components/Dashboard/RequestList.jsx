@@ -4,6 +4,7 @@ import { API_URL } from "../../constant";
 import Button from "react-bootstrap/Button";
 import ReactTooltip from "react-tooltip";
 import "../../App.css";
+import "./Dashboard.css"
 import { Redirect } from "react-router-dom";
 
 class RequestList extends React.Component {
@@ -117,7 +118,7 @@ class RequestList extends React.Component {
     }
     const { requestList } = this.state;
     return (
-      <div className="requests-list-received">
+      <div className="requests-list">
         <h1>Sent</h1>
         {requestList &&
           (requestList.length === 0 ? (

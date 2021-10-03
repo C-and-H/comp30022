@@ -4,6 +4,9 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import { Button, Container, Row, Col, Label } from "reactstrap";
 import "../../App.css";
+import "./Dashboard.css"
+
+import Event from "./Event";
 
 class RecentEvents extends React.Component {
   constructor(props) {
@@ -55,9 +58,13 @@ class RecentEvents extends React.Component {
       <Container>
         
         {appointments.map((appointment) => (
-          <Row key={appointment.id}>
-            {appointment.title}
-          </Row>
+          <Event 
+            key={appointment.id}
+            host={appointment.hostId}
+            title={appointment.title}
+            startTime={appointment.startDate}
+            endTime={appointment.endDate}
+          />
         ))}
       </Container>
     )
