@@ -55,9 +55,6 @@ public class ChatController
             chatService.pushTo(receiverId,
                     chatRepository.findSendersOfUnreadUnnotified(receiverId));
         }
-        List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
-        for (Chat c : unnotified) c.setNotified(true);
-        chatRepository.saveAll(unnotified);
     }
 
     /**

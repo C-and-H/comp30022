@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
+import { BallRunningDots } from "react-pretty-loading";
 import "../App.css";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
@@ -8,19 +9,19 @@ class NavigationBar extends Component {
   /** helper function: get one notification as a dropdown item */
   getNotificationDropDownItem(notification) {
     return (
-      <NavDropdown.Item
-        href="/contact"
+      <NavDropdown.ItemText
         key={notification.id}
         // onClick={() => this.props.removeNotification(notification.id)}
       >
         <div>
           <p className="notify-dropdown dropdown-text">
             {notification.message}
-            <Button 
+            <Button
               className="notify-delete"
-              variant="outline-danger" 
+              variant="outline-danger"
               size="sm"
-              onClick={() => this.props.removeNotification(notification.id)}>
+              onClick={() => this.props.removeNotification(notification.id)}
+            >
               x
             </Button>
             <br />
@@ -32,7 +33,7 @@ class NavigationBar extends Component {
             </span>
           </p>
         </div>
-      </NavDropdown.Item>
+      </NavDropdown.ItemText>
     );
   }
 
@@ -94,7 +95,7 @@ class NavigationBar extends Component {
           ) : (
             <div className="dropdown-notification">
               {notifications !== null && notifications.length !== 0 ? (
-                <NavDropdown.Item>
+                <NavDropdown.ItemText>
                   <Button
                     variant="outline-danger"
                     size="sm"
@@ -102,10 +103,10 @@ class NavigationBar extends Component {
                   >
                     mark all as read
                   </Button>
-                </NavDropdown.Item>
+                </NavDropdown.ItemText>
               ) : (
                 <NavDropdown.ItemText className="dropdown-text">
-                  loading...
+                  <BallRunningDots loading={true} color="#000" center />
                 </NavDropdown.ItemText>
               )}
 
@@ -115,7 +116,7 @@ class NavigationBar extends Component {
                 notifications.length !== 0 &&
                 this.props.notificationLoading && (
                   <NavDropdown.ItemText className="dropdown-text">
-                    loading...
+                    <BallRunningDots loading={true} color="#000" center />
                   </NavDropdown.ItemText>
                 )}
             </div>
@@ -176,7 +177,7 @@ class NavigationBar extends Component {
 
   render() {
     return (
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="dark" variant="dark" className="nav-bar-78">
         <Container>
           <Navbar.Brand href="/">
             <i className="fas fa-users-cog"></i> CRM Application

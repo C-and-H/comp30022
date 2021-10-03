@@ -57,8 +57,12 @@
   margin-right: 0px;
 }
 
+.nav-bar-78 {
+  height: 8%;
+}
+
 .notify-dropdown {
-  width: 220px;
+  width: 200px;
 }
 
 .notify-delete {
@@ -75,7 +79,7 @@
 }
 
 .dropdown-notification {
-  max-height: 200px;
+  max-height: 230px;
   overflow: scroll;
 }
 
@@ -808,22 +812,45 @@ footer {
 }
 
 .div-chat-notification {
-  background-color: rgb(237, 85, 106);
-  width: 300px;
-  word-wrap: break-word;
-  border-radius: 5px;
+  background-color: #fffefa;
+  width: 400px;
+  height: 150px;
+  border-radius: 15px;
   position: absolute;
   z-index: 1080;
-  padding: 10px;
-  top: 60px;
-  right: 5px;
+  top: 10vh;
+  right: 1.5vh;
+}
+
+.p-chat-notification {
+  width: 320px;
+  word-wrap: break-word;
+  margin-left: 40px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  font-size: 20px;
 }
 
 .btn-chat-notification {
-  background-color: rgb(240, 161, 168);
-  width: 30%;
-  margin: 9%;
+  background-color: black;
+  color: #fffefa;
+  border-color: black;
+  width: 25%;
+  margin-left: 30%;
+  margin-top: 3%;
   display: inline-block;
+  border-radius: 10px;
+}
+
+.btn-chat-notification-dismiss {
+  background-color: red;
+  color: #fffefa;
+  border-color: red;
+  width: 25%;
+  margin-left: 10%;
+  margin-top: 3%;
+  display: inline-block;
+  border-radius: 10px;
 }
 
 .p-no-margin {
@@ -904,24 +931,48 @@ footer {
 }
 
 .div-video-call-notification {
-  background-color: #cc163a;
-  width: 300px;
-  word-wrap: break-word;
-  border-radius: 5px;
+  background-color: #fffefa;
+  width: 500px;
+  height: 170px;
+  border-radius: 15px;
   position: absolute;
   z-index: 1080;
-  padding: 10px;
-  top: 40vh;
+  top: 50%;
   left: 50%;
-  margin-left: -150px;
+  margin-top: -100px;
+  margin-left: -250px;
+}
+
+.p-video-call-notification {
+  margin-left: 10px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  width: 480px;
+  word-wrap: break-word;
+  font-size: 30px;
+  text-align: center;
 }
 
 .btn-video-call-notification {
-  background-color: #ccccd6;
-  color: #142334;
-  width: 33%;
-  margin: 7%;
+  background-color: black;
+  color: #ccccd6;
+  border-color: black;
+  width: 25%;
+  margin-left: 20%;
+  margin-top: 3%;
   display: inline-block;
+  border-radius: 10px;
+}
+
+.btn-video-call-notification-ignore {
+  background-color: red;
+  color: #ccccd6;
+  border-color: red;
+  width: 25%;
+  margin-left: 10%;
+  margin-top: 3%;
+  display: inline-block;
+  border-radius: 10px;
 }
 
 /*------------------ Video Components end ---------------*/
@@ -1064,6 +1115,11 @@ footer {
   position: absolute;
   margin-top: -225px;
   margin-left: -225px;
+}
+
+.div-App-background {
+  width: 100%;
+  height: 100vh;
 }
 
 /* 

@@ -91,6 +91,7 @@ public class ChatService
     {
         Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
         if (map.containsKey(receiverId)) {
+            // for each socket of that receiver
             for (String path : map.get(receiverId)) {
                 path = "/topic/chat/" + path;
                 try {
@@ -102,6 +103,10 @@ public class ChatService
                     e.printStackTrace();
                 }
             }
+            // mark as pushed
+            List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
+            for (Chat c : unnotified) c.setNotified(true);
+            chatRepository.saveAll(unnotified);
         }
     }
 }

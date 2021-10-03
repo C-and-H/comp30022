@@ -47,7 +47,7 @@ class AuthService {
   async validToken(token) {
     const response = await axios.post(API_URL + "/jwt/checkExpired", {
       authToken: token,
-    });
+    }).catch();
 
     if (!response.data) {
       await this.logout();

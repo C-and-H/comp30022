@@ -9,7 +9,6 @@ import Setting from "./Components/Profiles/UserProfile";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
-import Verify from "./Components/Verify";
 import ContactList from "./Components/contactList";
 import SearchUser from "./Components/searchUser";
 import OtherUser from "./Components/otherUser";
@@ -28,6 +27,8 @@ import SetEvent from "./Components/Calendar/SetEvent";
 import VideoCall from "./Components/videoCall";
 import Peer from "simple-peer";
 import Loading from "./Logo/loading";
+import EmailVerify from "./Components/emailVerify/emailVerify";
+import "animate.css";
 
 class App extends Component {
   constructor(props) {
@@ -283,25 +284,27 @@ class App extends Component {
           title: "",
           duration: 20000,
           description: (
-            <div className="div-chat-notification">
-              <p>You have received a new message from {from[i]}</p>
+            <div className="div-chat-notification animate__animated animate__slideInRight">
+              <p className="p-chat-notification">New message from {from[i]}</p>
               <Button
-                className="btn-chat-notification"
+                className="btn-chat-notification btn-outline-info"
+                size="sm"
                 onClick={() => {
                   Notification.closeAll();
                   this.handleOnChat();
                   this._isMounted && this.setState({ redirect: "/chat" });
                 }}
               >
-                Go
+                Go ➜
               </Button>
               <Button
-                className="btn-chat-notification"
+                className="btn-chat-notification-dismiss btn-outline-danger"
+                size="sm"
                 onClick={() => {
                   Notification.close();
                 }}
               >
-                Ignore
+                Dismiss
               </Button>
             </div>
           ),
@@ -360,8 +363,11 @@ class App extends Component {
         title: "",
         duration: 0,
         description: (
-          <div className="div-video-call-notification">
-            <p>You have received a new Call from {message.name}</p>
+          <div className="div-video-call-notification animate__animated animate__bounceIn">
+            <p className="p-video-call-notification">
+              <i className="fa fa-phone-alt" />
+              {"  " + message.name}
+            </p>
             <Button
               className="btn-video-call-notification btn-outline-success"
               onClick={() => {
@@ -379,7 +385,7 @@ class App extends Component {
               Accept
             </Button>
             <Button
-              className="btn-video-call-notification btn-outline-warning"
+              className="btn-video-call-notification-ignore btn-outline-danger"
               onClick={() => {
                 Notification.close();
                 axios.post(
@@ -538,7 +544,7 @@ class App extends Component {
       onLoading,
     } = this.state;
     return (
-      <div className="App">
+      <div className="div-App-background">
         <Loading visible={onLoading} />
         <Router>
           {redirect && <Redirect to={this.state.redirect} />}
@@ -584,9 +590,7 @@ class App extends Component {
             <Route exact path="/calendar" component={CalendarHomePage} />
             <Route exact path="/setEvent" component={SetEvent} />
             <Route exact path="/settingNote/:id" component={SettingNote} />
-            <Route path="/signup/:email/:code">
-              <Verify />
-            </Route>
+            <Route path="/signup/:email/:code" component={EmailVerify} />
             <Route path={["/", "/home"]} component={HomePage} />
           </Switch>
         </Router>

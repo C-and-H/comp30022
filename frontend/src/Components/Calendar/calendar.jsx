@@ -8,7 +8,6 @@ import "./Popup.css";
 import { API_URL } from "../../constant";
 import AuthService from "../../Services/AuthService";
 import { Redirect } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
 import {
   Scheduler,
   WeekView,
@@ -93,7 +92,7 @@ class Calendar extends Component {
         participantIds: data[i].participantIds,
         description: data[i].notes,
         id: data[i].id,
-        hostId: data[i].hostId
+        hostId: data[i].hostId,
       };
       appointments.push(appointment);
     }
@@ -131,7 +130,6 @@ class Calendar extends Component {
       let participantInfos = [...this.state.participantInfos];
       participantInfos.push(response.data);
       this.setState({ participantInfos });
-      
     } else {
       return "Current user was not found. Please log in ";
     }
@@ -149,20 +147,19 @@ class Calendar extends Component {
       }
     );
     if (response.data) {
-      this.setState({hostInfo:response.data})
+      this.setState({ hostInfo: response.data });
     } else {
       return "Current user was not found. Please log in ";
     }
   }
 
   async handleOnClick(event) {
-    
     this.setState({ participantInfos: [] });
     for (var i = 0; i < event.data.participantIds.length; i++) {
       await this.getParticipantInfo(event.data.participantIds[i]);
     }
-    
-    await this.getHostInfo(event.data.hostId)
+
+    await this.getHostInfo(event.data.hostId);
     var startTime = event.data.startDate;
     var endTime = event.data.endDate;
     const id = event.data.id;
@@ -242,7 +239,7 @@ class Calendar extends Component {
       chosenId: id,
       seen: true,
     });
-    this.setState({loading: true})
+    this.setState({ loading: true });
   }
   //use arrow functions,
   //as arrow functions point to parent scope and this will be available.
@@ -361,13 +358,13 @@ class Calendar extends Component {
   };
 
   //display the host name
-  displayHost = () =>{
-    return(
+  displayHost = () => {
+    return (
       <div>
         {this.state.hostInfo.first_name} {this.state.hostInfo.last_name}
       </div>
-      )
-  }
+    );
+  };
 
   render() {
     // if redict is not null imply user is not login, then go to home page
@@ -423,12 +420,15 @@ class Calendar extends Component {
                   </div>
                 </div>
                 <div className="pop-host">
-              <span style={{fontSize:23, fontWeight:600}}>Host Name:</span>
-              {(this.state.seen) ? this.displayHost() : ""}
-              </div>              
+                  <span style={{ fontSize: 23, fontWeight: 600 }}>
+                    Host Name:
+                  </span>
+                  {this.state.seen ? this.displayHost() : ""}
+                </div>
                 <div className="pop-paticipants">
                   <span style={{ fontSize: 23, fontWeight: 600 }}>
-                    Participants: ({this.state.participantInfos.length} in total)
+                    Participants: ({this.state.participantInfos.length} in
+                    total)
                   </span>
                   {/* {this.state.seen ? 
                   (this.state.loading ? this.displayParticipants() : <Spinner animation="border"/>) 
