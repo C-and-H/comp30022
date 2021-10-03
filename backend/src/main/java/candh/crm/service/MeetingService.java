@@ -3,6 +3,7 @@ package candh.crm.service;
 import candh.crm.model.Meeting;
 import candh.crm.repository.MeetingRepository;
 import candh.crm.repository.UserRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class MeetingService
 
     /**
      * @param id  id of the user
-     * @return  all meetings in user's calendar
+     * @return  all meetings in user's calendar, either as a host or a participant
      */
     public List<Meeting> meetingList(String id) {
         List<Meeting> meetings = meetingRepository.findByHostId(id);
@@ -42,21 +43,37 @@ public class MeetingService
         else if (!validIds(participantIds)) {
             throw new Exception("ParticipantId not found.");
         }
-        else {
+        else
+        {
             Set<String> set = new HashSet<>();
             Collections.addAll(set, participantIds);
             set.remove(hostId);
             meetingRepository.save(new Meeting(hostId, set.toArray(new String[0]),
                     startTime, endTime, title, notes));
-            if (set.size() > 0) {
+            if (set.size() > 0)
+            {
                 // send email
-                emailService.meetingInvitation(hostId, set.toArray(new String[0]),
-                        startTime, endTime, title, notes);
-                // send notification
-                for (String participantId : set) {
-                    notificationService
-                            .createReceiveMeetingInvitationNotification(participantId, hostId);
+                try {
+                    Thread sendEmail = new Thread(new Runnable() {
+                        @SneakyThrows
+                        @Override
+                        public void run() {
+                            emailService.meetingInvitation(hostId, set.toArray(new String[0]),
+                                    startTime, endTime, title, notes);
+                        }
+                    });
+                    sendEmail.start();
+                } catch (RuntimeException e) {
+                    throw e;
                 }
+                // send notification
+                Thread notify = new Thread(() -> {
+                    for (String participantId : set) {
+                        notificationService
+                                .createReceiveMeetingInvitationNotification(participantId, hostId);
+                    }
+                });
+                notify.start();
             }
         }
     }
