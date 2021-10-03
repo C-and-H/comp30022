@@ -27,8 +27,9 @@ public class UserController
     private JwtUtils jwtUtils;
 
     // search fields
-    private static final String[] params = {"Email", "First_name", "Last_name",
-            "AreaOrRegion", "Industry", "Company"};
+    private static final List<String> params = new ArrayList<>(
+            Arrays.asList("Email", "First_name", "Last_name",
+                    "AreaOrRegion", "Industry", "Company"));
 
     /**
      * Handles Http Post for user information query by id.
@@ -208,7 +209,7 @@ public class UserController
         Method[] methods = SearchRequest.class.getMethods();
         for (Method m: methods) {
             if (m.getName().startsWith("get") &&
-                    Arrays.asList(params).contains(m.getName().substring(3))) {   // filter getters
+                    params.contains(m.getName().substring(3))) {   // filter getters
                 String value = (String) m.invoke(searchRequest);
                 map.put(m.getName().substring(3), value);
             }
@@ -221,14 +222,13 @@ public class UserController
             Method m = UserRepository.class
                     .getDeclaredMethod("findBy_" + field, String.class);
             String value = map.get(field);
-            // search
             if (!value.equals("")) {
                 @SuppressWarnings("unchecked")
                 List<User> _users = (List<User>) m.invoke(userRepository, value);
                 if (users.isEmpty()) users = _users;
                 else {   // intersection
-                    users = _users.stream()
-                            .filter(users::contains)
+                    users = users.stream()
+                            .filter(_users::contains)
                             .collect(Collectors.toList());
                 }
                 if (_users.isEmpty()) break;   // no results found
@@ -251,44 +251,31 @@ public class UserController
     public List<User> sketchySearch(
             @RequestHeader("Authorization") String headerAuth,
             @RequestBody SketchySearchRequest sketchySearchRequest)
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
     {
         String userId = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
 
-        ArrayList<User> users = new ArrayList<>();
-        for (String field : params)
-        {
-            // query method
-            Method m = UserRepository.class
-                    .getDeclaredMethod("findBy_" + field, String.class);
-            String value = sketchySearchRequest.getSearchKey();
-            // search
-            if (!value.equals("")) {
-                @SuppressWarnings("unchecked")
-                List<User> _users = (List<User>) m.invoke(userRepository, value);
-                if (!_users.isEmpty()) users.addAll(_users);
-            }
-        }
-        // remove duplicates
-        ArrayList<User> results = new ArrayList<>();
-        boolean add = true;
-        for (int i = 0; i < users.size(); i++) {
-            add = true;
-            for (int j = 0; j < i; j++) {
-                if (users.get(i).getId().equals(users.get(j).getId())) {
-                    add = false;
-                    break;
+        List<User> users = new ArrayList<>();
+        params.parallelStream().forEach(field -> {
+            try {
+                Method m = UserRepository.class
+                        .getDeclaredMethod("findBy_" + field, String.class);
+                String value = sketchySearchRequest.getSearchKey();
+                // search
+                if (!value.equals("")) {
+                    @SuppressWarnings("unchecked")
+                    List<User> _users = (List<User>) m.invoke(userRepository, value);
+                    if (!_users.isEmpty()) users.addAll(_users.stream()
+                            .filter(u -> !users.contains(u))
+                            .collect(Collectors.toList()));
                 }
-            }
-            if (add) {
-                results.add(users.get(i));
-            }
-        }
+            } catch (Exception ignored) { }
+        });
         // remove user self
-        return results.stream()
+        return users.stream()
                 .filter(u -> !u.getId().equals(userId))
+                .sorted(Comparator.comparing(User::getName))
                 .collect(Collectors.toList());
     }
 }
