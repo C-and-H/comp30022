@@ -16,7 +16,6 @@ public interface UserRepository extends MongoRepository<User, String>
 
     @Aggregation(pipeline = {
             "{ $match : {'email': '?0'} }",
-            "{ $sort : {'when': -1} }",
             "{ $limit : 1 }"
     })
     User findByEmail(String email);
