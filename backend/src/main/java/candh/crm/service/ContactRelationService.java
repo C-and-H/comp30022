@@ -26,20 +26,21 @@ public class ContactRelationService
      * @param userId  id of the user
      * @return  a list of contact relations that satisfy the conditions.
      */
-    public Set<Contact> findAllFriends(String userId) {
+    public List<Contact> findAllFriends(String userId) {
         List<Contact> _friends = contactRepository.findFriendsByUserId(userId);
         return _friends.stream()
                 .filter(c -> contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
-                .collect(Collectors.toSet());
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     /**
      * Find scenarios 2 and 5.
      *
      * @param userId  id of the user
-     * @return  a list of ids
+     * @return  a set of ids
      */
     public Set<String> findAllSentRequests(String userId) {
         List<Contact> _sent = contactRepository.findFriendsByUserId(userId);
@@ -55,9 +56,9 @@ public class ContactRelationService
      * Find scenario 3.
      *
      * @param userId  id of the user
-     * @return  a list of ids
+     * @return  a set of ids
      */
-    public List<String> findAllReceivedRequests(String userId) {
+    public Set<String> findAllReceivedRequests(String userId) {
         List<Contact> _received = contactRepository
                 .findFriendsByUserIdAsAcceptedAndIgnored(userId, false, false);
         return _received.stream()
@@ -65,7 +66,7 @@ public class ContactRelationService
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
                 .map(c -> c.getFriendId())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     /**
