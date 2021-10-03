@@ -37,18 +37,28 @@ public class AuthService implements UserDetailsService
     JwtUtils jwtUtils;
 
     /**
-     * Add a new user to database, with password encoded.
+     * Update or add a user to database, with the password encoded.
      *
      * @param user  a user object, that must contain email, password, first name, and last name
      * @param isEnabled  send a confirmation email if account is not enabled
      */
-    public void updateUser(User user, boolean isEnabled) throws MessagingException {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        if (!isEnabled) {
-            EmailService.sendConfirmMail(user.getEmail(),
-                    user.getFirst_name(), user.getSignupConfirmPath());
-        }
+    public void updateUser(final User user, boolean isEnabled) throws MessagingException
+    {
+        Thread updateDb = new Thread(() -> {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        });
+        Thread sendEmail = new Thread(() -> {
+            try {
+                EmailService.sendConfirmMail(user.getEmail(),
+                        user.getFirst_name(), user.getSignupConfirmPath());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+        // run
+        updateDb.start();
+        if (!isEnabled) sendEmail.start();
     }
 
     @Override
