@@ -17,7 +17,7 @@ h1 {
 
 .background{
   height: 92vh;
-  background-image: linear-gradient(to right top, #000000, #1a1a1a, #2d2d2d, #414142, #565758) !important;
+  background-image: linear-gradient(to right top, #000000, #121111, #1d1c1d, #272728, #323233) !important;
 }
 body .bg-dark {
   /* color: rgb(43, 47, 49); */
