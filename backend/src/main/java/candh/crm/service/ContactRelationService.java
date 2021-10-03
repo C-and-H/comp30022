@@ -28,7 +28,7 @@ public class ContactRelationService
      */
     public List<Contact> findAllFriends(String userId) {
         List<Contact> _friends = contactRepository.findFriendsByUserId(userId);
-        return _friends.stream()
+        return _friends.parallelStream()
                 .filter(c -> contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
@@ -44,7 +44,7 @@ public class ContactRelationService
      */
     public Set<String> findAllSentRequests(String userId) {
         List<Contact> _sent = contactRepository.findFriendsByUserId(userId);
-        return _sent.stream()
+        return _sent.parallelStream()
                 .filter(c -> !contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
@@ -61,7 +61,7 @@ public class ContactRelationService
     public Set<String> findAllReceivedRequests(String userId) {
         List<Contact> _received = contactRepository
                 .findFriendsByUserIdAsAcceptedAndIgnored(userId, false, false);
-        return _received.stream()
+        return _received.parallelStream()
                 .filter(c -> contactRepository
                         .findByUserIdAndFriendId(c.getFriendId(), userId)
                         .isAccepted())
@@ -80,35 +80,42 @@ public class ContactRelationService
         Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
         Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
         if (u == null && f == null) {   // 7, send request
+            new Thread(() -> notificationService
+                    .createReceiveFriendRequestNotification(friendId, userId))
+                    .start();
             contactRepository.save(new Contact(userId, friendId, true));
             contactRepository.save(new Contact(friendId, userId, false));
-            notificationService
-                    .createReceiveFriendRequestNotification(friendId, userId);
+        }
+        else if (u == null || f == null) {
+            throw new Exception("Operation refused.");
         }
         else if (u.isAccepted() && !u.isIgnored() && !f.isAccepted()) {
             if (f.isIgnored()) {   // 5, resend declined request
+                new Thread(() -> notificationService
+                        .createReceiveFriendRequestNotification(friendId, userId))
+                        .start();
                 f.setIgnored(false);
                 contactRepository.save(f);
-                notificationService
-                        .createReceiveFriendRequestNotification(friendId, userId);
             }
             // 2, pass
         }
         else if (!u.isAccepted() && f.isAccepted() && !f.isIgnored()) {   // 3 & 4, confirm
+            new Thread(() -> notificationService
+                    .createAcceptFriendRequestNotification(friendId, userId))
+                    .start();
             u.setAccepted(true);
             u.setIgnored(false);
             contactRepository.save(u);
-            notificationService
-                    .createAcceptFriendRequestNotification(friendId, userId);
             notificationService
                     .createAcceptFriendRequestNotification(userId, friendId);
         }
         else if (!u.isAccepted() && !u.isIgnored() && !f.isAccepted() &&
                 !f.isIgnored()) {   // 6, resend cancelled request
+            new Thread(() -> notificationService
+                    .createReceiveFriendRequestNotification(friendId, userId))
+                    .start();
             u.setAccepted(true);
             contactRepository.save(u);
-            notificationService
-                    .createReceiveFriendRequestNotification(friendId, userId);
         }
         else {   // 1 or invalid
             throw new Exception("Operation refused.");
@@ -123,15 +130,17 @@ public class ContactRelationService
      * @param userId  id of the user
      * @param friendId  id of another user who sent request
      */
-    public void confirmRequest(String userId, String friendId) throws Exception {
+    public void confirmRequest(String userId, String friendId) throws Exception
+    {
         Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
         Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
-        if (!u.isAccepted() && !u.isIgnored() && f.isAccepted() &&
-                !f.isIgnored()) {   // 3
+        if (u != null && !u.isAccepted() && !u.isIgnored() &&
+                f != null && f.isAccepted() && !f.isIgnored()) {   // 3
+            new Thread(() -> notificationService
+                    .createAcceptFriendRequestNotification(userId, friendId))
+                    .start();
             u.setAccepted(true);
             contactRepository.save(u);
-            notificationService
-                    .createAcceptFriendRequestNotification(userId, friendId);
         }
         else {   // other or invalid
             throw new Exception("Operation refused.");
@@ -146,11 +155,12 @@ public class ContactRelationService
      * @param userId  id of the user
      * @param friendId  id of another user who sent request
      */
-    public void declineRequest(String userId, String friendId) throws Exception {
+    public void declineRequest(String userId, String friendId) throws Exception
+    {
         Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
         Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
-        if (!u.isAccepted() && !u.isIgnored() && f.isAccepted() &&
-                !f.isIgnored()) {   // 3
+        if (u != null && !u.isAccepted() && !u.isIgnored()
+                && f != null && f.isAccepted() && !f.isIgnored()) {   // 3
             u.setIgnored(true);
             contactRepository.save(u);
         }
@@ -167,10 +177,12 @@ public class ContactRelationService
      * @param userId  id of the user
      * @param friendId  id of the friend who the user sent request to
      */
-    public void cancelRequest(String userId, String friendId) throws Exception {
+    public void cancelRequest(String userId, String friendId) throws Exception
+    {
         Contact u = contactRepository.findByUserIdAndFriendId(userId, friendId);
         Contact f = contactRepository.findByUserIdAndFriendId(friendId, userId);
-        if (u.isAccepted() && !u.isIgnored() && !f.isAccepted()) {   // 2 or 5
+        if (u != null && u.isAccepted() && !u.isIgnored() &&
+                f != null && !f.isAccepted()) {   // 2 or 5
             u.setAccepted(false);
             f.setIgnored(false);
             contactRepository.save(u);

@@ -82,11 +82,15 @@ public class NotificationController
         String id = userRepository.findByEmail(
                 jwtUtils.getUserNameFromJwtToken(jwtUtils.parseJwt(headerAuth)))
                 .getId();
-        // operate
+        // fetch
         List<Notification> notifications = notificationRepository.findByUserId(id);
-        notificationRepository.deleteAll(notifications);
-        // push through socket
-        notificationService.pushTo(id);
+        // delete
+        Thread deleteFetched = new Thread(() -> {
+            notificationRepository.deleteAll(notifications);
+            notificationService.pushTo(id);
+        });
+        deleteFetched.start();
+
         return ResponseEntity.ok(notifications);
     }
 

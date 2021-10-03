@@ -87,10 +87,6 @@ public class ChatService
         Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
         if (map.containsKey(receiverId))
         {
-            // mark as pushed
-            List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
-            for (Chat c : unnotified) c.setNotified(true);
-            chatRepository.saveAll(unnotified);
             // push
             for (String path : map.get(receiverId)) {
                 Thread pushSocket = new Thread(() -> {
@@ -105,6 +101,10 @@ public class ChatService
                 });
                 pushSocket.start();
             }
+            // mark as pushed
+            List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
+            for (Chat c : unnotified) c.setNotified(true);
+            chatRepository.saveAll(unnotified);
         }
     }
 }

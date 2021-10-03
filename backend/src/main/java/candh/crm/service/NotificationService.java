@@ -62,13 +62,14 @@ public class NotificationService
             String receiverId, String senderId) {
         String senderName = userRepository.findById(senderId).get().getName();
         String message = "Friend request: " + senderName + ".";
-        synchronized (this) {
-            Notification to_remove = notificationRepository
-                    .findLatestByMessage(receiverId, message);
-            if (to_remove != null) {
+        Notification to_remove = notificationRepository
+                .findLatestByMessage(receiverId, message);
+        if (to_remove != null) {
+            try {
                 notificationRepository.delete(to_remove);
-                pushTo(receiverId);
+                new Thread(() -> pushTo(receiverId)).start();
             }
+            catch (Exception ignored) { }
         }
     }
 
@@ -119,12 +120,15 @@ public class NotificationService
         Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
         if (map.containsKey(userId)) {
             for (String path : map.get(userId)) {
-                path = "/topic/notification/" + path;
-                try {
-                    template.convertAndSend(path, count(userId));
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
+                Thread pushSocket = new Thread(() -> {
+                    try {
+                        template.convertAndSend("/topic/notification/" + path,
+                                count(userId));
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                });
+                pushSocket.start();
             }
         }
     }
