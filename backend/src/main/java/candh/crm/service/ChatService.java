@@ -46,7 +46,7 @@ public class ChatService
                 contactRelationService.findAllFriends(userId).stream()
                         .map(Contact::getFriendId)
                         .collect(Collectors.toList());
-        return friendIds.stream()
+        return friendIds.parallelStream()
                 .map(f -> createOverview(userId, f))
                 .sorted((o1, o2) -> {
                     Date t1 = o1.getTime(), t2 = o2.getTime();
