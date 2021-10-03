@@ -88,19 +88,19 @@ public class ChatService
         if (map.containsKey(receiverId))
         {
             // push
-            for (String path : map.get(receiverId)) {
-                Thread pushSocket = new Thread(() -> {
+            Thread pushSocket = new Thread(() -> {
+                for (String path : map.get(receiverId)) {
                     try {
                         template.convertAndSend("/topic/chat/" + path,
                                 new ConcurrentHashMap<String, Object>() {{
                                     put("from", senders);
-                        }});
+                                }});
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
-                });
-                pushSocket.start();
-            }
+                }
+            });
+            pushSocket.start();
             // mark as pushed
             List<Chat> unnotified = chatRepository.findUnnotified(receiverId);
             for (Chat c : unnotified) c.setNotified(true);

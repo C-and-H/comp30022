@@ -119,17 +119,17 @@ public class NotificationService
     {
         Map<String, List<String>> map = webSocketSubscriptionService.getPathMap();
         if (map.containsKey(userId)) {
-            for (String path : map.get(userId)) {
-                Thread pushSocket = new Thread(() -> {
+            Thread pushSocket = new Thread(() -> {
+                for (String path : map.get(userId)) {
                     try {
                         template.convertAndSend("/topic/notification/" + path,
                                 count(userId));
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
-                });
-                pushSocket.start();
-            }
+                }
+            });
+            pushSocket.start();
         }
     }
 }
