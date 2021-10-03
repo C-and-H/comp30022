@@ -1,0 +1,62 @@
+/*------------------ LogIn Components ---------------*/
+.login-background{
+  height: 92vh;
+  background-image: linear-gradient(to right top, #000000, #1a1a1a, #2d2d2d, #414142, #565758) !important;
+}
+
+.signin-form {
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  left: 40%;
+  top: 33.3%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Segoe UI', Arial;
+  font-size: 16.00px;
+  font-weight: 700;
+  box-sizing: content-box;
+}
+
+.password-toogle-icon {
+  /* position: absolute;
+  top: 85%;
+  left: 87%; */
+  /* bottom: 8px;
+  right: 20px; */
+  cursor: pointer;
+  color: white;
+  margin-top: 5%;
+  margin-bottom: 0px;
+}
+
+.login-button {
+  margin-top: 8%;
+  width: 30%;
+  margin-left: 60%;
+  background-color: transparent;
+}
+
+.login-button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
+}
+
+.div-signin-to-signup {
+  margin-top: 5%;
+}
+
+.link-signin-to-signup {
+  font-size: small;
+  color: rgba(255, 255, 255, 1);
+}
+
+.link-signin-to-signup:hover {
+  color: black;
+}
+
+.login-form-group {
+  margin-top: 6%;
+}

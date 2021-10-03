@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
-import AuthService from "../Services/AuthService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
+import AuthService from "../../Services/AuthService";
+import "./LogIn.css";
 
 class LogIn extends Component {
   constructor(props) {
@@ -61,9 +67,9 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div>
-        <Form className="signup-form" onSubmit={this.handleSubmit}>
-          <FormGroup>
+      <div className="login-background">
+        <Form className="signin-form" onSubmit={this.handleSubmit}>
+          <FormGroup className="login-form-group">
             <Label className="form-label">&nbsp;Email</Label>
             <Input
               type="text"
@@ -73,7 +79,7 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
-          <FormGroup>
+          <FormGroup className="login-form-group">
             <Label className="form-label"> &nbsp;Password</Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
@@ -85,30 +91,25 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
-          <Button
-            className="btn-show-password"
-            onClick={() => this.handleShowPassword()}
-          >
-            {this.state.showPassword ? (
-              <i className="fas fa-toggle-on toggle-icon"></i>
-            ) : (
-              <i className="fas fa-toggle-off toggle-icon"></i>
-            )}
-          </Button>
-
+          <div className="password-toogle-icon">
+              {<FontAwesomeIcon
+                icon={this.state.showPassword ? faEye : faEyeSlash}
+                onClick={() => this.handleShowPassword()}
+              />}
+          </div>         
           <Button
             type="submit"
-            className="submit-btn btn-med btn-block btn-dark col-12"
+            className="login-button"
+            size="sm"
           >
             Log In
           </Button>
-        </Form>
-
-        <center>
-          <a href="/signup" className="signin-to-signup">
-            Haven't signed up yet? Register Now!
-          </a>
-        </center>
+          <center className="div-signin-to-signup" >
+            <a href="/signup" className="link-signin-to-signup">
+              Haven't signed up yet? Register Now!
+            </a>
+          </center>
+        </Form>     
       </div>
     );
   }

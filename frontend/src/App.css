@@ -50,12 +50,6 @@
 }
 /*------------------ SignUp Components end---------------*/
 
-/*------------------ SignIn Components ------------------*/
-#signin-to-signup {
-  font-size: small;
-}
-/*------------------ SignIn Components end---------------*/
-
 /*------------------ NavigationBar Components ------------------*/
 .notification-badge {
   background-color: rgb(168, 58, 58);
