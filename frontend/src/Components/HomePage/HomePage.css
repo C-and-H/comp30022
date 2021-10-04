@@ -49,6 +49,10 @@ body .bg-dark {
 
   /* vertical-align: middle; */
 }
+.btn-homepage:hover{
+  background-color: black;
+  color: white;
+}
 .homepage-container img{
   position: absolute;
   top: 200px;
