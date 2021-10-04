@@ -128,4 +128,14 @@ public class AuthService implements UserDetailsService
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtUtils.generateJwtToken(authentication);
     }
+
+    /**
+     * Authenticate users without generating jwt web token.
+     *
+     * @return whether the email and the (encoded) password matches
+     */
+    public boolean authenticateUserSimple(String email, String passwordEncoded) {
+        User user = userRepository.findByEmail(email);
+        return (user != null) && user.getPassword().equals(passwordEncoded);
+    }
 }
