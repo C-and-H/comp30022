@@ -24,7 +24,7 @@
 
 .login-button {
   position: absolute;
-  top: 64%;
+  top: 65%;
   left: 52%;
   width: 7%;
   background-color: transparent;
@@ -37,7 +37,7 @@
 
 .div-signin-to-signup {
   position: absolute;
-  top: 70%;
+  top: 71%;
   left: 40%;
   right: 40%;
 }
@@ -48,26 +48,27 @@
 }
 
 .link-signin-to-signup:hover {
-  color: black;
+  color: gray;
 }
 
 .login-password-eye-wrapper {
   position: absolute;
   left: 40%;
   right: 40%;
-  top: 50%;
+  top: 49%;
+
 }
 
 .login-email-wrapper {
   width: 20%;
   position: absolute;
-  top: 40%;
+  top: 36%;
   left: 40%;
 }
 
 .login-form-label {
   display: inline-block;
-  margin-bottom: 5px;
+  margin-bottom: 12px;
   margin-top: 5px;
   color: rgba(255, 255, 255, 1);
 }

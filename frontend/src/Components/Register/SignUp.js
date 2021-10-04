@@ -254,6 +254,7 @@ class SignUp extends Component {
             <center>
             <Button
             type="submit"
+            size="sm"
             disabled={this.state.isWaiting}
             className="submit-btn btn-med btn-block btn-dark "
           >
