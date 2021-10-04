@@ -11,8 +11,8 @@ class SignUp extends Component {
     this.state = {
       input: {},
       msg: {},
+      isWaiting: false
     };
-    this.isWaiting = false;
     this.handleEmail = this.handleEmail.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,7 +55,7 @@ class SignUp extends Component {
     });
   }
   async handleSubmit(event) {
-    this.isWaiting = true;
+    this.setState({isWaiting: true})
     event.preventDefault(); 
     this.validation();
     // password is the same
@@ -100,10 +100,10 @@ class SignUp extends Component {
           alert("an error occurs...");
         })
         .finally(() => {
-          this.iswaiting = false;
+          this.setState({isWaiting: false})
         });
     }
-    this.isWaiting = false;
+    this.setState({isWaiting: false})
   }
 
   handleEmail(event) {
@@ -251,7 +251,7 @@ class SignUp extends Component {
             <Button
             style={{float:"right"}}
             type="submit"
-            disabled={this.isWaiting}
+            disabled={this.state.isWaiting}
             className="submit-btn btn-med btn-block btn-dark "
           >
             Register
