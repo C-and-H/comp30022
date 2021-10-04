@@ -11,10 +11,44 @@
 .nav-bar-78 {
   height: 8%;
 }
-#signin-to-signup {
+/*------------------ SignUp Components ---------------*/
+.password-requirement {
   font-size: small;
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0;
+  color: rgb(168, 58, 58);
 }
-/*------------------ SignIn Components end---------------*/
+
+#signup-to-signin {
+  background-color: #3485f0;
+  margin-top: 10px;
+  border: black;
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.signup-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+}
+
+.signup-password {
+  display: inline-block;
+  margin-top: 5px;
+}
+.submit-btn {
+  background-color: #3485f0;
+  margin-top: 15px;
+}
+/*------------------ SignUp Components end---------------*/
 
 /*------------------ NavigationBar Components ------------------*/
 .notification-badge {

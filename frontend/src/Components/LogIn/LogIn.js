@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
-import AuthService from "../Services/AuthService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
+import AuthService from "../../Services/AuthService";
+import "./LogIn.css";
 
 class LogIn extends Component {
   constructor(props) {
@@ -61,10 +67,9 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div>
-        <Form className="signup-form" onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Label className="form-label">&nbsp;Email</Label>
+        <Form className="login-background" onSubmit={this.handleSubmit}>
+          <FormGroup className="login-email-wrapper">
+            <Label className="login-form-label">&nbsp;Email</Label>
             <Input
               type="text"
               value={this.state.userEmail}
@@ -73,8 +78,8 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
-          <FormGroup>
-            <Label className="form-label"> &nbsp;Password</Label>
+          <FormGroup className="login-password-eye-wrapper">
+            <Label className="login-form-label"> &nbsp;Password</Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
               placeholder="Password"
@@ -84,32 +89,26 @@ class LogIn extends Component {
               pattern="[A-Za-z0-9]{5,10}"
               required
             />
-          </FormGroup>
-          <Button
-            className="btn-show-password"
-            onClick={() => this.handleShowPassword()}
-          >
-            {this.state.showPassword ? (
-              <i className="fas fa-toggle-on toggle-icon"></i>
-            ) : (
-              <i className="fas fa-toggle-off toggle-icon"></i>
-            )}
-          </Button>
-
-          <Button
-            type="submit"
-            className="submit-btn btn-med btn-block btn-dark col-12"
-          >
-            Log In
-          </Button>
-        </Form>
-
-        <center>
-          <a href="/signup" className="signin-to-signup">
-            Haven't signed up yet? Register Now!
-          </a>
-        </center>
-      </div>
+            <div className="password-toogle-icon">
+                {<FontAwesomeIcon
+                  icon={this.state.showPassword ? faEye : faEyeSlash}
+                  onClick={() => this.handleShowPassword()}
+                />}
+            </div>
+          </FormGroup>      
+            <Button
+              type="submit"
+              className="login-button"
+              size="sm"
+            >
+              Log In
+            </Button>
+          <center className="div-signin-to-signup" >
+            <a href="/signup" className="link-signin-to-signup">
+              Haven't signed up yet? Register Now!
+            </a>
+          </center> 
+        </Form> 
     );
   }
 }

@@ -1,0 +1,73 @@
+/*------------------ LogIn Components ---------------*/
+.login-background{
+  height: 92%;
+  width: 100%;
+  background-image: linear-gradient(to right top, #000000, #1a1a1a, #2d2d2d, #414142, #565758) !important;
+  display: flex;
+  justify-content: center;
+}
+
+.signin-form {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.password-toogle-icon {
+  position: absolute;
+  top: 60%;
+  right: 15px;
+  cursor: pointer;
+  color: black;
+}
+
+.login-button {
+  position: absolute;
+  top: 64%;
+  left: 52%;
+  width: 7%;
+  background-color: transparent;
+}
+
+.login-button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
+}
+
+.div-signin-to-signup {
+  position: absolute;
+  top: 70%;
+  left: 40%;
+  right: 40%;
+}
+
+.link-signin-to-signup {
+  font-size: small;
+  color: rgba(255, 255, 255, 1);
+}
+
+.link-signin-to-signup:hover {
+  color: black;
+}
+
+.login-password-eye-wrapper {
+  position: absolute;
+  left: 40%;
+  right: 40%;
+  top: 50%;
+}
+
+.login-email-wrapper {
+  width: 20%;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+}
+
+.login-form-label {
+  display: inline-block;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 1);
+}
