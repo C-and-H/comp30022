@@ -180,7 +180,9 @@ class SignUp extends Component {
           <br/>
           <FormGroup id="formgroup-password">
             <Label className="signup-password" style={{float:"left"}}> &nbsp;Password
-            <span style={{color:"rgb(168, 58, 58)"}}> &nbsp;5-10 letters or numbers</span>
+            <span id="requirement-text"style={{color:"#FF0055"}}>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5-10 letters or numbers</span>
             </Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
@@ -224,10 +226,10 @@ class SignUp extends Component {
           </center>
             
           </Col>
-          <Col xs="6" >
+          <Col xs="5" >
           <br/>
           <center>
-          <FormGroup className="formgroup">
+          <FormGroup id="formgroup-confirm-password">
             <Label className="form-label" style={{float:"left"}}>&nbsp;Confirm Password</Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
@@ -246,22 +248,24 @@ class SignUp extends Component {
           </Col>
           </Row>
           <Row>
-            <Col xs="7">
+            <Col xs="4"></Col>
+            <Col xs="4">
             <br/>
+            <center>
             <Button
-            style={{float:"right"}}
             type="submit"
             disabled={this.state.isWaiting}
             className="submit-btn btn-med btn-block btn-dark "
           >
             Register
           </Button>
+          </center>
           </Col>
-            <Col xs="5">
+            <Col xs="4">
               {/* display whether they are the same or not. */}
-              {this.state.msg.password ? <div className="text-danger display-text">{this.state.msg.password}</div> : ""}
-              {this.state.msg.user_exist ? <div className="text-danger display-text">{this.state.msg.user_exist}</div> : ""}
-              {this.state.msg.email_invalid ? <div className="text-danger display-text">{this.state.msg.email_invalid}</div> : ""}
+              {this.state.msg.password ? <div className=" display-text">{this.state.msg.password}</div> : ""}
+              {this.state.msg.user_exist ? <div className=" display-text">{this.state.msg.user_exist}</div> : ""}
+              {this.state.msg.email_invalid ? <div className=" display-text">{this.state.msg.email_invalid}</div> : ""}
             </Col>
           </Row>
         </Form>
