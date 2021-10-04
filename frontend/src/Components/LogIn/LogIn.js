@@ -67,10 +67,9 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div className="login-background">
-        <Form className="signin-form" onSubmit={this.handleSubmit}>
-          <FormGroup className="login-form-group">
-            <Label className="form-label">&nbsp;Email</Label>
+        <Form className="login-background" onSubmit={this.handleSubmit}>
+          <FormGroup className="login-email-wrapper">
+            <Label className="login-form-label">&nbsp;Email</Label>
             <Input
               type="text"
               value={this.state.userEmail}
@@ -79,8 +78,8 @@ class LogIn extends Component {
               required
             />
           </FormGroup>
-          <FormGroup className="login-form-group">
-            <Label className="form-label"> &nbsp;Password</Label>
+          <FormGroup className="login-password-eye-wrapper">
+            <Label className="login-form-label"> &nbsp;Password</Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
               placeholder="Password"
@@ -90,27 +89,26 @@ class LogIn extends Component {
               pattern="[A-Za-z0-9]{5,10}"
               required
             />
-          </FormGroup>
-          <div className="password-toogle-icon">
-              {<FontAwesomeIcon
-                icon={this.state.showPassword ? faEye : faEyeSlash}
-                onClick={() => this.handleShowPassword()}
-              />}
-          </div>         
-          <Button
-            type="submit"
-            className="login-button"
-            size="sm"
-          >
-            Log In
-          </Button>
+            <div className="password-toogle-icon">
+                {<FontAwesomeIcon
+                  icon={this.state.showPassword ? faEye : faEyeSlash}
+                  onClick={() => this.handleShowPassword()}
+                />}
+            </div>
+          </FormGroup>      
+            <Button
+              type="submit"
+              className="login-button"
+              size="sm"
+            >
+              Log In
+            </Button>
           <center className="div-signin-to-signup" >
             <a href="/signup" className="link-signin-to-signup">
               Haven't signed up yet? Register Now!
             </a>
-          </center>
-        </Form>     
-      </div>
+          </center> 
+        </Form> 
     );
   }
 }
