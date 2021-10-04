@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Form, Input, Button, FormGroup, Label } from "reactstrap";
-import { API_URL } from "../constant";
+import './SignUp.css'
+import { Form, Input, Button, FormGroup, Label, Container } from "reactstrap";
+import { API_URL } from "../../constant";
+import { Row, Col} from "reactstrap";
 
 class SignUp extends Component {
   constructor(props) {
@@ -54,7 +56,7 @@ class SignUp extends Component {
   }
   async handleSubmit(event) {
     this.isWaiting = true;
-    event.preventDefault(); // what is this?
+    event.preventDefault(); 
     this.validation();
     // password is the same
     if (this.state.input["password"] !== this.state.input["confirm_password"]) {
@@ -126,18 +128,25 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div>
-        <Form className="signup-form" onSubmit={this.handleSubmit}>
-          <center>
-            <h1>Sign up</h1>
-            <center>
-              <a href="/login" class="btn btn-primary" id="signup-to-signin">
-                Already have account? Login here
-              </a>
-            </center>
-          </center>
-          <FormGroup>
-            <Label className="form-label">&nbsp;Email</Label>
+      
+      <div className="background-sign-up">
+        <Container id="signup-container">
+        <br/>
+        <br/>
+        <center>
+            <a href="/login" id="signup-to-signin">
+              Already have account? Login here
+            </a>
+        </center>
+        <br/>
+        <br/>
+        <Form className="signUp-form" onSubmit={this.handleSubmit}>
+          <Row>
+          
+          <Col xs="6" >
+          <center>  
+          <FormGroup className="formgroup">
+            <Label className="form-label" style={{float:"left"}}>&nbsp;Email</Label>
             <Input
               type="email"
               value={this.state.userEmail}
@@ -146,8 +155,17 @@ class SignUp extends Component {
               required
             />
           </FormGroup>
-          <FormGroup>
-            <Label className="form-label"> &nbsp;First Name</Label>
+          </center>
+          </Col>
+          
+          </Row>
+          <Row>
+          
+          <Col xs="6" >
+          <br/>
+          <center>
+          <FormGroup className="formgroup">
+            <Label className="form-label" style={{float:"left"}}> &nbsp;First Name</Label>
             <Input
               type="text"
               value={this.state.userFirstName}
@@ -156,22 +174,14 @@ class SignUp extends Component {
               required
             />
           </FormGroup>
-          <FormGroup>
-            <Label className="form-label"> &nbsp;Last Name</Label>
-            <Input
-              type="text"
-              value={this.state.userLastName}
-              onChange={this.handleLastName}
-              placeholder="Last Name"
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label className="signup-password"> &nbsp;Password</Label>
-            {/* password requiement */}
-            <ul className="password-requirement">
-              <li>&nbsp;5-10 letters or numbers</li>
-            </ul>
+          </center>
+          </Col>
+          <Col xs="5" >
+          <br/>
+          <FormGroup id="formgroup-password">
+            <Label className="signup-password" style={{float:"left"}}> &nbsp;Password
+            <span style={{color:"rgb(168, 58, 58)"}}> &nbsp;5-10 letters or numbers</span>
+            </Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
               placeholder="Password"
@@ -182,8 +192,43 @@ class SignUp extends Component {
               required
             />
           </FormGroup>
-          <FormGroup>
-            <Label className="form-label">&nbsp;Confirm Password</Label>
+          </Col>
+          <Col xs="1" style={{alignItems:'center'}}>
+          <br/>
+          <Button
+            className="btn-show-password-register"
+            onClick={() => this.handleShowPassword()}
+          >
+            {this.state.showPassword ? (
+              <i className="fas fa-toggle-on toggle-icon"></i>
+            ) : (
+              <i className="fas fa-toggle-off toggle-icon"></i>
+            )}
+          </Button>
+          </Col>
+          </Row>
+          <Row>
+          <Col xs="6" >
+          <br/>
+          <center>
+          <FormGroup className="formgroup">
+            <Label className="form-label" style={{float:"left"}}> &nbsp;Last Name</Label>
+            <Input
+              type="text"
+              value={this.state.userLastName}
+              onChange={this.handleLastName}
+              placeholder="Last Name"
+              required
+            />
+          </FormGroup>
+          </center>
+            
+          </Col>
+          <Col xs="6" >
+          <br/>
+          <center>
+          <FormGroup className="formgroup">
+            <Label className="form-label" style={{float:"left"}}>&nbsp;Confirm Password</Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
               pattern="[A-Za-z0-9]{5,10}"
@@ -197,35 +242,32 @@ class SignUp extends Component {
               required
             />
           </FormGroup>
-
-          {/* display whether or not to show password*/}
-          <Button
-            className="btn-show-password"
-            onClick={() => this.handleShowPassword()}
-          >
-            {this.state.showPassword ? (
-              <i className="fas fa-toggle-on toggle-icon"></i>
-            ) : (
-              <i className="fas fa-toggle-off toggle-icon"></i>
-            )}
-          </Button>
-
-          {/* display whether they are the same or not. */}
-          <div className="text-danger">{this.state.msg.password}</div>
-          {/* <div className = "text-success">{this.state.msg.confirm_password}</div> */}
-          {/* display if the user exists */}
-          <div className="text-danger">{this.state.msg.user_exist}</div>
-          <div className="text-danger">{this.state.msg.email_invalid}</div>
-
-          <Button
+          </center>
+          </Col>
+          </Row>
+          <Row>
+            <Col xs="7">
+            <br/>
+            <Button
+            style={{float:"right"}}
             type="submit"
             disabled={this.isWaiting}
-            className="submit-btn btn-med btn-block btn-dark col-12"
+            className="submit-btn btn-med btn-block btn-dark "
           >
             Register
           </Button>
+          </Col>
+            <Col xs="5">
+              {/* display whether they are the same or not. */}
+              {this.state.msg.password ? <div className="text-danger display-text">{this.state.msg.password}</div> : ""}
+              {this.state.msg.user_exist ? <div className="text-danger display-text">{this.state.msg.user_exist}</div> : ""}
+              {this.state.msg.email_invalid ? <div className="text-danger display-text">{this.state.msg.email_invalid}</div> : ""}
+            </Col>
+          </Row>
         </Form>
+        </Container>
       </div>
+      
     );
   }
 }

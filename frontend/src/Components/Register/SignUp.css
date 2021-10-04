@@ -1,0 +1,71 @@
+/*------------------ SignUp Components ---------------*/
+.password-requirement {
+  font-size: small;
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0;
+  color: rgb(168, 58, 58);
+}
+.signup-container{
+  width: 90vw;
+}
+#signup-to-signin {
+  border: black;
+  color: white;
+}
+#signup-to-signin:hover{
+  color: gray;
+}
+.form-label {
+  display: inline-block;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  color: white;
+}
+.formgroup{
+  display: block;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
+.signUp-form {
+  width: 100%;
+  max-width: 70%;
+  padding: 15px;
+  margin: auto;
+}
+
+.btn-show-password-register {
+  border-radius: 100px;
+  margin-top: 39px;
+  background-color: blueviolet;
+  font-size: 20px;
+  height: 30px;
+}
+#formgroup-password{
+  float: right;
+  width: 82%;
+}
+.signup-password {
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: white;
+}
+.submit-btn {
+  background-color: black;
+  padding: 7px;
+  margin-top: 15px;
+}
+.submit-btn:hover{
+  background-color: white;
+  color: black;
+}
+.background-sign-up{
+  height: 92%;
+  background-image: linear-gradient(to right top, #000000, #121111, #1d1c1d, #272728, #323233) !important;
+}
+.display-text{
+  padding-top: 45px;
+  color: white;
+}
