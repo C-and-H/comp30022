@@ -1,11 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { API_URL } from "../../constant";
-import Button from "react-bootstrap/Button";
+
 import ReactTooltip from "react-tooltip";
 import "../../App.css";
 import "./Dashboard.css"
 import { Redirect } from "react-router-dom";
+import ClearIcon from '@mui/icons-material/Clear';
+import { IconButton } from '@mui/material';
+import { ButtonGroup, Button, Row, Col } from 'react-bootstrap';
 
 class RequestList extends React.Component {
   constructor(props) {
@@ -89,25 +92,38 @@ class RequestList extends React.Component {
   }
 
   request(user) {
+    var icon = user.icon;
+    if (!icon) icon = "fa fa-user fa-fw";
     return (
       <span key={user.id}>
+        <ButtonGroup
+          className="btngroup-requests">
         <Button
-          className="btn-request-sent"
-          variant="outline-dark"
+          className="btn-user"
+          variant="outline-light"
           size="lg"
           data-tip={user.email}
           onClick={() => this.redirect(user.id)}
         >
-          <i className="fa fa-user-circle fa-fw"></i>
-          {" " + user.first_name + " " + user.last_name}
+          <div>
+            <Row>
+              <Col>
+                <i className={icon} ></i>
+              </Col>
+              <Col className="full-name" xs="9">
+              {" " + user.first_name + " " + user.last_name}
+              </Col>
+            </Row>
+          </div>
         </Button>
         <ReactTooltip place="right" type="info" html={true} />
-        <Button
-          className="btn btn-warning btn-outline-light btn-accept"
-          onClick={() => this.cancelRequest(user.id)}
-        >
-          <i className="fa fa-times"></i>
-        </Button>
+        <IconButton  
+          color="error" 
+          size="large"
+          onClick={() => this.cancelRequest(user.id)}>
+          <ClearIcon />
+        </IconButton>
+        </ButtonGroup>
       </span>
     );
   }
@@ -119,7 +135,8 @@ class RequestList extends React.Component {
     const { requestList } = this.state;
     return (
       <div className="requests-list">
-        <h1>Sent</h1>
+        <h1 className="requests-header">Sent</h1>
+        <hr className="requests-line-break"></hr>
         {requestList &&
           (requestList.length === 0 ? (
             <h1>No Request</h1>

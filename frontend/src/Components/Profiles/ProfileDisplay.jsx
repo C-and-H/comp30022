@@ -102,6 +102,7 @@ export default class ProfileDisplay extends Component {
       // send delete friend request
       await UserService.deleteFriend(this.props.match.params.id, user.token);
       this.setState({ btnText: "Add friend" });
+      window.location.reload();
     } else {
       // send friend request
       await UserService.sentFriendRequest(
@@ -114,6 +115,7 @@ export default class ProfileDisplay extends Component {
     }
 
     await AuthService.getUserDataFromBackend(user.token, user.id);
+    
   }
 
   friendBtn() {

@@ -1,12 +1,78 @@
 .requests-list {
-    width: 90%;
+    width: 85%;
     background-color: white;
     border-style: ridge;
-    height: calc(100vh - 400px);
+    height: calc(100vh - 450px);
     overflow: auto;
-    text-align: center;
+    text-align: left;
     display: inline-block;
-    margin-top: 15%;
+    margin-top: 10%;
     
 }
+
+.received-list {
+    width: 85%;
+    background-color: white;
+    border-style: ridge;
+    height: calc(100vh - 450px);
+    overflow: auto;
+    text-align: left;
+    display: inline-block;
+    margin-top: 10%;
+    
+}
+
+.requests-header {
+    font-size: larger;
+    text-shadow: none;
+    margin-left: 10%;
+    margin-top: 5%;
+
+}
+
+.requests-line-break {
+    margin-top: 0%;
+    border-style: groove;
+    margin-bottom: 0%;
+}
+
+.btn-user {
+    align-items: left;
+    width: 60%;
+    height: 10%;
+    text-align: left;
+    margin-left: 0%;
+    background-color: white;
+    color: black;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.btn-small {
+    background-color: white;
+    width: 20%;
+}
+
+.btngroup-requests {
+    align-items: left;
+    margin-top: 0%;
+    width: 100% ;
+    border-style: groove;
+    text-align: left;
+}
+
+.full-name {
+    overflow: hidden;
+    text-align: left;
+    font-size: 1.0vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.i {
+    text-align: left;
+    margin-right: 25%;
+}
+
 
