@@ -77,22 +77,29 @@ export default class Dashboard extends React.Component {
     if (redirect || !currentUser) return (<Redirect to="/" />);
     
     return (
-      <Container>
+      <div className="cols">
         <Row>
-          <Col>
-            <Container>
+          <Col >
+            <div>
               <Row>
-                {this.displaySent()}
+                <Col>
+                  <Container>
+                    <Row>
+                      {this.displaySent()}
+                    </Row>
+                    <Row>
+                      {this.displayReceived()}
+                    </Row>
+                  </Container>
+                </Col>
+                <Col>
+                  {this.displayContacts()}
+                </Col>
               </Row>
-              <Row>
-                {this.displayReceived()}
-              </Row>
-            </Container>
+            </div>
           </Col>
             
-          <Col>
-            {this.displayContacts()}
-          </Col>
+          
           <Col>
             <Container>
               <Row>
@@ -119,7 +126,7 @@ export default class Dashboard extends React.Component {
             </Container>
           </Col>
         </Row>
-      </Container>
+      </div>
     )
   }
 }

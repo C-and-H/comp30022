@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from "../../constant";
 
 import ReactTooltip from "react-tooltip";
-import "../../App.css";
+
 import { Redirect } from "react-router-dom";
 import "./Dashboard.css"
 import { IconButton } from '@mui/material';

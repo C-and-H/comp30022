@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
+import { ButtonGroup, Row, Col, Container } from "react-bootstrap";
 import FriendDisplay from "../friendDisplay";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import { CSVLink } from "react-csv";
+import AddIcon from '@mui/icons-material/Add';
+import DownloadIcon from '@mui/icons-material/Download';
+import { IconButton } from "@mui/material";
 
 class Contacts extends React.Component {
   constructor(props) {
@@ -202,18 +205,67 @@ class Contacts extends React.Component {
    * @returns contact list header layout
    */
    header() {
+    const {  friends_csv, headers_csv, show } = this.state;
     return (
       <div className="contact-header">
-        <Button className="minus" title="delete friend">
-          <i className="fas fa-user-minus" />
-        </Button>
-        <Button
-          className="plus"
-          title="add friend"
-          onClick={() => this.redirectSearch()}
-        >
-          <i className="fas fa-user-plus" />
-        </Button>
+        <div className="contact-container">
+          <Row>
+            <Col className="col" xs="8">
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-contact"
+                name="search"
+                onChange={this.handleChange}
+                onKeyPress={this.onKeyUp}
+              />
+            </Col>
+
+            <Col className="col" xs="1">
+              <ButtonGroup>
+                <IconButton 
+                  aria-label="Add new friend"
+                  size="large"
+                  onClick={() => this.redirectSearch()}
+                >
+                  <AddIcon className="csv-btn"/>
+                </IconButton>
+                {!show &&
+                  <IconButton 
+                    aria-label="Export CSV"
+                    size="large"
+                    >
+                    <DownloadIcon className="csv-btn" />
+                  </IconButton>}
+                {show &&
+                <IconButton
+                   aria-label="Export CSV"
+                   size="large">
+                  <CSVLink
+                    data={friends_csv}
+                    headers={headers_csv}
+                    filename={"Contacts.csv"}
+                  >
+                    <DownloadIcon className="csv-btn"/>
+                  </CSVLink>
+
+                </IconButton>
+                }
+              </ButtonGroup>
+            </Col>
+            
+          </Row>
+        </div>
+      {/* <Button className="minus" title="delete friend">
+      <i className="fas fa-user-minus" />
+         </Button>
+         <Button
+           className="plus"
+           title="add friend"
+           onClick={() => this.redirectSearch()}
+         >
+           <i className="fas fa-user-plus" />
+         </Button> */}
       </div>
     );
   }
@@ -222,23 +274,14 @@ class Contacts extends React.Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { friendList, friends_csv, headers_csv, show, searchList } =
+    const { friendList, searchList } =
       this.state;
     // console.log(friendList)
     return (
-      <div className="div-contact">
-        <div className="rectangle">
+      <div className="contact">
+        <div className="contact-body">
           {this.header()}
-          <div className="serch-contact-background">
-            <input
-              type="text"
-              placeholder="Search"
-              className="search-contact"
-              name="search"
-              onChange={this.handleChange}
-              onKeyPress={this.onKeyUp}
-            />
-          </div>
+          <hr className="requests-line-breal" />
           {/* not null and true then */}
           {searchList ? (
             searchList.length === 0 ? (
@@ -263,7 +306,7 @@ class Contacts extends React.Component {
               />
             ))
           )}
-          <div className="export-contact">
+          {/* <div className="export-contact">
             {!show && <p>export contacts</p>}
             {show && (
               <CSVLink
@@ -274,7 +317,7 @@ class Contacts extends React.Component {
                 export contacts
               </CSVLink>
             )}
-          </div>
+          </div> */}
         </div>
 
         
