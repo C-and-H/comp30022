@@ -19,6 +19,7 @@ h1 {
   background-image: linear-gradient(100deg, #1d1d1d, transparent), url("home_background.jpg");
   background-size: cover;
   background-position: 100%;
+  background-blend-mode: multiply;
   height: 92%;
 }
 
@@ -124,7 +125,7 @@ hr{
   position: absolute;
   color: white;
   height: 73px;
-  width: 480px;
+  width: 450px;
   right: 86px;
   top: 570px;
   text-align: right;

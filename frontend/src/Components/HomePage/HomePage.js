@@ -35,7 +35,7 @@ function ContainedButtons() {
   );
 }
 
-// HomPage Component
+// HomePage Component
 class HomePage extends React.Component {
   render() {
     return (
