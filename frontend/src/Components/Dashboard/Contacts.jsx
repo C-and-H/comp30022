@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { ButtonGroup, Row, Col, Container } from "react-bootstrap";
 import FriendDisplay from "../friendDisplay";
+import Friend from "./Friend";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import { CSVLink } from "react-csv";
@@ -206,6 +207,7 @@ class Contacts extends React.Component {
    */
    header() {
     const {  friends_csv, headers_csv, show } = this.state;
+    
     return (
       <div className="contact-header">
         <div className="contact-container">
@@ -274,6 +276,7 @@ class Contacts extends React.Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
+    
     const { friendList, searchList } =
       this.state;
     // console.log(friendList)
@@ -281,14 +284,14 @@ class Contacts extends React.Component {
       <div className="contact">
         <div className="contact-body">
           {this.header()}
-          <hr className="requests-line-breal" />
+          <hr className="requests-line-break" />
           {/* not null and true then */}
           {searchList ? (
             searchList.length === 0 ? (
               <p>No match</p>
             ) : (
               searchList.map((friend) => (
-                <FriendDisplay
+                <Friend
                   key={friend.id}
                   user={friend}
                   note={this.friendNote(friend.id)}
@@ -298,7 +301,7 @@ class Contacts extends React.Component {
             )
           ) : (
             friendList.map((friend) => (
-              <FriendDisplay
+              <Friend
                 key={friend.id}
                 user={friend}
                 note={this.friendNote(friend.id)}
@@ -306,18 +309,7 @@ class Contacts extends React.Component {
               />
             ))
           )}
-          {/* <div className="export-contact">
-            {!show && <p>export contacts</p>}
-            {show && (
-              <CSVLink
-                data={friends_csv}
-                headers={headers_csv}
-                filename={"Contacts.csv"}
-              >
-                export contacts
-              </CSVLink>
-            )}
-          </div> */}
+          
         </div>
 
         

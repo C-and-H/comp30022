@@ -121,7 +121,7 @@ class ReceivedList extends React.Component {
           <div>
             <Row>
               <Col>
-                <i className={icon} ></i>
+                <i className={icon}></i>
               </Col>
               <Col className="full-name" xs="9">
               {" " + user.first_name + " " + user.last_name}
