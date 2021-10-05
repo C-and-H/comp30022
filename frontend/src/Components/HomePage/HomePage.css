@@ -16,9 +16,12 @@ h1 {
 }
 
 .background{
-  height: 92vh;
-  background-image: linear-gradient(to right top, #000000, #121111, #1d1c1d, #272728, #323233) !important;
+  background-image: linear-gradient(100deg, #1d1d1d, transparent), url("home_background.jpg");
+  background-size: cover;
+  background-position: 100%;
+  height: 92%;
 }
+
 body .bg-dark {
   /* color: rgb(43, 47, 49); */
   margin-bottom: 0px;
@@ -53,14 +56,9 @@ body .bg-dark {
   background-color: black;
   color: white;
 }
-.homepage-container img{
-  position: absolute;
-  top: 200px;
-  left: 98px;
-}
 .enter-btn{
   position: absolute;
-  top: 385px;
+  top: 400px;
   right: 86px;
 }
 .graph{
@@ -102,10 +100,10 @@ body .bg-dark {
   white-space: pre;
   width: 621.00px;
   height: 141.00px;
-  left: 98.00px;
-  top: 250.00px;
-
+  left: 130px;
+  top: 220px;
 }
+
 hr{
   position: absolute;
   right: 86px;
@@ -113,19 +111,22 @@ hr{
   margin: auto 20px;
   /* color: #FFFFFF; */
   height: 5px;
-  width: 476px;
+  width: 520px;
   border: 0;
   border-bottom: 2px solid rgb(255, 255, 255);
 
 }
 
 .paragraph{
+  font-size: 90%;
+  font-weight: lighter;
+  font-family: 'Segoe UI', Arial;
   position: absolute;
   color: white;
   height: 73px;
-  width: 440px;
+  width: 480px;
   right: 86px;
-  top:570px;
+  top: 570px;
   text-align: right;
   margin-right: 30px;
 }
