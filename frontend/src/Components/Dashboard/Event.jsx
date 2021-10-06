@@ -1,9 +1,7 @@
 import React from "react";
-import { Row, Col, Container, Button } from "react-bootstrap";
 import axios from "axios";
 import { API_URL } from "../../constant";
-import ReactTooltip from "react-tooltip";
-import { tSThisType } from "@babel/types";
+
 
 class Event extends React.Component {
   constructor(props) {
