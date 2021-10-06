@@ -123,6 +123,9 @@
     
 }
 
+.right {
+    margin-top: 3%;
+}
 
 
 .contact-header {
@@ -133,4 +136,53 @@
 
 .contact-container {
     margin-top: 4%
+}
+
+.name-label {
+    font-size: 3vw;
+}
+
+.events-box {
+    margin-top: 5%;
+    background-color: white;
+    border-style: groove;
+    width: 70%;
+    overflow: auto;
+    display: inline-block;
+    height: calc(100vh - 500px);
+    
+}
+
+.event-header {
+    height: 10%;
+}
+.calendar-button {
+    margin-left: 78%;
+   ;
+}
+
+.event-line-break {
+    margin-top: 3%;
+
+    margin-bottom: 0%;
+    
+}
+
+.event-body {
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    display: inline-block;
+}
+
+.event{
+    width: 100%;
+    height: 100%;
+    border-style: groove;
+   
+}
+
+.child-event {
+    width: 90%;
+    margin-left: 2%;
 }

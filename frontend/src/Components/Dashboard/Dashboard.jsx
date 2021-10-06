@@ -63,8 +63,10 @@ export default class Dashboard extends React.Component {
   displayEvents() {
     if (!this.state.basic) return (<div></div>);
     return (
-      <div>
-        <RecentEvents basic={this.state.basic} />
+      <div >
+        <RecentEvents 
+        basic={this.state.basic} 
+        />
       </div>
     )
   }
@@ -74,7 +76,7 @@ export default class Dashboard extends React.Component {
   render() {
     const { redirect, currentUser } = this.state;
     //if (!currentUser) return (<div></div>);
-    if (redirect || !currentUser) return (<Redirect to="/" />);
+    if (redirect || !currentUser) return (<Redirect to="/home" />);
     
     return (
       <div className="cols">
@@ -100,10 +102,13 @@ export default class Dashboard extends React.Component {
           </Col>
             
           
-          <Col>
-            <Container>
+          <Col className="right">
+            <div>
               <Row>
-                <Label> {"Hi, " + currentUser.first_name}</Label>
+                <Label className="name-label"
+                > 
+                  {"Hi, " + currentUser.first_name}
+                </Label>
               </Row>
               <Row>
                 {this.displayEvents()}
@@ -123,7 +128,7 @@ export default class Dashboard extends React.Component {
                     timezone={'Etc/GMT'}/>
                 </Col>
               </Row>
-            </Container>
+            </div>
           </Col>
         </Row>
       </div>

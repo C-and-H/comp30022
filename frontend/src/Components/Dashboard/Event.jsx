@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
+import ReactTooltip from "react-tooltip";
 
 class Event extends React.Component {
   constructor(props) {
@@ -9,13 +10,20 @@ class Event extends React.Component {
       endTime: "",
       hostId: "",
       hostInfo: "",
-      title: ""
+      title: "",
+      timeColor: "green",
+      displayHost: true
     }
   }
 
   componentDidMount() {
-   
-    const { startTime, endTime, host, title} = this.props;
+    
+    const { startTime, endTime, host, title, userId} = this.props;
+    if (host === userId) {
+      this.setState({ displayHost: false });
+    } else {
+      this.setState({ displayHost: true });
+    }
     this.setState( {hostId: host, title: title});
     var startTimeMinsInterval = "";
     var endTimeMinsInterval = "";
@@ -93,12 +101,44 @@ class Event extends React.Component {
 
   }
 
+  // // get the host information
+  // async getHostInfo(id) {
+  //   const response = await axios.post(
+  //     API_URL + "/user",
+  //     { id: id },
+  //     {
+  //       headers: {
+  //         Authorization: "Bearer " + this.state.basic.token,
+  //       },
+  //     }
+  //   );
+  //   if (response.data) {
+  //     this.setState({hostInfo:response.data})
+  //   }
+  // }
+
   render() {
-    const {startTime, endTime} = this.state;
+    const { startTime, endTime, title, timeColor } = this.state;
+    const { notes } = this.props;
+    console.log(notes);
     return (
-      <Row>
+      <div 
+        className="event"
+        data-tip={notes}
+      >
+        <div className="child-event">
+        <i className="fa fa-clock-o fa-lg"
+         style={{ color: timeColor, marginRight: 10}}
+        />
         {startTime} - {endTime}
-      </Row>
+        <br />
+        {title}
+        </div>
+        
+        {notes ? (
+          <ReactTooltip place="right" type="info" html={true} />
+        ) : (<></>)}
+      </div>
     )
   }
 

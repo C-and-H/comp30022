@@ -2,8 +2,8 @@ import React from "react";
 import { API_URL } from "../../constant";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { Button, Container, Row, Col, Label } from "reactstrap";
-import "../../App.css";
+import { Button, Container, Row, Col, Label } from "react-bootstrap";
+
 import "./Dashboard.css"
 
 import Event from "./Event";
@@ -22,6 +22,8 @@ class RecentEvents extends React.Component {
     await this.getEvents();
 
   }
+
+  
 
   async getEvents() {
     const { basic } = this.props;
@@ -52,10 +54,24 @@ class RecentEvents extends React.Component {
 
   render() {
     const { appointments } = this.state;
-    console.log(appointments);
+    const { basic } = this.props;
+    
     if (!appointments) return (<div></div>);
     return (
-      <Container>
+      <div className="events-box">
+        <div className="event-header">
+          
+          <Button
+            href="/calendar"
+            variant="outline-success"
+            className="calendar-button"
+          >
+            Calendar
+          </Button>
+          
+        </div>
+        <div >
+        <hr className="event-line-break"/>
         
         {appointments.map((appointment) => (
           <Event 
@@ -64,9 +80,16 @@ class RecentEvents extends React.Component {
             title={appointment.title}
             startTime={appointment.startDate}
             endTime={appointment.endDate}
+            userId ={basic.id}
+            token={basic.token}
+            notes={appointment.description}
           />
+        
         ))}
-      </Container>
+        
+        </div>
+      </div>
+      
     )
   }
 }
