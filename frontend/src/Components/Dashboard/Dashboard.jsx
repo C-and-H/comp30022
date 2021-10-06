@@ -117,11 +117,12 @@ export default class Dashboard extends React.Component {
                 <Col>
                   <div className="clock-frame">
                   
-                 
-                    
+                    <br /><br />
+                    <span className="time-zone"> Local Time </span> 
+                    <br /><br /><br />
                     
                   <Clock 
-                    format={'h:mm:ss A, dddd, MMMM Mo, YYYY '}
+                    format={'h:mm:ss A, dddd MMMM Mo, YYYY '}
                     interval={1000} 
                     ticking={true} />
                     
@@ -129,9 +130,12 @@ export default class Dashboard extends React.Component {
                 </Col>
                 <Col>
                   <div className="clock-frame">
+                    <br /><br />
+                    <span className="time-zone"> UTC Time </span> 
+                    <br /><br /><br />
                   <Clock
                     className="clock"
-                    format={'h:mm:ss A, dddd, MMMM Mo, YYYY '}
+                    format={'h:mm:ss A, dddd MMMM Mo, YYYY '}
                     interval={1000}
                     ticking={true} 
                     timezone={'Etc/GMT'}/>

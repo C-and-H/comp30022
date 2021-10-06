@@ -180,7 +180,7 @@
     width: 100%;
     height: 100%;
     border-style: groove;
-    white-space: pre-line;
+    
 }
 
 .child-event {
@@ -199,7 +199,7 @@
     background-color: white;
     width: 70%;
     height: 16vw;
-    display: flex;
+    display: block;
     margin-top: 10%;
     border-radius: 50%;
     align-items: center;
@@ -209,4 +209,11 @@
 
 .clock {
     margin-left: 7%;
+    margin-top: 7%;
+    
+}
+
+.time-zone {
+    margin-top: 10%;
+    margin-bottom: 100%;
 }

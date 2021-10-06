@@ -157,10 +157,7 @@ class Event extends React.Component {
         ) : (
           <span>You are the host !</span>
         )}
-        {notes ? (
-          <ReactTooltip place="right" type="info" html={true} 
-          />
-        ) : (<></>)}
+        
         </div>
       </div>
     )
