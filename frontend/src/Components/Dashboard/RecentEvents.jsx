@@ -72,20 +72,26 @@ class RecentEvents extends React.Component {
         </div>
         <div >
         <hr className="event-line-break"/>
+        {appointments.length > 0 ? (
+          appointments.map((appointment) => (
+            <Event 
+              key={appointment.id}
+              host={appointment.hostId}
+              title={appointment.title}
+              startTime={appointment.startDate}
+              endTime={appointment.endDate}
+              userId ={basic.id}
+              token={basic.token}
+              notes={appointment.description}
+            />
+          
+          ))) : (
+            <p className="no-meetings">
+               No upcoming or past events around today, have a nice day !
+            </p>
+          )
+        }
         
-        {appointments.map((appointment) => (
-          <Event 
-            key={appointment.id}
-            host={appointment.hostId}
-            title={appointment.title}
-            startTime={appointment.startDate}
-            endTime={appointment.endDate}
-            userId ={basic.id}
-            token={basic.token}
-            notes={appointment.description}
-          />
-        
-        ))}
         
         </div>
       </div>

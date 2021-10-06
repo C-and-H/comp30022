@@ -143,8 +143,9 @@
 }
 
 .events-box {
-    margin-top: 5%;
+    margin-top: 2%;
     background-color: white;
+    margin-left: 8%;
     border-style: groove;
     width: 70%;
     overflow: auto;
@@ -179,10 +180,33 @@
     width: 100%;
     height: 100%;
     border-style: groove;
-   
+    white-space: pre-line;
 }
 
 .child-event {
     width: 90%;
     margin-left: 2%;
+}
+
+.no-meetings {
+    text-align: center;
+    font-size: 2vw;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.clock-frame {
+    background-color: white;
+    width: 70%;
+    height: 16vw;
+    display: flex;
+    margin-top: 10%;
+    border-radius: 50%;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.clock {
+    margin-left: 7%;
 }

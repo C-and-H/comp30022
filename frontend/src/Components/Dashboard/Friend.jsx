@@ -8,7 +8,7 @@ class Friend extends Component {
     var icon = user.icon;
     if (!icon) icon = "fa fa-user fa-fw";
     return (
-      <span>
+      <span style={{whiteSpace:"pre-wrap"}}>
         <ButtonGroup className="btngroup-requests">
         <Button
           className="btn-user"

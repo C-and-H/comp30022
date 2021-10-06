@@ -108,7 +108,7 @@ class ReceivedList extends React.Component {
     var icon = user.icon;
     if (!icon) icon = "fa fa-user fa-fw";
     return (
-      <span key={user.id}>
+      <span key={user.id} >
         <ButtonGroup
           className="btngroup-requests">
          <Button

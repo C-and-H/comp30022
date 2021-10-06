@@ -1,6 +1,9 @@
 import React from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
+import axios from "axios";
+import { API_URL } from "../../constant";
 import ReactTooltip from "react-tooltip";
+import { tSThisType } from "@babel/types";
 
 class Event extends React.Component {
   constructor(props) {
@@ -9,20 +12,30 @@ class Event extends React.Component {
       startTime: "",
       endTime: "",
       hostId: "",
-      hostInfo: "",
+      hostName: "",
       title: "",
       timeColor: "green",
       displayHost: true
     }
   }
 
-  componentDidMount() {
-    
+  async componentDidMount() {
+    //console.log(new Date());
+    const currTime = new Date();
     const { startTime, endTime, host, title, userId} = this.props;
     if (host === userId) {
       this.setState({ displayHost: false });
     } else {
       this.setState({ displayHost: true });
+      await this.getHostInfo(host);
+      //console.log(this.state.hostName);
+    }
+    if (currTime > endTime) {
+      this.setState({ timeColor: "red" });
+    } else if (currTime < startTime) {
+      this.setState({ timeColor: "green" });
+    } else {
+      this.setState({ timeColor: "orange"});
     }
     this.setState( {hostId: host, title: title});
     var startTimeMinsInterval = "";
@@ -101,30 +114,32 @@ class Event extends React.Component {
 
   }
 
-  // // get the host information
-  // async getHostInfo(id) {
-  //   const response = await axios.post(
-  //     API_URL + "/user",
-  //     { id: id },
-  //     {
-  //       headers: {
-  //         Authorization: "Bearer " + this.state.basic.token,
-  //       },
-  //     }
-  //   );
-  //   if (response.data) {
-  //     this.setState({hostInfo:response.data})
-  //   }
-  // }
+  // get the host information
+  async getHostInfo(id) {
+    const response = await axios.post(
+      API_URL + "/user",
+      { id: id },
+      {
+        headers: {
+          Authorization: "Bearer " + this.props.token,
+        },
+      }
+    );
+    if (response.data) {
+      this.setState({ hostName: response.data.first_name })
+    }
+  }
 
   render() {
-    const { startTime, endTime, title, timeColor } = this.state;
+    const { startTime, endTime, title, timeColor, displayHost,
+    hostName } = this.state;
     const { notes } = this.props;
     console.log(notes);
     return (
       <div 
         className="event"
         data-tip={notes}
+        
       >
         <div className="child-event">
         <i className="fa fa-clock-o fa-lg"
@@ -132,12 +147,21 @@ class Event extends React.Component {
         />
         {startTime} - {endTime}
         <br />
-        {title}
-        </div>
+        {"Meeting title: " + title}
         
+        <br />
+        <i className="fa fa-user"
+        style={{ color: "blue", marginRight: 10}} />
+        {displayHost ? (
+          <span>{"Hosted by: " + hostName}</span>
+        ) : (
+          <span>You are the host !</span>
+        )}
         {notes ? (
-          <ReactTooltip place="right" type="info" html={true} />
+          <ReactTooltip place="right" type="info" html={true} 
+          />
         ) : (<></>)}
+        </div>
       </div>
     )
   }

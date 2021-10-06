@@ -91,6 +91,7 @@
   margin-top: 80px;
   font-size: 28px;
   margin-left: 40px;
+  white-space: pre-wrap;
   /* margin-bottom: 80px; */
 }
 

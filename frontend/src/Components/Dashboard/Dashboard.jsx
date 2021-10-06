@@ -115,17 +115,27 @@ export default class Dashboard extends React.Component {
               </Row>
               <Row>
                 <Col>
+                  <div className="clock-frame">
+                  
+                 
+                    
+                    
                   <Clock 
-                    format="HH:mm:ss" 
+                    format={'h:mm:ss A, dddd, MMMM Mo, YYYY '}
                     interval={1000} 
                     ticking={true} />
+                    
+                  </div>
                 </Col>
                 <Col>
-                  <Clock 
-                    format="HH:mm:ss" 
+                  <div className="clock-frame">
+                  <Clock
+                    className="clock"
+                    format={'h:mm:ss A, dddd, MMMM Mo, YYYY '}
                     interval={1000}
                     ticking={true} 
                     timezone={'Etc/GMT'}/>
+                  </div>
                 </Col>
               </Row>
             </div>
