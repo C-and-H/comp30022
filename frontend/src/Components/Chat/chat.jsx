@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { API_URL } from "../constant";
+import { API_URL } from "../../constant";
 import Picker from "emoji-picker-react";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
@@ -13,6 +13,7 @@ import {
   BallPulse,
   BallFussion,
 } from "react-pretty-loading";
+import "./chat.css";
 
 class Chat extends Component {
   constructor(props) {
@@ -591,11 +592,17 @@ class Chat extends Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { friend } = this.state;
+    const { friend, emojiVisible } = this.state;
     return (
       <div>
         {this.friendList()}
         {friend && this.chatBox()}
+        {emojiVisible && (
+          <div
+            onClick={this.handleVisibleChange}
+            className="div-emoji-background"
+          />
+        )}
       </div>
     );
   }

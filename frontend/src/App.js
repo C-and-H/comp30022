@@ -15,7 +15,7 @@ import OtherUser from "./Components/otherUser";
 import CalendarHomePage from "./Components/Calendar/calendar";
 import { Redirect } from "react-router-dom";
 import Email from "./Components/email";
-import Chat from "./Components/chat";
+import Chat from "./Components/Chat/chat";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { API_URL } from "./constant";
