@@ -1,0 +1,33 @@
+.icons {
+    height: 100%;
+    width: 70%;
+    display: flex;
+    margin-top: 15%;
+    margin-left: 20%;
+    background-color: white;
+    border-style: solid;
+}
+
+.icon-row {
+    width: 12.5%;
+    height: 100%;
+}
+
+.preview-box {
+    width: 50%;
+    height: 60%;
+    display: flex;
+    background-color: skyblue;
+    margin-top: 20%;
+    margin-left: 10%;
+}
+
+.change-icon-btns {
+    margin-top: 10%;
+}
+
+.change-icon-save {
+    text-align: center;
+    margin-left: 13%;
+    width: 24%;
+}

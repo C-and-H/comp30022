@@ -2,16 +2,26 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 //import { Header } from 'react-native-elements';
-import { Button, Container, Row, Col } from "reactstrap";
+import { ButtonGroup, ToggleButton, Button, Row, Col } from "react-bootstrap";
 import "../../App.css";
+import "./Profile.css";
 import axios from "axios";
 import { API_URL } from "../../constant";
+import { icons1, icons2, icons3, icons4,
+        icons5, icons6, icons7, icons8 } from "./icons";
+
 
 const iconStyle = {
-  marginTop: 40,
+  marginTop: "20%",
 
-  fontSize: 100,
+  fontSize: "2vw",
 };
+
+const previewStyle = {
+  alignSelf: "center",
+  fontSize: "15vw",
+  marginLeft: "17%"
+}
 
 export default class ChangeIcon extends Component {
   constructor(props) {
@@ -23,10 +33,12 @@ export default class ChangeIcon extends Component {
       currentUser: AuthService.getCurrentUser(),
       basic: localStorage.getItem("basic"),
       userID: JSON.parse(localStorage.getItem("user")).id,
+      iconId: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeIcon = this.changeIcon.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   componentDidMount() {
@@ -61,8 +73,14 @@ export default class ChangeIcon extends Component {
   }
 
   handleClick(newIcon) {
-    this.setState({ chosen: newIcon });
+    this.setState({ chosen: newIcon.name,
+                    iconId: newIcon.id });
     //console.log(this.state.chosen);
+  }
+
+  handleCancel() {
+    this.props.history.push("/profile");
+    window.location.reload();
   }
 
   async handleSubmit() {
@@ -81,151 +99,163 @@ export default class ChangeIcon extends Component {
     window.location.reload();
   }
 
+  icons() {
+    const { iconId } = this.state;
+    return (
+    <div className="icons">
+      <ButtonGroup className="icon-row" vertical>
+        {icons1.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      
+      <ButtonGroup className="icon-row" vertical>
+        {icons2.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      <ButtonGroup className="icon-row" vertical>
+        {icons3.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      <ButtonGroup className="icon-row" vertical>
+        {icons4.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      <ButtonGroup className="icon-row" vertical>
+        {icons5.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      
+      <ButtonGroup className="icon-row" vertical>
+        {icons6.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      <ButtonGroup className="icon-row" vertical>
+        {icons7.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+      <ButtonGroup className="icon-row" vertical>
+        {icons8.map( (icon) => (
+          <ToggleButton
+            type="radio"
+            key={icon.id}
+            variant="outline-info"
+            checked={iconId === icon.id}
+            onClick={() => this.handleClick(icon)}
+          >
+            <i className={icon.name} style={iconStyle} />
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+    </div>
+    )
+  }
+
   render() {
-    const { redirect } = this.state;
+    const { redirect, chosen } = this.state;
     if (redirect) {
       return <Redirect to={this.state.redirect} />;
     }
+    
     return (
-      <Container>
+
+      <div>
         <Row>
           <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("fas fa-cat")}
-            >
-              <i className="fas fa-cat" style={iconStyle}></i>
-            </Button>
+            {this.icons()}
           </Col>
           <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("fa fa-user fa-fw")}
-            >
-              <i className="fa fa-user fa-fw" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	fas fa-dog")}
-            >
-              <i className="	fas fa-dog" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	fas fa-dragon")}
-            >
-              <i className="	fas fa-dragon" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	far fa-question-circle")}
-            >
-              <i className="	far fa-question-circle" style={iconStyle}></i>
-            </Button>
+            
+            <div className="preview-box">
+              <i className = {chosen} style={previewStyle} />
+            </div>
+            <br></br>
+            <div className="change-icon-btns">
+              <Row>
+                <Col>
+                  <Button
+                   className="change-icon-save"
+                   variant="success"
+                   onClick={this.handleSubmit}>
+                     Save
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    variant="danger"
+                    onClick={this.handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </Col>
+              </Row>
+            </div>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("fas fa-fish")}
-            >
-              <i className="fas fa-fish" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("fa fa-hippo")}
-            >
-              <i className="fa fa-hippo" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	fas fa-paw")}
-            >
-              <i className="	fas fa-paw" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	fas fa-horse")}
-            >
-              <i className="	fas fa-horse" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	far fa-angry")}
-            >
-              <i className="	far fa-angry" style={iconStyle}></i>
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("far fa-kiss-beam")}
-            >
-              <i className="far fa-kiss-beam" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("far fa-grin-tongue-wink")}
-            >
-              <i className="far fa-grin-tongue-wink" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	far fa-grin-beam")}
-            >
-              <i className="	far fa-grin-beam" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	far fa-grin-tears")}
-            >
-              <i className="	far fa-grin-tears" style={iconStyle}></i>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              className="change-icon-btn-frame"
-              onClick={() => this.handleClick("	far fa-grin-beam-sweat")}
-            >
-              <i className="	far fa-grin-beam-sweat" style={iconStyle}></i>
-            </Button>
-          </Col>
-        </Row>
-        <Row className="change-icon-line">
-          <Col></Col>
-          <Col xs="7">
-            <Button
-              className="change-icon-btn-save"
-              onClick={this.handleSubmit}
-            >
-              Save changes
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      </div>
+
     );
   }
 }
