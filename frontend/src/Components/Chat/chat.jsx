@@ -258,13 +258,6 @@ class Chat extends Component {
         <div className="div-chat-opponent">
           {friend.name}
           <Button
-            onClick={() => {
-              this.props.onCall(friend.id);
-            }}
-          >
-            <i className="fa fa-phone" />
-          </Button>
-          <Button
             className="btn-close-chat"
             onClick={() => {
               this._isMounted && this.setState({ friend: null });
@@ -276,15 +269,26 @@ class Chat extends Component {
         {friend && this.chatDisplay()}
         {emojiVisible && this.emojiList()}
         {this.emojiButton()}
+        <Button
+          appearance="subtle"
+          className="btn-call btn-light"
+          onClick={() => {
+            this.props.onCall(friend.id);
+          }}
+        >
+          <i className="fa fa-phone" style={{ color: "black" }} />
+        </Button>
         <div className="div-text-enter ">
           <TextField
             id="text-enter"
             multiline
-            variant="outlined"
+            variant="standard"
+            focused
             className="text-enter"
-            rows={5}
+            rows={4}
             value={textEnter}
             onChange={this.handleChangeText}
+            style={{ marginBottom: "-2px", borderColor: "black" }}
           />
         </div>
         <Button
