@@ -1,6 +1,7 @@
 import React from "react";
-import "../../App.css";
-import { Form, Input, Button, FormGroup, Label } from "reactstrap";
+// import "../../App.css";
+import "./Setting.css";
+import { Form, Input, Button, FormGroup, Label, Container } from "reactstrap";
 import { Row, Col } from "reactstrap";
 import AuthService from "../../Services/AuthService";
 import { API_URL } from "../../constant";
@@ -65,10 +66,6 @@ class SettingProfile extends React.Component {
     this.setState({ description: event.target.value });
   }
 
-  // handleMobile(phone) {
-  //   this.setState({ phone: phone });
-  //   // console.log(this.state.mobile)
-  // }
   /* send change name request */
   async changeName(first_name, last_name, id) {
     const user = AuthService.getBasicInfo();
@@ -291,9 +288,50 @@ class SettingProfile extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h4 className="setting-profile-h4">Profile</h4>
+      <div id="background-setting">
+        <Container id="container">
+        
         <Form className="setting-profile-form" onSubmit={this.handleSubmit}>
+
+        <Row>
+        <h4 className="setting-profile-h4"></h4>
+            <Col xs="4">
+              <FormGroup className="setting-profile-formgroup">
+                <Label
+                  className="setting-profile-form-label"
+                  style={{ float: "left" }}
+                >
+                  Email:{" "}
+                </Label>
+                <Input
+                  placeholder={this.state.currentUser.username}
+                  disabled={true}
+                  pattern="[A-Za-z ]+"
+                  required
+                ></Input>
+              </FormGroup>
+            </Col>
+            <Col xs="4"></Col>
+            <Col xs="4">
+            <FormGroup className="setting-profile-formgroup">
+                <Label
+                  className="setting-profile-form-label"
+                  style={{ float: "left" }}
+                >
+                  Mobile:{" "}
+                </Label>
+                <div>
+                  <PhoneInput
+                    country={"au"}
+                    value={this.state.currentUser.phone}
+                    onChange={(phone) => this.setState({ phone })}
+                    placeholder="61 (46) 1234 567"
+                  />
+                </div>
+              </FormGroup>
+            </Col>
+          </Row>
+
           <Row>
             <Col xs="4">
               <FormGroup className="setting-profile-formgroup">
@@ -323,51 +361,8 @@ class SettingProfile extends React.Component {
                 ></Input>
               </FormGroup>
             </Col>
-          </Row>
-
-          <Row>
             <Col xs="4">
-              <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Email:{" "}
-                </Label>
-                <Input
-                  placeholder={this.state.currentUser.username}
-                  disabled={true}
-                  pattern="[A-Za-z ]+"
-                  required
-                ></Input>
-              </FormGroup>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs="4">
-              <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Mobile:{" "}
-                </Label>
-                <div>
-                  <PhoneInput
-                    country={"au"}
-                    value={this.state.currentUser.phone}
-                    onChange={(phone) => this.setState({ phone })}
-                    placeholder="61 (46) 1234 567"
-                  />
-                </div>
-              </FormGroup>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs="8">
-              <FormGroup className="setting-profile-formgroup">
+            <FormGroup className="setting-profile-formgroup">
                 <Label
                   className="setting-profile-form-label"
                   style={{ float: "left" }}
@@ -381,11 +376,29 @@ class SettingProfile extends React.Component {
                   defaultValue={this.state.currentUser.areaOrRegion}
                 ></Input>
               </FormGroup>
-            </Col>
+              </Col>
           </Row>
 
           <Row>
-            <Col xs="8">
+          <Col xs="8">
+              <FormGroup className="setting-profile-formgroup-description">
+                <Label
+                  className="setting-profile-form-label"
+                  style={{ float: "left" }}
+                >
+                  Description:{" "}
+                </Label>
+                
+                <Input
+                  type="textarea"
+                  className="setting-profile-description-input"
+                  placeholder={this.state.currentUser.personalSummary}
+                  onChange={this.handleDescription}
+                  defaultValue={this.state.currentUser.personalSummary}
+                ></Input>
+              </FormGroup>
+          </Col>
+            <Col xs="4">
               <FormGroup className="setting-profile-formgroup">
                 <Label
                   className="setting-profile-form-label"
@@ -400,11 +413,6 @@ class SettingProfile extends React.Component {
                   defaultValue={this.state.currentUser.industry}
                 ></Input>
               </FormGroup>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs="8">
               <FormGroup className="setting-profile-formgroup">
                 <Label
                   className="setting-profile-form-label"
@@ -419,32 +427,35 @@ class SettingProfile extends React.Component {
                   defaultValue={this.state.currentUser.company}
                 ></Input>
               </FormGroup>
+              <Button
+                type="submit"
+                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
+              >
+                Save Changes
+              </Button>
+              <Button
+                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-right"
+                onClick={this.refresh}
+              >
+                Cancel
+              </Button>
             </Col>
+
           </Row>
 
           <Row>
             <Col xs="8">
-              <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Description:{" "}
-                </Label>
-                <Input
-                  type="textarea"
-                  className="setting-profile-description-input"
-                  placeholder={this.state.currentUser.personalSummary}
-                  onChange={this.handleDescription}
-                  defaultValue={this.state.currentUser.personalSummary}
-                ></Input>
-              </FormGroup>
+
             </Col>
           </Row>
 
           <Row>
+            
+          </Row>
+
+          <Row>
             <Col xs="4">
-              <Button
+              {/* <Button
                 type="submit"
                 className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
               >
@@ -457,10 +468,11 @@ class SettingProfile extends React.Component {
                 onClick={this.refresh}
               >
                 Cancel
-              </Button>
+              </Button> */}
             </Col>
           </Row>
         </Form>
+        </Container>
       </div>
     );
   }

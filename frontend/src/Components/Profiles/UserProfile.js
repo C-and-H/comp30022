@@ -5,11 +5,11 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
-import ProfileSideBar from "./ProfileSideBar";
-import SettingProfile from "./SettingProfile";
+import ProfileSideBar from "../Setting/ProfileSideBar";
+import SettingProfile from "../Setting/SettingProfile";
 import { Row, Col } from "reactstrap";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ChangePassword from "./ChangePassword";
+import ChangePassword from "../Setting/ChangePassword";
 
 export default class Profile extends Component {
   constructor(props) {

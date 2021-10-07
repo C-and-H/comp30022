@@ -5,7 +5,8 @@ import SignUp from "./Components/Register/SignUp";
 import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components//HomePage/HomePage";
 import LogIn from "./Components/LogIn/LogIn";
-import Setting from "./Components/Profiles/UserProfile";
+import Setting from "./Components/Setting/SettingProfile";
+import ChangePassword from "./Components/Setting/ChangePassword"
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
@@ -560,7 +561,7 @@ class App extends Component {
             <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
-            <Route exact path="/setting/change-password" component={Setting} />
+            <Route exact path="/setting/change-password" component={ChangePassword} />
             <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat">
               <Chat

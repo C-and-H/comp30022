@@ -1,0 +1,82 @@
+#background-setting{
+  background-color: #F5F5F5;
+  height: 92%;
+}
+
+.setting-profile-h4 {
+  font-size: var(--large-font-size);
+  text-align: left;
+  margin-top: 60px;
+  padding-bottom: 5px;
+}
+
+#container{
+  width: 80%;
+}
+
+.setting-profile-formgroup {
+  text-align: left;
+  width: 100%;
+  max-width: 85%;
+  margin-left: 8%;
+}
+
+.setting-profile-formgroup-description{
+  text-align: left;
+  width: 100%;
+  margin-left: 4%;
+}
+
+.setting-profile-description-input {
+  height: 250px;
+  width: 93%;
+}
+
+.setting-profile-submit-btn-left {
+  float: left;
+  margin-left: 8%;
+  border-radius: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: green;
+  color: white;
+  margin-bottom: 50px;
+}
+
+.setting-profile-submit-btn-right {
+  float: right;
+  margin-right: 8%;
+  border-radius: 8px;
+  background-color: grey;
+  margin-bottom: 50px;
+}
+
+.setting-profile-form-label {
+  display: inline-block;
+  margin-left: 4px;
+  margin-bottom: 12px;
+  margin-top: 27px;
+}
+
+.react-tel-input .form-control {
+  width: 100% !important;
+  height: 100% !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.react-tel-input .selected-flag .flag {
+  margin-top: 37% !important;
+}
+
+.react-tel-input .selected-flag:focus:before,
+.react-tel-input .selected-flag.open:before {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.react-tel-input .selected-flag:before {
+  border: none !important;
+}
