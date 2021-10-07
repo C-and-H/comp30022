@@ -1,11 +1,14 @@
-
+.set-event-background{
+  background-color: #F5F5F5;
+  height: 92%;
+}
 .set-event-formgroup {
   text-align: left;
   padding-top: 10px;
 }
 
 .set-event-line {
-  margin-top: 45px;
+  /* margin-top: 45px; */
   font-size: 28px;
   margin-left: 40px;
 }
@@ -14,9 +17,15 @@
 }
 .set-event-bar {
   text-align: left;
-  font-size: 28px;
-  background-color: skyblue;
-  margin-top: 40px;
+  font-size: 35px;
+  font-weight: 800;
+  text-decoration: underline;
+  padding-top: 2%;
+  padding-left: 4%;
+}
+.set-event-search-contact{
+  width: 90%;
+  height: 40px;
 }
 
 .set-event-label{
@@ -25,11 +34,17 @@
   margin-bottom: 2px;
   margin-right: 5px;
 }
+.set-event-label-participant{
+  font-size: 20px;
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
 
 .set-event-friends {
   background-color: white;
   width: 45%;
-  height: 400px;
+  height: 420px;
   margin-left: 1%;
   /* margin-top: 10px; */
   /* border-radius: 15px; */
@@ -52,16 +67,11 @@
 .react-datetime-picker__calendar .react-calendar{
   font-size: 16px;
 }
-/* .set-event-friends{
-  background-color: white;
-  border-width: 0px;
-  color: black;
-  border-bottom: 1px solid grey;
-  margin-top: 0px;
-  border-radius: 0px;
-  font-size: 18px;
-} */
+
 .set-event-friendBtn{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   background-color: white;
   border-width: 0px;
   color: black;
@@ -74,6 +84,15 @@
 .set-event-friend-btn {
   width: 100%;
 }
+.btn-check:active+.btn-outline-info, 
+.btn-check:checked+.btn-outline-info, 
+.btn-outline-info.active, 
+.btn-outline-info:active,
+.btn-outline-info:hover{
+  background-color: black !important;
+  border-color: black;
+  color: white;
+}
 
 .btn-check:active+.btn-outline-info:focus, 
 .btn-check:checked+.btn-outline-info:focus, 
@@ -82,6 +101,7 @@
 .btn-outline-info:active:focus{
   box-shadow:none;
 }
+
 .btn-check:focus+.btn-outline-info, .btn-outline-info:focus{
   box-shadow:none;
   transition: none;
@@ -91,43 +111,22 @@
   margin-top: 80px;
   font-size: 28px;
   margin-left: 40px;
-  /* margin-bottom: 80px; */
 }
 
 .set-event-textarea {
   height: 150px;
 }
 
-.set-event-container {
-  margin-bottom: 40px;
-}
-
-.set-event-save {
-  height: 60px;
-  width: 140px;
-  text-align: center;
-  font-size: 26px;
-  background-color: mediumslateblue;
-}
-
-.set-event-cancel {
-  height: 60px;
-  width: 140px;
-  text-align: center;
-  font-size: 26px;
-  background-color: gray;
-}
-
 .setting-profile-submit-btn-left {
   float: left;
   border-radius: 8px;
-  background-color: green;
+  background-color: black;
   color: white;
   margin-bottom: 50px;
 }
 .setting-profile-submit-btn-right {
   float: right;
   border-radius: 8px;
-  background-color: grey;
+  background-color: #DC3545;
   margin-bottom: 50px;
 }

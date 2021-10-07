@@ -160,8 +160,11 @@ class SetEvent extends Component {
     return (
       <div className="friend-box">
         <Container>
-          <Label className="set-event-label">Participants:</Label>
+          <Label className="set-event-label-participant">Participants:</Label>
           <div className="set-event-friends">
+          {/* <div class="serch-contact-background"> */}
+            {/* <input type="text" placeholder="Search" class="set-event-search-contact" name="search"/> */}
+            {/* </div> */}
             {friendList ? (
               friendList.map((friend) => (
                 <FriendBtn
@@ -186,8 +189,9 @@ class SetEvent extends Component {
     }
 
     return (
-      <Container className="set-event-container">
-        <Row className="set-event-bar"> Create a new event </Row>
+      <div className="set-event-background">
+      <Container>
+        <div className="set-event-bar">Schedule</div>
         <Form onSubmit={this.handleSubmit}>
           <Row className="set-event-line">
             <Col xs="5">
@@ -207,6 +211,7 @@ class SetEvent extends Component {
               <br />
               <DateTimePicker
                 onChange={(value) => this.handleEndTime(value)}
+                disableClock={true}
                 value={endTime}
               />
 
@@ -245,6 +250,7 @@ class SetEvent extends Component {
           </Row>
         </Form>
       </Container>
+      </div>
     );
   }
 }
