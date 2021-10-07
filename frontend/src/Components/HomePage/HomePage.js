@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "./HomePage.css"
-import { Row, Col, Container, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import graph from "./graph.png";
 const useStyles = makeStyles((theme) => ({
   root: {

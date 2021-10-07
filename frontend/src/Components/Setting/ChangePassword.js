@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Button, FormGroup, Label } from "reactstrap";
 import AuthService from "../../Services/AuthService";
 import { Redirect } from "react-router-dom";
-
+import "./ChangePassword.css"
 class ChangePassword extends React.Component {
   /**
    * the component used to render the change password form
@@ -85,10 +85,11 @@ class ChangePassword extends React.Component {
       return <Redirect to={this.state.redirect} />;
     }
     return (
-      <div>
+      <div className="background-change-password">
         <Form className="signup-form" onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Label className="form-label">&nbsp;Old Password</Label>
+        <div className="change-password-div"></div>
+          <FormGroup className="change-password-formgroup">
+            <Label className="setting-profile-form-label">&nbsp;Old Password</Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
               placeholder="Your Old Password"
@@ -99,34 +100,7 @@ class ChangePassword extends React.Component {
               required
             />
           </FormGroup>
-          <FormGroup>
-            <Label className="form-label"> &nbsp;New Password</Label>
-            <Input
-              type={this.state.showPassword ? "text" : "password"}
-              placeholder="Your New Password"
-              name="New Password"
-              value={this.state.newPassword}
-              onChange={this.handleNewPassword}
-              pattern="[A-Za-z0-9]{5,10}"
-              required
-            />
-            <ul className="password-requirement">
-              <li>&nbsp;5-10 letters or numbers</li>
-            </ul>
-          </FormGroup>
-
-          <FormGroup>
-            <Label className="form-label"> &nbsp;Confirm New Password</Label>
-            <Input
-              type={this.state.showPassword ? "text" : "password"}
-              placeholder="Confirm Your New Password"
-              name="Confirm New Password"
-              value={this.state.confirmNewPassword}
-              onChange={this.handleConfirmNewPassword}
-              pattern="[A-Za-z0-9]{5,10}"
-              required
-            />
-            <Button
+          <Button
               className="btn-show-password"
               onClick={() => this.handleShowPassword()}
             >
@@ -136,14 +110,47 @@ class ChangePassword extends React.Component {
                 <i className="fas fa-toggle-off toggle-icon"></i>
               )}
             </Button>
+          {/* <ul className="password-requirement">
+              <li>&nbsp;5-10 letters or numbers</li>
+            </ul> */}
+          <FormGroup className="change-password-formgroup">
+            <Label className="setting-profile-form-label"> &nbsp;New Password
+            <span id="requirement-text">
+            &nbsp;&nbsp;&nbsp;&nbsp;5-10 letters or numbers</span>
+            </Label>
+            <Input
+              type={this.state.showPassword ? "text" : "password"}
+              placeholder="Your New Password"
+              name="New Password"
+              value={this.state.newPassword}
+              onChange={this.handleNewPassword}
+              pattern="[A-Za-z0-9]{5,10}"
+              required
+            />
+
           </FormGroup>
 
+          <FormGroup className="change-password-formgroup">
+            <Label className="setting-profile-form-label"> &nbsp;Confirm New Password</Label>
+            <Input
+              type={this.state.showPassword ? "text" : "password"}
+              placeholder="Confirm Your New Password"
+              name="Confirm New Password"
+              value={this.state.confirmNewPassword}
+              onChange={this.handleConfirmNewPassword}
+              pattern="[A-Za-z0-9]{5,10}"
+              required
+            />
+            
+          </FormGroup>
+          <center>
           <Button
             type="submit"
-            className="submit-btn btn-med btn-block btn-dark col-12"
+            className="submit-btn btn-med btn-block btn-dark change-password-submit-btn"
           >
             Submit
           </Button>
+          </center>
         </Form>
       </div>
     );

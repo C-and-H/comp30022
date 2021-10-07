@@ -294,7 +294,7 @@ class SettingProfile extends React.Component {
         <Form className="setting-profile-form" onSubmit={this.handleSubmit}>
 
         <Row>
-        <h4 className="setting-profile-h4"></h4>
+        <div className="setting-profile-h4"></div>
             <Col xs="4">
               <FormGroup className="setting-profile-formgroup">
                 <Label
