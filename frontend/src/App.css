@@ -83,6 +83,12 @@
   overflow: scroll;
 }
 
+.nav-link:hover,
+.navbar-brand:hover {
+  color: pink !important;
+  transition: 0.4s;
+}
+
 /*------------------ NavigationBar Components end---------------*/
 
 /*------------------ HomePage Components ---------------*/
@@ -145,8 +151,6 @@ body .bg-dark {
   padding-bottom: 5px;
 }
 
-
-
 /*------------------ Profile SideBar Components End ---------------*/
 
 footer {
@@ -159,7 +163,6 @@ footer {
   text-align: center;
   background-color: rgb(31, 30, 30);
 }
-
 
 /*------------------ Contact Components ---------------*/
 .rectangle {

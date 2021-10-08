@@ -52,24 +52,12 @@ class NavigationBar extends Component {
     let notifications = JSON.parse(localStorage.getItem("notifications"));
     return (
       <Nav>
-        <Nav.Link href="/profile" className={"navbar_nav"}>
-          {this.props.user && this.props.user.icon ? (
-            <i className={this.props.user.icon}></i>
-          ) : (
-            <i className="fa fa-user fa-fw"></i>
-          )}
-
-          {this.props.user.first_name}
+        <Nav.Link href="/dashboard" className={"navbar_nav"}>
+          Dashboard
         </Nav.Link>
-        <Nav.Link href="/contact" className={"navbar_nav"}>
-          <i className="fa fa-user-friends"></i>
-          Contacts
+        <Nav.Link href="/chat" className={"navbar_nav"}>
+          Chat
         </Nav.Link>
-        <Nav.Link href="/searchUser" className={"navbar_nav"}>
-          <i className="fa fa-search"></i>
-          Search
-        </Nav.Link>
-
         <NavDropdown
           autoClose="outside"
           eventkey={this.props.notificationNumber}
@@ -122,45 +110,159 @@ class NavigationBar extends Component {
             </div>
           )}
         </NavDropdown>
-        <Nav.Link href="/email" className={"navbar_nav"}>
-          <i className="fa fa-mail-bulk"></i>
-          Email
-        </Nav.Link>
-        <Nav.Link href="/chat" className={"navbar_nav"}>
-          Chat
-        </Nav.Link>
-        <Nav.Link className={"navbar_nav"} onClick={this.props.onLogOut}>
-          LogOut
-        </Nav.Link>
         <NavDropdown
-          eventkey={3}
+          eventkey={8}
           title={
             <span>
-              <i className="fas fa-cog"></i> Setting
+              {this.props.user && this.props.user.icon ? (
+                <i className={this.props.user.icon} />
+              ) : (
+                <i className="fa fa-user fa-fw" />
+              )}
+
+              {this.props.user.first_name}
             </span>
           }
           id="collasible-nav-dropdown"
         >
-          <NavDropdown.Item href="/profile">
-            <i className="fa fa-user fa-fw"></i>
-            {this.props.user.first_name}
-          </NavDropdown.Item>
-          <NavDropdown.Item href="/contact">
-            <i className="fa fa-user-friends"></i>
-            Contacts
-          </NavDropdown.Item>
-          <NavDropdown.Item href="/setting">
-            <i className="fas fa-cog"></i> Setting
-          </NavDropdown.Item>
+          <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+          <NavDropdown.Item href="/searchUser">Search</NavDropdown.Item>
+          <NavDropdown.Item href="/calendar">Calendar</NavDropdown.Item>
+          <NavDropdown.Item href="/email">Email</NavDropdown.Item>
 
           <NavDropdown.Divider />
-          <NavDropdown.Item href="/login" onClick={this.props.onLogOut}>
+
+          <NavDropdown.Item href="/setting">Edit Profile</NavDropdown.Item>
+          <NavDropdown.Item href="/changeIcon">Change Icon</NavDropdown.Item>
+          <NavDropdown.Item href="/setting/change-password">
+            Change Password
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item
+            href="/login"
+            onClick={this.props.onLogOut}
+            style={{ color: "red" }}
+          >
             LogOut
           </NavDropdown.Item>
         </NavDropdown>
       </Nav>
     );
   }
+
+  // logIn() {
+  //   let notifications = JSON.parse(localStorage.getItem("notifications"));
+  //   return (
+  //     <Nav>
+  //       <Nav.Link href="/profile" className={"navbar_nav"}>
+  //         {this.props.user && this.props.user.icon ? (
+  //           <i className={this.props.user.icon}></i>
+  //         ) : (
+  //           <i className="fa fa-user fa-fw"></i>
+  //         )}
+
+  //         {this.props.user.first_name}
+  //       </Nav.Link>
+  //       <Nav.Link href="/contact" className={"navbar_nav"}>
+  //         <i className="fa fa-user-friends"></i>
+  //         Contacts
+  //       </Nav.Link>
+  //       <Nav.Link href="/searchUser" className={"navbar_nav"}>
+  //         <i className="fa fa-search"></i>
+  //         Search
+  //       </Nav.Link>
+
+  //       <NavDropdown
+  //         autoClose="outside"
+  //         eventkey={this.props.notificationNumber}
+  //         title={
+  //           <span>
+  //             <i className="fa fa-rocket"></i>
+  //             Inbox
+  //             {this.props.notificationNumber !== 0 && (
+  //               <span className="badge badge-warning notification-badge">
+  //                 {" "}
+  //                 {this.props.notificationNumber}{" "}
+  //               </span>
+  //             )}
+  //           </span>
+  //         }
+  //         id="basic-nav-dropdown"
+  //         onClick={this.props.onGetNotification}
+  //       >
+  //         {this.props.notificationNumber === 0 ? (
+  //           <NavDropdown.ItemText className="dropdown-text">
+  //             No new message
+  //           </NavDropdown.ItemText>
+  //         ) : (
+  //           <div className="dropdown-notification">
+  //             {notifications !== null && notifications.length !== 0 ? (
+  //               <NavDropdown.ItemText>
+  //                 <Button
+  //                   variant="outline-danger"
+  //                   size="sm"
+  //                   onClick={this.props.removeAllNotifications}
+  //                 >
+  //                   mark all as read
+  //                 </Button>
+  //               </NavDropdown.ItemText>
+  //             ) : (
+  //               <NavDropdown.ItemText className="dropdown-text">
+  //                 <BallRunningDots loading={true} color="#000" center />
+  //               </NavDropdown.ItemText>
+  //             )}
+
+  //             <NavDropdown.Divider />
+  //             {this.getAllNotificationDropDownItem(notifications)}
+  //             {notifications !== null &&
+  //               notifications.length !== 0 &&
+  //               this.props.notificationLoading && (
+  //                 <NavDropdown.ItemText className="dropdown-text">
+  //                   <BallRunningDots loading={true} color="#000" center />
+  //                 </NavDropdown.ItemText>
+  //               )}
+  //           </div>
+  //         )}
+  //       </NavDropdown>
+  //       <Nav.Link href="/email" className={"navbar_nav"}>
+  //         <i className="fa fa-mail-bulk"></i>
+  //         Email
+  //       </Nav.Link>
+  //       <Nav.Link href="/chat" className={"navbar_nav"}>
+  //         Chat
+  //       </Nav.Link>
+  //       <Nav.Link className={"navbar_nav"} onClick={this.props.onLogOut}>
+  //         LogOut
+  //       </Nav.Link>
+  //       <NavDropdown
+  //         eventkey={3}
+  //         title={
+  //           <span>
+  //             <i className="fas fa-cog"></i> Setting
+  //           </span>
+  //         }
+  //         id="collasible-nav-dropdown"
+  //       >
+  //         <NavDropdown.Item href="/profile">
+  //           <i className="fa fa-user fa-fw"></i>
+  //           {this.props.user.first_name}
+  //         </NavDropdown.Item>
+  //         <NavDropdown.Item href="/contact">
+  //           <i className="fa fa-user-friends"></i>
+  //           Contacts
+  //         </NavDropdown.Item>
+  //         <NavDropdown.Item href="/setting">
+  //           <i className="fas fa-cog"></i> Setting
+  //         </NavDropdown.Item>
+
+  //         <NavDropdown.Divider />
+  //         <NavDropdown.Item href="/login" onClick={this.props.onLogOut}>
+  //           LogOut
+  //         </NavDropdown.Item>
+  //       </NavDropdown>
+  //     </Nav>
+  //   );
+  // }
 
   notLogIn() {
     return (
@@ -179,9 +281,11 @@ class NavigationBar extends Component {
     return (
       <Navbar bg="dark" variant="dark" className="nav-bar-78">
         <Container>
-          <Navbar.Brand href="/">
-            <i className="fas fa-users-cog"></i> CRM Application
-          </Navbar.Brand>
+          {this.props.user && this.props.basic ? (
+            <Navbar.Brand href="/dashboard">CandHCRM</Navbar.Brand>
+          ) : (
+            <Navbar.Brand href="/">CandHCRM</Navbar.Brand>
+          )}
           {this.props.user && this.props.basic ? this.logIn() : this.notLogIn()}
         </Container>
       </Navbar>

@@ -1,10 +1,9 @@
 import React from "react";
 import { API_URL } from "../../constant";
-import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { Button, Container, Row, Col, Label } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
-import "./Dashboard.css"
+import "./Dashboard.css";
 
 import Event from "./Event";
 
@@ -13,17 +12,13 @@ class RecentEvents extends React.Component {
     super(props);
 
     this.state = {
-      
-      appointments: null
-    }
+      appointments: null,
+    };
   }
 
   async componentDidMount() {
     await this.getEvents();
-
   }
-
-  
 
   async getEvents() {
     const { basic } = this.props;
@@ -35,7 +30,7 @@ class RecentEvents extends React.Component {
     let appointments = [];
     if (response.data) {
       const data = response.data;
-      
+
       for (var i = data.length - 1; i >= 0; i--) {
         var appointment = {
           startDate: new Date(data[i].startTime),
@@ -44,23 +39,22 @@ class RecentEvents extends React.Component {
           participantIds: data[i].participantIds,
           description: data[i].notes,
           id: data[i].id,
-          hostId: data[i].hostId
+          hostId: data[i].hostId,
         };
         appointments.push(appointment);
       }
     }
-    this.setState({ appointments: appointments});
+    this.setState({ appointments: appointments });
   }
 
   render() {
     const { appointments } = this.state;
     const { basic } = this.props;
-    
-    if (!appointments) return (<div></div>);
+
+    if (!appointments) return <div></div>;
     return (
       <div className="events-box">
         <div className="event-header">
-          
           <Button
             href="/calendar"
             variant="outline-success"
@@ -68,35 +62,30 @@ class RecentEvents extends React.Component {
           >
             Calendar
           </Button>
-          
         </div>
-        <div >
-        <hr className="event-line-break"/>
-        {appointments.length > 0 ? (
-          appointments.map((appointment) => (
-            <Event 
-              key={appointment.id}
-              host={appointment.hostId}
-              title={appointment.title}
-              startTime={appointment.startDate}
-              endTime={appointment.endDate}
-              userId ={basic.id}
-              token={basic.token}
-              notes={appointment.description}
-            />
-          
-          ))) : (
+        <div>
+          <hr className="event-line-break" />
+          {appointments.length > 0 ? (
+            appointments.map((appointment) => (
+              <Event
+                key={appointment.id}
+                host={appointment.hostId}
+                title={appointment.title}
+                startTime={appointment.startDate}
+                endTime={appointment.endDate}
+                userId={basic.id}
+                token={basic.token}
+                notes={appointment.description}
+              />
+            ))
+          ) : (
             <p className="no-meetings">
-               No upcoming or past events around today, have a nice day !
+              No upcoming or past events around today, have a nice day !
             </p>
-          )
-        }
-        
-        
+          )}
         </div>
       </div>
-      
-    )
+    );
   }
 }
 

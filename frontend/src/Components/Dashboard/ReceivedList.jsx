@@ -5,13 +5,13 @@ import { API_URL } from "../../constant";
 import ReactTooltip from "react-tooltip";
 
 import { Redirect } from "react-router-dom";
-import "./Dashboard.css"
-import { IconButton } from '@mui/material';
-import { ButtonGroup, Button, Row, Col } from 'react-bootstrap';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
+import "./Dashboard.css";
+import { IconButton } from "@mui/material";
+import { ButtonGroup, Button, Row, Col } from "react-bootstrap";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
-class ReceivedList extends React.Component {
+class ReceivedList extends Component {
   constructor(props) {
     super(props);
 
@@ -21,9 +21,8 @@ class ReceivedList extends React.Component {
     };
   }
 
-  async componentDidMount() {  
+  async componentDidMount() {
     await this.getRequests();
-
   }
 
   async getRequests() {
@@ -96,7 +95,6 @@ class ReceivedList extends React.Component {
       alert(response.data);
       window.location.reload();
     }
-
   }
 
   redirect(id) {
@@ -108,45 +106,43 @@ class ReceivedList extends React.Component {
     var icon = user.icon;
     if (!icon) icon = "fa fa-user fa-fw";
     return (
-      <span key={user.id} >
-        <ButtonGroup
-          className="btngroup-requests">
-         <Button
-          className="btn-user"
-          variant="outline-light"
-          size="lg"
-          data-tip={user.email}
-          onClick={() => this.redirect(user.id)}
-        >
-          <div>
-            <Row>
-              <Col>
-                <i className={icon}></i>
-              </Col>
-              <Col className="full-name" xs="9">
-              {" " + user.first_name + " " + user.last_name}
-              </Col>
-            </Row>
-          </div>
-          
-        </Button>
-        
-        <ReactTooltip place="right" type="info" html={true} />
-        <IconButton  
-          color="success" 
-          size="large"
-          onClick={() => this.confirmRequest(user.id)}>
-          <CheckIcon />
-        </IconButton>
-        <IconButton  
-          color="error" 
-          size="large"
-          onClick={() => this.declineRequest(user.id)}>
-          <ClearIcon />
-        </IconButton>
-        
+      <span key={user.id}>
+        <ButtonGroup className="btngroup-requests">
+          <Button
+            className="btn-user"
+            variant="outline-light"
+            size="lg"
+            data-tip={user.email}
+            onClick={() => this.redirect(user.id)}
+          >
+            <div>
+              <Row>
+                <Col>
+                  <i className={icon}></i>
+                </Col>
+                <Col className="full-name" xs="9">
+                  {" " + user.first_name + " " + user.last_name}
+                </Col>
+              </Row>
+            </div>
+          </Button>
+
+          <ReactTooltip place="right" type="info" html={true} />
+          <IconButton
+            color="success"
+            size="large"
+            onClick={() => this.confirmRequest(user.id)}
+          >
+            <CheckIcon />
+          </IconButton>
+          <IconButton
+            color="error"
+            size="large"
+            onClick={() => this.declineRequest(user.id)}
+          >
+            <ClearIcon />
+          </IconButton>
         </ButtonGroup>
-        
       </span>
     );
   }
@@ -169,8 +165,6 @@ class ReceivedList extends React.Component {
       </div>
     );
   }
-  
-  
 }
 
 export default ReceivedList;
