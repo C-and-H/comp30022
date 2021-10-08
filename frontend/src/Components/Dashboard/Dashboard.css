@@ -1,0 +1,219 @@
+.requests-list {
+    width: 90%;
+    background-color: white;
+    border-style: ridge;
+    height: calc(100vh - 450px);
+    overflow: auto;
+    text-align: left;
+    display: inline-block;
+    margin-top: 10%;
+    margin-left: 10%;
+    
+}
+
+.received-list {
+    width: 90%;
+    background-color: white;
+    border-style: ridge;
+    height: calc(100vh - 450px);
+    overflow: auto;
+    text-align: left;
+    display: inline-block;
+    margin-top: 10%;
+    margin-left: 10%;
+}
+
+.requests-header {
+    font-size: larger;
+    text-shadow: none;
+    margin-left: 10%;
+    margin-top: 5%;
+
+}
+
+.requests-line-break {
+    margin-top: 0%;
+    border-style: groove;
+    margin-bottom: 0%;
+}
+
+.friend {
+    /* max-width: 15vw; */
+    width: 20vw;
+}
+
+.btn-user {
+    align-items: left;
+    width: 60%;
+    font-size: 1.0vw;
+    height: 10%;
+    text-align: left;
+    margin-left: 0\%;
+    background-color: white;
+    color: black;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.btn-small {
+    background-color: white;
+    width: 20%;
+}
+
+/* .csv-btn {
+    margin-top: 0%;
+    margin-bottom: 0%;
+} */
+
+.btngroup-requests {
+    align-items: left;
+    margin-top: 0%;
+    width: 100% ;
+    border-style: groove;
+    text-align: left;
+}
+
+
+
+.full-name {
+    overflow: hidden;
+    text-align: left;
+    font-size: 1.0vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.i {
+    text-align: left;
+    margin-right: 25%;
+}
+
+.contact {
+    display: flex;
+    margin-top: 9%;
+    width: 90%;
+    margin-left: 6%;
+}
+
+.search-contact {
+    margin-top: 8%;
+    margin-left: 10%;
+    width: 100%;
+    height: 30px;
+  }
+
+.contact-body {
+    display: inline-block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    height: calc(100vh - 110px);
+    background: white;
+    /* white-space: nowrap; */
+    /* margin: 0px;
+    padding: 0px; */
+    /* border: medium; */
+    /* border-right: 2px solid black; */
+    /* border-right-width: 2px; */
+}
+
+.cols {
+    overflow-y: hidden;
+    
+}
+
+.right {
+    margin-top: 3%;
+}
+
+
+.contact-header {
+    height: 8%;
+    background: white;
+    
+}
+
+.contact-container {
+    margin-top: 4%
+}
+
+.name-label {
+    font-size: 3vw;
+}
+
+.events-box {
+    margin-top: 2%;
+    background-color: white;
+    margin-left: 8%;
+    border-style: groove;
+    width: 70%;
+    overflow: auto;
+    display: inline-block;
+    height: calc(100vh - 500px);
+    
+}
+
+.event-header {
+    height: 10%;
+}
+.calendar-button {
+    margin-left: 78%;
+   ;
+}
+
+.event-line-break {
+    margin-top: 3%;
+
+    margin-bottom: 0%;
+    
+}
+
+.event-body {
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    display: inline-block;
+}
+
+.event{
+    width: 100%;
+    height: 100%;
+    border-style: groove;
+    
+}
+
+.child-event {
+    width: 90%;
+    margin-left: 2%;
+}
+
+.no-meetings {
+    text-align: center;
+    font-size: 2vw;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.clock-frame {
+    background-color: white;
+    width: 70%;
+    height: 16vw;
+    display: block;
+    margin-top: 10%;
+    border-radius: 50%;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.clock {
+    margin-left: 7%;
+    margin-top: 7%;
+    
+}
+
+.time-zone {
+    margin-top: 10%;
+    margin-bottom: 100%;
+}

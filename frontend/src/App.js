@@ -30,6 +30,7 @@ import Peer from "simple-peer";
 import Loading from "./Logo/loading";
 import EmailVerify from "./Components/emailVerify/emailVerify";
 import "animate.css";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 class App extends Component {
   constructor(props) {
@@ -578,6 +579,7 @@ class App extends Component {
             <Route exact path="/setEvent" component={SetEvent} />
             <Route exact path="/settingNote/:id" component={SettingNote} />
             <Route path="/signup/:email/:code" component={EmailVerify} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route path={["/", "/home"]} component={HomePage} />
           </Switch>
         </Router>

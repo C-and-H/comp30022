@@ -411,12 +411,12 @@ class Calendar extends Component {
                   </p>
                 </div>
                 <div className="description">
-                  <span style={{ fontSize: 23, fontWeight: 600 }}>
+                  <span style={{ fontSize: 23, fontWeight: 600}}>
                     Description:
                   </span>
                   <br />
-                  <div className="div-description">
-                    <AutoLinkText text={this.state.data.description} />
+                  <div className="div-description" style={{whiteSpace:"pre-wrap"}}>
+                    <AutoLinkText text={this.state.data.description}/>
                   </div>
                 </div>
                 <div className="pop-host">
