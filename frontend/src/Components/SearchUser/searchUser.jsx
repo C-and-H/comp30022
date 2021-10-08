@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from "reactstrap";
+import { Form, Input, Button, Container, Row, Col } from "reactstrap";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import axios from "axios";
 import SearchResult from "./searchResult";
-import { API_URL } from "../constant";
+import { API_URL } from "../../constant";
 import { Redirect } from "react-router-dom";
 
 class SearchUser extends Component {
@@ -188,20 +188,20 @@ class SearchUser extends Component {
       <form className="search-form">
         <input
           type="text"
-          placeholder="  Search by type in email / first name / last name / region / company"
+          placeholder="  Search by email / first name / last name / region / company"
           className="search-bar"
           name="search"
           onChange={this.handleChange}
           onKeyPress={this.onKeyUp}
         />
-        <Button
+        {/* <Button
           className="btn-search"
           onClick={() => {
             this.nothingHappens();
           }}
         >
           <i className="fas fa-search" />
-        </Button>
+        </Button> */}
       </form>
     );
   }
@@ -237,56 +237,76 @@ class SearchUser extends Component {
     const { firstName, lastName, email, areaOrRegion, industry, company } =
       this.state;
     return (
-      <Form className="search-form-detailed">
-        <Input
-          type="text"
-          value={firstName}
-          onChange={this.handleFirstName}
-          placeholder="First Name"
-          className="search-detailed"
-        />
-        <Input
-          type="text"
-          value={lastName}
-          onChange={this.handleLastName}
-          placeholder="Last Name"
-          className="search-detailed"
-        />
-        <Input
-          type="text"
-          value={email}
-          onChange={this.handleEmail}
-          placeholder="Email"
-          className="search-detailed"
-        />
-        <Input
-          type="text"
-          value={areaOrRegion}
-          onChange={this.handleArea}
-          placeholder="Area or Region"
-          className="search-detailed"
-        />
-        <Input
-          type="text"
-          value={industry}
-          onChange={this.handleIndustry}
-          placeholder="Industry"
-          className="search-detailed"
-        />
-        <Input
-          type="text"
-          value={company}
-          onChange={this.handleCompany}
-          placeholder="Company"
-          className="search-detailed"
-        />
-        <Button
-          className="btn-search-detailed"
-          onClick={() => this.handleSubmit()}
-        >
-          Search
-        </Button>
-      </Form>
+      <Container>
+        <Form className="search-form-detailed">
+          <Row>
+            <Col xs="5">
+              <Input
+                type="text"
+                value={firstName}
+                onChange={this.handleFirstName}
+                placeholder="First Name"
+                className="search-detailed-left"
+              />
+            </Col>
+            <Col xs="2">
+              <Input
+                type="text"
+                value={lastName}
+                onChange={this.handleLastName}
+                placeholder="Last Name"
+                className="search-detailed-center"
+              />
+            </Col>
+            <Col xs="5">
+              <Input
+                type="text"
+                value={email}
+                onChange={this.handleEmail}
+                placeholder="Email"
+                className="search-detailed-right"
+              />
+            </Col>
+          </Row>
+          <br/>
+          <Row>
+            <Col xs="5">
+              <Input
+                type="text"
+                value={areaOrRegion}
+                onChange={this.handleArea}
+                placeholder="Area or Region"
+                className="search-detailed-left"
+              />
+            </Col>
+            <Col xs="2">
+              <Input
+                type="text"
+                value={industry}
+                onChange={this.handleIndustry}
+                placeholder="Industry"
+                className="search-detailed-center"
+              />
+            </Col>
+            <Col xs="5">
+              <Input
+                type="text"
+                value={company}
+                onChange={this.handleCompany}
+                placeholder="Company"
+                className="search-detailed-right"
+              />
+            </Col>
+          </Row>
+          <Button
+            className="btn-search-detailed"
+            onClick={() => this.handleSubmit()}
+          >
+            Search
+          </Button>
+        </Form>
+        <div className="div-search-bottom-line"></div>
+      </Container>
     );
   }
 
@@ -321,10 +341,11 @@ class SearchUser extends Component {
           onChange={this.handleSwitch}
           checked={this.state.detailed}
           onstyle="primary"
-          offstyle="info"
+          offstyle="danger"
           onlabel="Detailed"
           offlabel="Sketchy"
           width={100}
+          size="sm"
         />
         {this.state.detailed ? this.detailedSearch() : this.sketchySearch()}
         {this.state.results && this.searchResults()}
