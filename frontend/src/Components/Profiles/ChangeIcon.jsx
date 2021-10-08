@@ -221,7 +221,7 @@ export default class ChangeIcon extends Component {
     
     return (
 
-      <div>
+      <div className="change-icon-background">
         <Row>
           <Col>
             {this.icons()}
