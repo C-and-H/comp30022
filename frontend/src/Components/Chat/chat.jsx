@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { API_URL } from "../constant";
+import { API_URL } from "../../constant";
 import Picker from "emoji-picker-react";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
@@ -13,6 +13,7 @@ import {
   BallPulse,
   BallFussion,
 } from "react-pretty-loading";
+import "./chat.css";
 
 class Chat extends Component {
   constructor(props) {
@@ -257,13 +258,6 @@ class Chat extends Component {
         <div className="div-chat-opponent">
           {friend.name}
           <Button
-            onClick={() => {
-              this.props.onCall(friend.id);
-            }}
-          >
-            <i className="fa fa-phone" />
-          </Button>
-          <Button
             className="btn-close-chat"
             onClick={() => {
               this._isMounted && this.setState({ friend: null });
@@ -275,15 +269,26 @@ class Chat extends Component {
         {friend && this.chatDisplay()}
         {emojiVisible && this.emojiList()}
         {this.emojiButton()}
+        <Button
+          appearance="subtle"
+          className="btn-call btn-light"
+          onClick={() => {
+            this.props.onCall(friend.id);
+          }}
+        >
+          <i className="fa fa-phone" style={{ color: "black" }} />
+        </Button>
         <div className="div-text-enter ">
           <TextField
             id="text-enter"
             multiline
-            variant="outlined"
+            variant="standard"
+            focused
             className="text-enter"
-            rows={5}
+            rows={4}
             value={textEnter}
             onChange={this.handleChangeText}
+            style={{ marginBottom: "-2px", borderColor: "black" }}
           />
         </div>
         <Button
@@ -591,11 +596,17 @@ class Chat extends Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    const { friend } = this.state;
+    const { friend, emojiVisible } = this.state;
     return (
       <div>
         {this.friendList()}
         {friend && this.chatBox()}
+        {emojiVisible && (
+          <div
+            onClick={this.handleVisibleChange}
+            className="div-emoji-background"
+          />
+        )}
       </div>
     );
   }

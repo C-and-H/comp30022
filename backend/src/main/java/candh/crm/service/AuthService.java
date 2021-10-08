@@ -47,22 +47,18 @@ public class AuthService implements UserDetailsService
      * @param user  a user object, that must contain email, password, first name, and last name
      * @param isEnabled  send a confirmation email if account is not enabled
      */
-    public void updateUser(final User user, boolean isEnabled) throws RuntimeException
+    public void updateUser(final User user, boolean isEnabled)
     {
         if (!isEnabled) {
-            try {
-                Thread sendEmail = new Thread(new Runnable() {
-                    @SneakyThrows
-                    @Override
-                    public void run() {
-                        emailService.sendConfirmMail(user.getEmail(),
-                                user.getFirst_name(), user.getSignupConfirmPath());
-                    }
-                });
-                sendEmail.start();
-            } catch (RuntimeException e) {
-                throw e;
-            }
+            Thread sendEmail = new Thread(new Runnable() {
+                @SneakyThrows
+                @Override
+                public void run() {
+                    emailService.sendConfirmMail(user.getEmail(),
+                            user.getFirst_name(), user.getSignupConfirmPath());
+                }
+            });
+            sendEmail.start();
         }
         Thread updateDb = new Thread(() -> {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

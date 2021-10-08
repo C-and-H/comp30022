@@ -50,22 +50,19 @@ public class MeetingService
             set.remove(hostId);
             meetingRepository.save(new Meeting(hostId, set.toArray(new String[0]),
                     startTime, endTime, title, notes));
+
             if (set.size() > 0)
             {
                 // send email
-                try {
-                    Thread sendEmail = new Thread(new Runnable() {
-                        @SneakyThrows
-                        @Override
-                        public void run() {
-                            emailService.meetingInvitation(hostId, set.toArray(new String[0]),
-                                    startTime, endTime, title, notes);
-                        }
-                    });
-                    sendEmail.start();
-                } catch (RuntimeException e) {
-                    throw e;
-                }
+                Thread sendEmail = new Thread(new Runnable() {
+                    @SneakyThrows
+                    @Override
+                    public void run() {
+                        emailService.meetingInvitation(hostId, set.toArray(new String[0]),
+                                startTime, endTime, title, notes);
+                    }
+                });
+                sendEmail.start();
                 // send notification
                 Thread notify = new Thread(() -> {
                     for (String participantId : set) {
