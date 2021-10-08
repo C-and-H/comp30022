@@ -20,7 +20,7 @@
   color: rgb(168, 58, 58);
 }
 
-#signup-to-signin {
+.signup-to-signin {
   background-color: #3485f0;
   margin-top: 10px;
   border: black;
@@ -368,20 +368,18 @@ footer {
 
 .div-mail {
   margin-top: 3%;
-  margin-left: 10%;
+  margin-left: 8%;
   width: 50%;
   height: 80%;
-  background-color: cornflowerblue;
   position: absolute;
   display: inline-block;
 }
 
 .div-sender {
-  margin-top: 3%;
+  margin-top: 8%;
   margin-left: 65%;
   width: 30%;
   height: 80%;
-  background-color: deepskyblue;
   position: absolute;
   display: inline-block;
 }
@@ -389,13 +387,31 @@ footer {
 .div-mail-body {
   width: 80%;
   margin-top: 5%;
-  margin-left: 10%;
+  margin-left: 8%;
+}
+
+.div-search-to-email {
+  width: 100%;
+  margin-top: 0%;
+  margin-left: 0%;
+  display: flex;
+}
+
+.div-to-email-search-box {
+  width: 70%;
+  margin-left: 0%;
 }
 
 .div-mail-title {
   width: 80%;
   margin-top: 10%;
-  margin-left: 10%;
+  margin-left: 8%;
+}
+
+.div-from-name {
+  width: 80%;
+  margin-top: 5%;
+  margin-left: 8%;  
 }
 
 .mail-body {
@@ -411,21 +427,22 @@ footer {
   height: 6%;
   margin-top: 5%;
   margin-left: 80%;
-  background-color: lightsalmon;
+  background-color: black;
 }
 
 .btn-add-email {
-  width: 13%;
+  width: 20%;
   height: 50px;
-  margin-left: 2%;
-  background-color: lightsalmon;
+  margin-left: 0%;
+  background-color: black;
+  display: inline-block;
 }
 
 .div-to-email {
   width: 80%;
   height: 60px;
   margin-top: 5%;
-  margin-left: 10%;
+  margin-left: 8%;
   border-width: 2px;
   overflow-x: auto;
   white-space: nowrap;
@@ -445,7 +462,7 @@ footer {
 
 .btn-searchEmail {
   width: 80%;
-  margin-left: 10%;
+  margin-left: 0%;
 }
 
 .div-email-results {
