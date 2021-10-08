@@ -26,10 +26,10 @@
 
 .div-video-call-display {
   width: 100%;
-  height: 390px;
+  height: 400px;
   margin-top: 2%;
   z-index: 2300;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .div-my-video {

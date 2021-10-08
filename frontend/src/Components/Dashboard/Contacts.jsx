@@ -216,7 +216,7 @@ class Contacts extends React.Component {
               <input
                 type="text"
                 placeholder="Search"
-                className="search-contact"
+                className="dashborad-search-contact"
                 name="search"
                 onChange={this.handleChange}
                 onKeyPress={this.onKeyUp}
