@@ -12,6 +12,7 @@ import FriendBtn from "./friendBtn";
 class SetEvent extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
     this.state = {
       startTime: new Date(),
       title: "",
@@ -23,6 +24,7 @@ class SetEvent extends Component {
       friends: [],
       chosenParticipants: [],
       disabled: false,
+      searchList: null,
     };
     this.handleStartTime = this.handleStartTime.bind(this);
     this.handleTitle = this.handleTitle.bind(this);
@@ -31,14 +33,61 @@ class SetEvent extends Component {
     this.handleCallBack = this.handleCallBack.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
+    this._isMounted = true;
     const { basic } = this.state;
     if (!basic) {
       this.setState({ redirect: true });
     } else {
       await this.getFriendList();
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  handleChange(event) {
+    if (!event.target.value || event.target.value === "") {
+      this._isMounted && this.setState({ searchList: null });
+    } else {
+      this.matchContacts(event.target.value);
+      console.log(event.target.value)
+    }
+  }
+
+  /**
+   * prevent refresh page when "ENTER" hits
+   */
+  onKeyUp(event) {
+    if (event.charCode === 13) {
+      event.preventDefault();
+    }
+  }
+  /**
+   * search friends' name
+   * and friend notes
+   * @param {*} key search key
+   */
+   matchContacts(key) {
+    const { friendList } = this.state;
+    if (friendList.length > 0) {
+      try {
+        const search = new RegExp(key, "i");
+        let searchList = [];
+        for (let i = 0; i < friendList.length; i++) {
+          if (search.test(friendList[i].name)) {
+            searchList.push(friendList[i]);
+            continue;
+          }
+        }
+        this._isMounted && this.setState({ searchList });
+      } catch (e) {
+        this._isMounted && this.setState({ searchList: [] });
+      }
     }
   }
 
@@ -156,26 +205,44 @@ class SetEvent extends Component {
   }
 
   friendGroup() {
-    const { friendList } = this.state;
+    const { friendList, searchList } = this.state;
+    // console.log(friendList)
     return (
       <div className="friend-box">
         <Container>
           <Label className="set-event-label-participant">Participants:</Label>
           <div className="set-event-friends">
-          {/* <div class="serch-contact-background"> */}
-            {/* <input type="text" placeholder="Search" class="set-event-search-contact" name="search"/> */}
-            {/* </div> */}
-            {friendList ? (
-              friendList.map((friend) => (
+          <div className="set-event-serch-contact-background">
+            <input
+              type="text"
+              placeholder="Search"
+              className="set-event-search-contact"
+              name="search"
+              onChange={this.handleChange}
+              onKeyPress={this.onKeyUp}
+            />
+            </div>
+            {searchList ? (
+            searchList.length === 0 ? (
+              <p>No match</p>
+            ) : (
+              searchList.map((friend) => (
                 <FriendBtn
-                  friend={friend}
-                  key={friend.id}
-                  callBack={this.handleCallBack}
+                friend={friend}
+                key={friend.id}
+                callBack={this.handleCallBack}
                 />
               ))
-            ) : (
-              <span>Not Avaliable</span>
-            )}
+            )
+          ) : (
+            friendList.map((friend) => (
+              <FriendBtn
+              friend={friend}
+              key={friend.id}
+              callBack={this.handleCallBack}
+              />
+            ))
+          )}
           </div>
         </Container>
       </div>

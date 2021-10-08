@@ -25,9 +25,20 @@
 }
 .set-event-search-contact{
   width: 90%;
-  height: 40px;
+  height: 35px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  font-size: 16px;
+  border-radius: 5px;
+  border-color: black;
 }
-
+.set-event-serch-contact-background{
+  background-color: white;
+  padding-bottom: 8px;
+  border-bottom: 2px solid grey;
+  
+}
 .set-event-label{
   font-size: 20px;
   display: inline-block;
@@ -46,8 +57,6 @@
   width: 45%;
   height: 420px;
   margin-left: 1%;
-  /* margin-top: 10px; */
-  /* border-radius: 15px; */
   border: 2px solid grey;
   overflow-y: auto;
   display: flex;
@@ -62,7 +71,6 @@
   font-size: 18px;
   background-color: white;
   border-radius: .25rem;
-  /* border-color: gray; */
 }
 .react-datetime-picker__calendar .react-calendar{
   font-size: 16px;
