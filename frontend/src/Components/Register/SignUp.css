@@ -1,11 +1,4 @@
 /*------------------ SignUp Components ---------------*/
-.password-requirement {
-  font-size: small;
-  margin: 0;
-  list-style-type: none;
-  padding-left: 0;
-  color: rgb(168, 58, 58);
-}
 .signup-container{
   width: 90vw;
 }
@@ -15,7 +8,7 @@
   color: white;
 }
 #signup-to-signin:hover{
-  color: gray;
+  color: black;
 }
 .form-label {
   display: inline-block;
@@ -52,7 +45,7 @@
   width: 82%;
 }
 #requirement-text{
-  color:#FF0055;
+  color: #19548E;
   font-size: 12px;
 }
 .signup-password {
@@ -68,7 +61,7 @@
   padding-left: 16px;
   padding-right: 16px;
   /* color: white; */
-  border: 1px solid grey;
+  border: 1px solid white;
   /* padding: .30rem .85rem; */
   margin-top: 50px;
   /* font-size: 20px; */
@@ -79,10 +72,15 @@
 }
 .background-sign-up{
   height: 92%;
-  background-image: linear-gradient(to right top, #000000, #1a1a1a, #2d2d2d, #414142, #565758) !important;
-  /* background-image: linear-gradient(to right top, #000000, #121111, #1d1c1d, #272728, #323233) !important; */
+  width: 100%;
+  background-image: url("../home_background.jpg"), linear-gradient(100deg, #363636, transparent);
+  background-size: cover;
+  background-position: 100%;
+  background-blend-mode: multiply;
+  display: flex;
+  justify-content: center;
 }
 .display-text{
   padding-top: 85px;
-  color: #FF0055;
+  color: #19548E;
 }

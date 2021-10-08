@@ -43,7 +43,7 @@ class SignUp extends Component {
     var msg = {};
     // two input passwords are not the same
     if (this.state.input["password"] !== this.state.input["confirm_password"]) {
-      msg["password"] = "Password Are Not The Same. Please retry.";
+      msg["password"] = "Password are not the same.";
     }
     // two input passwords are the same
     else {
@@ -97,7 +97,7 @@ class SignUp extends Component {
         })
         .catch((err) => {
           console.log(err);
-          alert("an error occurs...");
+          alert("An error occurs...");
         })
         .finally(() => {
           this.setState({isWaiting: false})
@@ -180,7 +180,7 @@ class SignUp extends Component {
           <br/>
           <FormGroup id="formgroup-password">
             <Label className="signup-password" style={{float:"left"}}> &nbsp;Password
-            <span id="requirement-text"style={{color:"#FF0055"}}>
+            <span id="requirement-text">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5-10 letters or numbers</span>
             </Label>

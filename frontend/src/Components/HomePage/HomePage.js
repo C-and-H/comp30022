@@ -28,7 +28,7 @@ function ContainedButtons() {
   }
   return (
     <div className={classes.root}>
-      <a href="/signup" className="btn btn-primary btn-homepage">
+      <a href="/login" className="btn btn-primary btn-homepage">
         Let's Get Started!
       </a>
     </div>
