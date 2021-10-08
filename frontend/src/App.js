@@ -24,7 +24,7 @@ import { Notification } from "rsuite";
 import Button from "react-bootstrap/Button";
 import SettingNote from "./Components/Profiles/SettingNote";
 import SetEvent from "./Components/Calendar/SetEvent";
-import VideoCall from "./Components/videoCall";
+import VideoCall from "./Components/Call/videoCall";
 import Peer from "simple-peer";
 import Loading from "./Logo/loading";
 import EmailVerify from "./Components/emailVerify/emailVerify";
@@ -442,12 +442,12 @@ class App extends Component {
     if (this.state.onCall && info.from === this.state.friendId) {
       Notification.open({
         title: "",
-        duration: 0,
+        duration: 20000,
         description: (
           <div className="div-video-call-notification">
-            <p>Opponent ends the call.</p>
+            <p className="p-video-call-notification">Opponent ends the call.</p>
             <Button
-              className="btn-video-call-notification"
+              className="btn-video-end-notification"
               onClick={() => {
                 Notification.close();
               }}

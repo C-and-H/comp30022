@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { createPortal } from "react-dom";
 import Button from "react-bootstrap/Button";
 import { BallSpinClockWise } from "react-pretty-loading";
+import "./videoCall.css";
+import Slide from "react-reveal/Slide";
 
 class VideoCall extends Component {
   constructor(props) {
@@ -264,36 +266,40 @@ class VideoCall extends Component {
   render() {
     return createPortal(
       this.state.visible && (
-        <div className="div-video-call">
-          <div className="div-video-title">Video Chat</div>
-          {this.videoDisplay()}
-          <div className="div-video-button">
-            <Button
-              disabled={this.state.voiceOn || this.state.friendVideo === null}
-              onClick={this.switchToVoiceStream}
-            >
-              Voice only
-            </Button>
-            <Button
-              disabled={this.state.videoOn || this.state.friendVideo === null}
-              onClick={this.switchToVideoStream}
-            >
-              Video
-            </Button>
-            <Button
-              disabled={this.state.screenOn || this.state.friendVideo === null}
-              onClick={this.switchToScreenStream}
-            >
-              Share screen
-            </Button>
-            <Button
-              onClick={this.props.endCall}
-              className="btn-end-call btn-outline-danger"
-            >
-              <i className="fa fa-phone-slash" />
-            </Button>
+        <Slide top>
+          <div className="div-video-call">
+            <div className="div-video-title">Video Call</div>
+            {this.videoDisplay()}
+            <div className="div-video-button">
+              <Button
+                disabled={this.state.voiceOn || this.state.friendVideo === null}
+                onClick={this.switchToVoiceStream}
+              >
+                Voice only
+              </Button>
+              <Button
+                disabled={this.state.videoOn || this.state.friendVideo === null}
+                onClick={this.switchToVideoStream}
+              >
+                Video
+              </Button>
+              <Button
+                disabled={
+                  this.state.screenOn || this.state.friendVideo === null
+                }
+                onClick={this.switchToScreenStream}
+              >
+                Share screen
+              </Button>
+              <Button
+                onClick={this.props.endCall}
+                className="btn-end-call btn-outline-danger"
+              >
+                <i className="fa fa-phone-slash" />
+              </Button>
+            </div>
           </div>
-        </div>
+        </Slide>
       ),
       this.node
     );
