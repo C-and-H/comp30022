@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "./HomePage.css"
-import { Container } from "react-bootstrap";
-import graph from "./graph.png";
+import {Container} from "react-bootstrap";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -35,15 +35,13 @@ function ContainedButtons() {
   );
 }
 
-// HomPage Component
+// HomePage Component
 class HomePage extends React.Component {
   render() {
     return (
       <div className="background">
-        
       <Container className="homepage-container">
         <div>
-        <img alt="graph" src={graph}/>
         <div data-layer="91a140cd-7b11-4d76-9b05-b48b578b7e59" class="leadachieveSucceed">
           Lead.<br/>
           Achieve. Succeed.
