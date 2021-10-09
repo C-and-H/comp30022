@@ -67,8 +67,8 @@
   /* font-size: 20px; */
 }
 .submit-btn:hover{
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
 }
 .background-sign-up{
   height: 92%;

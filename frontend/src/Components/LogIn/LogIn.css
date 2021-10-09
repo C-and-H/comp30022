@@ -10,11 +10,15 @@
   justify-content: center;
 }
 
-.signin-form {
-  height: 100%;
+.signin-container {
   width: 100%;
-  display: flex;
-  justify-content: center;
+}
+
+.signin-form {
+  width: 100%;
+  max-width: 70%;
+  padding: 15px;
+  margin: auto;
 }
 
 .password-toogle-icon {
@@ -25,53 +29,53 @@
   color: black;
 }
 
-.login-button {
-  position: absolute;
-  top: 65%;
-  left: 52%;
-  width: 7%;
+.login-btn {
   background-color: transparent;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border: 1px solid white;
+  margin-top: 50px;
 }
 
-.login-button:hover {
-  background-color: rgba(255, 255, 255, 1);
-  color: black;
-}
-
-.div-signin-to-signup {
-  position: absolute;
-  top: 71%;
-  left: 40%;
-  right: 40%;
+.login-btn:hover{
+  background-color: black;
+  color: white;
 }
 
 .link-signin-to-signup {
-  font-size: small;
   color: rgba(255, 255, 255, 1);
+  background-color: transparent;
+  color: white;
+  border: black;
 }
 
 .link-signin-to-signup:hover {
-  color: gray;
+  color: black;
 }
 
-.login-password-eye-wrapper {
-  position: absolute;
-  left: 40%;
-  right: 40%;
-  top: 49%;
-
-}
-
-.login-email-wrapper {
-  width: 20%;
-  position: absolute;
-  top: 36%;
-  left: 40%;
+.login-form-group {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-form-label {
-  display: inline-block;
+  display: block;
   margin-bottom: 12px;
   margin-top: 5px;
   color: rgba(255, 255, 255, 1);
+}
+
+.login-placeholder-row {
+  height: 13.6%;
+}
+
+.btn-show-password {
+  border-radius: 100px;
+  margin-top: 45px;
+  background-color: transparent;
+  font-size: 20px;
+  height: 30px;
 }
