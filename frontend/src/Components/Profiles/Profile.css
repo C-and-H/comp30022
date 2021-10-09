@@ -1,6 +1,7 @@
 .change-icon-background{
   height: 92%;
   width: 100%;
+  background-color: #F5F5F5;
 }
 
 .icons {
@@ -16,11 +17,6 @@
 .icon-row {
     width: 12.5%;
     height: 100%;
-}
-
-.change-icon-background {
-    height: 100%;
-    width: 92%;
 }
 
 .preview-box {
@@ -40,4 +36,7 @@
     text-align: center;
     margin-left: 13%;
     width: 24%;
+}
+#right-col{
+  /* padding-right: 0px; */
 }
