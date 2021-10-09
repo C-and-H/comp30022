@@ -19,28 +19,30 @@ Heroku URL: https://crm-c-and-h.herokuapp.com/.
 
 # Run
 
-#### Server:
+### Server
 1. Open `/backend` folder in IntelliJ IDEA, and load `pom.xml` to link maven project.
-2. Create 5 MongoDB collections that follows `/backend/src/main/java/candh/crm/model/*.java` in `crm` database.
+2. Create 5 MongoDB collections in `crm` database that follows `/backend/src/main/java/candh/crm/model/*.java`.
 3. Edit run configuration > Environment variables > Apply.
 4. Run `CrmApplication.java`.
 
-#### App:
+### App
 1. Go to directory `/frontend`.
-2. Create a new file `.env` of environment variables, or run `echo REACT_APP_API_URL=http://localhost:8080 > .env`.
+2. Manually create a new file `.env` for environment variables, or just run `echo REACT_APP_API_URL=http://localhost:8080 > .env`.
 3. Run `npm install` to install packages.
 4. Run `npm start`.
 5. Browser visits `localhost:3000`.
 
-#### Environment Variables:
-```
-REACT_APP_API_URL=http://localhost:8080
-```
-```
-MONGO_USERNAME=<mongo-usrname>
-MONGO_PASSWORD=<mongo-pwd>
-MAIL_ADDRESS=<gmail-address>
-MAIL_PASSWORD=<gmail-pwd>
-APP_URL=http://localhost:3000
-JWT_SECRET=crm
-```
+### Environment Variables
+Frontend
+  ```
+  REACT_APP_API_URL=http://localhost:8080
+  ```
+Backend
+  ```
+  MONGO_USERNAME=<mongo-usrname>
+  MONGO_PASSWORD=<mongo-pwd>
+  MAIL_ADDRESS=<gmail-address>
+  MAIL_PASSWORD=<gmail-pwd>
+  APP_URL=http://localhost:3000
+  JWT_SECRET=crm
+  ```
