@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Button, FormGroup, Label } from "reactstrap";
+import { Form, Input, Button, FormGroup, Label, Container, Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -67,48 +67,85 @@ class LogIn extends Component {
 
   render() {
     return (
-        <Form className="login-background" onSubmit={this.handleSubmit}>
-          <FormGroup className="login-email-wrapper">
-            <Label className="login-form-label">&nbsp;Email</Label>
-            <Input
-              type="text"
-              value={this.state.userEmail}
-              onChange={this.handleEmail}
-              placeholder="Email"
-              required
-            />
-          </FormGroup>
-          <FormGroup className="login-password-eye-wrapper">
-            <Label className="login-form-label"> &nbsp;Password</Label>
-            <Input
-              type={this.state.showPassword ? "text" : "password"}
-              placeholder="Password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handlePassword}
-              pattern="[A-Za-z0-9]{5,10}"
-              required
-            />
-            <div className="password-toogle-icon">
-                {<FontAwesomeIcon
-                  icon={this.state.showPassword ? faEye : faEyeSlash}
-                  onClick={() => this.handleShowPassword()}
-                />}
-            </div>
-          </FormGroup>      
-            <Button
-              type="submit"
-              className="login-button"
-              size="sm"
-            >
-              Log In
-            </Button>
-          <center className="div-signin-to-signup" >
-            <a href="/signup" className="link-signin-to-signup">
-              Haven't signed up yet? Register Now!
-            </a>
-          </center> 
-        </Form> 
+        <div className="login-background">
+          <Container className="signin-container">
+            <br/>
+            <br/>
+            <center>
+                <a href="/signup" className="link-signin-to-signup">
+                  Haven't signed up yet? Register Now!
+                </a>
+            </center> 
+            <br/>
+            <br/>
+            <div className="login-placeholder-row"></div>
+            <Form className="signin-form" onSubmit={this.handleSubmit}>
+              <Row>
+                <Col xs={4}></Col>
+                <Col xs={4}>
+                  <FormGroup className="login-form-group">
+                    <Label className="login-form-label">&nbsp;Email</Label>
+                    <Input
+                      type="text"
+                      value={this.state.userEmail}
+                      onChange={this.handleEmail}
+                      placeholder="Email"
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+                <Col xs={4}></Col>
+              </Row>
+              <Row>
+                <Col xs={4}></Col>
+                <Col xs={4}>
+                  <br/>
+                  <FormGroup className="login-form-group">
+                    <Label className="login-form-label"> &nbsp;Password</Label>
+                    <Input
+                      type={this.state.showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      name="password"
+                      value={this.state.password}
+                      onChange={this.handlePassword}
+                      pattern="[A-Za-z0-9]{5,10}"
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+                <Col xs={4}>
+                  <br/>
+                  <Button
+                    className="btn-show-password"
+                    onClick={() => this.handleShowPassword()}
+                  >
+                    {this.state.showPassword ? (
+                      <i className="fas fa-toggle-on toggle-icon"></i>
+                    ) : (
+                      <i className="fas fa-toggle-off toggle-icon"></i>
+                    )}
+                  </Button>
+                </Col>
+              </Row> 
+              <Row>
+                <Col xs="4"></Col>
+                <Col xs="4">
+                <br/>
+                  <center>    
+                  <Button
+                    type="submit"
+                    className="login-btn btn-med btn-block btn-dark"
+                    size="sm"
+                  >
+                    Log In
+                  </Button>
+                  </center>
+                </Col>
+                <Col xs="4"></Col>
+              </Row>
+            </Form> 
+          </Container>
+        </div>
     );
   }
 }

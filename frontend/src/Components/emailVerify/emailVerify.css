@@ -1,7 +1,12 @@
 .div-verify-background {
-  background-color: black;
-  width: 100%;
   height: 92%;
+  width: 100%;
+  background-image: url("../home_background.jpg"), linear-gradient(100deg, #363636, transparent);
+  background-size: cover;
+  background-position: 100%;
+  background-blend-mode: multiply;
+  display: flex;
+  justify-content: center;
   color: white;
 }
 
