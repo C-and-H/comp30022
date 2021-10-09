@@ -44,14 +44,14 @@ public class EmailService
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setSubject("Confirm your signup for CandhCRM");
+        helper.setSubject("Confirm your signup for CandHCRM");
         helper.setFrom(from);
         helper.setTo(to);
 
         // message body
         String confirmLink = APP_URL + "/signup/" + to + "/" + signupConfirmPath;
-        String messageBody = "Hi " + receiver + ", welcome to candhCRM.<br><br>You are nearly there!<br><br>" +
-                "To finish setting up your account and start using candhCRM, confirm we've got the correct email for you:<br><br>" +
+        String messageBody = "Hi " + receiver + ", welcome to candHCRM.<br><br>You are nearly there!<br><br>" +
+                "To finish setting up your account and start using candHCRM, confirm we've got the correct email for you:<br><br>" +
                 "<a target='_blank' style='color:#0041D3;text-decoration:underline' href='" +
                 confirmLink + "'>Click here to activate</a>" +
                 "<br><img src='cid:logo' width='400' height='400'/>";   // logo
@@ -87,7 +87,7 @@ public class EmailService
                 content +
                 "\n\nKind regards,\n" + sender +
                 "\n\n==============================" +
-                "\nForwarded by CandhCRM" +
+                "\nForwarded by CandHCRM" +
                 "\nFrom: " + email;
 
         helper.setText(messageBody, false);
