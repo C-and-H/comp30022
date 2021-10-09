@@ -13,6 +13,11 @@
     height: 100%;
 }
 
+.change-icon-background {
+    height: 100%;
+    width: 92%;
+}
+
 .preview-box {
     width: 50%;
     height: 60%;
