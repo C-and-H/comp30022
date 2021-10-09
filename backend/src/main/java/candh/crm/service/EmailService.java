@@ -83,12 +83,10 @@ public class EmailService
         helper.setTo(InternetAddress.parse(receiver));
 
         // message body
-        String messageBody = "Hello,\n\nI hope you are doing well.\n\n" +
-                content +
-                "\n\nKind regards,\n" + sender +
+        String messageBody = content +
                 "\n\n==============================" +
-                "\nForwarded by CandhCRM" +
-                "\nFrom: " + email;
+                "\n\nForwarded by CandhCRM" +
+                "\n\nFrom: " + sender + " (" + email + ")";
 
         helper.setText(messageBody, false);
         javaMailSender.send(message);
