@@ -15,7 +15,7 @@ import SearchUser from "./Components/SearchUser/searchUser";
 import OtherUser from "./Components/otherUser";
 import CalendarHomePage from "./Components/Calendar/calendar";
 import { Redirect } from "react-router-dom";
-import Email from "./Components/email";
+import Email from "./Components/Email/email";
 import Chat from "./Components/Chat/chat";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";

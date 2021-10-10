@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
-import { API_URL } from "../constant";
+import { API_URL } from "../../constant";
 import axios from "axios";
+import "./email.css";
 
 class Email extends Component {
   constructor(props) {
