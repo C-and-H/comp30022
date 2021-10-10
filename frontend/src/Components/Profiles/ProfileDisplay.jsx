@@ -50,14 +50,14 @@ export default class ProfileDisplay extends Component {
     }
 
     //console.log(this.props.match.params.id);
-    if (this.props.match.params.id && this.props.match.params.id !== self.id) {
+    if (this.props.id && this.props.id !== self.id) {
       currentUser = await AuthService.getOtherUser(
         basic.token,
-        this.props.match.params.id
+        this.props.id
       );
 
       let friendship = await UserService.checkFriend(
-        this.props.match.params.id,
+        this.props.id,
         basic.token
       );
       this.setState({ isFriend: friendship });
@@ -72,7 +72,7 @@ export default class ProfileDisplay extends Component {
       this.setState({ btnText: "Unfriend" });
       this.setState({ note: this.state.isFriend.notes });
     } else {
-      this.setState({ btnText: "Add friend" });
+      this.setState({ btnText: "Add" });
     }
 
     //console.log(cur	rentUser);
@@ -101,13 +101,13 @@ export default class ProfileDisplay extends Component {
     const user = AuthService.getBasicInfo();
     if (isFriend) {
       // send delete friend request
-      await UserService.deleteFriend(this.props.match.params.id, user.token);
+      await UserService.deleteFriend(this.props.id, user.token);
       this.setState({ btnText: "Add friend" });
       window.location.reload();
     } else {
       // send friend request
       await UserService.sentFriendRequest(
-        this.props.match.params.id,
+        this.props.id,
         user.token
       );
       this.setState({ btnText: "Sent" });
@@ -170,7 +170,8 @@ export default class ProfileDisplay extends Component {
                 <Dropdown.Item onClick={this.startChat} >
                   Text
                 </Dropdown.Item>
-                <Dropdown.Item>
+                <Dropdown.Item onclick={() => 
+                  {this.props.onCall(this.props.id);}}>
                   {"Video & Voice"}
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -315,9 +316,11 @@ export default class ProfileDisplay extends Component {
                       <Label className="profile-display-line">
                         Something About Me :
                       </Label>
+                      <div>
                       <p className="profile-display-p">
                         {currentUser.personalSummary}
                       </p>
+                      </div>
                     </Col>
                   ) : (
                     <></>
@@ -376,7 +379,7 @@ export default class ProfileDisplay extends Component {
                 <Col>
                   <Button
                     className="profile-display-edit-btn"
-                    href={"/settingNote/" + this.props.match.params.id}
+                    href={"/settingNote/" + this.props.id}
                   >
                     Change Note
                   </Button>
