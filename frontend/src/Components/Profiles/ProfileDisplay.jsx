@@ -145,8 +145,8 @@ export default class ProfileDisplay extends Component {
     const { currentUser } = this.state;
 
     localStorage.setItem("chat", JSON.stringify(currentUser));
-    this.props.history.push("/chat");
-    window.location.reload();
+    
+    window.location = "/chat";
     //console.log(this.state.btnText);
   }
 
@@ -170,7 +170,7 @@ export default class ProfileDisplay extends Component {
                 <Dropdown.Item onClick={this.startChat} >
                   Text
                 </Dropdown.Item>
-                <Dropdown.Item onclick={() => 
+                <Dropdown.Item onClick={() => 
                   {this.props.onCall(this.props.id);}}>
                   {"Video & Voice"}
                 </Dropdown.Item>
