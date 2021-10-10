@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
 import { BallRunningDots } from "react-pretty-loading";
+
 import "../App.css";
 
 // reference from https://react-bootstrap.netlify.app/components/navbar/
@@ -62,11 +63,10 @@ class NavigationBar extends Component {
           autoClose="outside"
           eventkey={this.props.notificationNumber}
           title={
-            <span>
-              <i className="fa fa-rocket"></i>
-              Inbox
+            <span classname="navbar-notification-span">
+              <i className="fa fa-bell"></i>
               {this.props.notificationNumber !== 0 && (
-                <span className="badge badge-warning notification-badge">
+                <span className="navbar-notification-number">
                   {" "}
                   {this.props.notificationNumber}{" "}
                 </span>

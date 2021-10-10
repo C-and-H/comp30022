@@ -89,6 +89,22 @@
   transition: 0.4s;
 }
 
+.navbar-notification-span {
+  position: relative;
+}
+
+.navbar-notification-number {
+  position: absolute;
+  left: 16px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  font-size: xx-small;
+  border-radius: 50%;
+  text-align: center;
+}
+
 /*------------------ NavigationBar Components end---------------*/
 
 /*------------------ HomePage Components ---------------*/
