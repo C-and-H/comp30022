@@ -463,6 +463,8 @@ footer {
 .btn-searchEmail {
   width: 80%;
   margin-left: 0%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .div-email-results {
