@@ -62,16 +62,28 @@
 }
 
 .notify-dropdown {
-  width: 200px;
+  width: 240px;
 }
 
 .notify-delete {
   float: right;
 }
 
+.div-notify-delete-nav-dropdown {
+  display: inline-block;
+  overflow: hidden;
+  width: 30px;
+  padding-bottom: 5px;
+}
+
 .dropdown-text {
+  display: inline-block;
   text-align: left;
   font-size: small;
+  width: 190px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .dropdown-time {
@@ -80,6 +92,8 @@
 
 .dropdown-notification {
   max-height: 230px;
+  width: 240px;
+  max-width: 250px;
   overflow: scroll;
 }
 

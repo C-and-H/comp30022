@@ -14,25 +14,26 @@ class NavigationBar extends Component {
         key={notification.id}
         // onClick={() => this.props.removeNotification(notification.id)}
       >
-        <div>
-          <p className="notify-dropdown dropdown-text">
+        <div className="notify-dropdown">
+          <div className="dropdown-text">
             {notification.message}
-            <Button
-              className="notify-delete"
-              variant="outline-danger"
-              size="sm"
-              onClick={() => this.props.removeNotification(notification.id)}
-            >
-              x
-            </Button>
-            <br />
+            <br/>
             <span>
               {new Date(notification.when).toLocaleDateString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
             </span>
-          </p>
+          </div>
+          <div className="div-notify-delete-nav-dropdown">
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={() => this.props.removeNotification(notification.id)}
+            >
+              x
+            </Button>
+          </div>
         </div>
       </NavDropdown.ItemText>
     );
@@ -60,6 +61,7 @@ class NavigationBar extends Component {
           Chat
         </Nav.Link>
         <NavDropdown
+          align="end"
           autoClose="outside"
           eventkey={this.props.notificationNumber}
           title={
@@ -111,6 +113,7 @@ class NavigationBar extends Component {
           )}
         </NavDropdown>
         <NavDropdown
+          align="end"
           eventkey={8}
           title={
             <span>
