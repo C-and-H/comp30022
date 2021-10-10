@@ -119,6 +119,10 @@
   text-align: center;
 }
 
+.nav-bar-username {
+  margin-left: 5px;
+}
+
 /*------------------ NavigationBar Components end---------------*/
 
 /*------------------ HomePage Components ---------------*/

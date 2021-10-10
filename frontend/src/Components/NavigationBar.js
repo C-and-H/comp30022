@@ -122,8 +122,9 @@ class NavigationBar extends Component {
               ) : (
                 <i className="fa fa-user fa-fw" />
               )}
-
-              {this.props.user.first_name}
+              <span className="nav-bar-username">
+                {this.props.user.first_name}
+              </span>
             </span>
           }
           id="collasible-nav-dropdown"
@@ -133,14 +134,14 @@ class NavigationBar extends Component {
           <NavDropdown.Item href="/calendar">Calendar</NavDropdown.Item>
           <NavDropdown.Item href="/email">Email</NavDropdown.Item>
 
-          <NavDropdown.Divider />
+          {/* <NavDropdown.Divider /> */}
 
           <NavDropdown.Item href="/setting">Edit Profile</NavDropdown.Item>
           <NavDropdown.Item href="/changeIcon">Change Icon</NavDropdown.Item>
           <NavDropdown.Item href="/setting/change-password">
             Change Password
           </NavDropdown.Item>
-          <NavDropdown.Divider />
+          {/* <NavDropdown.Divider /> */}
           <NavDropdown.Item
             href="/login"
             onClick={this.props.onLogOut}
