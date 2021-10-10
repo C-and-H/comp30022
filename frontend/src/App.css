@@ -487,9 +487,9 @@ footer {
 .profile-display-icon-btn {
   margin-left: 0px;
   align-self: center;
-  border-radius: 20px;
-  height: 32px;
-  width: 120px;
+  
+  height: 90%;
+  width: 70%;
   text-align: center;
   background-color: mediumslateblue;
 }

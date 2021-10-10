@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import AuthService from "../../Services/AuthService";
 import { Button, Container, Row, Col, Label } from "reactstrap";
+import { Dropdown } from "react-bootstrap";
 import "../../App.css";
 
 import UserService from "../../Services/UserService";
@@ -109,7 +110,7 @@ export default class ProfileDisplay extends Component {
         this.props.match.params.id,
         user.token
       );
-      this.setState({ btnText: "Request sent" });
+      this.setState({ btnText: "Sent" });
       //console.log("bruh")
       this.setState({ disableBtn: true });
     }
@@ -155,12 +156,25 @@ export default class ProfileDisplay extends Component {
         <Row>
           <Col></Col>
           <Col xs="6">
-            <Button
-              className="profile-display-icon-btn"
-              onClick={this.startChat}
-            >
-              Chat
-            </Button>
+            <Dropdown>
+              <Dropdown.Toggle
+                className="profile-display-icon-btn"
+                
+                
+                // onClick={this.startChat}
+              >
+                Chat
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={this.startChat} >
+                  Text
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  {"Video & Voice"}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Col>
 
           <Col></Col>

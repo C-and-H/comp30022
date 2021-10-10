@@ -122,7 +122,7 @@ export default class Dashboard extends React.Component {
                     <br /><br /><br />
                     
                   <Clock 
-                    format={'h:mm:ss A, dddd MMMM Mo, YYYY '}
+                    format={'h:mm:ss A, dddd'}
                     interval={1000} 
                     ticking={true} />
                     
@@ -135,7 +135,7 @@ export default class Dashboard extends React.Component {
                     <br /><br /><br />
                   <Clock
                     className="clock"
-                    format={'h:mm:ss A, dddd MMMM Mo, YYYY '}
+                    format={'h:mm:ss A, dddd'}
                     interval={1000}
                     ticking={true} 
                     timezone={'Etc/GMT'}/>

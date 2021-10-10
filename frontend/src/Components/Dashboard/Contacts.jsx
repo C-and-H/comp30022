@@ -284,7 +284,7 @@ class Contacts extends React.Component {
       <div className="contact">
         <div className="contact-body">
           {this.header()}
-          <hr className="requests-line-break" />
+          {/* <hr className="requests-line-break" /> */}
           {/* not null and true then */}
           {searchList ? (
             searchList.length === 0 ? (
