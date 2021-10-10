@@ -116,7 +116,7 @@ class LogIn extends Component {
                 <Col xs={4}>
                   <br/>
                   <Button
-                    className="btn-show-password"
+                    className="login-btn-show-password"
                     onClick={() => this.handleShowPassword()}
                   >
                     {this.state.showPassword ? (
