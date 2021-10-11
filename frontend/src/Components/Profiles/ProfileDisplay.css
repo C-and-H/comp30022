@@ -1,0 +1,142 @@
+:root{
+  --button-font: "Montserrat", sans-serif;
+  --profile-large-font: 44px;
+  --profile-median-font: 22px;
+  --profile-small-font: 20px;
+}
+#profile-background{
+  background-color: #F5F5F5;
+  width: 100%;
+  height: 92%;
+}
+
+.profile-display-header-1 {
+  text-align: left;
+  font-size: var(--profile-large-font);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+}
+
+.profile-display-bar-1 {
+  border-radius: .375rem;
+  align-items: center;
+  font-size: var(--profile-median-font);
+  color: #32325d;
+  background-color: #fff ;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-shadow:0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%)
+}
+.profile-display-edit-btn-1 {
+  float: right;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+}
+.profile-display-edit-btn-1:hover{
+  background-color: #3c4fb6;
+  color: white;
+}
+
+.circle-icon {
+  margin-top: 20px;
+  background: white;
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 60px !important;
+  /* line-height: -100px; */
+  vertical-align: middle;
+  /* padding: 30px; */
+  font-size: 150px;
+  border: 2px solid black;
+}
+
+.profile-display-change-btn-1 {
+  margin-top: -40px;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+}
+
+.profile-display-line-1 {
+  margin-top: 20px;
+  font-size: calc(var(--profile-small-font) + 2px);
+  text-align: left;
+  /* font-weight: 700; */
+}
+
+.profile-display-value-1 {
+  margin-top: 24px;
+  font-size: calc(var(--profile-small-font) - 2px);
+  font-weight: 100;
+}
+.profile-display-div-1{
+  margin-top: 10px;
+  width: 70%;
+  /* border: 2px solid black; */
+  overflow: auto;
+  height: 150px;
+  box-shadow:0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+  background-color: white;
+  border-color: rgba(50, 151, 211, .25);
+  box-shadow: 0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+  /* border: 0px; */
+}
+/* .profile-summary-1{
+  height: 40%;
+} */
+.profile-display-p-1 {
+  text-align: left;
+  white-space: pre-line;
+  border: 0px;
+  padding: .625rem .75rem;
+  border-radius:.375rem;
+}
+
+
+.profile-display-bar {
+  text-align: left;
+  font-size: 28px;
+  background-color: skyblue;
+  margin-top: 40px;
+}
+
+
+
+
+
+
+
+
+.profile-display-contact-line {
+  margin-top: 45px;
+  font-size: 28px;
+  margin-left: 280px;
+}
+
+.profile-display-contact-value {
+  margin-top: 45px;
+  font-size: 28px;
+}
+.profile-display-icon-btn {
+  margin-left: 0px;
+  align-self: center;
+  
+  height: 90%;
+  width: 70%;
+  text-align: center;
+  background-color: mediumslateblue;
+}
+
+.profile-display-formgroup {
+  text-align: left;
+  padding-top: 10px;
+}
+
+.profile-display-note-input {
+  height: 200px;
+  white-space: pre-line;
+}
+
