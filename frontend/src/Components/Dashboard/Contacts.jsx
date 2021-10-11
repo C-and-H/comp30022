@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { ButtonGroup, Row, Col, Container } from "react-bootstrap";
-import FriendDisplay from "../friendDisplay";
+import { ButtonGroup, Row, Col } from "react-bootstrap";
 import Friend from "./Friend";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import { CSVLink } from "react-csv";
-import AddIcon from '@mui/icons-material/Add';
-import DownloadIcon from '@mui/icons-material/Download';
+import AddIcon from "@mui/icons-material/Add";
+import DownloadIcon from "@mui/icons-material/Download";
 import { IconButton } from "@mui/material";
 
-class Contacts extends React.Component {
+class Contacts extends Component {
   constructor(props) {
     super(props);
     this._isMounted = false;
@@ -31,16 +30,13 @@ class Contacts extends React.Component {
   }
 
   async componentDidMount() {
-    
-   
     this.getFriends();
-    
   }
 
   /**
    * get contactRelation data from backend
    */
-   async getFriends() {
+  async getFriends() {
     const { basic } = this.props;
     const response = await axios.get(API_URL + "/friend/listFriends", {
       headers: {
@@ -95,7 +91,7 @@ class Contacts extends React.Component {
    * get friends' detailed info by their id
    * @param {*} id id of interested user
    */
-   async getFriendInfo(id) {
+  async getFriendInfo(id) {
     const response = await axios.post(
       API_URL + "/user",
       { id: id },
@@ -114,50 +110,50 @@ class Contacts extends React.Component {
     }
   }
 
-   /**
+  /**
    * go to search page
    */
-    redirectSearch() {
-      const redirect = "/searchUser";
-      this.setState({ redirect });
-    }
+  redirectSearch() {
+    const redirect = "/searchUser";
+    this.setState({ redirect });
+  }
 
-    redirectFriend(id) {
-      const redirect = "/profile/" + id;
-      this.setState({ redirect });
-    }
+  redirectFriend(id) {
+    const redirect = "/profile/" + id;
+    this.setState({ redirect });
+  }
 
-    friendNote(id) {
-      const { friends } = this.state;
-      for (let i = 0; i < friends.length; i++) {
-        if (id === friends[i][0]) {
-          return friends[i][1];
-        }
+  friendNote(id) {
+    const { friends } = this.state;
+    for (let i = 0; i < friends.length; i++) {
+      if (id === friends[i][0]) {
+        return friends[i][1];
       }
-      return "";
     }
+    return "";
+  }
 
-    /**
+  /**
    * automatically search when user enter or delete something
    */
-    handleChange(event) {
-      if (!event.target.value || event.target.value === "") {
-        this.setState({ searchList: null });
-      } else {
-        this.matchContacts(event.target.value);
-      }
+  handleChange(event) {
+    if (!event.target.value || event.target.value === "") {
+      this.setState({ searchList: null });
+    } else {
+      this.matchContacts(event.target.value);
     }
+  }
 
-    /**
+  /**
    * prevent refresh page when "ENTER" hits
    */
-    onKeyUp(event) {
-      if (event.charCode === 13) {
-        event.preventDefault();
-      }
+  onKeyUp(event) {
+    if (event.charCode === 13) {
+      event.preventDefault();
     }
+  }
 
-    /**
+  /**
    * search friends' name, email, industry, company, areaOrRegion
    * and friend notes
    * @param {*} key search key
@@ -205,9 +201,9 @@ class Contacts extends React.Component {
    *
    * @returns contact list header layout
    */
-   header() {
-    const {  friends_csv, headers_csv, show } = this.state;
-    
+  header() {
+    const { friends_csv, headers_csv, show } = this.state;
+
     return (
       <div className="contact-header">
         <div className="contact-container">
@@ -225,40 +221,34 @@ class Contacts extends React.Component {
 
             <Col className="col" xs="1">
               <ButtonGroup>
-                <IconButton 
+                <IconButton
                   aria-label="Add new friend"
                   size="large"
                   onClick={() => this.redirectSearch()}
                 >
-                  <AddIcon className="csv-btn"/>
+                  <AddIcon className="csv-btn" />
                 </IconButton>
-                {!show &&
-                  <IconButton 
-                    aria-label="Export CSV"
-                    size="large"
-                    >
+                {!show && (
+                  <IconButton aria-label="Export CSV" size="large">
                     <DownloadIcon className="csv-btn" />
-                  </IconButton>}
-                {show &&
-                <IconButton
-                   aria-label="Export CSV"
-                   size="large">
-                  <CSVLink
-                    data={friends_csv}
-                    headers={headers_csv}
-                    filename={"Contacts.csv"}
-                  >
-                    <DownloadIcon className="csv-btn"/>
-                  </CSVLink>
-
-                </IconButton>
-                }
+                  </IconButton>
+                )}
+                {show && (
+                  <IconButton aria-label="Export CSV" size="large">
+                    <CSVLink
+                      data={friends_csv}
+                      headers={headers_csv}
+                      filename={"Contacts.csv"}
+                    >
+                      <DownloadIcon className="csv-btn" />
+                    </CSVLink>
+                  </IconButton>
+                )}
               </ButtonGroup>
             </Col>
-            
           </Row>
         </div>
-      {/* <Button className="minus" title="delete friend">
+        {/* <Button className="minus" title="delete friend">
       <i className="fas fa-user-minus" />
          </Button>
          <Button
@@ -276,9 +266,8 @@ class Contacts extends React.Component {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    
-    const { friendList, searchList } =
-      this.state;
+
+    const { friendList, searchList } = this.state;
     // console.log(friendList)
     return (
       <div className="contact">
@@ -309,10 +298,7 @@ class Contacts extends React.Component {
               />
             ))
           )}
-          
         </div>
-
-        
       </div>
     );
   }

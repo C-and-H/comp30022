@@ -62,16 +62,28 @@
 }
 
 .notify-dropdown {
-  width: 200px;
+  width: 240px;
 }
 
 .notify-delete {
   float: right;
 }
 
+.div-notify-delete-nav-dropdown {
+  display: inline-block;
+  overflow: hidden;
+  width: 30px;
+  padding-bottom: 5px;
+}
+
 .dropdown-text {
+  display: inline-block;
   text-align: left;
   font-size: small;
+  width: 190px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .dropdown-time {
@@ -80,7 +92,35 @@
 
 .dropdown-notification {
   max-height: 230px;
+  width: 240px;
+  max-width: 250px;
   overflow: scroll;
+}
+
+.nav-link:hover,
+.navbar-brand:hover {
+  color: pink !important;
+  transition: 0.4s;
+}
+
+.navbar-notification-span {
+  position: relative;
+}
+
+.navbar-notification-number {
+  position: absolute;
+  left: 16px;
+  top: 7px;
+  width: 12px;
+  height: 12px;
+  background-color: red;
+  font-size: xx-small;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.nav-bar-username {
+  margin-left: 5px;
 }
 
 /*------------------ NavigationBar Components end---------------*/
@@ -145,8 +185,6 @@ body .bg-dark {
   padding-bottom: 5px;
 }
 
-
-
 /*------------------ Profile SideBar Components End ---------------*/
 
 footer {
@@ -159,7 +197,6 @@ footer {
   text-align: center;
   background-color: rgb(31, 30, 30);
 }
-
 
 /*------------------ Contact Components ---------------*/
 .rectangle {
