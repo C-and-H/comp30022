@@ -71,7 +71,7 @@ class RecentEvents extends React.Component {
           
         </div>
         <div >
-        <hr className="event-line-break"/>
+        {/* <hr className="event-line-break"/> */}
         {appointments.length > 0 ? (
           appointments.map((appointment) => (
             <Event 

@@ -406,7 +406,9 @@ footer {
 
 .profile-display-p {
   margin-top: 40px;
-  text-align: justify;
+  width: 100%;
+  text-align: center;
+  word-break: break-all;
   white-space: pre-line;
 }
 
@@ -423,9 +425,9 @@ footer {
 .profile-display-icon-btn {
   margin-left: 0px;
   align-self: center;
-  border-radius: 20px;
-  height: 32px;
-  width: 120px;
+  
+  height: 90%;
+  width: 70%;
   text-align: center;
   background-color: mediumslateblue;
 }

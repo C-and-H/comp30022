@@ -159,7 +159,7 @@ class ReceivedList extends React.Component {
     return (
       <div className="received-list">
         <h1 className="requests-header">Received</h1>
-        <hr className="requests-line-break"></hr>
+        
         {requestList &&
           (requestList.length === 0 ? (
             <h1>No Request</h1>

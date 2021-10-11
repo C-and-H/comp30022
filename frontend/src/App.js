@@ -572,7 +572,14 @@ class App extends Component {
               />
             </Route>
             <Route exact path="/email" component={Email} />
-            <Route exact path="/profile/:id" component={ProfileDisplay} />
+            <Route exact path="/profile/:id" render={(props) => (
+              //console.log(props.match.params.id)
+              <ProfileDisplay 
+                id={props.match.params.id}
+                onCall={this.startCall}
+              />
+            )} />
+              
             <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/calendar" component={CalendarHomePage} />
