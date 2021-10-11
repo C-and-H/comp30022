@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
-import { API_URL } from "../constant";
+import { API_URL } from "../../constant";
 import axios from "axios";
+import "./email.css";
 
 class Email extends Component {
   constructor(props) {
@@ -85,7 +86,7 @@ class Email extends Component {
   }
 
   mailContent() {
-    const { mailBody, mailTitle, sending } = this.state;
+    const { toEmails, mailBody, mailTitle, sending, fromName } = this.state;
     return (
       <div className="div-mail">
         <div className="div-mail-title">
@@ -101,6 +102,26 @@ class Email extends Component {
             onChange={this.handleChangeTitle}
           />
         </div>
+        <div className="div-from-name">
+          <TextField
+            id="mail-from"
+            multiline
+            required
+            variant="outlined"
+            label="From"
+            className="mail-body"
+            rows={1}
+            value={fromName}
+            onChange={this.handleChangeSender}
+          />
+        </div>
+        <div className="div-to-email">
+          {toEmails.length === 0 ? (
+            <h5>To Emails</h5>
+          ) : (
+            toEmails.map((email) => this.displayToEmails(email))
+          )}
+        </div>
         <div className="div-mail-body">
           <TextField
             id="mail-body"
@@ -109,7 +130,7 @@ class Email extends Component {
             variant="outlined"
             label="Mail Content"
             className="mail-body"
-            rows={15}
+            rows={10}
             value={mailBody}
             onChange={this.handleChangeBody}
           />
@@ -126,30 +147,11 @@ class Email extends Component {
   }
 
   mailInfo() {
-    const { toEmails, fromName, email, searchEmails } = this.state;
+    const { email, searchEmails } = this.state;
     return (
       <div className="div-sender">
-        <div className="div-mail-title">
-          <TextField
-            id="mail-from"
-            multiline
-            required
-            variant="outlined"
-            label="From Name"
-            className="mail-body"
-            rows={1}
-            value={fromName}
-            onChange={this.handleChangeSender}
-          />
-        </div>
-        <div className="div-to-email">
-          {toEmails.length === 0 ? (
-            <h5>To Emails</h5>
-          ) : (
-            toEmails.map((email) => this.displayToEmails(email))
-          )}
-        </div>
-        <div className="div-mail-body">
+        <div className="div-search-to-email">
+          <div className="div-to-email-search-box">
           <TextField
             id="mail-to"
             variant="outlined"
@@ -159,6 +161,7 @@ class Email extends Component {
             value={email}
             onChange={this.handleChangeReceiver}
           />
+          </div>
           <Button className="btn-add-email" onClick={() => this.addEmail()}>
             Add
           </Button>

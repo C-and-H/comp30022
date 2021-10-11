@@ -20,7 +20,7 @@
   color: rgb(168, 58, 58);
 }
 
-#signup-to-signin {
+.signup-to-signin {
   background-color: #3485f0;
   margin-top: 10px;
   border: black;
@@ -229,13 +229,17 @@ footer {
 }
 .search-bar {
   width: 600px;
-  height: 40px;
+  height: 35px;
   border-radius: 6px;
 }
 
 .search-form {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 50px;
+  padding-bottom: 40px;
+  margin-left: 28%;
+  margin-right: 28%;
+  border-bottom: 2px solid rgb(174, 174, 172);
 }
 
 .btn-search {
@@ -283,11 +287,24 @@ footer {
   margin-top: 50px;
 }
 
-.search-detailed {
+.search-detailed-center {
   width: 180px;
   display: inline;
-  margin-left: 10px;
-  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.search-detailed-left {
+  width: 180px;
+  display: inline;
+  float: right;
+  border-radius: 10px;
+}
+
+.search-detailed-right {
+  width: 180px;
+  display: inline;
+  float: left;
+  border-radius: 10px;
 }
 
 .search-form-detailed {
@@ -295,14 +312,26 @@ footer {
   margin-top: 50px;
 }
 
+.div-search-bottom-line {
+  padding-bottom: 40px;
+  border-bottom: 2px solid rgb(174, 174, 172);
+  margin-left: 24%;
+  margin-right: 24%;
+}
+
 .btn-search-detailed {
   display: block;
-  width: 200px;
-  background-color: coral;
+  width: 140px;
+  background-color: rgba(255, 255, 255, 1);
+  color: black;
   margin: auto;
   margin-top: 50px;
   left: 0;
   right: 0;
+}
+
+.btn-search-detailed:hover {
+  background-color: black;
 }
 
 .btn-request {
@@ -334,99 +363,6 @@ footer {
 }
 
 /*------------------ Contact Components end ---------------*/
-
-/*------------------ Email Components ---------------*/
-
-.div-mail {
-  margin-top: 3%;
-  margin-left: 10%;
-  width: 50%;
-  height: 80%;
-  background-color: cornflowerblue;
-  position: absolute;
-  display: inline-block;
-}
-
-.div-sender {
-  margin-top: 3%;
-  margin-left: 65%;
-  width: 30%;
-  height: 80%;
-  background-color: deepskyblue;
-  position: absolute;
-  display: inline-block;
-}
-
-.div-mail-body {
-  width: 80%;
-  margin-top: 5%;
-  margin-left: 10%;
-}
-
-.div-mail-title {
-  width: 80%;
-  margin-top: 10%;
-  margin-left: 10%;
-}
-
-.mail-body {
-  width: 100%;
-}
-
-.mail-email {
-  width: 85%;
-}
-
-.btn-send {
-  width: 10%;
-  height: 6%;
-  margin-top: 5%;
-  margin-left: 80%;
-  background-color: lightsalmon;
-}
-
-.btn-add-email {
-  width: 13%;
-  height: 50px;
-  margin-left: 2%;
-  background-color: lightsalmon;
-}
-
-.div-to-email {
-  width: 80%;
-  height: 60px;
-  margin-top: 5%;
-  margin-left: 10%;
-  border-width: 2px;
-  overflow-x: auto;
-  white-space: nowrap;
-  border-color: black;
-  border-style: solid;
-  border-radius: 4px;
-}
-
-.email-display {
-  display: inline-block;
-  padding-left: 5px;
-  margin-top: 8px;
-  margin-left: 8px;
-  background-color: indianred;
-  border-radius: 4px;
-}
-
-.btn-searchEmail {
-  width: 80%;
-  margin-left: 10%;
-}
-
-.div-email-results {
-  width: 100%;
-  max-height: 300px;
-  margin-top: 50px;
-  overflow: auto;
-}
-
-/*------------------ Email Components end ---------------*/
 
 /*------------------ profileDisplay Components -------------*/
 .profile-display-line {
