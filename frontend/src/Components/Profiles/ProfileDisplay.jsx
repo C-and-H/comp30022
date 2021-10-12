@@ -124,22 +124,22 @@ export default class ProfileDisplay extends Component {
   friendBtn() {
     const { btnText, disableBtn } = this.state;
     return (
-      <Container>
-        <Row>
-          <Col></Col>
-          <Col xs="6">
+      // <Container>
+      //   <Row>
+      //     <Col></Col>
+      //     <Col xs="6">
             <Button
-              className="profile-display-icon-btn"
+              className="profile-display-change-btn-1"
               disabled={disableBtn}
               onClick={() => this.handleClick()}
             >
               {btnText}
             </Button>
-          </Col>
+      //     </Col>
 
-          <Col></Col>
-        </Row>
-      </Container>
+      //     <Col></Col>
+      //   </Row>
+      // </Container>
     );
   }
 
@@ -160,7 +160,7 @@ export default class ProfileDisplay extends Component {
           <Col xs="6">
             <Dropdown>
               <Dropdown.Toggle
-                className="profile-display-icon-btn"
+                className="profile-display-change-btn-2"
                 
                 
                 // onClick={this.startChat}
@@ -197,7 +197,7 @@ export default class ProfileDisplay extends Component {
       myself,
       icon,
       isFriend,
-      note,
+      note, btnText, disableBtn
     } = this.state;
 
     if (this.state.redirect) {
@@ -248,24 +248,37 @@ export default class ProfileDisplay extends Component {
                     </Col>
                   </Row>
                 ) : (
-                  <Container>
-                    <Row >
-                      {this.friendBtn()}
-                    </Row>
+                  <div>
+                    
                     {isFriend ? (
-                      <Row className="profile-display-line">
-                        {this.chatBtn()}
-                      </Row>
+                    <Row className="profile-display-line">
+                      <Col xs="4">
+                      {this.friendBtn()}
+                      </Col>
+                      <Col>
+                      {this.chatBtn()}
+                      </Col>
+                    </Row>
+                      
                     ) : (
-                      <></>
+                      
+                      <Row className="profile-display-line">
+                        <Button
+                          className="profile-display-change-btn-3"
+                          disabled={disableBtn}
+                          onClick={() => this.handleClick()}
+                        >
+                          {btnText}
+                        </Button>
+                      </Row>
                     )}
-                  </Container>
+                  </div>
                 )}
             </Col>
             <Col xs="1"></Col>
             <Col xs="8">
                 <Row>
-                <Col xs="3">
+                <Col xs="6">
                     <div className="profile-display-line-1">Industry:</div>
                 </Col>
                   <Col>
@@ -279,7 +292,7 @@ export default class ProfileDisplay extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3">
+                  <Col xs="6">
                     <Label className="profile-display-line-1">Company:</Label>
                   </Col>
                   <Col>
@@ -293,10 +306,10 @@ export default class ProfileDisplay extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3">
+                  <Col xs="6">
                     <Label className="profile-display-line-1">Region:</Label>
                   </Col>
-                  <Col>
+                  <Col xs="3">
                     {hasRegion ? (
                       <Label className="profile-display-value-1">
                         {currentUser.areaOrRegion}
@@ -306,24 +319,24 @@ export default class ProfileDisplay extends Component {
                     )}
                   </Col>
                   <Row>
-                  <Col xs="3">
+                  <Col xs="6">
                     <Label className="profile-display-line-1">Email:</Label>
                   </Col>
                   <Col>
-                    <Label className="profile-display-value-1">
+                    <Label className="profile-display-value-2">
                       {currentUser.email}
                     </Label>
                   </Col>
                 </Row>
                 {hasPhone ? (
                   <Row>
-                    <Col xs="3">
+                    <Col xs="6">
                       <Label className="profile-display-line-1">
                         Phone Number:
                       </Label>
                     </Col>
                     <Col xs="3">
-                      <Label className="profile-display-value-1">
+                      <Label className="profile-display-value-3">
                         {currentUser.phone}
                       </Label>
                     </Col>
@@ -351,46 +364,7 @@ export default class ProfileDisplay extends Component {
           </Col>
           </Row>
 
-          <Row className="profile-display-bar">
-            <Col>Contact Detail</Col>
-            <Col></Col>
-            {myself ? (
-              <Col>
-                <Button className="profile-display-edit-btn" href="/setting">
-                  Edit My Profile!
-                </Button>
-              </Col>
-            ) : (
-              <></>
-            )}
-          </Row>
-
-          <Row>
-            <Col>
-              <Label className="profile-display-contact-line">Email:</Label>
-            </Col>
-            <Col>
-              <Label className="profile-display-contact-value">
-                {currentUser.email}
-              </Label>
-            </Col>
-          </Row>
-          {hasPhone ? (
-            <Row>
-              <Col>
-                <Label className="profile-display-contact-line">
-                  Phone Number:
-                </Label>
-              </Col>
-              <Col>
-                <Label className="profile-display-contact-value">
-                  {currentUser.phone}
-                </Label>
-              </Col>
-            </Row>
-          ) : (
-            <></>
-          )}
+          
 
           {isFriend ? (
             <Container>

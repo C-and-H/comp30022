@@ -58,6 +58,22 @@
   margin-top: -40px;
   background-color: #5e72e4;
   border-color: #5e72e4;
+  width: 150%;
+}
+
+.profile-display-change-btn-2 {
+  margin-top: -40px;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+  width: 200%;
+}
+
+.profile-display-change-btn-3 {
+  margin-top: 10%;
+  margin-left: 25%;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+  width: 50%;
 }
 
 .profile-display-line-1 {
@@ -69,6 +85,19 @@
 
 .profile-display-value-1 {
   margin-top: 24px;
+  font-size: calc(var(--profile-small-font) - 2px);
+  font-weight: 100;
+}
+
+.profile-display-value-2 {
+  margin-top: 24px;
+  margin-left: 3%;
+  font-size: calc(var(--profile-small-font) - 2px);
+  font-weight: 100;
+}
+.profile-display-value-3 {
+  margin-top: 24px;
+  margin-left: 5%;
   font-size: calc(var(--profile-small-font) - 2px);
   font-weight: 100;
 }

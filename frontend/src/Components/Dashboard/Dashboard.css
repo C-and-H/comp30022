@@ -1,7 +1,7 @@
 .requests-list {
     width: 90%;
     background-color: white;
-    border-style: ridge;
+    border-style: solid;
     height: calc(100vh - 450px);
     overflow: auto;
     text-align: left;
@@ -14,7 +14,7 @@
 .received-list {
     width: 90%;
     background-color: white;
-    border-style: ridge;
+    border-style: solid;
     height: calc(100vh - 450px);
     overflow: auto;
     text-align: left;
@@ -93,6 +93,7 @@
     display: flex;
     margin-top: 9%;
     width: 90%;
+    border-style: solid;
     margin-left: 6%;
 }
 
@@ -132,6 +133,7 @@
 
 .contact-header {
     height: 8%;
+    
     background: white;
     
 }
@@ -148,7 +150,7 @@
     margin-top: 2%;
     background-color: white;
     margin-left: 8%;
-    border-style: groove;
+    border-style: solid;
     width: 70%;
     overflow: auto;
     display: inline-block;
@@ -219,4 +221,10 @@
 .time-zone {
     margin-top: 10%;
     margin-bottom: 100%;
+}
+
+.small-header {
+    width: 101%;
+    height: 20%;
+    border-style:groove;
 }

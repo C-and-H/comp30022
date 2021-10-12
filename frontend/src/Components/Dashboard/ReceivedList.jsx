@@ -154,7 +154,10 @@ class ReceivedList extends Component {
     const { requestList } = this.state;
     return (
       <div className="received-list">
-        <h1 className="requests-header">Received</h1>
+        <div className="small-header">
+          <h1 className="requests-header">Received</h1>
+        </div>
+        
         
         {requestList &&
           (requestList.length === 0 ? (

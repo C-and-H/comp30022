@@ -137,7 +137,10 @@ class RequestList extends React.Component {
     const { requestList } = this.state;
     return (
       <div className="requests-list">
+        <div className="small-header">
         <h1 className="requests-header">Sent</h1>
+        </div>
+        
         
         {requestList &&
           (requestList.length === 0 ? (
