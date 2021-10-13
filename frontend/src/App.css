@@ -60,7 +60,12 @@
 .nav-bar-78 {
   height: 8%;
 }
-
+.navdropdown-email{
+  border-bottom: 2px solid black;
+}
+.navdropdown-change-password{
+  border-bottom: 2px solid black;
+}
 .notify-dropdown {
   width: 240px;
 }

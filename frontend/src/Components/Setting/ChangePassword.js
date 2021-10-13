@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, FormGroup, Label } from "reactstrap";
+import { Form, Input, Button, FormGroup, Label, Row, Col,Container } from "reactstrap";
 import AuthService from "../../Services/AuthService";
 import { Redirect } from "react-router-dom";
 import "./ChangePassword.css"
@@ -86,8 +86,15 @@ class ChangePassword extends React.Component {
     }
     return (
       <div className="background-change-password">
-        <Form className="signup-form" onSubmit={this.handleSubmit}>
+        <Container id="container">
+        <Form  onSubmit={this.handleSubmit}>
+        
+        <Row>
         <div className="change-password-div"></div>
+        <Col xs = "4"></Col>
+        
+        <Col xs = "4">
+        <center>
           <FormGroup className="change-password-formgroup">
             <Label className="setting-profile-form-label">&nbsp;Old Password</Label>
             <Input
@@ -100,6 +107,10 @@ class ChangePassword extends React.Component {
               required
             />
           </FormGroup>
+          </center>
+          </Col>
+          
+          <Col xs = "4" className="delete-padding-left">
           <Button
               className="btn-show-password"
               onClick={() => this.handleShowPassword()}
@@ -110,13 +121,16 @@ class ChangePassword extends React.Component {
                 <i className="fas fa-toggle-off toggle-icon"></i>
               )}
             </Button>
-          {/* <ul className="password-requirement">
-              <li>&nbsp;5-10 letters or numbers</li>
-            </ul> */}
+            </Col>
+            </Row>
+        <Row>
+        <Col xs = "4"></Col>
+        <Col xs = "4">
+        <center>
           <FormGroup className="change-password-formgroup">
             <Label className="setting-profile-form-label"> &nbsp;New Password
             <span id="requirement-text">
-            &nbsp;&nbsp;&nbsp;&nbsp;5-10 letters or numbers</span>
+            &nbsp;&nbsp;&nbsp;5-10 letters or numbers</span>
             </Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
@@ -127,9 +141,14 @@ class ChangePassword extends React.Component {
               pattern="[A-Za-z0-9]{5,10}"
               required
             />
-
           </FormGroup>
-
+          </center>
+          </Col>
+        </Row>
+        <Row>
+        <Col xs = "4"></Col>
+        <Col xs = "4">
+        <center>
           <FormGroup className="change-password-formgroup">
             <Label className="setting-profile-form-label"> &nbsp;Confirm New Password</Label>
             <Input
@@ -143,6 +162,9 @@ class ChangePassword extends React.Component {
             />
             
           </FormGroup>
+          </center>
+          </Col>
+        </Row>
           <center>
           <Button
             type="submit"
@@ -152,6 +174,7 @@ class ChangePassword extends React.Component {
           </Button>
           </center>
         </Form>
+      </Container>
       </div>
     );
   }

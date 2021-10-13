@@ -182,7 +182,7 @@ class SignUp extends Component {
             <Label className="signup-password" style={{float:"left"}}> &nbsp;Password
             <span id="requirement-text">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5-10 letters or numbers</span>
+            &nbsp;5-10 letters or numbers</span>
             </Label>
             <Input
               type={this.state.showPassword ? "text" : "password"}
