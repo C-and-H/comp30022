@@ -155,7 +155,7 @@ class ReceivedList extends Component {
     return (
       <div className="received-list">
         <h1 className="requests-header">Received</h1>
-        
+
         {requestList &&
           (requestList.length === 0 ? (
             <h1>No Request</h1>

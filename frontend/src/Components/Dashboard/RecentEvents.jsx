@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 
 import "./Dashboard.css";
 
-import Event from "./Event";
+import Event from "./event";
 
 class RecentEvents extends React.Component {
   constructor(props) {
@@ -63,22 +63,22 @@ class RecentEvents extends React.Component {
             Calendar
           </Button>
         </div>
-        <div >
-        {/* <hr className="event-line-break"/> */}
-        {appointments.length > 0 ? (
-          appointments.map((appointment) => (
-            <Event 
-              key={appointment.id}
-              host={appointment.hostId}
-              title={appointment.title}
-              startTime={appointment.startDate}
-              endTime={appointment.endDate}
-              userId ={basic.id}
-              token={basic.token}
-              notes={appointment.description}
-            />
-          
-          ))) : (
+        <div>
+          {/* <hr className="event-line-break"/> */}
+          {appointments.length > 0 ? (
+            appointments.map((appointment) => (
+              <Event
+                key={appointment.id}
+                host={appointment.hostId}
+                title={appointment.title}
+                startTime={appointment.startDate}
+                endTime={appointment.endDate}
+                userId={basic.id}
+                token={basic.token}
+                notes={appointment.description}
+              />
+            ))
+          ) : (
             <p className="no-meetings">
               No upcoming or past events around today, have a nice day !
             </p>

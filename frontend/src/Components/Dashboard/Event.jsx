@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { API_URL } from "../../constant";
 
-
 class Event extends React.Component {
   constructor(props) {
     super(props);
@@ -13,14 +12,14 @@ class Event extends React.Component {
       hostName: "",
       title: "",
       timeColor: "green",
-      displayHost: true
-    }
+      displayHost: true,
+    };
   }
 
   async componentDidMount() {
     //console.log(new Date());
     const currTime = new Date();
-    const { startTime, endTime, host, title, userId} = this.props;
+    const { startTime, endTime, host, title, userId } = this.props;
     if (host === userId) {
       this.setState({ displayHost: false });
     } else {
@@ -33,9 +32,9 @@ class Event extends React.Component {
     } else if (currTime < startTime) {
       this.setState({ timeColor: "green" });
     } else {
-      this.setState({ timeColor: "orange"});
+      this.setState({ timeColor: "orange" });
     }
-    this.setState( {hostId: host, title: title});
+    this.setState({ hostId: host, title: title });
     var startTimeMinsInterval = "";
     var endTimeMinsInterval = "";
     var startTimeHourInterval = "";
@@ -109,7 +108,6 @@ class Event extends React.Component {
       startTime: startTimeString,
       endTime: endTimeString,
     });
-
   }
 
   // get the host information
@@ -124,43 +122,39 @@ class Event extends React.Component {
       }
     );
     if (response.data) {
-      this.setState({ hostName: response.data.first_name })
+      this.setState({ hostName: response.data.first_name });
     }
   }
 
   render() {
-    const { startTime, endTime, title, timeColor, displayHost,
-    hostName } = this.state;
+    const { startTime, endTime, title, timeColor, displayHost, hostName } =
+      this.state;
     const { notes } = this.props;
     console.log(notes);
     return (
-      <div 
-        className="event"
-        data-tip={notes}
-        
-      >
+      <div className="event" data-tip={notes}>
         <div className="child-event">
-        <i className="fa fa-clock-o fa-lg"
-         style={{ color: timeColor, marginRight: 10}}
-        />
-        {startTime} - {endTime}
-        <br />
-        {"Meeting title: " + title}
-        
-        <br />
-        <i className="fa fa-user"
-        style={{ color: "blue", marginRight: 10}} />
-        {displayHost ? (
-          <span>{"Hosted by: " + hostName}</span>
-        ) : (
-          <span>You are the host !</span>
-        )}
-        
+          <i
+            className="fa fa-clock-o fa-lg"
+            style={{ color: timeColor, marginRight: 10 }}
+          />
+          {startTime} - {endTime}
+          <br />
+          {"Meeting title: " + title}
+          <br />
+          <i
+            className="fa fa-user"
+            style={{ color: "blue", marginRight: 10 }}
+          />
+          {displayHost ? (
+            <span>{"Hosted by: " + hostName}</span>
+          ) : (
+            <span>You are the host !</span>
+          )}
         </div>
       </div>
-    )
+    );
   }
-
 }
 
 export default Event;

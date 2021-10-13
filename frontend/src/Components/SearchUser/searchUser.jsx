@@ -268,7 +268,7 @@ class SearchUser extends Component {
               />
             </Col>
           </Row>
-          <br/>
+          <br />
           <Row>
             <Col xs="5">
               <Input

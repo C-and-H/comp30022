@@ -5,10 +5,10 @@ import { Container, Row, Col, Label } from "reactstrap";
 import Clock from "react-live-clock";
 import "../../App.css";
 
-import RequestList from "./RequestList";
-import ReceivedList from "./ReceivedList";
-import Contacts from "./Contacts";
-import RecentEvents from "./RecentEvents";
+import RequestList from "./requestList";
+import ReceivedList from "./receivedList";
+import Contacts from "./contacts";
+import RecentEvents from "./recentEvents";
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -97,29 +97,35 @@ export default class Dashboard extends React.Component {
               <Row>
                 <Col>
                   <div className="clock-frame">
-                  
-                    <br /><br />
-                    <span className="time-zone"> Local Time </span> 
-                    <br /><br /><br />
-                    
-                  <Clock 
-                    format={'h:mm:ss A, dddd'}
-                    interval={1000} 
-                    ticking={true} />
-                    
+                    <br />
+                    <br />
+                    <span className="time-zone"> Local Time </span>
+                    <br />
+                    <br />
+                    <br />
+
+                    <Clock
+                      format={"h:mm:ss A, dddd"}
+                      interval={1000}
+                      ticking={true}
+                    />
                   </div>
                 </Col>
                 <Col>
                   <div className="clock-frame">
-                    <br /><br />
-                    <span className="time-zone"> UTC Time </span> 
-                    <br /><br /><br />
-                  <Clock
-                    className="clock"
-                    format={'h:mm:ss A, dddd'}
-                    interval={1000}
-                    ticking={true} 
-                    timezone={'Etc/GMT'}/>
+                    <br />
+                    <br />
+                    <span className="time-zone"> UTC Time </span>
+                    <br />
+                    <br />
+                    <br />
+                    <Clock
+                      className="clock"
+                      format={"h:mm:ss A, dddd"}
+                      interval={1000}
+                      ticking={true}
+                      timezone={"Etc/GMT"}
+                    />
                   </div>
                 </Col>
               </Row>
