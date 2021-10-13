@@ -208,6 +208,9 @@ class Chat extends Component {
     this.setState({ emojiVisible: !this.state.emojiVisible });
   }
 
+  /**
+   * start chat with friend after click
+   */
   async onClickFriend(friend) {
     if (friend !== this.state.friend) {
       await (this._isMounted &&
@@ -541,6 +544,9 @@ class Chat extends Component {
     );
   }
 
+  /**
+   * automatic fetch new messages when user scroll to the top of screen
+   */
   async onChatScroll(event) {
     if (event.wheelDelta > 0) {
       let chatDisplay = document.getElementById("chat-display");

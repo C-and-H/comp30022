@@ -127,6 +127,9 @@ class App extends Component {
     window.location.reload();
   }
 
+  /**
+   * start socket connection and subscribe to all events
+   */
   async connect(notificationPath) {
     this._isMounted && this.setState({ notificationPath: notificationPath });
     var self = this;
@@ -272,10 +275,19 @@ class App extends Component {
     this._isMounted && this.setState({ notificationCounter: 0 });
   }
 
+  /**
+   * increase onChat count so that when onChat is 0 implies user not
+   * on the chat page, otherwise user is on the chat page
+   */
   handleOnChat() {
     this.setState({ onChat: this.state.onChat + 1 });
   }
 
+  /**
+   * If user is on the chat page, fetch new messages,
+   * otherwise show new message notification
+   * @param {*} name first name of message sender
+   */
   handleReceiveMessage(name) {
     if (this.state.onChat) {
       this.handleOnChat();
@@ -319,6 +331,10 @@ class App extends Component {
     this.setState({ onCall: true, friendId: id });
   }
 
+  /**
+   * start P2P connection by sending signal through socket
+   * @param {*} stream user's media stream
+   */
   callUser(stream) {
     const { currentUser, friendId } = this.state;
     const peer = new Peer({ initiator: true, trickle: false, stream });
@@ -352,6 +368,11 @@ class App extends Component {
     this.setState({ myStream: stream });
   }
 
+  /**
+   * change media stream if received new signal from opponent currently
+   * talking to, otherwise show new call notification
+   * @param {*} call P2P signal received
+   */
   handleReceiveCall(call) {
     const message = JSON.parse(call.body);
     if (message.from === this.state.friendId && this.state.onCall) {
@@ -439,6 +460,9 @@ class App extends Component {
     this.setState({ peerConnection: peer });
   }
 
+  /**
+   * end call when opponent ends the call
+   */
   opponentEnded(message) {
     const info = JSON.parse(message.body);
     if (this.state.onCall && info.from === this.state.friendId) {
@@ -484,6 +508,9 @@ class App extends Component {
     }
   }
 
+  /**
+   * end P2P connection and send notification to opponent indicate call ended
+   */
   endCall() {
     this.setState({ onCall: false });
     const { currentUser, friendId } = this.state;
