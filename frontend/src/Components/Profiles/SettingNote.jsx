@@ -6,6 +6,7 @@ import {
   FormGroup, Input
 } from "reactstrap";
 import "../../App.css";
+import "./ProfileDisplay.css"
 
 import UserService  from "../../Services/UserService";
 
@@ -118,7 +119,7 @@ export default class SettingNote extends React.Component {
 
     return (
       <Container>
-        <Row className="profile-display-bar">Edit note on this friend</Row>
+        <Row className="profile-display-bar-2">Edit note on this friend</Row>
         {this.form()}
       </Container>
     );
