@@ -6,6 +6,7 @@
     overflow: auto;
     text-align: left;
     display: inline-block;
+    overflow-x: hidden;
     margin-top: 10%;
     margin-left: 10%;
     
@@ -16,7 +17,7 @@
     background-color: white;
     border-style: solid;
     height: calc(100vh - 450px);
-    overflow: auto;
+    overflow-x: hidden;
     text-align: left;
     display: inline-block;
     margin-top: 10%;
@@ -132,8 +133,8 @@
 
 
 .contact-header {
-    height: 8%;
-    
+    height: 12%;
+    border-style: groove;
     background: white;
     
 }
@@ -159,7 +160,8 @@
 }
 
 .event-header {
-    height: 10%;
+    border-style: groove;
+    height: 18%;
 }
 .calendar-button {
     margin-left: 78%;
@@ -225,6 +227,6 @@
 
 .small-header {
     width: 101%;
-    height: 20%;
-    border-style:groove;
+    height: 12%;
+    border-bottom-style:groove;
 }

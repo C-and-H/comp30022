@@ -239,7 +239,7 @@ export default class ProfileDisplay extends Component {
                     <Col>
                       <center>
                       <Button
-                        className="profile-display-change-btn-1"
+                        className="profile-display-change-btn-4"
                         href="/changeIcon"
                       >
                         Change Icon
@@ -368,12 +368,12 @@ export default class ProfileDisplay extends Component {
 
           {isFriend ? (
             <Container>
-              <Row className="profile-display-bar">
+              <Row className="profile-display-bar-2">
                 <Col>Note On This Friend</Col>
                 <Col></Col>
                 <Col>
                   <Button
-                    className="profile-display-edit-btn"
+                    className="profile-display-edit-btn-1"
                     href={"/settingNote/" + this.props.id}
                   >
                     Change Note
@@ -381,7 +381,11 @@ export default class ProfileDisplay extends Component {
                 </Col>
               </Row>
               <Row>
-                <p className="profile-display-p">{note}</p>
+              <div className="profile-display-div-2">
+                <p className="profile-display-p-1">
+                  {note}
+                </p>
+              </div>
               </Row>
             </Container>
           ) : (

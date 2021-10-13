@@ -29,6 +29,21 @@
   padding-bottom: 5px;
   box-shadow:0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%)
 }
+
+.profile-display-bar-2 {
+  border-radius: .375rem;
+  align-items: center;
+  font-size: var(--profile-median-font);
+  width: 104%;
+  color: #32325d;
+  background-color: #fff ;
+  padding-left: 10px;
+  padding-top: 5px;
+  margin-top: 3%;
+  padding-bottom: 5px;
+  box-shadow:0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%)
+}
+
 .profile-display-edit-btn-1 {
   float: right;
   background-color: #5e72e4;
@@ -113,6 +128,20 @@
   box-shadow: 0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
   /* border: 0px; */
 }
+
+.profile-display-div-2{
+  margin-top: 15px;
+  width: 70%;
+  /* border: 2px solid black; */
+  overflow: auto;
+  height: 180px;
+  box-shadow:0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+  background-color: white;
+  border-color: rgba(50, 151, 211, .25);
+  box-shadow: 0 1px 3px rgb(50 50 93 / 15%), 0 1px 0 rgb(0 0 0 / 2%);
+  margin-left: 12%;
+  /* border: 0px; */
+}
 /* .profile-summary-1{
   height: 40%;
 } */
@@ -125,6 +154,7 @@
 }
 
 
+
 .profile-display-bar {
   text-align: left;
   font-size: 28px;
@@ -134,7 +164,9 @@
 
 
 
-
+.profile-display-change-btn-4 {
+  background-color: #5e72e4;
+}
 
 
 

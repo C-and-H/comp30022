@@ -47,11 +47,13 @@ class RecentEvents extends React.Component {
     this.setState({ appointments: appointments });
   }
 
+  
+
   render() {
     const { appointments } = this.state;
     const { basic } = this.props;
 
-    if (!appointments) return <div></div>;
+    
     return (
       <div className="events-box">
         <div className="event-header">
@@ -64,8 +66,30 @@ class RecentEvents extends React.Component {
           </Button>
         </div>
         <div >
-        {/* <hr className="event-line-break"/> */}
-        {appointments.length > 0 ? (
+        {appointments ? (
+          appointments.length === 0 ? (
+            <p className="no-meetings">
+              No upcoming or past events around today, have a nice day !
+            </p>
+          ) : (
+            appointments.map((appointment) => (
+              <Event 
+                key={appointment.id}
+                host={appointment.hostId}
+                title={appointment.title}
+                startTime={appointment.startDate}
+                endTime={appointment.endDate}
+                userId ={basic.id}
+                token={basic.token}
+                notes={appointment.description}
+              />
+            
+            ))
+          )
+        ) : (
+          <></>
+        )}
+        {/* {appointments && appointments.length > 0 ? (
           appointments.map((appointment) => (
             <Event 
               key={appointment.id}
@@ -82,7 +106,7 @@ class RecentEvents extends React.Component {
             <p className="no-meetings">
               No upcoming or past events around today, have a nice day !
             </p>
-          )}
+          )} */}
         </div>
       </div>
     );
