@@ -430,11 +430,7 @@ class Calendar extends Component {
                     Participants: ({this.state.participantInfos.length} in
                     total)
                   </span>
-                  {/* {this.state.seen ? 
-                  (this.state.loading ? this.displayParticipants() : <Spinner animation="border"/>) 
-                  : ""} */}
                   {this.state.seen ? this.displayParticipants() : ""}
-                  {/* {this.state.seen && this.state.loading ? this.displayParticipants() : <Spinner animation="border" />} */}
                 </div>
               </div>
             </Popup>
