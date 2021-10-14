@@ -92,25 +92,25 @@
 .set-event-friend-btn {
   width: 100%;
 }
-.btn-check:active+.btn-outline-info, 
-.btn-check:checked+.btn-outline-info, 
-.btn-outline-info.active, 
-.btn-outline-info:active,
-.btn-outline-info:hover{
-  background-color: black !important;
+.btn-check:active+.btn-outline-dark, 
+.btn-check:checked+.btn-outline-dark, 
+.btn-outline-dark.active, 
+.btn-outline-dark:active,
+.btn-outline-dark:hover{
+  /* background-color: black !important; */
   border-color: black;
   color: white;
 }
 
-.btn-check:active+.btn-outline-info:focus, 
-.btn-check:checked+.btn-outline-info:focus, 
-.btn-outline-info.active:focus, 
-.btn-outline-info.dropdown-toggle.show:focus, 
-.btn-outline-info:active:focus{
+.btn-check:active+.btn-outline-dark:focus, 
+.btn-check:checked+.btn-outline-dark:focus, 
+.btn-outline-dark.active:focus, 
+.btn-outline-dark.dropdown-toggle.show:focus, 
+.btn-outline-dark:active:focus{
   box-shadow:none;
 }
 
-.btn-check:focus+.btn-outline-info, .btn-outline-info:focus{
+.btn-check:focus+.btn-outline-dark, .btn-outline-dark:focus{
   box-shadow:none;
   transition: none;
 }

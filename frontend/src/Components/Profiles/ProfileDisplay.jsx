@@ -4,14 +4,16 @@ import AuthService from "../../Services/AuthService";
 import { Button, Container, Row, Col, Label } from "reactstrap";
 import { Dropdown } from "react-bootstrap";
 import "../../App.css";
+import "./ProfileDisplay.css"
 
 import UserService from "../../Services/UserService";
 
-const iconStyle = {
-  marginTop: 40,
-  marginLeft: 60,
-  fontSize: 200,
-};
+// const iconStyle = {
+//   marginTop: 40,
+//   marginLeft: 60,
+//   fontSize: 200,
+//   // backgroundColor: "#ffc0c0",
+// };
 
 export default class ProfileDisplay extends Component {
   constructor(props) {
@@ -92,7 +94,7 @@ export default class ProfileDisplay extends Component {
       if (currentUser.company) this.setState({ hasCompany: true });
       if (currentUser.personalSummary) this.setState({ hasSummary: true });
       if (currentUser.areaOrRegion) this.setState({ hasRegion: true });
-      if (currentUser.icon) this.setState({ icon: currentUser.icon });
+      if (currentUser.icon) this.setState({ icon: currentUser.icon + " circle-icon" });
     }
   }
 
@@ -191,7 +193,6 @@ export default class ProfileDisplay extends Component {
       hasPhone,
       hasRegion,
       hasCompany,
-      // hasGender,
       hasSummary,
       myself,
       icon,
@@ -212,15 +213,16 @@ export default class ProfileDisplay extends Component {
     console.log(currentUser);
     // console.log(fullName);
     return (
-      <div ref={this.wrapper}>
+      // <div ref={this.wrapper}>
+        <div id="profile-background">
         <Container>
-          <Row className="profile-display-header">{fullName}</Row>
-          <Row className="profile-display-bar">
+          <Row className="profile-display-header-1">{fullName}</Row>
+          <Row className="profile-display-bar-1">
             <Col>Basic Info</Col>
             <Col></Col>
             {myself ? (
               <Col>
-                <Button className="profile-display-edit-btn" href="/setting">
+                <Button className="profile-display-edit-btn-1" href="/setting">
                   Edit My Profile!
                 </Button>
               </Col>
@@ -229,29 +231,25 @@ export default class ProfileDisplay extends Component {
             )}
           </Row>
 
-          <Row className="profile-display-inner-container">
-            <Col>
-              <Container>
-                <Row>
-                  <i className={icon} style={iconStyle}></i>
-                </Row>
+          <Row>
+            <Col xs="3">
+                  <center><i className={icon}></i></center>
                 {myself ? (
                   <Row className="profile-display-line">
-                    <Col></Col>
-                    <Col xs="6">
+                    <Col>
+                      <center>
                       <Button
-                        className="profile-display-change-btn"
+                        className="profile-display-change-btn-1"
                         href="/changeIcon"
                       >
                         Change Icon
                       </Button>
+                      </center>
                     </Col>
-
-                    <Col></Col>
                   </Row>
                 ) : (
                   <Container>
-                    <Row className="profile-display-line">
+                    <Row >
                       {this.friendBtn()}
                     </Row>
                     {isFriend ? (
@@ -263,61 +261,85 @@ export default class ProfileDisplay extends Component {
                     )}
                   </Container>
                 )}
-              </Container>
             </Col>
+            <Col xs="1"></Col>
             <Col xs="8">
-              <Container>
                 <Row>
-                  <Col>
-                    <Label className="profile-display-line">Industry:</Label>
-                  </Col>
-
+                <Col xs="3">
+                    <div className="profile-display-line-1">Industry:</div>
+                </Col>
                   <Col>
                     {hasIndustry ? (
-                      <Label className="profile-display-value">
+                      <Label className="profile-display-value-1">
                         {currentUser.industry}
                       </Label>
                     ) : (
-                      <Label className="profile-display-value">Not set!</Label>
+                      <Label className="profile-display-value-1">Not set!</Label>
                     )}
                   </Col>
                 </Row>
                 <Row>
-                  <Col>
-                    <Label className="profile-display-line">Company:</Label>
+                  <Col xs="3">
+                    <Label className="profile-display-line-1">Company:</Label>
                   </Col>
                   <Col>
                     {hasCompany ? (
-                      <Label className="profile-display-value">
+                      <Label className="profile-display-value-1">
                         {currentUser.company}
                       </Label>
                     ) : (
-                      <Label className="profile-display-value">Not set!</Label>
+                      <Label className="profile-display-value-1">Not set!</Label>
                     )}
                   </Col>
                 </Row>
                 <Row>
-                  <Col>
-                    <Label className="profile-display-line">Region:</Label>
+                  <Col xs="3">
+                    <Label className="profile-display-line-1">Region:</Label>
                   </Col>
                   <Col>
                     {hasRegion ? (
-                      <Label className="profile-display-value">
+                      <Label className="profile-display-value-1">
                         {currentUser.areaOrRegion}
                       </Label>
                     ) : (
-                      <Label className="profile-display-value">Not set!</Label>
+                      <Label className="profile-display-value-1">Not set!</Label>
                     )}
                   </Col>
+                  <Row>
+                  <Col xs="3">
+                    <Label className="profile-display-line-1">Email:</Label>
+                  </Col>
+                  <Col>
+                    <Label className="profile-display-value-1">
+                      {currentUser.email}
+                    </Label>
+                  </Col>
+                </Row>
+                {hasPhone ? (
+                  <Row>
+                    <Col xs="3">
+                      <Label className="profile-display-line-1">
+                        Phone Number:
+                      </Label>
+                    </Col>
+                    <Col xs="3">
+                      <Label className="profile-display-value-1">
+                        {currentUser.phone}
+                      </Label>
+                    </Col>
+                  </Row>
+                ) : (
+                  <></>
+                )}
                 </Row>
                 <Row>
                   {hasSummary ? (
-                    <Col>
-                      <Label className="profile-display-line">
+                    <Col className="profile-summary-1">
+                      <Label className="profile-display-line-1">
                         Something About Me :
                       </Label>
-                      <div>
-                      <p className="profile-display-p">
+                      <div className="profile-display-div-1">
+                      <p className="profile-display-p-1">
                         {currentUser.personalSummary}
                       </p>
                       </div>
@@ -326,8 +348,7 @@ export default class ProfileDisplay extends Component {
                     <></>
                   )}
                 </Row>
-              </Container>
-            </Col>
+          </Col>
           </Row>
 
           <Row className="profile-display-bar">
