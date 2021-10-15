@@ -79,6 +79,7 @@
   overflow: hidden;
   width: 30px;
   padding-bottom: 5px;
+  margin-left: 20px;
 }
 
 .dropdown-text {
@@ -97,9 +98,9 @@
 
 .dropdown-notification {
   max-height: 230px;
-  width: 240px;
-  max-width: 250px;
-  overflow: scroll;
+  width: 280px;
+  max-width: 280px;
+  overflow-y: scroll;
 }
 
 .nav-link:hover,
