@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/", "/login", "/signup", "/signup/*/*", "/jwt/checkExpired",
+                .authorizeRequests().antMatchers("/login", "/signup", "/signup/*/*", "/jwt/checkExpired",
                         "/candh-crm-websocket/**", "/topic/**", "/app/**", "/videoCall/*").permitAll().anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
