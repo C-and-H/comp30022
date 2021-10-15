@@ -2,7 +2,7 @@
     width: 90%;
     background-color: white;
     border-style: solid;
-    height: calc(100vh - 450px);
+    height: 40vh;
     overflow: auto;
     text-align: left;
     display: inline-block;
@@ -16,7 +16,7 @@
     width: 90%;
     background-color: white;
     border-style: solid;
-    height: calc(100vh - 450px);
+    height: 40vh;
     overflow-x: hidden;
     text-align: left;
     display: inline-block;
@@ -110,7 +110,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     width: 100%;
-    height: calc(100vh - 110px);
+    height: 84vh;
     background: white;
     /* white-space: nowrap; */
     /* margin: 0px;
@@ -207,7 +207,7 @@
     width: 70%;
     height: 16vw;
     display: block;
-    margin-top: 10%;
+    margin-top: 5%;
     border-radius: 50%;
     align-items: center;
     align-content: center;

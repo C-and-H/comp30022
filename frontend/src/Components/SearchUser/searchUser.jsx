@@ -211,12 +211,16 @@ class SearchUser extends Component {
    * @returns display the search results
    */
   searchResults() {
-    const { results } = this.state;
+    const { results, detailed } = this.state;
     if (results.length === 0) {
       return <h1 className="not-found">None match</h1>;
     } else {
+      var result_name = "search-results"
+      if(detailed){
+        result_name = "search-results-1"
+      }
       return (
-        <div className="search-results">
+        <div className={result_name}>
           {results.map((user) => (
             <SearchResult
               key={user.id}

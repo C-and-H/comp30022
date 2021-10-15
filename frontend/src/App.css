@@ -301,6 +301,7 @@ footer {
   max-height: calc(100vh - 430px);
   min-height: 100px;
   overflow: auto;
+  overflow-x: hidden;
   text-align: center;
 
   margin: auto;
@@ -309,6 +310,21 @@ footer {
   left: 0;
   right: 0;
 }
+.search-results-1 {
+  width: 500px;
+  max-height: calc(100vh - 630px);
+  min-height: 100px;
+  overflow: auto;
+  overflow-x: hidden;
+  text-align: center;
+
+  margin: auto;
+  margin-top: 50px;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
 
 .requests-list-received {
   width: 300px;

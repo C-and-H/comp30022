@@ -12,7 +12,11 @@ class SearchResult extends Component {
           size="lg"
           onClick={this.props.onClick}
         >
-          <i className="fa fa-user-circle fa-fw"></i>
+          {user.icon && user.icon !== "" ? (
+            <i className={user.icon} />
+          ) : (
+            <i className="fa fa-user fa-fw" />
+          )}
           {" " + user.first_name + " " + user.last_name + " " + user.email}
         </Button>
       </span>
