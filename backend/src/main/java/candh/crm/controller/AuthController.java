@@ -84,22 +84,23 @@ public class AuthController
             return ResponseEntity.ok("Password is not valid.");
         }
 
-        // existing by user email
-        User _user = userRepository.findByEmail(user.getEmail());
-        if (_user != null) {
-            if (_user.isEnabled()) {
-                return ResponseEntity.ok("Email is already taken.");
-            } else {   // email taken but not confirmed
-                userRepository.delete(_user);
+        synchronized (this) {
+            // existing by user email
+            User _user = userRepository.findByEmail(user.getEmail());
+            if (_user != null) {
+                if (_user.isEnabled()) {
+                    return ResponseEntity.ok("Email is already taken.");
+                } else {   // email taken but not confirmed
+                    userRepository.delete(_user);
+                }
             }
-        }
-
-        // save to database
-        try {
-            authService.updateUser(new User(user.getEmail(), user.getPassword(),
-                    user.getFirst_name(), user.getLast_name()), false);
-        } catch (Exception e) {
-            return ResponseEntity.ok("Error during user signup.");
+            // save to database
+            try {
+                authService.updateUser(new User(user.getEmail(), user.getPassword(),
+                        user.getFirst_name(), user.getLast_name()), false);
+            } catch (Exception e) {
+                return ResponseEntity.ok("Error during user signup.");
+            }
         }
         return ResponseEntity.ok("You just successfully submit a signup request.");
     }
