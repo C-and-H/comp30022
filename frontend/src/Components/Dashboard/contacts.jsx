@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { ButtonGroup, Row, Col } from "react-bootstrap";
-import Friend from "./Friend";
+import Friend from "./friend";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constant";
 import { CSVLink } from "react-csv";

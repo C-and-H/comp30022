@@ -132,16 +132,14 @@ class NavigationBar extends Component {
           <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
           <NavDropdown.Item href="/searchUser">Search</NavDropdown.Item>
           <NavDropdown.Item href="/calendar">Calendar</NavDropdown.Item>
-          <NavDropdown.Item href="/email">Email</NavDropdown.Item>
+          <NavDropdown.Item href="/email" className="navdropdown-email">Email</NavDropdown.Item>
 
-          {/* <NavDropdown.Divider /> */}
 
           <NavDropdown.Item href="/setting">Edit Profile</NavDropdown.Item>
           <NavDropdown.Item href="/changeIcon">Change Icon</NavDropdown.Item>
-          <NavDropdown.Item href="/setting/change-password">
+          <NavDropdown.Item href="/setting/change-password" className="navdropdown-change-password">
             Change Password
           </NavDropdown.Item>
-          {/* <NavDropdown.Divider /> */}
           <NavDropdown.Item
             href="/login"
             onClick={this.props.onLogOut}

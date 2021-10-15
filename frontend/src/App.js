@@ -6,7 +6,7 @@ import NavigationBar from "./Components/NavigationBar";
 import HomePage from "./Components//HomePage/HomePage";
 import LogIn from "./Components/LogIn/LogIn";
 import Setting from "./Components/Setting/SettingProfile";
-import ChangePassword from "./Components/Setting/ChangePassword"
+import ChangePassword from "./Components/Setting/ChangePassword";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
@@ -28,9 +28,9 @@ import SetEvent from "./Components/Calendar/SetEvent";
 import VideoCall from "./Components/Call/videoCall";
 import Peer from "simple-peer";
 import Loading from "./Logo/loading";
-import EmailVerify from "./Components/emailVerify/emailVerify";
+import EmailVerify from "./Components/EmailVerify/emailVerify";
 import "animate.css";
-import Dashboard from "./Components/Dashboard/Dashboard";
+import Dashboard from "./Components/Dashboard/dashboard";
 
 class App extends Component {
   constructor(props) {
@@ -127,6 +127,9 @@ class App extends Component {
     window.location.reload();
   }
 
+  /**
+   * start socket connection and subscribe to all events
+   */
   async connect(notificationPath) {
     this._isMounted && this.setState({ notificationPath: notificationPath });
     var self = this;
@@ -272,10 +275,19 @@ class App extends Component {
     this._isMounted && this.setState({ notificationCounter: 0 });
   }
 
+  /**
+   * increase onChat count so that when onChat is 0 implies user not
+   * on the chat page, otherwise user is on the chat page
+   */
   handleOnChat() {
     this.setState({ onChat: this.state.onChat + 1 });
   }
 
+  /**
+   * If user is on the chat page, fetch new messages,
+   * otherwise show new message notification
+   * @param {*} name first name of message sender
+   */
   handleReceiveMessage(name) {
     if (this.state.onChat) {
       this.handleOnChat();
@@ -319,6 +331,10 @@ class App extends Component {
     this.setState({ onCall: true, friendId: id });
   }
 
+  /**
+   * start P2P connection by sending signal through socket
+   * @param {*} stream user's media stream
+   */
   callUser(stream) {
     const { currentUser, friendId } = this.state;
     const peer = new Peer({ initiator: true, trickle: false, stream });
@@ -352,6 +368,11 @@ class App extends Component {
     this.setState({ myStream: stream });
   }
 
+  /**
+   * change media stream if received new signal from opponent currently
+   * talking to, otherwise show new call notification
+   * @param {*} call P2P signal received
+   */
   handleReceiveCall(call) {
     const message = JSON.parse(call.body);
     if (message.from === this.state.friendId && this.state.onCall) {
@@ -439,6 +460,9 @@ class App extends Component {
     this.setState({ peerConnection: peer });
   }
 
+  /**
+   * end call when opponent ends the call
+   */
   opponentEnded(message) {
     const info = JSON.parse(message.body);
     if (this.state.onCall && info.from === this.state.friendId) {
@@ -484,6 +508,9 @@ class App extends Component {
     }
   }
 
+  /**
+   * end P2P connection and send notification to opponent indicate call ended
+   */
   endCall() {
     this.setState({ onCall: false });
     const { currentUser, friendId } = this.state;
@@ -514,7 +541,7 @@ class App extends Component {
   }
 
   handleLoading(boolean) {
-    this._isMounted && this.setState({ onLoading: boolean });
+    this.setState({ onLoading: boolean });
   }
 
   render() {
@@ -557,12 +584,20 @@ class App extends Component {
             friendName={friendName}
           />
           <Switch>
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/login" component={LogIn} />
+            <Route exact path="/signup">
+              <SignUp onLoading={this.handleLoading} />
+            </Route>
+            <Route exact path="/login">
+              <LogIn onLoading={this.handleLoading} />
+            </Route>
             <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
-            <Route exact path="/setting/change-password" component={ChangePassword} />
+            <Route
+              exact
+              path="/setting/change-password"
+              component={ChangePassword}
+            />
             <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat">
               <Chat
@@ -572,14 +607,17 @@ class App extends Component {
               />
             </Route>
             <Route exact path="/email" component={Email} />
-            <Route exact path="/profile/:id" render={(props) => (
-              //console.log(props.match.params.id)
-              <ProfileDisplay 
-                id={props.match.params.id}
-                onCall={this.startCall}
-              />
-            )} />
-              
+            <Route
+              exact
+              path="/profile/:id"
+              render={(props) => (
+                <ProfileDisplay
+                  id={props.match.params.id}
+                  onCall={this.startCall}
+                />
+              )}
+            />
+
             <Route exact path="/changeIcon" component={ChangeIcon} />
             <Route exact path="/profile" component={ProfileDisplay} />
             <Route exact path="/calendar" component={CalendarHomePage} />

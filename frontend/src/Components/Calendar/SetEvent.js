@@ -205,22 +205,11 @@ class SetEvent extends Component {
 
   friendGroup() {
     const { friendList } = this.state;
-    // console.log(friendList)
     return (
       <div className="friend-box">
         <Container>
           <Label className="set-event-label-participant">Participants:</Label>
           <div className="set-event-friends">
-          {/* <div className="set-event-serch-contact-background">
-            <input
-              type="text"
-              placeholder="Search"
-              className="set-event-search-contact"
-              name="search"
-              onChange={this.handleChange}
-              onKeyPress={this.onKeyUp}
-            />
-            </div> */}
             {
               friendList.map((friend) => (
                 <FriendBtn
@@ -230,27 +219,6 @@ class SetEvent extends Component {
                 />
               ))
             }
-            {/* {searchList ? (
-            searchList.length === 0 ? (
-              <p>No match</p>
-            ) : (
-              searchList.map((friend) => (
-                <FriendBtn
-                friend={friend}
-                key={friend.id}
-                callBack={this.handleCallBack}
-                />
-              ))
-            )
-          ) : (
-            friendList.map((friend) => (
-              <FriendBtn
-              friend={friend}
-              key={friend.id}
-              callBack={this.handleCallBack}
-              />
-            ))
-          )} */}
           </div>
         </Container>
       </div>

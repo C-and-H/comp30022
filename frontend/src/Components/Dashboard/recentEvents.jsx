@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 
 import "./Dashboard.css";
 
-import Event from "./Event";
+import Event from "./event";
 
 class RecentEvents extends React.Component {
   constructor(props) {

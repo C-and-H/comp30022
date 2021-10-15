@@ -256,13 +256,6 @@ class VideoCall extends Component {
     );
   }
 
-  // hangUp() {
-  //   this.state.myVideo.getTracks().forEach((track) => {
-  //     track.stop();
-  //   });
-  //   this.props.endCall();
-  // }
-
   render() {
     return createPortal(
       this.state.visible && (

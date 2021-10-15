@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -17,8 +18,8 @@ public class SendEmailRequest
     private String receiver;
     @NotBlank
     private String sender;
-    @NotBlank
+    @NotNull
     private String title;
-    @NotBlank
+    @NotNull
     private String content;
 }

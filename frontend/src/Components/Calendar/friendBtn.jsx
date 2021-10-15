@@ -44,7 +44,7 @@ class FriendBtn extends React.Component {
         type="checkbox"
         id={friend.id}
         size="lg"
-        variant="outline-info"
+        variant="outline-dark"
         checked={checked}
         onChange={this.handleChange}
       >
