@@ -27,18 +27,18 @@ export const icons3 = [
     { name: 'fas fa-apple-alt', id: '20'},
     { name: 'fas fa-cloud-sun', id: '21'},
     { name: 'fas fa-tree', id: '22'},
-    { name: 'fab fa-android', id: '23'},
-    { name: 'fab fa-apple', id: '24'},
+    { name: 'fas fa-igloo', id: '23'},
+    { name: 'fas fa-feather-alt', id: '24'},
 ]
 
 export const icons4 = [
-    { name: 'fab fa-discord', id: '25'},
+    { name: 'fas fa-horse-head', id: '25'},
     { name: 'fab fa-docker', id: '26'},
-    { name: 'fab fa-github', id: '27'},
-    { name: 'fab fa-linux', id: '28'},
-    { name: 'fab fa-qq', id: '29'},
-    { name: 'fab fa-react', id: '30'},
-    { name: 'fab fa-weibo', id: '31'},
+    { name: 'far fa-hand-point-right', id: '27'},
+    { name: 'fas fa-taxi', id: '28'},
+    { name: 'fas fa-truck-pickup', id: '29'},
+    { name: 'fas fa-car-battery', id: '30'},
+    { name: 'fas fa-chess-knight', id: '31'},
     { name: 'fas fa-plane', id: '32'},
 ]
 
@@ -60,7 +60,7 @@ export const icons6 = [
     { name: 'fas fa-infinity', id: '44'},
     { name: 'fas fa-swimmer', id: '45'},
     { name: 'fas fa-ghost', id: '46'},
-    { name: 'fab fa-steam', id: '47'},
+    { name: 'fas fa-snowman', id: '47'},
     { name: 'fas fa-hamburger', id: '48'},
 ]
 

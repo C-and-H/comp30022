@@ -32,7 +32,7 @@ export default class ProfileDisplay extends Component {
       hasSummary: false,
       myself: false,
       isFriend: false,
-      icon: "fa fa-user fa-fw",
+      icon: "fa fa-user fa-fw circle-icon",
       btnText: null,
       disableBtn: false,
       note: "",
