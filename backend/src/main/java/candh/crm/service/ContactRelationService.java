@@ -1,6 +1,5 @@
 package candh.crm.service;
 
-import candh.crm.exception.FriendNotExistException;
 import candh.crm.model.Contact;
 import candh.crm.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,8 +202,7 @@ public class ContactRelationService
      * @param userId  id of the initiator
      * @param friendId  id of the person to be deleted
      */
-    public void deleteFriend(String userId, String friendId)
-            throws FriendNotExistException {
+    public void deleteFriend(String userId, String friendId) throws Exception {
         Pair<Boolean,?> vrf = verifyFriendship(userId, friendId);
         if (vrf.getFirst()) {
             @SuppressWarnings("unchecked")
@@ -212,7 +210,7 @@ public class ContactRelationService
             contactRepository.delete(contacts.getFirst());
             contactRepository.delete(contacts.getSecond());
         } else {
-            throw new FriendNotExistException();
+            throw new Exception("No existing friend is found to have this id.");
         }
     }
 
@@ -222,8 +220,7 @@ public class ContactRelationService
      * @param userId  id of the user
      * @param friendId  id of a friend
      */
-    public void changeNotes(String userId, String friendId, String notes)
-            throws FriendNotExistException {
+    public void changeNotes(String userId, String friendId, String notes) throws Exception {
         Pair<Boolean,?> vrf = verifyFriendship(userId, friendId);
         if (vrf.getFirst()) {
             @SuppressWarnings("unchecked")
@@ -231,7 +228,7 @@ public class ContactRelationService
             contacts.getFirst().setNotes(notes);
             contactRepository.save(contacts.getFirst());
         } else {
-            throw new FriendNotExistException();
+            throw new Exception("No existing friend is found to have this id.");
         }
     }
 

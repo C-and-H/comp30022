@@ -1,6 +1,5 @@
 package candh.crm.controller;
 
-import candh.crm.exception.FriendNotExistException;
 import candh.crm.model.Contact;
 import candh.crm.model.User;
 import candh.crm.payload.request.ByIdRequest;
@@ -237,7 +236,7 @@ public class ContactController
         try {
             // delete
             contactRelationService.deleteFriend(userId, friendId);
-        } catch (FriendNotExistException e) {
+        } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
         }
         return ResponseEntity.ok("Friend deleted.");
@@ -261,7 +260,7 @@ public class ContactController
             // change
             contactRelationService.changeNotes(userId, friendId,
                     changeNotesRequest.getNotes());
-        } catch (FriendNotExistException e) {
+        } catch (Exception e) {
             return ResponseEntity.ok(e.getMessage());
         }
         return ResponseEntity.ok("Notes changed.");
