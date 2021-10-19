@@ -6,12 +6,12 @@ Our product CandHCRM delivers a 100%-free solution as a web application. It supp
 
 The backend server uses Spring Boot framework and provides restful API service that the React frontend uses. The database used is MongoDB. The project is deployed to two Heroku apps from a multi-language monorepo. With the secret key HEROKU_API_KEY set in our GitHub reposiotry, the file `.github/workflows/deploy.yml` runs automatic deployment to Heroku once there's a push in main.
 
-Heroku URL: https://crm-c-and-h.herokuapp.com/.
+Heroku URL: https://crm-c-and-h.herokuapp.com.
 
 
 # Requirements
 
-1. Download node.js and npm from https://nodejs.org/en/download/.
+1. Download node.js and npm from https://nodejs.org/en/download.
 2. Download IntelliJ IDEA from https://www.jetbrains.com/idea/download.
 3. Update JDK to version 16 or later.
 4. Has a valid Gmail and MongoDB account.
