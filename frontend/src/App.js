@@ -590,7 +590,6 @@ class App extends Component {
             <Route exact path="/login">
               <LogIn onLoading={this.handleLoading} />
             </Route>
-            <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route
@@ -598,7 +597,6 @@ class App extends Component {
               path="/setting/change-password"
               component={ChangePassword}
             />
-            <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat">
               <Chat
                 chat={onChat}
