@@ -34,7 +34,7 @@ class SettingProfile extends React.Component {
     this.handleCompany = this.handleCompany.bind(this);
     this.handleDescription = this.handleDescription.bind(this);
     // this.handleMobile = this.handleMobile.bind(this);
-    this.refresh = this.refresh.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     this.changeName = this.changeName.bind(this);
     this.changeAreaOrRegion = this.changeAreaOrRegion.bind(this);
     this.changeCompany = this.changeCompany.bind(this);
@@ -198,9 +198,12 @@ class SettingProfile extends React.Component {
       return "Current user was not found. Please log in ";
     }
   }
-  refresh() {
-    window.location.reload(false);
+  
+  handleCancel() {
+    this.props.history.push("/profile");
+    window.location.reload();
   }
+
   async handleSubmit(event) {
     // alert(this.state.phone)
     console.log(this.state.phone === "");
@@ -435,7 +438,7 @@ class SettingProfile extends React.Component {
               </Button>
               <Button
                 className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-right"
-                onClick={this.refresh}
+                onClick={this.handleCancel}
               >
                 Cancel
               </Button>
@@ -455,20 +458,6 @@ class SettingProfile extends React.Component {
 
           <Row>
             <Col xs="4">
-              {/* <Button
-                type="submit"
-                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
-              >
-                Save Changes
-              </Button>
-            </Col>
-            <Col xs="4">
-              <Button
-                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-right"
-                onClick={this.refresh}
-              >
-                Cancel
-              </Button> */}
             </Col>
           </Row>
         </Form>
