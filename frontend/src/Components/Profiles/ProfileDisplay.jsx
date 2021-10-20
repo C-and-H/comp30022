@@ -201,7 +201,7 @@ export default class ProfileDisplay extends Component {
     } = this.state;
 
     if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />;
+      return <Redirect to="/home" />;
     }
 
     if (!currentUser) {

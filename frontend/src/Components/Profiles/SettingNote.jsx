@@ -114,7 +114,7 @@ export default class SettingNote extends React.Component {
     const { redirect } = this.state;
 
     if (redirect) {
-      return <Redirect to={this.state.redirect} />;
+      return <Redirect to="/home" />;
     }
 
     return (

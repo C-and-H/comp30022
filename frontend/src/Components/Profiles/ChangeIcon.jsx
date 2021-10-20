@@ -32,7 +32,7 @@ export default class ChangeIcon extends Component {
       userReady: false,
       currentUser: AuthService.getCurrentUser(),
       basic: localStorage.getItem("basic"),
-      userID: JSON.parse(localStorage.getItem("user")).id,
+      
       iconId: null,
     };
 
@@ -85,7 +85,11 @@ export default class ChangeIcon extends Component {
 
   async handleSubmit() {
     let basic = AuthService.getBasicInfo();
-
+    
+    if (!this.state.chosen) {
+      alert("No icon selected!");
+      return;
+    }
     let newIcon = await this.changeIcon(this.state.chosen);
     console.log(this.newIcon);
     if (newIcon !== "An error has occured") {

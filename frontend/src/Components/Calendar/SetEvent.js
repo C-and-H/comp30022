@@ -145,11 +145,20 @@ class SetEvent extends Component {
   }
 
   handleStartTime(value) {
-    this.setState({ startTime: new Date(value) });
+    if (value) {
+      this.setState({ startTime: new Date(value) });
+    } else {
+      this.setState({ startTime: null})
+    }
+    
   }
 
   handleEndTime(value) {
-    this.setState({ endTime: new Date(value) });
+    if (value) {
+      this.setState({ startTime: new Date(value) });
+    } else {
+      this.setState({ startTime: null})
+    }
   }
 
   handleDescription(event) {
@@ -167,6 +176,10 @@ class SetEvent extends Component {
       endTime,
     } = this.state;
     /* TODO: Call backend API */
+    if (!startTime || ! endTime) {
+      alert("Please fill in the time!");
+      return;
+    }
     if (startTime > endTime) {
       alert("Start time is invalid");
       return;
@@ -264,6 +277,7 @@ class SetEvent extends Component {
                   className="set-event-textarea"
                   type="textarea"
                   onChange={this.handleDescription}
+                  required={true}
                 ></Input>
               </FormGroup>
             </Col>

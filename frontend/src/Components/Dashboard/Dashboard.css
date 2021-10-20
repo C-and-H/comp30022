@@ -81,7 +81,7 @@
     overflow: hidden;
     text-align: left;
     font-size: 1.0vw;
-    white-space: nowrap;
+    
     text-overflow: ellipsis;
 }
 
@@ -165,7 +165,7 @@
 }
 .calendar-button {
     margin-left: 78%;
-   ;
+    height: 100%;
 }
 
 .event-line-break {
