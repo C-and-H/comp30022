@@ -63,7 +63,7 @@ class LogIn extends Component {
           alert(response);
         } else {
           alert("Login succeeded. Welcome!");
-          this.setState({ redirect: "/" });
+          this.setState({ redirect: "/dashboard" });
           window.location.reload();
         }
       })

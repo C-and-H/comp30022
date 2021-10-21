@@ -155,9 +155,9 @@ class SetEvent extends Component {
 
   handleEndTime(value) {
     if (value) {
-      this.setState({ startTime: new Date(value) });
+      this.setState({ endTime: new Date(value) });
     } else {
-      this.setState({ startTime: null})
+      this.setState({ endTime: null})
     }
   }
 

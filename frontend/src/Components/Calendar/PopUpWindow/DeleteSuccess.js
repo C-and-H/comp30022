@@ -10,7 +10,7 @@ function DeleteSuccess(props) {
             className="dismiss-btn dismiss-btn-success"
             onClick={() => props.dismissSuccessPopUp()}
           >
-            Cancel
+            OK
           </button>
         </center>
       </div>
