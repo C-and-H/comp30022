@@ -49,7 +49,11 @@
   background-color: grey;
   margin-bottom: 50px;
 }
-
+.setting-profile-submit-btn-right:hover{
+  background-color: #DC3545;
+  border-color: #DC3545 ;
+  color: white;
+}
 .setting-profile-form-label {
   display: inline-block;
   margin-left: 4px;
