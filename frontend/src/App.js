@@ -10,9 +10,7 @@ import ChangePassword from "./Components/Setting/ChangePassword";
 import ProfileDisplay from "./Components/Profiles/ProfileDisplay";
 import AuthService from "./Services/AuthService";
 import ChangeIcon from "./Components/Profiles/ChangeIcon";
-import ContactList from "./Components/contactList";
 import SearchUser from "./Components/SearchUser/searchUser";
-import OtherUser from "./Components/otherUser";
 import CalendarHomePage from "./Components/Calendar/calendar";
 import { Redirect } from "react-router-dom";
 import Email from "./Components/Email/email";
@@ -590,7 +588,6 @@ class App extends Component {
             <Route exact path="/login">
               <LogIn onLoading={this.handleLoading} />
             </Route>
-            <Route exact path="/contact" component={ContactList} />
             <Route exact path="/searchUser" component={SearchUser} />
             <Route exact path="/setting" component={Setting} />
             <Route
@@ -598,7 +595,6 @@ class App extends Component {
               path="/setting/change-password"
               component={ChangePassword}
             />
-            <Route exact path="/user/:id" component={OtherUser} />
             <Route exact path="/chat">
               <Chat
                 chat={onChat}

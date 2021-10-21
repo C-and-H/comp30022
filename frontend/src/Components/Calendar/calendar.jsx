@@ -375,6 +375,7 @@ class Calendar extends Component {
     const currentDate = new Date();
     const appointments = this.state.appointments;
     return (
+      <div className="calendar-background">
       <React.Fragment>
         <ExternalViewSwitcher
           currentViewName={currentViewName}
@@ -389,7 +390,7 @@ class Calendar extends Component {
               />
               <DayView />
               <MonthView />
-              <WeekView startDayHour={1} endDayHour={24} />
+              <WeekView startDayHour={0} endDayHour={24} />
               <Toolbar flexibleSpaceComponent={this.setButton} />
               <DateNavigator openButtonComponent={this.disableShow} />
               <TodayButton />
@@ -458,6 +459,7 @@ class Calendar extends Component {
           </Paper>
         </div>
       </React.Fragment>
+      </div>
     );
   }
 }

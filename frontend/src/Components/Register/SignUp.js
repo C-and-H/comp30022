@@ -64,6 +64,7 @@ class SignUp extends Component {
     // password is the same
     if (this.state.input["password"] !== this.state.input["confirm_password"]) {
       // do nothing
+      this.props.onLoading(false);
     } else {
       //add the loading page
       const user = {

@@ -130,7 +130,7 @@ class Email extends Component {
             variant="outlined"
             label="Mail Content"
             className="mail-body"
-            rows={10}
+            rows={6}
             value={mailBody}
             onChange={this.handleChangeBody}
           />
@@ -152,15 +152,15 @@ class Email extends Component {
       <div className="div-sender">
         <div className="div-search-to-email">
           <div className="div-to-email-search-box">
-          <TextField
-            id="mail-to"
-            variant="outlined"
-            label="To Email"
-            className="mail-email"
-            rows={1}
-            value={email}
-            onChange={this.handleChangeReceiver}
-          />
+            <TextField
+              id="mail-to"
+              variant="outlined"
+              label="To Email"
+              className="mail-email"
+              rows={1}
+              value={email}
+              onChange={this.handleChangeReceiver}
+            />
           </div>
           <Button className="btn-add-email" onClick={() => this.addEmail()}>
             Add
@@ -211,7 +211,10 @@ class Email extends Component {
     return (
       <div key={email} className="email-display">
         {email}
-        <Button onClick={() => this.removeEmail(email)}>
+        <Button
+          onClick={() => this.removeEmail(email)}
+          className="btn-email-display btn-outline-secondary"
+        >
           <i className="fas fa-times" />
         </Button>
       </div>
