@@ -14,9 +14,11 @@ class Friend extends Component {
             className="btn-user"
             variant="outline-light"
             size="lg"
+            data-for={user.id}
             data-tip={
-              note.length > 0 ? user.email + "<br />" + note : user.email
+                note.length > 0 ? user.email + "<br />" + note : user.email
             }
+            
             onClick={this.props.onClick}
           >
             <Row>
@@ -26,7 +28,7 @@ class Friend extends Component {
               <Col xs="10">{" " + user.first_name + " " + user.last_name}</Col>
             </Row>
           </Button>
-          <ReactTooltip place="right" type="info" html={true} />
+          <ReactTooltip id={user.id} place="right" type="info" html={true} wrapper="span" />
         </ButtonGroup>
       </span>
     );

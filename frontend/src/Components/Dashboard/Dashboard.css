@@ -44,16 +44,16 @@
 }
 
 .btn-user {
-    align-items: left;
+    /* align-items: left; */
     width: 60%;
     font-size: 1.0vw;
     height: 10%;
     text-align: left;
-    margin-left: 0\%;
+    margin-left: 0%;
     background-color: white;
     color: black;
     overflow: hidden;
-    white-space: nowrap;
+    
     text-overflow: ellipsis;
 }
 
@@ -81,7 +81,7 @@
     overflow: hidden;
     text-align: left;
     font-size: 1.0vw;
-    white-space: nowrap;
+    
     text-overflow: ellipsis;
 }
 
@@ -165,7 +165,7 @@
 }
 .calendar-button {
     margin-left: 78%;
-   ;
+    height: 100%;
 }
 
 .event-line-break {
@@ -229,4 +229,8 @@
     width: 101%;
     height: 12%;
     border-bottom-style:groove;
+}
+
+.tooltip-user {
+    background-color: rgb(67, 71, 71);
 }

@@ -32,7 +32,7 @@ export default class ProfileDisplay extends Component {
       hasSummary: false,
       myself: false,
       isFriend: false,
-      icon: "fa fa-user fa-fw",
+      icon: "fa fa-user fa-fw circle-icon",
       btnText: null,
       disableBtn: false,
       note: "",
@@ -201,7 +201,7 @@ export default class ProfileDisplay extends Component {
     } = this.state;
 
     if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />;
+      return <Redirect to="/home" />;
     }
 
     if (!currentUser) {
