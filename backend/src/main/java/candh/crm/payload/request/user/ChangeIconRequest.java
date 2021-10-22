@@ -15,12 +15,4 @@ public class ChangeIconRequest
 {
     @NotBlank
     private String icon;
-
-    public String getIcon() {
-        return this.icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
 }

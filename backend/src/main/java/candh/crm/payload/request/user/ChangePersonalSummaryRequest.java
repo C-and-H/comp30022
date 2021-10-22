@@ -15,12 +15,4 @@ public class ChangePersonalSummaryRequest
 {
     @NotNull
     private String personalSummary;
-
-    public String getPersonalSummary() {
-        return this.personalSummary;
-    }
-
-    public void setPersonalSummary(String personalSummary) {
-        this.personalSummary = personalSummary;
-    }
 }

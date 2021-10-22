@@ -15,8 +15,4 @@ public class ChangePhoneRequest
 {
     @NotNull
     private String mobileNumber;
-
-    public String getMobileNumber() {
-        return this.mobileNumber;
-    }
 }
