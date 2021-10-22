@@ -15,8 +15,4 @@ public class ChangeAreaOrRegionRequest
 {
     @NotNull
     private String areaOrRegion;
-
-    public String getAreaOrRegion(){
-        return this.areaOrRegion;
-    }
 }

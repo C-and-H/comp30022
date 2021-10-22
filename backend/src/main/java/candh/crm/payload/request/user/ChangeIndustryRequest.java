@@ -15,12 +15,4 @@ public class ChangeIndustryRequest
 {
     @NotNull
     private String industry;
-
-    public void setIndustry(String industry) {
-        this.industry = industry;
-    }
-
-    public String getIndustry() {
-        return this.industry;
-    }
 }
