@@ -17,7 +17,9 @@ class SearchResult extends Component {
           ) : (
             <i className="fa fa-user fa-fw" />
           )}
-          {" " + user.first_name + " " + user.last_name + " " + user.email}
+          {" " + user.first_name + " " + user.last_name}
+          <br />
+          {user.email}
         </Button>
       </span>
     );

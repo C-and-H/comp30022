@@ -215,9 +215,9 @@ class SearchUser extends Component {
     if (results.length === 0) {
       return <h1 className="not-found">None match</h1>;
     } else {
-      var result_name = "search-results"
-      if(detailed){
-        result_name = "search-results-1"
+      var result_name = "search-results";
+      if (detailed) {
+        result_name = "search-results-1";
       }
       return (
         <div className={result_name}>
