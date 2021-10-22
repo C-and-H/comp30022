@@ -60,10 +60,10 @@
 .nav-bar-78 {
   height: 8%;
 }
-.navdropdown-email{
+.navdropdown-email {
   border-bottom: 2px solid black;
 }
-.navdropdown-change-password{
+.navdropdown-change-password {
   border-bottom: 2px solid black;
 }
 .notify-dropdown {
@@ -125,7 +125,12 @@
 }
 
 .nav-bar-username {
+  display: inline-block;
   margin-left: 5px;
+  max-width: 100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 /*------------------ NavigationBar Components end---------------*/
@@ -325,7 +330,6 @@ footer {
   right: 0;
 }
 
-
 .requests-list-received {
   width: 300px;
   background-color: cornflowerblue;
@@ -483,7 +487,7 @@ footer {
 .profile-display-icon-btn {
   margin-left: 0px;
   align-self: center;
-  
+
   height: 90%;
   width: 70%;
   text-align: center;
