@@ -123,7 +123,9 @@ class NavigationBar extends Component {
                 <i className="fa fa-user fa-fw" />
               )}
               <span className="nav-bar-username">
-                {this.props.user.first_name}
+                {this.props.user.first_name.length > 15 ? 
+                  this.props.user.first_name.substring(0, 15) + "..." :
+                  this.props.user.first_name}
               </span>
             </span>
           }
