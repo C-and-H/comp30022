@@ -1,9 +1,10 @@
 .requests-list {
     width: 90%;
     background-color: white;
+    max-width: 90%;
     border-style: solid;
     height: 40vh;
-    overflow: auto;
+    overflow: hidden;
     text-align: left;
     display: inline-block;
     overflow-x: hidden;
@@ -16,8 +17,10 @@
     width: 90%;
     background-color: white;
     border-style: solid;
+    max-width: 90%;
     height: 40vh;
     overflow-x: hidden;
+    overflow: hidden;
     text-align: left;
     display: inline-block;
     margin-top: 10%;
@@ -73,6 +76,7 @@
     width: 100% ;
     border-style: groove;
     text-align: left;
+    overflow: hidden;
 }
 
 
@@ -129,6 +133,11 @@
 
 .right {
     margin-top: 3%;
+    overflow: hidden;
+}
+
+.text {
+    overflow: hidden;
 }
 
 
@@ -145,6 +154,10 @@
 
 .name-label {
     font-size: 3vw;
+    overflow: hidden;
+    width: 80%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .events-box {
