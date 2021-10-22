@@ -198,7 +198,7 @@ class SettingProfile extends React.Component {
       return "Current user was not found. Please log in ";
     }
   }
-  
+
   handleCancel() {
     this.props.history.push("/profile");
     window.location.reload();
@@ -293,174 +293,168 @@ class SettingProfile extends React.Component {
     return (
       <div id="background-setting">
         <Container id="container">
-        
-        <Form className="setting-profile-form" onSubmit={this.handleSubmit}>
-
-        <Row>
-        <div className="setting-profile-h4"></div>
-            <Col xs="4">
-              <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Email:{" "}
-                </Label>
-                <Input
-                  placeholder={this.state.currentUser.username}
-                  disabled={true}
-                  pattern="[A-Za-z ]+"
-                  required
-                ></Input>
-              </FormGroup>
-            </Col>
-            <Col xs="4"></Col>
-            <Col xs="4">
-            <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Mobile:{" "}
-                </Label>
-                <div>
-                  <PhoneInput
-                    country={"au"}
-                    value={this.state.currentUser.phone}
-                    onChange={(phone) => this.setState({ phone })}
-                    placeholder="61 (46) 1234 567"
-                  />
-                </div>
-              </FormGroup>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs="4">
-              <FormGroup className="setting-profile-formgroup">
-                <Label className="setting-profile-form-label">
-                  First Name:
-                </Label>
-                <Input
-                  type="text"
-                  placeholder={this.state.currentUser.first_name}
-                  onChange={this.handleFirstName}
-                  pattern="[A-Za-z0-9 ]+"
-                  defaultValue={this.state.currentUser.first_name}
-                  required
-                ></Input>
-              </FormGroup>
-            </Col>
-            <Col xs="4">
-              <FormGroup className="setting-profile-formgroup">
-                <Label className="setting-profile-form-label">Last Name:</Label>
-                <Input
-                  type="text"
-                  placeholder={this.state.currentUser.last_name}
-                  onChange={this.handleLastName}
-                  pattern="[A-Za-z0-9 ]+"
-                  defaultValue={this.state.currentUser.last_name}
-                  required
-                ></Input>
-              </FormGroup>
-            </Col>
-            <Col xs="4">
-            <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Area / Origion:{" "}
-                </Label>
-                <Input
-                  type="text"
-                  placeholder={this.state.currentUser.areaOrRegion}
-                  onChange={this.handleAreaOrRegion}
-                  defaultValue={this.state.currentUser.areaOrRegion}
-                ></Input>
-              </FormGroup>
+          <Form className="setting-profile-form" onSubmit={this.handleSubmit}>
+            <Row>
+              <div className="setting-profile-h4"></div>
+              <Col xs="4">
+                <FormGroup className="setting-profile-formgroup">
+                  <Label
+                    className="setting-profile-form-label"
+                    style={{ float: "left" }}
+                  >
+                    Email:{" "}
+                  </Label>
+                  <Input
+                    placeholder={this.state.currentUser.username}
+                    disabled={true}
+                    pattern="[A-Za-z ]+"
+                    required
+                  ></Input>
+                </FormGroup>
               </Col>
-          </Row>
+              <Col xs="4"></Col>
+              <Col xs="4">
+                <FormGroup className="setting-profile-formgroup">
+                  <Label
+                    className="setting-profile-form-label"
+                    style={{ float: "left" }}
+                  >
+                    Mobile:{" "}
+                  </Label>
+                  <div>
+                    <PhoneInput
+                      country={"au"}
+                      value={this.state.currentUser.phone}
+                      onChange={(phone) => this.setState({ phone })}
+                      placeholder="61 (46) 1234 567"
+                    />
+                  </div>
+                </FormGroup>
+              </Col>
+            </Row>
 
-          <Row>
-          <Col xs="8">
-              <FormGroup className="setting-profile-formgroup-description">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
+            <Row>
+              <Col xs="4">
+                <FormGroup className="setting-profile-formgroup">
+                  <Label className="setting-profile-form-label">
+                    First Name:
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder={this.state.currentUser.first_name}
+                    onChange={this.handleFirstName}
+                    pattern="[A-Za-z0-9 ]+"
+                    defaultValue={this.state.currentUser.first_name}
+                    required
+                  ></Input>
+                </FormGroup>
+              </Col>
+              <Col xs="4">
+                <FormGroup className="setting-profile-formgroup">
+                  <Label className="setting-profile-form-label">
+                    Last Name:
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder={this.state.currentUser.last_name}
+                    onChange={this.handleLastName}
+                    pattern="[A-Za-z0-9 ]+"
+                    defaultValue={this.state.currentUser.last_name}
+                    required
+                  ></Input>
+                </FormGroup>
+              </Col>
+              <Col xs="4">
+                <FormGroup className="setting-profile-formgroup">
+                  <Label
+                    className="setting-profile-form-label"
+                    style={{ float: "left" }}
+                  >
+                    Area / Origion:{" "}
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder={this.state.currentUser.areaOrRegion}
+                    onChange={this.handleAreaOrRegion}
+                    defaultValue={this.state.currentUser.areaOrRegion}
+                  ></Input>
+                </FormGroup>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs="8">
+                <FormGroup className="setting-profile-formgroup-description">
+                  <Label
+                    className="setting-profile-form-label"
+                    style={{ float: "left" }}
+                  >
+                    Description:{" "}
+                  </Label>
+
+                  <Input
+                    type="textarea"
+                    className="setting-profile-description-input"
+                    placeholder={this.state.currentUser.personalSummary}
+                    onChange={this.handleDescription}
+                    defaultValue={this.state.currentUser.personalSummary}
+                  ></Input>
+                </FormGroup>
+              </Col>
+              <Col xs="4">
+                <FormGroup className="setting-profile-formgroup">
+                  <Label
+                    className="setting-profile-form-label"
+                    style={{ float: "left" }}
+                  >
+                    Industry:{" "}
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder={this.state.currentUser.industry}
+                    onChange={this.handleIndustry}
+                    defaultValue={this.state.currentUser.industry}
+                  ></Input>
+                </FormGroup>
+                <FormGroup className="setting-profile-formgroup">
+                  <Label
+                    className="setting-profile-form-label"
+                    style={{ float: "left" }}
+                  >
+                    Company:{" "}
+                  </Label>
+                  <Input
+                    type="text"
+                    placeholder={this.state.currentUser.company}
+                    onChange={this.handleCompany}
+                    defaultValue={this.state.currentUser.company}
+                  ></Input>
+                </FormGroup>
+                <Button
+                  type="submit"
+                  className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
                 >
-                  Description:{" "}
-                </Label>
-                
-                <Input
-                  type="textarea"
-                  className="setting-profile-description-input"
-                  placeholder={this.state.currentUser.personalSummary}
-                  onChange={this.handleDescription}
-                  defaultValue={this.state.currentUser.personalSummary}
-                ></Input>
-              </FormGroup>
-          </Col>
-            <Col xs="4">
-              <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
+                  Save Changes
+                </Button>
+                <Button
+                  className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-right"
+                  onClick={this.handleCancel}
                 >
-                  Industry:{" "}
-                </Label>
-                <Input
-                  type="text"
-                  placeholder={this.state.currentUser.industry}
-                  onChange={this.handleIndustry}
-                  defaultValue={this.state.currentUser.industry}
-                ></Input>
-              </FormGroup>
-              <FormGroup className="setting-profile-formgroup">
-                <Label
-                  className="setting-profile-form-label"
-                  style={{ float: "left" }}
-                >
-                  Company:{" "}
-                </Label>
-                <Input
-                  type="text"
-                  placeholder={this.state.currentUser.company}
-                  onChange={this.handleCompany}
-                  defaultValue={this.state.currentUser.company}
-                ></Input>
-              </FormGroup>
-              <Button
-                type="submit"
-                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-left"
-              >
-                Save Changes
-              </Button>
-              <Button
-                className="submit-btn btn-med btn-block btn-dark setting-profile-submit-btn-right"
-                onClick={this.handleCancel}
-              >
-                Cancel
-              </Button>
-            </Col>
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
 
-          </Row>
+            <Row>
+              <Col xs="8"></Col>
+            </Row>
 
-          <Row>
-            <Col xs="8">
+            <Row></Row>
 
-            </Col>
-          </Row>
-
-          <Row>
-            
-          </Row>
-
-          <Row>
-            <Col xs="4">
-            </Col>
-          </Row>
-        </Form>
+            <Row>
+              <Col xs="4"></Col>
+            </Row>
+          </Form>
         </Container>
       </div>
     );
