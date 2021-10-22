@@ -23,9 +23,14 @@ export default class Dashboard extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { basic, currentUser } = this.state;
-    if (!basic || !currentUser) this.setState({ redirect: true });
+    if (!basic){
+       this.setState({ redirect: true });
+    } else if (!currentUser){
+      const user = await AuthService.getUserDataFromBackend(basic.token, basic.id);
+      this.setState({ currentUser: user});
+    }
   }
 
   displaySent() {
@@ -35,6 +40,7 @@ export default class Dashboard extends React.Component {
         <RequestList basic={this.state.basic} />
       </div>
     );
+    
   }
 
   displayReceived() {
@@ -67,7 +73,8 @@ export default class Dashboard extends React.Component {
   render() {
     const { redirect, currentUser } = this.state;
     //if (!currentUser) return (<div></div>);
-    if (redirect || !currentUser) return <Redirect to="/home" />;
+    if (redirect) return <Redirect to="/home" />;
+    if (!currentUser) return <div></div>
 
     return (
       <div className="cols">
@@ -75,7 +82,7 @@ export default class Dashboard extends React.Component {
           <Col>
             <div>
               <Row>
-                <Col>
+                <Col className="over">
                   <Container>
                     <Row>{this.displaySent()}</Row>
                     <Row>{this.displayReceived()}</Row>
