@@ -268,8 +268,14 @@ class Email extends Component {
         size="lg"
         onClick={() => this.fillEmail(user.email)}
       >
-        <i className="fa fa-user-circle fa-fw"></i>
-        {" " + user.first_name + " " + user.last_name + " " + user.email}
+        {user.icon && user.icon !== "" ? (
+          <i className={user.icon} />
+        ) : (
+          <i className="fa fa-user fa-fw" />
+        )}
+        {" " + user.first_name + " " + user.last_name}
+        <br />
+        {user.email}
       </Button>
     );
   }
