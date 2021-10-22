@@ -82,7 +82,7 @@ export default class Dashboard extends React.Component {
           <Col>
             <div>
               <Row>
-                <Col>
+                <Col className="over">
                   <Container>
                     <Row>{this.displaySent()}</Row>
                     <Row>{this.displayReceived()}</Row>

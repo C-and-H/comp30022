@@ -207,6 +207,10 @@
     margin-left: 2%;
 }
 
+.over {
+    overflow: hidden;
+}
+
 .no-meetings {
     text-align: center;
     font-size: 2vw;
