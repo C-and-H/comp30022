@@ -7,9 +7,16 @@ import "../../App.css";
 import "./Profile.css";
 import axios from "axios";
 import { API_URL } from "../../constant";
-import { icons1, icons2, icons3, icons4,
-        icons5, icons6, icons7, icons8 } from "./icons";
-
+import {
+  icons1,
+  icons2,
+  icons3,
+  icons4,
+  icons5,
+  icons6,
+  icons7,
+  icons8,
+} from "./icons";
 
 const iconStyle = {
   marginTop: "20%",
@@ -20,8 +27,8 @@ const iconStyle = {
 const previewStyle = {
   alignSelf: "center",
   fontSize: "15vw",
-  marginLeft: "17%"
-}
+  marginLeft: "17%",
+};
 
 export default class ChangeIcon extends Component {
   constructor(props) {
@@ -50,8 +57,6 @@ export default class ChangeIcon extends Component {
     if (user && user.token) {
       const token = user.token;
 
-      //newIcon = JSON.stringify(newIcon);
-      //console.log(newIcon);
       const response = await axios.post(
         API_URL + "/user/changeIcon",
         {
@@ -73,9 +78,7 @@ export default class ChangeIcon extends Component {
   }
 
   handleClick(newIcon) {
-    this.setState({ chosen: newIcon.name,
-                    iconId: newIcon.id });
-    //console.log(this.state.chosen);
+    this.setState({ chosen: newIcon.name, iconId: newIcon.id });
   }
 
   handleCancel() {
@@ -106,115 +109,115 @@ export default class ChangeIcon extends Component {
   icons() {
     const { iconId } = this.state;
     return (
-    <div className="icons">
-      <ButtonGroup className="icon-row" vertical>
-        {icons1.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      
-      <ButtonGroup className="icon-row" vertical>
-        {icons2.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup className="icon-row" vertical>
-        {icons3.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup className="icon-row" vertical>
-        {icons4.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup className="icon-row" vertical>
-        {icons5.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      
-      <ButtonGroup className="icon-row" vertical>
-        {icons6.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup className="icon-row" vertical>
-        {icons7.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-      <ButtonGroup className="icon-row" vertical>
-        {icons8.map( (icon) => (
-          <ToggleButton
-            type="radio"
-            key={icon.id}
-            variant="outline-info"
-            checked={iconId === icon.id}
-            onClick={() => this.handleClick(icon)}
-          >
-            <i className={icon.name} style={iconStyle} />
-          </ToggleButton>
-        ))}
-      </ButtonGroup>
-    </div>
-    )
+      <div className="icons">
+        <ButtonGroup className="icon-row" vertical>
+          {icons1.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+
+        <ButtonGroup className="icon-row" vertical>
+          {icons2.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup className="icon-row" vertical>
+          {icons3.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup className="icon-row" vertical>
+          {icons4.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup className="icon-row" vertical>
+          {icons5.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+
+        <ButtonGroup className="icon-row" vertical>
+          {icons6.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup className="icon-row" vertical>
+          {icons7.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+        <ButtonGroup className="icon-row" vertical>
+          {icons8.map((icon) => (
+            <ToggleButton
+              type="radio"
+              key={icon.id}
+              variant="outline-info"
+              checked={iconId === icon.id}
+              onClick={() => this.handleClick(icon)}
+            >
+              <i className={icon.name} style={iconStyle} />
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+      </div>
+    );
   }
 
   render() {
@@ -222,35 +225,29 @@ export default class ChangeIcon extends Component {
     if (redirect) {
       return <Redirect to={this.state.redirect} />;
     }
-    
-    return (
 
+    return (
       <div className="change-icon-background">
         <Row>
+          <Col>{this.icons()}</Col>
           <Col>
-            {this.icons()}
-          </Col>
-          <Col>
-            
             <div className="preview-box">
-              <i className = {chosen} style={previewStyle} />
+              <i className={chosen} style={previewStyle} />
             </div>
             <br></br>
             <div className="change-icon-btns">
               <Row>
                 <Col>
                   <Button
-                   className="change-icon-save"
-                   variant="success"
-                   onClick={this.handleSubmit}>
-                     Save
+                    className="change-icon-save"
+                    variant="success"
+                    onClick={this.handleSubmit}
+                  >
+                    Save
                   </Button>
                 </Col>
                 <Col>
-                  <Button
-                    variant="danger"
-                    onClick={this.handleCancel}
-                  >
+                  <Button variant="danger" onClick={this.handleCancel}>
                     Cancel
                   </Button>
                 </Col>
@@ -259,7 +256,6 @@ export default class ChangeIcon extends Component {
           </Col>
         </Row>
       </div>
-
     );
   }
 }

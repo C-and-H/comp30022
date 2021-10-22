@@ -16,14 +16,14 @@ class SettingProfile extends React.Component {
       userReady: false,
       currentUser: AuthService.getCurrentUser(),
       basic: localStorage.getItem("basic"),
-      userFirstName: JSON.parse(localStorage.getItem("user")).first_name,
-      userLastName: JSON.parse(localStorage.getItem("user")).last_name,
-      userID: JSON.parse(localStorage.getItem("user")).id,
-      areaOrRegion: JSON.parse(localStorage.getItem("user")).areaOrRegion,
-      industry: JSON.parse(localStorage.getItem("user")).industry,
-      company: JSON.parse(localStorage.getItem("user")).company,
-      description: JSON.parse(localStorage.getItem("user")).personalSummary,
-      phone: JSON.parse(localStorage.getItem("user")).phone,
+      userFirstName: null,
+      userLastName: null,
+      userID: null,
+      areaOrRegion: null,
+      industry: null,
+      company: null,
+      description: null,
+      phone: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,6 +40,25 @@ class SettingProfile extends React.Component {
     this.changeCompany = this.changeCompany.bind(this);
     this.changeDescription = this.changeDescription.bind(this);
     this.changePhone = this.changePhone.bind(this);
+  }
+
+  componentDidMount() {
+    if (!this.state.basic) {
+      alert("Login required to access the page.");
+      this.props.history.push("/");
+      window.location.reload();
+    } else {
+      this.setState({
+        userFirstName: JSON.parse(localStorage.getItem("user")).first_name,
+        userLastName: JSON.parse(localStorage.getItem("user")).last_name,
+        userID: JSON.parse(localStorage.getItem("user")).id,
+        areaOrRegion: JSON.parse(localStorage.getItem("user")).areaOrRegion,
+        industry: JSON.parse(localStorage.getItem("user")).industry,
+        company: JSON.parse(localStorage.getItem("user")).company,
+        description: JSON.parse(localStorage.getItem("user")).personalSummary,
+        phone: JSON.parse(localStorage.getItem("user")).phone,
+      });
+    }
   }
 
   handleFirstName(event) {
@@ -210,13 +229,6 @@ class SettingProfile extends React.Component {
     console.log(this.state.phone);
     let basic = AuthService.getBasicInfo();
     event.preventDefault();
-    console.log(
-      this.state.userFirstName,
-      this.state.userLastName,
-      this.state.userID,
-      this.state.areaOrRegion,
-      this.state.phone
-    );
 
     // TODO: Remove the parameter of the functions to change information
 
@@ -305,7 +317,11 @@ class SettingProfile extends React.Component {
                     Email:{" "}
                   </Label>
                   <Input
-                    placeholder={this.state.currentUser.username}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.username
+                        : " "
+                    }
                     disabled={true}
                     pattern="[A-Za-z ]+"
                     required
@@ -324,7 +340,11 @@ class SettingProfile extends React.Component {
                   <div>
                     <PhoneInput
                       country={"au"}
-                      value={this.state.currentUser.phone}
+                      value={
+                        this.state.currentUser
+                          ? this.state.currentUser.phone
+                          : ""
+                      }
                       onChange={(phone) => this.setState({ phone })}
                       placeholder="61 (46) 1234 567"
                     />
@@ -341,10 +361,18 @@ class SettingProfile extends React.Component {
                   </Label>
                   <Input
                     type="text"
-                    placeholder={this.state.currentUser.first_name}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.first_name
+                        : ""
+                    }
                     onChange={this.handleFirstName}
                     pattern="[A-Za-z0-9 ]+"
-                    defaultValue={this.state.currentUser.first_name}
+                    defaultValue={
+                      this.state.currentUser
+                        ? this.state.currentUser.first_name
+                        : ""
+                    }
                     required
                   ></Input>
                 </FormGroup>
@@ -356,10 +384,18 @@ class SettingProfile extends React.Component {
                   </Label>
                   <Input
                     type="text"
-                    placeholder={this.state.currentUser.last_name}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.last_name
+                        : ""
+                    }
                     onChange={this.handleLastName}
                     pattern="[A-Za-z0-9 ]+"
-                    defaultValue={this.state.currentUser.last_name}
+                    defaultValue={
+                      this.state.currentUser
+                        ? this.state.currentUser.last_name
+                        : ""
+                    }
                     required
                   ></Input>
                 </FormGroup>
@@ -374,9 +410,17 @@ class SettingProfile extends React.Component {
                   </Label>
                   <Input
                     type="text"
-                    placeholder={this.state.currentUser.areaOrRegion}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.areaOrRegion
+                        : ""
+                    }
                     onChange={this.handleAreaOrRegion}
-                    defaultValue={this.state.currentUser.areaOrRegion}
+                    defaultValue={
+                      this.state.currentUser
+                        ? this.state.currentUser.areaOrRegion
+                        : ""
+                    }
                   ></Input>
                 </FormGroup>
               </Col>
@@ -395,9 +439,17 @@ class SettingProfile extends React.Component {
                   <Input
                     type="textarea"
                     className="setting-profile-description-input"
-                    placeholder={this.state.currentUser.personalSummary}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.personalSummary
+                        : ""
+                    }
                     onChange={this.handleDescription}
-                    defaultValue={this.state.currentUser.personalSummary}
+                    defaultValue={
+                      this.state.currentUser
+                        ? this.state.currentUser.personalSummary
+                        : ""
+                    }
                   ></Input>
                 </FormGroup>
               </Col>
@@ -411,9 +463,17 @@ class SettingProfile extends React.Component {
                   </Label>
                   <Input
                     type="text"
-                    placeholder={this.state.currentUser.industry}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.industry
+                        : ""
+                    }
                     onChange={this.handleIndustry}
-                    defaultValue={this.state.currentUser.industry}
+                    defaultValue={
+                      this.state.currentUser
+                        ? this.state.currentUser.industry
+                        : ""
+                    }
                   ></Input>
                 </FormGroup>
                 <FormGroup className="setting-profile-formgroup">
@@ -425,9 +485,17 @@ class SettingProfile extends React.Component {
                   </Label>
                   <Input
                     type="text"
-                    placeholder={this.state.currentUser.company}
+                    placeholder={
+                      this.state.currentUser
+                        ? this.state.currentUser.company
+                        : ""
+                    }
                     onChange={this.handleCompany}
-                    defaultValue={this.state.currentUser.company}
+                    defaultValue={
+                      this.state.currentUser
+                        ? this.state.currentUser.company
+                        : ""
+                    }
                   ></Input>
                 </FormGroup>
                 <Button
