@@ -1,4 +1,4 @@
-# [CandHCRM](https://github.com/C-and-H/comp30022) &middot; ![version](https://img.shields.io/badge/version-1.3.2-yellow.svg) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/C-and-H/comp30022/blob/main/LICENSE)
+# [CandHCRM](https://github.com/C-and-H/comp30022) &middot; ![version](https://img.shields.io/badge/version-1.3.2-yellow.svg) [![GitHub license](https://img.shields.io/badge/license-GPL3.0-blue.svg)](https://github.com/C-and-H/comp30022/blob/main/LICENSE)
 
 > Customer relationship management (CRM) is a technology for managing all your company’s relationships and interactions with customers and potential customers. The goal is simple: Improve business relationships. A CRM system helps companies stay connected to customers, streamline processes, and improve profitability. (from salesforce.com)
 
